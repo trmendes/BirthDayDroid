@@ -1,0 +1,69 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_scan_preferences">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="scan_daily"
+            android:summary="@string/settings_scan_not_sum"
+            android:title="@string/settings_scan_not_title" />
+        <com.tmendes.birthdaydroid.TimePreference
+            android:key="scan_daily_interval"
+            android:title="@string/settings_scan_title" />
+        <RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:key="custom_notification_sound"
+            android:ringtoneType="notification"
+            android:showDefault="true"
+            android:summary="@string/settings_not_sound_sum"
+            android:title="@string/settings_not_sound_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="scan_in_advance"
+            android:summary="@string/settings_scan_not_adv_sum"
+            android:title="@string/settings_scan_not_adv_title" />
+        <EditTextPreference
+            android:defaultValue="1"
+            android:inputType="numberDecimal"
+            android:key="scan_in_advance_interval"
+            android:summary="@string/settings_scan_adv_sum"
+            android:title="@string/settings_scan_adv_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="precise_notification"
+            android:summary="@string/settings_precise_not_sum"
+            android:title="@string/settings_precise_not_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_battery_status"
+            android:summary="@string/settings_scan_bat_low_sum"
+            android:title="@string/settings_scan_bat_low_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_custom_not">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="custom_notification_status"
+            android:summary="@string/settings_custom_not_sum"
+            android:title="@string/settings_custom_not_title" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="text"
+            android:key="custom_notification_message"
+            android:title="@string/settings_custom_msg_sum" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_list_preferences">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/sort_input"
+            android:entryValues="@array/sort_input_values"
+            android:key="sort_input"
+            android:summary="@string/settings_list_input_sum"
+            android:title="@string/settings_list_input_title" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/sort_method"
+            android:entryValues="@array/sort_method_values"
+            android:key="sort_method"
+            android:summary="@string/settings_list_order_sum"
+            android:title="@string/settings_list_order_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

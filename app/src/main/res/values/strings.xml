@@ -1,0 +1,95 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">BirthDay Droid</string>
+    <string name="app_desc">Your Birthday Reminder</string>
+    <string name="sign_aquarius">Aquarius</string>
+    <string name="sign_capricorn">Capricorn</string>
+    <string name="sign_pisces">Pisces</string>
+    <string name="sign_aries">Aries</string>
+    <string name="sign_taurus">Taurus</string>
+    <string name="sign_gemini">Gemini</string>
+    <string name="sign_cancer">Cancer</string>
+    <string name="sign_leo">Leo</string>
+    <string name="sign_virgo">Virgo</string>
+    <string name="sign_libra">Libra</string>
+    <string name="sign_scorpio">Scorpio</string>
+    <string name="sign_sagittarius">Sagittarius</string>
+    <string name="sign_element_fire">Fire</string>
+    <string name="sign_element_earth">Earth</string>
+    <string name="sign_element_air">Air</string>
+    <string name="sign_element_water">Water</string>
+    <string name="search">Search Contact</string>
+    <string name="build" translatable="false">Build %1$d</string>
+    <string name="contact_request_grated">Read Contacts permission granted</string>
+    <string name="contact_request_denied">Read Contacts permission denied</string>
+    <string name="dual_string" translatable="false">%1$s/%2$s</string>
+    <string name="contact_has_no_year">No year info :(</string>
+    <string name="years_old" tools:ignore="PluralsCandidate">%1$d years old</string>
+    <string name="next_week_name">Next Birthday will be on %1$s</string>
+    <string name="days_until" tools:ignore="PluralsCandidate">%1$d days until her/his birthday</string>
+    <string name="days_until_birthday">There is a party going on today :D</string>
+    <string name="birthday_scan_found">Generating Birthday Notifications</string>
+    <string name="birthday_scan_not_found">No Birthdays Found Today</string>
+    <string name="message_notification_message_no_age">%1$s birthday(s) today</string>
+    <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s turns %2$d in %3$d day(s)</string>
+    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s is turning %2$d today</string>
+    <string name="message_notification_action">Message him/her</string>
+    <string name="message_notification_share_title">Happy Birthday!</string>
+    <string name="message_notification_bt_to_come_title">Birthday to come!</string>
+    <string name="message_notification_bt_to_come_share_body">Hey %1$s What\'s up? What are you up to on your Birthday?</string>
+    <string name="message_notification_share_body">Hi %1$s! I wish you a happy birthday and the best!</string>
+    <string name="birthday_tomorrow">Tomorrow is her/his birthday</string>
+    <string name="menu_birthday_list">Birthday List</string>
+    <string name="menu_scan_now">Scan Now</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_statistics">More info</string>
+    <string name="menu_about">About</string>
+    <string name="settings_not_sound_title">Notification Sound</string>
+    <string name="settings_not_sound_sum">Set the sound of your Birthday notification</string>
+    <string name="settings_scan_preferences">Birthday Notification Settings</string>
+    <string name="settings_scan_not_sum">Show Birthdays daily notifications</string>
+    <string name="settings_scan_not_title">Daily notifications</string>
+    <string name="settings_scan_bat_low_sum">Keep showing notifications even when the battery is low</string>
+    <string name="settings_scan_bat_low_title">Baterry low notifications</string>
+    <string name="settings_precise_not_title">Precise Notifications</string>
+    <string name="settings_precise_not_sum">Shall we be precise about the time notification? Turning this feature off you save battery.</string>
+    <string name="settings_scan_title">Time for daily notifications</string>
+    <string name="settings_scan_not_adv_sum">Show Birthdays notifications in advance</string>
+    <string name="settings_scan_not_adv_title">Birthday notifications in advance</string>
+    <string name="settings_scan_adv_sum">Tell us how many days in advance shall we check your contacts for their birthdays so you have time to prepare your friend a surprise</string>
+    <string name="settings_scan_adv_title">Days in advance</string>
+    <string name="settings_custom_not">Custom notification Preferences</string>
+    <string name="settings_custom_not_sum">Set up a custom message for a birthday wish</string>
+    <string name="settings_custom_not_title">Custom birthday wish</string>
+    <string name="settings_custom_msg_sum">Enter or edit your custom birthday wish</string>
+    <string name="settings_list_preferences">BirthDay List Preferences</string>
+    <string name="settings_list_input_sum">Days/Age/Name/Sign</string>
+    <string name="settings_list_input_title">Sort by</string>
+    <string name="settings_list_order_sum">Ascending or Descending</string>
+    <string name="settings_list_order_title">Sort Order</string>
+    <string name="settings_time_set">Set</string>
+    <string name="settings_time_cancel">Cancel</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="alert_contacts_dialog_msg">Without this permission our app will not work. We need it to read all the birthdays from your contacts list.</string>
+    <string name="statistics_age_title">Age Info</string>
+    <string name="statistics_sign_title">Sign Info</string>
+    <string name="statistics_month_title">Birth Month Info</string>
+    <string name="statistics_week_title">Birth Week Info</string>
+    <string name="statistics_contacts_counter" tools:ignore="PluralsCandidate">From %1$d contact(s):\n\n</string>
+    <string name="statistics_int_int">\t %1$d \t contacts \t - \t %2$d \t years old\n</string>
+    <string name="statistics_int_string">\t %1$d \t contacts \t - \t %2$s\n</string>
+    <string name="about_title">© 2016/2016 The BirthDayDroid Project</string>
+    <string name="about_info">The BirthDayDroid Project is an opensource project created to help you to remember your friend\'s birthdays</string>
+    <string name="about_help">You can help us :D</string>
+    <string name="about_developer"><a href="https://github.com/tribeirom/BirthDayDroid">Are you a developer or a designer?</a></string>
+    <string name="about_issue"><a href="https://github.com/tribeirom/BirthDayDroid/issues">Do you have any feature requests and/or bug resport?</a></string>
+    <string name="about_translator"><a href="https://crowdin.com/project/birthdaydroid">May you help us to support a new language?</a></string>
+    <string name="about_developers_title">Developers</string>
+    <string name="about_devel_name" translatable="false">Thiago Mendes</string>
+    <string name="about_os_cc_title" translatable="false">OpenSource / Creative Commons</string>
+    <string name="about_oc_cc_01"><a href="http://emojione.com/">Emoji provided free by Emoji One</a></string>
+    <string name="about_translator_title">Translators</string>
+    <string name="about_translator_name_language" translatable="false">Thiago Mendes (ptBR/en)</string>
+    <string name="image" translatable="false">Image</string>
+    <string name="string" translatable="false">String</string>
+</resources>

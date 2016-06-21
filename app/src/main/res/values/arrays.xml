@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- used to select sorting-method -->
+    <string-array translatable="false" name="sort_input">
+        <item>Days until next birthday</item>
+        <item>Age</item>
+        <item>Name</item>
+        <item>Sign</item>
+    </string-array>
+
+    <string-array translatable="false" name="sort_input_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array translatable="false" name="sort_method">
+        <item>Asc</item>
+        <item>Desc</item>
+    </string-array>
+
+    <string-array translatable="false" name="sort_method_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+</resources>

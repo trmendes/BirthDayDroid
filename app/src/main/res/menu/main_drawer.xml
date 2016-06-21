@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_birthday_list"
+            android:icon="@drawable/ic_cake_white_24dp"
+            android:title="@string/menu_birthday_list" />
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_poll_white_24dp"
+            android:title="@string/menu_statistics" />
+        <item
+            android:id="@+id/nav_scan_now"
+            android:icon="@drawable/ic_notifications_white_24dp"
+            android:title="@string/menu_scan_now" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_comment_white_24dp"
+            android:title="@string/menu_about" />
+    </group>
+
+</menu>

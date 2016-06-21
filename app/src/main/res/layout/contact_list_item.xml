@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip">
+
+    <!--  ListRow Left side Contact Picture -->
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="5dip"
+        android:background="@drawable/image_bg"
+        android:padding="3dip">
+
+        <ImageView
+            android:id="@+id/ivContactPicture"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
+            android:contentDescription="@string/image" />
+
+    </LinearLayout>
+
+    <!-- Contact Name -->
+    <TextView
+        android:id="@+id/tvContactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toStartOf="@+id/tvContactAge"
+        android:singleLine="true"
+        android:text="@string/string"
+        android:textColor="#040404"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+
+    <!-- next birthday week name -->
+    <TextView
+        android:id="@+id/tvContactNextBirthDayWeekName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvContactName"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toStartOf="@+id/tvBirthDay"
+        android:singleLine="true"
+        android:text="@string/string"
+        android:textColor="#343434"
+        android:textSize="12sp" />
+
+    <!-- Days to go to her/his birthday -->
+    <TextView
+        android:id="@+id/tvContactDaysUntil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvContactNextBirthDayWeekName"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toStartOf="@+id/tvSignAndElement"
+        android:singleLine="true"
+        android:text="@string/string"
+        android:textColor="#343434"
+        android:textSize="12sp" />
+
+    <!-- Contact Age -->
+    <TextView
+        android:id="@+id/tvContactAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/tvContactName"
+        android:layout_marginEnd="5dip"
+        android:gravity="end"
+        android:text="@string/string"
+        android:textColor="#10bcc9"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <!-- BirthDay -->
+    <TextView
+        android:id="@+id/tvBirthDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/tvContactNextBirthDayWeekName"
+        android:layout_below="@id/tvContactAge"
+        android:layout_marginEnd="5dip"
+        android:gravity="end"
+        android:text="@string/string"
+        android:textColor="#10bcc9"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <!-- Sign/Element -->
+    <TextView
+        android:id="@+id/tvSignAndElement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/tvContactDaysUntil"
+        android:layout_below="@id/tvContactAge"
+        android:layout_marginEnd="5dip"
+        android:gravity="end"
+        android:text="@string/string"
+        android:textColor="#10bcc9"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/emojiPartyTomorrow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvContactDaysUntil"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toStartOf="@+id/emojiParty"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:padding="3dip">
+
+        <ImageView
+            android:id="@+id/ivEmojiP04"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_01" />
+
+        <ImageView
+            android:id="@+id/ivEmojiP05"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_02" />
+    </LinearLayout>
+
+    <!--  ListRow Left side Emojis -->
+    <LinearLayout
+        android:id="@+id/emojiParty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvContactDaysUntil"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="3dip">
+
+        <ImageView
+            android:id="@+id/ivEmojiP06"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_03" />
+
+        <ImageView
+            android:id="@+id/ivEmojiP07"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_04" />
+
+        <ImageView
+            android:id="@+id/ivEmojiP08"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_05" />
+
+        <ImageView
+            android:id="@+id/ivEmojiP09"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_06" />
+
+        <ImageView
+            android:id="@+id/ivEmojiP10"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_party_07" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

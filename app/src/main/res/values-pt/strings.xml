@@ -1,0 +1,87 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_desc">Seus lembretes de aniversários</string>
+    <string name="sign_aquarius">Aquário</string>
+    <string name="sign_capricorn">Capricórnio</string>
+    <string name="sign_pisces">Peixes</string>
+    <string name="sign_aries">Aries</string>
+    <string name="sign_taurus">Touro</string>
+    <string name="sign_gemini">Gêmeos</string>
+    <string name="sign_cancer">Cancer</string>
+    <string name="sign_leo">Leão</string>
+    <string name="sign_virgo">Virgem</string>
+    <string name="sign_libra">Libra</string>
+    <string name="sign_scorpio">Escorpião</string>
+    <string name="sign_sagittarius">Sargitário</string>
+    <string name="sign_element_fire">Fogo</string>
+    <string name="sign_element_earth">Terra</string>
+    <string name="sign_element_air">Ar</string>
+    <string name="sign_element_water">Água</string>
+    <string name="search">Procurar contato</string>
+    <string name="contact_request_grated">Leitura de contados concedida</string>
+    <string name="contact_request_denied">Leitura de contatos negada</string>
+    <string name="contact_has_no_year">Sem info de ano :(</string>
+    <string name="years_old" tools:ignore="PluralsCandidate">%1$d anos</string>
+    <string name="next_week_name">Próximo aniversário - %1$s</string>
+    <string name="days_until" tools:ignore="PluralsCandidate">%1$d dia(s) antes de seu aniversário</string>
+    <string name="days_until_birthday">Tem uma festa acontecendo hoje :D</string>
+    <string name="birthday_scan_found">Gerando notificações de aniversários</string>
+    <string name="birthday_scan_not_found">Nenhum aniversário encontrado hoje</string>
+    <string name="message_notification_message_no_age">%1$s aniversário(s) hoje</string>
+    <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s completará %2$d em %3$d dia(s)</string>
+    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s esta completando %2$d hoje</string>
+    <string name="message_notification_action">Enviar Mensagem</string>
+    <string name="message_notification_share_title">Feliz Aniversário!</string>
+    <string name="message_notification_bt_to_come_title">Aniversário chegando!</string>
+    <string name="message_notification_bt_to_come_share_body">Oi %1$s Tudo bem? Quais são os planos para o seu aniversário?</string>
+    <string name="message_notification_share_body">Hi %1$s! Eu lhe desejo um feliz aniversário e tudo de melhor!</string>
+    <string name="birthday_tomorrow">Amanhã é seu aniversário</string>
+    <string name="menu_birthday_list">Aniversários</string>
+    <string name="menu_scan_now">Buscar agora</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_statistics">Mais info</string>
+    <string name="menu_about">Sobre</string>
+    <string name="settings_not_sound_title">Som da notificação</string>
+    <string name="settings_not_sound_sum">Escolha um som para a notificação de aniversário</string>
+    <string name="settings_scan_preferences">Configurações de notificações</string>
+    <string name="settings_scan_not_sum">Notificar aniversários diariamente</string>
+    <string name="settings_scan_not_title">Notificações diárias</string>
+    <string name="settings_scan_bat_low_sum">Continuar notificando mesmo com a bateria fraca</string>
+    <string name="settings_scan_bat_low_title">Notiicações com bateria fraca</string>
+    <string name="settings_precise_not_title">Notificações precisas</string>
+    <string name="settings_precise_not_sum">Devemos ser precisos quanto ao horário da notificação? Mantendo esta desligada você economiza bateria.</string>
+    <string name="settings_scan_title">Horário das notificações diárias</string>
+    <string name="settings_scan_not_adv_sum">Mostras notificações de aniversário com antecedência</string>
+    <string name="settings_scan_not_adv_title">Notificações com antecedência</string>
+    <string name="settings_scan_adv_sum">Nos diga quantos dias de antecedência devemos verificar os seus contactos em busca de aniversários para você ter tempo para preparar o seu amigo uma surpresa</string>
+    <string name="settings_scan_adv_title">Dias de antecedência</string>
+    <string name="settings_custom_not">Preferências de notificação customizadas</string>
+    <string name="settings_custom_not_sum">Insira uma mensagem de aniversário customizada</string>
+    <string name="settings_custom_not_title">Mensagem de aniversário customizada</string>
+    <string name="settings_custom_msg_sum">Entre com uma mensagem de aniversário customizada</string>
+    <string name="settings_list_preferences">Preferências da lista de aniversário</string>
+    <string name="settings_list_input_sum">Dias/Idade/Nome/Signo</string>
+    <string name="settings_list_input_title">Ordenar por</string>
+    <string name="settings_list_order_sum">Ascendente ou descendente</string>
+    <string name="settings_list_order_title">Order de listagem</string>
+    <string name="settings_time_set">Setar</string>
+    <string name="settings_time_cancel">Cancelar</string>
+    <string name="navigation_drawer_open">Abrir a gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
+    <string name="alert_contacts_dialog_msg">Sem esta permissão nosso aplicativo não irá funcionar. Nós precisamos dela para ler todos os contatos da sua lista de contatos.</string>
+    <string name="statistics_age_title">Info de Idade</string>
+    <string name="statistics_sign_title">Info de Signos</string>
+    <string name="statistics_month_title">Info de Meses</string>
+    <string name="statistics_week_title">Info de Semanas</string>
+    <string name="statistics_contacts_counter" tools:ignore="PluralsCandidate">De %1$d contato(s):\n\n</string>
+    <string name="statistics_int_int">\t %1$d \t contatos \t - \t %2$d \t anos\n</string>
+    <string name="statistics_int_string">\t %1$d \t contatos \t - \t %2$s\n</string>
+    <string name="about_title">© 2016/2016 Projeto BirthDayDroid</string>
+    <string name="about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
+    <string name="about_help">Você pode nos ajudar :D</string>
+    <string name="about_developer"><a href="https://github.com/tribeirom/BirthDayDroid">Você é um desenvolvedor ou um artista?</a></string>
+    <string name="about_issue"><a href="https://github.com/tribeirom/BirthDayDroid/issues">Você tem algum pedido ou viu algo estranho?</a></string>
+    <string name="about_translator"><a href="https://crowdin.com/project/birthdaydroid">Você pode nos ajudar com uma lova língua?</a></string>
+    <string name="about_developers_title">Desenvolvedores</string>
+    <string name="about_oc_cc_01"><a href="http://emojione.com/">Emoji gratuitos por Emoji One</a></string>
+    <string name="about_translator_title">Tradutores</string>
+</resources>
