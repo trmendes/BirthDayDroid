@@ -24,7 +24,7 @@ For any question, bug report, suggestion please drop us a line
 #### Translate
 
 If you want to join our translation team: [BirthDayDroid Translation Project on
-Crowdin.net]() It's not there yet
+Crowdin.net](https://crowdin.com/project/birthdaydroid)
 
 #### The BirthDayDroid Project Team
 
