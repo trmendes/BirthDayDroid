@@ -14,7 +14,7 @@ BirthDayDroid is an Android application to help you to remember your contact's b
 
 #### Links
 
-[![The BirthDayDroid App for Android on PlayStore](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)]() - It's not there yet.
+[![The BirthDayDroid App for Android on PlayStore](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.tmendes.birthdaydroid)
 
 #### Contact
 
