@@ -19,7 +19,6 @@ BirthDayDroid is an Android application to help you to remember your contact's b
 #### Contact
 
 For any question, bug report, suggestion please drop us a line
-[tribeirom@gmail.com](mailto:tribeirom@gmail.com)
 
 #### Translate
 
