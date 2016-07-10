@@ -113,19 +113,23 @@ public class ContactData {
         this.netxBirthDayOnWeekDay = tmpBirthDay.get(Calendar.DAY_OF_WEEK);
 
         long diff = tmpBirthDay.getTime().getTime() - today.getTime().getTime();
-        int daysFromNow = today.getActualMaximum(Calendar.DAY_OF_YEAR);
+        int numberOfDays = today.getActualMaximum(Calendar.DAY_OF_YEAR);
+        boolean leapYear = numberOfDays > 365;
+        if ((leapYear) && (today.get(Calendar.MONTH) > Calendar.FEBRUARY)) {
+            numberOfDays--;
+        }
 
         if (today.getTime().getTime() > tmpBirthDay.getTime().getTime()) {
             int nextYear = today.get(Calendar.YEAR) + 1;
             today.set(Calendar.YEAR, nextYear);
             this.netxBirthDayOnWeekDay = tmpBirthDay.get(Calendar.DAY_OF_WEEK);
-            long daysLeft = diff / (1000 * 60 * 60 * 24);
-            this.daysUntilNextBirthDay = daysFromNow + daysLeft;
+            long daysLeft = diff / (1000 * 60 * 60 * 24) - 1;
+            this.daysUntilNextBirthDay = numberOfDays + daysLeft;
         } else {
             this.daysUntilNextBirthDay = diff / (1000 * 60 * 60 * 24);
         }
 
-        if (this.daysUntilNextBirthDay == daysFromNow) {
+        if (this.daysUntilNextBirthDay == numberOfDays) {
             this.daysUntilNextBirthDay = 0;
         }
     }
