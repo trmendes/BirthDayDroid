@@ -7,8 +7,8 @@ android {
         applicationId "com.tmendes.birthdaydroid"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 4
-        versionName '20160710_VC4'
+        versionCode 5
+        versionName '20160712_VC5'
     }
     buildTypes {
         release {
