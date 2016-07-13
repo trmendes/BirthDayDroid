@@ -48,7 +48,7 @@ class BirthDayComparator implements Comparator<ContactData> {
                 break;
             case ORDER_DAYS_UNTIL_BIRTHDAY:
                 if (sortType == SORT_ASC) {
-                res = (a.getDaysUntilNextBirthDay()).compareTo(b.getDaysUntilNextBirthDay());
+                    res = (a.getDaysUntilNextBirthDay()).compareTo(b.getDaysUntilNextBirthDay());
                 } else {
                     res = (b.getDaysUntilNextBirthDay()).compareTo(a.getDaysUntilNextBirthDay());
                 }
