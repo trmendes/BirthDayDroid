@@ -323,6 +323,10 @@ public class ContactData {
     }
 
     public Long getDaysUntilNextBirthDay() {
+        if (isThereAPartyToday()) {
+            return 0L;
+        }
+
         return daysUntilNextBirthDay + 1;
     }
 
