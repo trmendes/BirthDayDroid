@@ -2,10 +2,10 @@
 
     <!-- used to select sorting-method -->
     <string-array translatable="false" name="sort_input">
-        <item>Days until next birthday</item>
-        <item>Age</item>
-        <item>Name</item>
-        <item>Sign</item>
+        <item>@string/array_order_next</item>
+        <item>@string/array_order_age</item>
+        <item>@string/array_order_name</item>
+        <item>@string/array_order_sign</item>
     </string-array>
 
     <string-array translatable="false" name="sort_input_values">
@@ -16,8 +16,8 @@
     </string-array>
 
     <string-array translatable="false" name="sort_method">
-        <item>Asc</item>
-        <item>Desc</item>
+        <item>@string/array_order_asc</item>
+        <item>@string/array_order_desc</item>
     </string-array>
 
     <string-array translatable="false" name="sort_method_values">

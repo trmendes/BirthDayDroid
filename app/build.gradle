@@ -5,10 +5,10 @@ android {
     buildToolsVersion '24.0.0'
     defaultConfig {
         applicationId "com.tmendes.birthdaydroid"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 24
-        versionCode 5
-        versionName '20160712_VC5'
+        versionCode 7
+        versionName '20160811_VC7'
     }
     buildTypes {
         release {

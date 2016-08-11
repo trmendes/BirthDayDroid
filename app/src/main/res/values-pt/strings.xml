@@ -84,4 +84,10 @@
     <string name="about_developers_title">Desenvolvedores</string>
     <string name="about_oc_cc_01"><a href="http://emojione.com/">Emoji gratuitos por Emoji One</a></string>
     <string name="about_translator_title">Tradutores</string>
+    <string name="array_order_age">Idade</string>
+    <string name="array_order_asc">Asc</string>
+    <string name="array_order_desc">Desc</string>
+    <string name="array_order_name">Nome</string>
+    <string name="array_order_next">Dias para o próximo aniversário</string>
+    <string name="array_order_sign">Signo</string>
 </resources>
