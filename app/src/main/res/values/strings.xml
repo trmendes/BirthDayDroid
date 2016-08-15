@@ -22,6 +22,7 @@
     <string name="contact_request_grated">Read Contacts permission granted</string>
     <string name="contact_request_denied">Read Contacts permission denied</string>
     <string name="dual_string" translatable="false">%1$s/%2$s</string>
+    <string name="birthday_string">%1$s/%2$s</string>
     <string name="contact_has_no_year">No year info :(</string>
     <string name="years_old" tools:ignore="PluralsCandidate">%1$d years old</string>
     <string name="next_week_name">Next Birthday will be on %1$s</string>

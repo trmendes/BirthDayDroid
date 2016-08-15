@@ -90,4 +90,5 @@
     <string name="array_order_name">Nome</string>
     <string name="array_order_next">Dias para o próximo aniversário</string>
     <string name="array_order_sign">Signo</string>
+    <string name="birthday_string">/%2$s/%1$s</string>
 </resources>

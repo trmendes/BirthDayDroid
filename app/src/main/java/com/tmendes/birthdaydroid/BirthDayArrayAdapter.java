@@ -81,7 +81,7 @@ class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements Filterab
             viewHolder.tvContactNextBirthDayWeekName.setText(ctx.getResources().getString(R.string.next_week_name, contact.getNextBirtDayWeekName()));
             viewHolder.tvSignElement.setText(ctx.getResources().getString(R.string.dual_string, contact.getSign(), contact.getSignElement()));
 
-            viewHolder.tvBirthDay.setText(ctx.getResources().getString(R.string.dual_string, contact.getMonthName(), contact.getDay()));
+            viewHolder.tvBirthDay.setText(ctx.getResources().getString(R.string.birthday_string, contact.getMonthName(), contact.getDay()));
 
             if (contact.getPhotoURI() != null) {
                 viewHolder.ivContactPicture.setImageURI(Uri.parse(contact.getPhotoURI()));
