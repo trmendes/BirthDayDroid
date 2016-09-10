@@ -32,7 +32,7 @@
             android:summary="@string/settings_precise_not_sum"
             android:title="@string/settings_precise_not_title" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="check_battery_status"
             android:summary="@string/settings_scan_bat_low_sum"
             android:title="@string/settings_scan_bat_low_title" />

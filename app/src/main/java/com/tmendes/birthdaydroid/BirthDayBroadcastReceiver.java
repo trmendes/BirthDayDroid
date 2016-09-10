@@ -24,23 +24,31 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class BirthDayBroadcastReceiver extends BroadcastReceiver {
+
+    private boolean isBatOk = true;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        boolean bat_ok = true, check_bat;
+        boolean keepShowing;
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(context);
-        check_bat = s.getBoolean("check_battery_status", false);
+        keepShowing = s.getBoolean("check_battery_status", true);
 
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             new BirthDayAlarm(context);
         } else if (intent.getAction().equals(Intent.ACTION_BATTERY_LOW)) {
-            bat_ok = false;
+            isBatOk = false;
         } else if (intent.getAction().equals(Intent.ACTION_BATTERY_OKAY)) {
-            bat_ok = true;
+            isBatOk = true;
         }
 
         if (intent.getAction().equals(BirthDayAlarm.ACTION_BD_NOTIFICATION)) {
-            bat_ok = bat_ok && check_bat;
-            if (bat_ok) {
+            if (keepShowing) {
+                /* We're going to lie to this app because the users told us to do so by
+                * asking us to show notifications even though the battery is running low */
+                isBatOk = true;
+            }
+
+            if (isBatOk) {
                 BirthDayDataList bd = BirthDayDataList.getBirthDayDataList(context);
                 bd.isThereAnyBirthDayToday();
             }
