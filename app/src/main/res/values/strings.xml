@@ -49,7 +49,7 @@
     <string name="settings_scan_preferences">Birthday Notification Settings</string>
     <string name="settings_scan_not_sum">Show Birthdays daily notifications</string>
     <string name="settings_scan_not_title">Daily notifications</string>
-    <string name="settings_scan_bat_low_sum">Keep showing notifications even when the battery is low</string>
+    <string name="settings_scan_bat_low_sum">Keep showing notifications even when the battery is running low</string>
     <string name="settings_scan_bat_low_title">Baterry low notifications</string>
     <string name="settings_precise_not_title">Precise Notifications</string>
     <string name="settings_precise_not_sum">Shall we be precise about the time notification? Turning this feature off you save battery.</string>
