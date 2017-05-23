@@ -106,7 +106,15 @@ class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements Filterab
             }
 
             if (contact.hasYear()) {
-                viewHolder.tvContactAge.setText(ctx.getResources().getString(R.string.years_old, contact.getAge()));
+                if (contact.getAge() != 0) {
+                    viewHolder.tvContactAge.setText(ctx.getResources().getString(R.string.years_old, contact.getAge()));
+                } else {
+                    if (contact.getMonthAge() != 0 ) {
+                        viewHolder.tvContactAge.setText(ctx.getResources().getString(R.string.months_old, contact.getMonthAge()));
+                    } else {
+                        viewHolder.tvContactAge.setText(ctx.getResources().getString(R.string.days_old, contact.getDaysAge()));
+                    }
+                }
             } else {
                 viewHolder.tvContactAge.setText(ctx.getResources().getString(R.string.contact_has_no_year));
             }

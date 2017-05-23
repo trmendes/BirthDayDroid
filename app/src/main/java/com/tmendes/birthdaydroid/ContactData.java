@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
 public class ContactData {
 
     private String name, sign, signElement, key, photoURI, date;
-    private int day, month, year, age, bornOnWeekDay, netxBirthDayOnWeekDay;
+    private int day, month, year, age, monthAge, daysAge, bornOnWeekDay, netxBirthDayOnWeekDay;
     private long daysUntilNextBirthDay;
     private boolean isThereAPartyToday = false, hasYear = false;
     private Calendar calBirthDay;
@@ -91,18 +91,33 @@ public class ContactData {
 
     private void setBirthInfo() {
         this.isThereAPartyToday = false;
+        //FIXME: Verificar se eh ano bissesto
         Calendar today = Calendar.getInstance();
+
         this.age = today.get(Calendar.YEAR) - calBirthDay.get(Calendar.YEAR);
+
         this.bornOnWeekDay = calBirthDay.get(Calendar.DAY_OF_WEEK);
-        if (today.get(Calendar.MONTH) < calBirthDay.get(Calendar.MONTH)) {
-            this.age--;
-        } else if (today.get(Calendar.MONTH) == calBirthDay.get(Calendar.MONTH)
-                && today.get(Calendar.DAY_OF_MONTH) < calBirthDay.get(Calendar.DAY_OF_MONTH)) {
+
+        if ((today.get(Calendar.MONTH) < calBirthDay.get(Calendar.MONTH)) || (today.get(Calendar.MONTH) == calBirthDay.get(Calendar.MONTH)
+                && today.get(Calendar.DAY_OF_MONTH) < calBirthDay.get(Calendar.DAY_OF_MONTH))) {
             this.age--;
         } else if (today.get(Calendar.MONTH) == calBirthDay.get(Calendar.MONTH)
                 && today.get(Calendar.DAY_OF_MONTH) == calBirthDay.get(Calendar.DAY_OF_MONTH)) {
             this.isThereAPartyToday = true;
         }
+
+        if (this.age == 0) {
+            this.monthAge = today.get(Calendar.MONTH) - calBirthDay.get(Calendar.MONTH) + 12;
+
+            if (this.monthAge == 12) {
+                this.monthAge = 0;
+            }
+
+            if (this.monthAge == 0) {
+                this.daysAge = today.get(Calendar.DATE) - calBirthDay.get(Calendar.DATE);
+            }
+        }
+
         setSign();
     }
 
@@ -317,6 +332,10 @@ public class ContactData {
     private Integer getYear() {
         return year;
     }
+
+    public Integer getMonthAge() { return monthAge; }
+
+    public Integer getDaysAge() { return daysAge; }
 
     public Integer getAge() {
         return age;
