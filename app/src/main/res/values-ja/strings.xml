@@ -23,6 +23,8 @@
   <string name="contact_request_denied">連絡先の読み取り権限が必要です</string>
   <string name="birthday_string">%1$s %2$s日</string>
   <string name="contact_has_no_year">年度情報がありません</string>
+  <string name="months_old" tools:ignore="PluralsCandidate">%1$d months old</string>
+  <string name="days_old" tools:ignore="PluralsCandidate">%1$d days old</string>
   <string name="years_old" tools:ignore="PluralsCandidate">%1$d 歳</string>
   <string name="next_week_name">次の誕生日は %1$s です</string>
   <string name="days_until" tools:ignore="PluralsCandidate">この人の誕生日まであと %1$d 日</string>
