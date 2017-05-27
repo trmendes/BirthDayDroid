@@ -138,9 +138,6 @@ public class MainActivity extends AppCompatActivity
 
     public void updateSettings() {
         birthdayAlarm.updateSettings();
-    }
-
-    public void listUpdateSettings() {
         birthdays.updateSettings();
     }
 }

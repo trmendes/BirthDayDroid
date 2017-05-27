@@ -56,7 +56,6 @@ public class SettingsFragment extends Fragment {
         public void onResume() {
             super.onResume();
             ((MainActivity) getActivity()).updateSettings();
-            ((MainActivity) getActivity()).listUpdateSettings();
             getPreferenceScreen().getSharedPreferences()
                     .registerOnSharedPreferenceChangeListener(this);
         }
@@ -72,13 +71,11 @@ public class SettingsFragment extends Fragment {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals("scan_daily") ||
                     key.equals("scan_daily_interval") ||
-                    key.equals("notification_urgency")) {
-                ((MainActivity) getActivity()).updateSettings();
-            } else if (key.equals("scan_in_advance") ||
+                    key.equals("notification_urgency") ||
                     key.equals("scan_in_advance_interval") ||
                     key.equals("custom_notification_message") ||
                     key.equals("custom_notification_status")) {
-                ((MainActivity) getActivity()).listUpdateSettings();
+                ((MainActivity) getActivity()).updateSettings();
             }
         }
     }

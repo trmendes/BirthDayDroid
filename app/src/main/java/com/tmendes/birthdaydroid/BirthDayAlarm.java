@@ -28,13 +28,14 @@ class BirthDayAlarm {
     public void updateSettings() {
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
         boolean scanDaily = s.getBoolean("scan_daily", true);
+        boolean scanInAdvance = s.getBoolean("scan_in_advance", false);
         long scanDailyInterval = s.getLong("scan_daily_interval", new GregorianCalendar().getTimeInMillis());
         String sound = s.getString("custom_notification_sound", null);
         boolean preciseNotification = s.getBoolean("precise_notification", false);
 
         MessageNotification.setNotificationSound(sound);
 
-        if (!scanDaily) {
+        if ((!scanDaily) && (!scanInAdvance)) {
             this.cancelAlarm();
         } else {
             this.startAlarm(scanDailyInterval, preciseNotification);
