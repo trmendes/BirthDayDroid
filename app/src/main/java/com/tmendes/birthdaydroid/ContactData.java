@@ -30,10 +30,10 @@ import java.util.GregorianCalendar;
 public class ContactData {
 
     private String name, sign, signElement, key, photoURI, date;
-    private int day, month, year, age, monthAge, daysAge, bornOnWeekDay, netxBirthDayOnWeekDay;
+    private int day, month, year, age, monthAge, daysAge, netxBirthDayOnWeekDay;
     private long daysUntilNextBirthDay;
-    private boolean isThereAPartyToday = false, hasYear = false;
-    private Calendar calBirthDay;
+    private boolean isThereAPartyToday = false;
+    private Calendar birthDay;
 
     private final Context ctx;
 
@@ -66,18 +66,15 @@ public class ContactData {
             SimpleDateFormat df = new SimpleDateFormat(format);
             df.setLenient(false);
             try {
-                Date birthday = df.parse(date);
-                this.calBirthDay = new GregorianCalendar();
-                this.calBirthDay.setTime(birthday);
+                this.birthDay = new GregorianCalendar();
+                this.birthDay.setTime(df.parse(date));
 
-                this.day = this.calBirthDay.get(Calendar.DAY_OF_MONTH);
-                this.month = this.calBirthDay.get(Calendar.MONTH);
+                this.day = this.birthDay.get(Calendar.DAY_OF_MONTH);
+                this.month = this.birthDay.get(Calendar.MONTH);
 
                 if (format.contains("y")) {
-                    this.hasYear = true;
-                    this.year = this.calBirthDay.get(Calendar.YEAR);
+                    this.year = this.birthDay.get(Calendar.YEAR);
                 } else {
-                    this.hasYear = false;
                     this.year = 0;
                 }
 
@@ -92,29 +89,25 @@ public class ContactData {
     private void setBirthInfo() {
         this.isThereAPartyToday = false;
         //FIXME: Verificar se eh ano bissesto
-        Calendar today = Calendar.getInstance();
 
-        this.age = today.get(Calendar.YEAR) - calBirthDay.get(Calendar.YEAR);
+        Calendar now = Calendar.getInstance();
 
-        this.bornOnWeekDay = calBirthDay.get(Calendar.DAY_OF_WEEK);
+        this.age = now.get(Calendar.YEAR) - year;
 
-        if ((today.get(Calendar.MONTH) < calBirthDay.get(Calendar.MONTH)) || (today.get(Calendar.MONTH) == calBirthDay.get(Calendar.MONTH)
-                && today.get(Calendar.DAY_OF_MONTH) < calBirthDay.get(Calendar.DAY_OF_MONTH))) {
+        if ((now.get(Calendar.MONTH) < birthDay.get(Calendar.MONTH)) || (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH)
+                && now.get(Calendar.DAY_OF_MONTH) < birthDay.get(Calendar.DAY_OF_MONTH))) {
             this.age--;
-        } else if (today.get(Calendar.MONTH) == calBirthDay.get(Calendar.MONTH)
-                && today.get(Calendar.DAY_OF_MONTH) == calBirthDay.get(Calendar.DAY_OF_MONTH)) {
+        } else if (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH)
+                && now.get(Calendar.DAY_OF_MONTH) == birthDay.get(Calendar.DAY_OF_MONTH)) {
             this.isThereAPartyToday = true;
         }
 
         if (this.age == 0) {
-            this.monthAge = today.get(Calendar.MONTH) - calBirthDay.get(Calendar.MONTH) + 12;
-
+            this.monthAge = now.get(Calendar.MONTH) - birthDay.get(Calendar.MONTH) + 12;
             if (this.monthAge == 12) {
-                this.monthAge = 0;
-            }
-
-            if (this.monthAge == 0) {
-                this.daysAge = today.get(Calendar.DATE) - calBirthDay.get(Calendar.DATE);
+                this.monthAge = 11;
+            } else if (this.monthAge == 0) {
+                this.daysAge = now.get(Calendar.DAY_OF_MONTH) - this.day;
             }
         }
 
@@ -123,7 +116,7 @@ public class ContactData {
 
     private void setNextBirthDayData() {
         Calendar today = Calendar.getInstance();
-        Calendar tmpBirthDay = calBirthDay;
+        Calendar tmpBirthDay = birthDay;
         tmpBirthDay.set(Calendar.YEAR, today.get(Calendar.YEAR));
         this.netxBirthDayOnWeekDay = tmpBirthDay.get(Calendar.DAY_OF_WEEK);
 
@@ -285,7 +278,7 @@ public class ContactData {
     }
 
     public int getBirthDayWeek() {
-        return this.bornOnWeekDay;
+        return this.birthDay.get(Calendar.DAY_OF_WEEK);
     }
 
     public String getNextBirtDayWeekName() {
@@ -329,15 +322,19 @@ public class ContactData {
         return month;
     }
 
-    private Integer getYear() {
+    private int getYear() {
         return year;
     }
 
-    public Integer getMonthAge() { return monthAge; }
+    public int getMonthAge() { return monthAge; }
 
-    public Integer getDaysAge() { return daysAge; }
+    public int getDaysAge() { return daysAge; }
 
-    public Integer getAge() {
+    public Calendar getBirthDay() {
+        return this.birthDay;
+    }
+
+    public int getAge() {
         return age;
     }
 
@@ -354,7 +351,7 @@ public class ContactData {
     }
 
     public boolean hasYear() {
-        return hasYear;
+        return this.year != 0;
     }
 
     public String toString() {

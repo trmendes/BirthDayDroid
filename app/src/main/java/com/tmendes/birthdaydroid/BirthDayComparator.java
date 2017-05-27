@@ -40,13 +40,12 @@ class BirthDayComparator implements Comparator<ContactData> {
 
         switch (orderType) {
             case ORDER_AGE:
-                //FIXME: Fix the months/days order
-                if (sortType == 1) {
-                    res = (b.getAge()).compareTo(a.getAge());
-
-
+                if (sortType == SORT_ASC) {
+                    if ( a.getBirthDay().before(b) ) res = 1;
+                    else res = -1;
                 } else {
-                    res = (a.getAge()).compareTo(b.getAge());
+                    if ( b.getBirthDay().after(a) ) res = -1;
+                    else res = 1;
                 }
                 break;
             case ORDER_DAYS_UNTIL_BIRTHDAY:
