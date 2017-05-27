@@ -23,7 +23,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -119,7 +118,6 @@ public class BirthDayDataList {
             if (person.isThereAPartyToday()) {
                 if (todayBirthdayNotifications) {
                     try {
-                        Log.i("Teste", "person.getName() " + person.getName() + " todayBirthdayNotifications: " + todayBirthdayNotifications);
                         MessageNotification.notify(this.ctx, person, notificationCustomMessage, useNotificationCustomMessage, person.getDaysUntilNextBirthDay());
                         anyNotification = true;
                     } catch (IOException e) {
@@ -173,7 +171,6 @@ public class BirthDayDataList {
             if (contact.isThereAPartyToday()) {
                 if (todayBirthdayNotifications) {
                     try {
-                        Log.i("Teste", "contact.getName() " + contact.getName() + " todayBirthdayNotifications: " + todayBirthdayNotifications);
                         MessageNotification.notify(this.ctx, contact, notificationCustomMessage, useNotificationCustomMessage, contact.getDaysUntilNextBirthDay());
                         anyNotification = true;
                     } catch (IOException e) {
@@ -184,7 +181,6 @@ public class BirthDayDataList {
             /* In advance notifications */
             else if (notificationInAdvace && (contact.getDaysUntilNextBirthDay() <= daysBeforeBirthday)) {
                 try {
-                    Log.i("Teste", "AD contact.getName() " + contact.getName() + " todayBirthdayNotifications: " + todayBirthdayNotifications);
                     MessageNotification.notify(this.ctx, contact, notificationCustomMessage, useNotificationCustomMessage, contact.getDaysUntilNextBirthDay());
                     anyNotification = true;
                 } catch (IOException e) {
