@@ -19,12 +19,12 @@ package com.tmendes.birthdaydroid;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class ContactData {
@@ -94,23 +94,31 @@ public class ContactData {
 
         this.age = now.get(Calendar.YEAR) - year;
 
-        if ((now.get(Calendar.MONTH) < birthDay.get(Calendar.MONTH)) || (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH)
-                && now.get(Calendar.DAY_OF_MONTH) < birthDay.get(Calendar.DAY_OF_MONTH))) {
-            this.age--;
-        } else if (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH)
-                && now.get(Calendar.DAY_OF_MONTH) == birthDay.get(Calendar.DAY_OF_MONTH)) {
+        /* Birthday today */
+        if (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH) && now.get(Calendar.DAY_OF_MONTH) == birthDay.get(Calendar.DAY_OF_MONTH)) {
             this.isThereAPartyToday = true;
-        }
+        } else {
+            /* Birthday yet to come */
+            if ((this.month >= now.get(Calendar.MONTH)) && (birthDay.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH))) {
 
-        if (this.age == 0) {
-            this.monthAge = now.get(Calendar.MONTH) - birthDay.get(Calendar.MONTH) + 12;
-            if (this.monthAge == 12) {
-                this.monthAge = 11;
-            } else if (this.monthAge == 0) {
-                this.daysAge = now.get(Calendar.DAY_OF_MONTH) - this.day;
+                if (this.age>0) {
+                    this.age--;
+                }
+
+                if (this.age == 0) {
+                    this.monthAge = now.get(Calendar.MONTH) - birthDay.get(Calendar.MONTH) + 11;
+                }
+            } else {
+                if (this.age == 0) {
+                    this.monthAge = now.get(Calendar.MONTH) - birthDay.get(Calendar.MONTH);
+                }
+
+                if (this.monthAge == 1) {
+                    this.monthAge = 0;
+                    this.daysAge = now.get(Calendar.DAY_OF_MONTH) + (birthDay.getActualMaximum(birthDay.DAY_OF_MONTH) - this.day);
+                }
             }
         }
-
         setSign();
     }
 
