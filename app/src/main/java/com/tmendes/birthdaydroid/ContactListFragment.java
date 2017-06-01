@@ -94,12 +94,25 @@ public class ContactListFragment extends Fragment {
             }
         });
 
-        this.updateSettings();
+        this.updateSortSettings();
 
         return v;
     }
 
-    private void updateSettings() {
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        birthdayData.refreshList();
+        this.updateSortSettings();
+    }
+
+    private void updateSortSettings() {
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
         int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
         int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
