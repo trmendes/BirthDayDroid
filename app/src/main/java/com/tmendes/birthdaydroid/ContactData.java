@@ -19,21 +19,23 @@ package com.tmendes.birthdaydroid;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class ContactData {
 
     private String name, sign, signElement, key, photoURI, date;
-    private int day, month, year, age, monthAge, daysAge, netxBirthDayOnWeekDay;
-    private long daysUntilNextBirthDay;
+    private int day, month, year, age;
+    private int monthAge, daysAge;
+
     private boolean isThereAPartyToday = false;
     private Calendar birthDay;
+    private Calendar nextBirthDay;
 
     private final Context ctx;
 
@@ -82,65 +84,43 @@ public class ContactData {
             } catch (ParseException ignored) {
             }
         }
+
         setBirthInfo();
-        setNextBirthDayData();
     }
 
     private void setBirthInfo() {
         this.isThereAPartyToday = false;
-        //FIXME: Verificar se eh ano bissesto
 
         Calendar now = Calendar.getInstance();
 
-        this.age = now.get(Calendar.YEAR) - year;
+        long timeDifferenceMilliseconds = now.getTimeInMillis() - birthDay.getTimeInMillis();
 
-        if ((now.get(Calendar.MONTH) < birthDay.get(Calendar.MONTH)) || (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH)
-                && now.get(Calendar.DAY_OF_MONTH) < birthDay.get(Calendar.DAY_OF_MONTH))) {
-            this.age--;
-        } else if (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH)
-                && now.get(Calendar.DAY_OF_MONTH) == birthDay.get(Calendar.DAY_OF_MONTH)) {
-            this.isThereAPartyToday = true;
-        }
+        int aDay = 60 * 60 * 1000 * 24;
+        /* Years */
+        this.age = (int) (timeDifferenceMilliseconds / ((long)aDay * now.getMaximum(Calendar.DAY_OF_YEAR)));
 
         if (this.age == 0) {
-            this.monthAge = now.get(Calendar.MONTH) - birthDay.get(Calendar.MONTH) + 12;
-            if (this.monthAge == 12) {
-                this.monthAge = 11;
-            } else if (this.monthAge == 0) {
-                this.daysAge = now.get(Calendar.DAY_OF_MONTH) - this.day;
-            }
+            /* Days */
+            this.daysAge = (int) (timeDifferenceMilliseconds / aDay);
+        }
+
+        this.nextBirthDay = birthDay;
+
+        this.nextBirthDay.set(Calendar.YEAR, now.get(Calendar.YEAR));
+
+        if (nextBirthDay.getTimeInMillis() < now.getTimeInMillis()) {
+            nextBirthDay.add(Calendar.YEAR, 1);
+        }
+
+        /* Birthday today */
+        if (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH) && now.get(Calendar.DAY_OF_MONTH) == birthDay.get(Calendar.DAY_OF_MONTH)) {
+            this.isThereAPartyToday = true;
+            ++this.age;
         }
 
         setSign();
     }
 
-    private void setNextBirthDayData() {
-        Calendar today = Calendar.getInstance();
-        Calendar tmpBirthDay = birthDay;
-        tmpBirthDay.set(Calendar.YEAR, today.get(Calendar.YEAR));
-        this.netxBirthDayOnWeekDay = tmpBirthDay.get(Calendar.DAY_OF_WEEK);
-
-        long diff = tmpBirthDay.getTime().getTime() - today.getTime().getTime();
-        int numberOfDays = today.getActualMaximum(Calendar.DAY_OF_YEAR);
-        boolean leapYear = numberOfDays > 365;
-        if ((leapYear) && (today.get(Calendar.MONTH) > Calendar.FEBRUARY)) {
-            numberOfDays--;
-        }
-
-        if (today.getTime().getTime() > tmpBirthDay.getTime().getTime()) {
-            int nextYear = today.get(Calendar.YEAR) + 1;
-            today.set(Calendar.YEAR, nextYear);
-            this.netxBirthDayOnWeekDay = tmpBirthDay.get(Calendar.DAY_OF_WEEK);
-            long daysLeft = diff / (1000 * 60 * 60 * 24) - 1;
-            this.daysUntilNextBirthDay = numberOfDays + daysLeft;
-        } else {
-            this.daysUntilNextBirthDay = diff / (1000 * 60 * 60 * 24);
-        }
-
-        if (this.daysUntilNextBirthDay == numberOfDays) {
-            this.daysUntilNextBirthDay = 0;
-        }
-    }
 
     private void setSign() {
 
@@ -283,7 +263,7 @@ public class ContactData {
 
     public String getNextBirtDayWeekName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getWeekdays()[this.netxBirthDayOnWeekDay];
+        return dfs.getWeekdays()[nextBirthDay.get(Calendar.DAY_OF_WEEK)];
 
     }
 
@@ -343,7 +323,21 @@ public class ContactData {
             return 0L;
         }
 
-        return daysUntilNextBirthDay + 1;
+        long timeDifferenceMilliseconds = 0;
+        long days = 0;
+
+        Calendar now = Calendar.getInstance();
+
+        if (nextBirthDay.getTimeInMillis() >= now.getTimeInMillis()) {
+            timeDifferenceMilliseconds = nextBirthDay.getTimeInMillis() - now.getTimeInMillis();
+        } else {
+            timeDifferenceMilliseconds = now.getTimeInMillis() - nextBirthDay.getTimeInMillis();
+        }
+
+        /* Days */
+        days = (int) (timeDifferenceMilliseconds / (60 * 60 * 1000 * 24)) + 1;
+
+        return days;
     }
 
     public boolean isThereAPartyToday() {
