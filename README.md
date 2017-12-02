@@ -16,14 +16,12 @@ finds it, it will show you the contact's age, sign, days until her/his birthday.
 
 #### Screenshots
 
-<img src="assets/images/main.png" align="left" height="48" width="48" >
-<img src="assets/images/menu.png" align="left" height="48" width="48" >
-![main_](/assets/images/main.png){ width=50% }
-![menu](/assets/images/menu.png){ width=50% }
-![more](/assets/images/more_info.png){ width=50% }
-![settings](/assets/images/settings.png){ width=50% }
-![age](/assets/images/age.png){ width=50% }
-![sign](/assets/images/sign.png){ width=50% }
+<img src="assets/images/main.png" align="left" width="50%" >
+<img src="assets/images/menu.png" align="left" width="50%" >
+<img src="assets/images/more_info.png" align="left" width="50%" >
+<img src="assets/images/settings.png" align="left" width="50%" >
+<img src="assets/images/age.png" align="left" width="50%" >
+<img src="assets/images/sign.png" align="left" width="50%" >
 
 #### Where can I find it?
 
