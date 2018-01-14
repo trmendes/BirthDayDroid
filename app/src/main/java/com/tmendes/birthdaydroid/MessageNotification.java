@@ -53,13 +53,13 @@ class MessageNotification {
         final Resources res = context.getResources();
 
         String msgShareTitle;
-        if (contact.isThereAPartyToday()) {
+        if (contact.isaPartyGoingOnToday()) {
             msgShareTitle = res.getString(R.string.message_notification_share_title);
         } else {
             msgShareTitle = res.getString(R.string.message_notification_bt_to_come_title);
         }
 
-        if (contact.isThereAPartyToday()) {
+        if (contact.isaPartyGoingOnToday()) {
             if ((!customMsg) || (msgShareBody.length() == 0)) {
                 msgShareBody = res.getString(R.string.message_notification_share_body, contact.getContactFirstName());
             }
@@ -68,7 +68,7 @@ class MessageNotification {
         }
 
         String notifyMsgBody;
-        if (contact.isThereAPartyToday()) {
+        if (contact.isaPartyGoingOnToday()) {
             if (contact.hasYear()) {
                 notifyMsgBody = res.getString(
                         R.string.message_notification_message, contact.getContactFirstName(), contact.getAge());

@@ -19,7 +19,6 @@ package com.tmendes.birthdaydroid;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -33,9 +32,9 @@ public class ContactData {
     private int day, month, year, age;
     private int monthAge, daysAge;
 
-    private boolean isThereAPartyToday = false;
-    private Calendar birthDay;
-    private Calendar nextBirthDay;
+    private boolean aPartyGoingOnToday = false;
+    private Calendar birthday;
+    private Calendar nextBirthday;
 
     private final Context ctx;
 
@@ -68,14 +67,14 @@ public class ContactData {
             SimpleDateFormat df = new SimpleDateFormat(format);
             df.setLenient(false);
             try {
-                this.birthDay = new GregorianCalendar();
-                this.birthDay.setTime(df.parse(date));
+                this.birthday = new GregorianCalendar();
+                this.birthday.setTime(df.parse(date));
 
-                this.day = this.birthDay.get(Calendar.DAY_OF_MONTH);
-                this.month = this.birthDay.get(Calendar.MONTH);
+                this.day = this.birthday.get(Calendar.DAY_OF_MONTH);
+                this.month = this.birthday.get(Calendar.MONTH);
 
                 if (format.contains("y")) {
-                    this.year = this.birthDay.get(Calendar.YEAR);
+                    this.year = this.birthday.get(Calendar.YEAR);
                 } else {
                     this.year = 0;
                 }
@@ -89,13 +88,16 @@ public class ContactData {
     }
 
     private void setBirthInfo() {
-        this.isThereAPartyToday = false;
+        this.aPartyGoingOnToday = false;
 
         Calendar now = Calendar.getInstance();
 
-        long timeDifferenceMilliseconds = now.getTimeInMillis() - birthDay.getTimeInMillis();
+        long timeDifferenceMilliseconds = now.getTimeInMillis() - birthday.getTimeInMillis();
 
         int aDay = 60 * 60 * 1000 * 24;
+        int year = now.get(Calendar.YEAR);
+        boolean isLeapYear = ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0));
+
         /* Years */
         this.age = (int) (timeDifferenceMilliseconds / ((long)aDay * now.getMaximum(Calendar.DAY_OF_YEAR)));
 
@@ -104,17 +106,25 @@ public class ContactData {
             this.daysAge = (int) (timeDifferenceMilliseconds / aDay);
         }
 
-        this.nextBirthDay = birthDay;
+        this.nextBirthday = birthday;
 
-        this.nextBirthDay.set(Calendar.YEAR, now.get(Calendar.YEAR));
+        this.nextBirthday.set(Calendar.YEAR, now.get(year));
 
-        if (nextBirthDay.getTimeInMillis() < now.getTimeInMillis()) {
-            nextBirthDay.add(Calendar.YEAR, 1);
+        if (nextBirthday.getTimeInMillis() < now.getTimeInMillis()) {
+            nextBirthday.add(year, 1);
         }
 
         /* Birthday today */
-        if (now.get(Calendar.MONTH) == birthDay.get(Calendar.MONTH) && now.get(Calendar.DAY_OF_MONTH) == birthDay.get(Calendar.DAY_OF_MONTH)) {
-            this.isThereAPartyToday = true;
+        if (now.get(Calendar.DAY_OF_MONTH) == birthday.get(Calendar.DAY_OF_MONTH) &&
+                now.get(Calendar.MONTH) == birthday.get(Calendar.MONTH)) {
+            this.aPartyGoingOnToday = true;
+            ++this.age;
+        } else if (!isLeapYear &&
+                (now.get(Calendar.DAY_OF_MONTH) == 1 &&
+                                birthday.get(Calendar.DAY_OF_MONTH) == 29) &&
+                (now.get(Calendar.MONTH) == Calendar.MARCH &&
+                birthday.get(Calendar.MONTH) == Calendar.FEBRUARY)) {
+            this.aPartyGoingOnToday = true;
             ++this.age;
         }
 
@@ -258,12 +268,12 @@ public class ContactData {
     }
 
     public int getBirthDayWeek() {
-        return this.birthDay.get(Calendar.DAY_OF_WEEK);
+        return this.birthday.get(Calendar.DAY_OF_WEEK);
     }
 
     public String getNextBirtDayWeekName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getWeekdays()[nextBirthDay.get(Calendar.DAY_OF_WEEK)];
+        return dfs.getWeekdays()[nextBirthday.get(Calendar.DAY_OF_WEEK)];
 
     }
 
@@ -310,8 +320,8 @@ public class ContactData {
 
     public int getDaysAge() { return daysAge; }
 
-    public Calendar getBirthDay() {
-        return this.birthDay;
+    public Calendar getBirthday() {
+        return this.birthday;
     }
 
     public int getAge() {
@@ -319,7 +329,7 @@ public class ContactData {
     }
 
     public Long getDaysUntilNextBirthDay() {
-        if (isThereAPartyToday()) {
+        if (isaPartyGoingOnToday()) {
             return 0L;
         }
 
@@ -328,10 +338,10 @@ public class ContactData {
 
         Calendar now = Calendar.getInstance();
 
-        if (nextBirthDay.getTimeInMillis() >= now.getTimeInMillis()) {
-            timeDifferenceMilliseconds = nextBirthDay.getTimeInMillis() - now.getTimeInMillis();
+        if (nextBirthday.getTimeInMillis() >= now.getTimeInMillis()) {
+            timeDifferenceMilliseconds = nextBirthday.getTimeInMillis() - now.getTimeInMillis();
         } else {
-            timeDifferenceMilliseconds = now.getTimeInMillis() - nextBirthDay.getTimeInMillis();
+            timeDifferenceMilliseconds = now.getTimeInMillis() - nextBirthday.getTimeInMillis();
         }
 
         /* Days */
@@ -340,8 +350,8 @@ public class ContactData {
         return days;
     }
 
-    public boolean isThereAPartyToday() {
-        return isThereAPartyToday;
+    public boolean isaPartyGoingOnToday() {
+        return aPartyGoingOnToday;
     }
 
     public boolean hasYear() {
@@ -349,7 +359,7 @@ public class ContactData {
     }
 
     public String toString() {
-        return "Name: " + getName() + " - Age: " + getAge() + " - [d:" + getDay() + ":m:" + getMonth() + ":y:" + getYear() + "] - " + " sign: " + getSign() + " - Element: " + getSignElement() + " - hasYear(): " + hasYear() + " isThereAPartyToday(): " + isThereAPartyToday();
+        return "Name: " + getName() + " - Age: " + getAge() + " - [d:" + getDay() + ":m:" + getMonth() + ":y:" + getYear() + "] - " + " sign: " + getSign() + " - Element: " + getSignElement() + " - hasYear(): " + hasYear() + " aPartyGoingOnToday(): " + isaPartyGoingOnToday();
     }
 
 }

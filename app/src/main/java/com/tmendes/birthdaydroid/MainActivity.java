@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_scan_now:
-                if (this.birthdays.isThereAnyBirthDayToday()) {
+                if (this.birthdays.checkBirthdaysPartyForToday()) {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_found), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found), Toast.LENGTH_LONG).show();
