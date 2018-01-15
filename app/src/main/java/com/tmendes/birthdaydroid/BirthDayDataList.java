@@ -44,7 +44,7 @@ public class BirthDayDataList {
 
     private String notificationCustomMessage;
     private boolean useNotificationCustomMessage;
-    private boolean notificationInAdvace, todayBirthdayNotifications;
+    private boolean showNotificationInAdvace, showTodayNotifications;
     private int daysBeforeBirthday;
 
     private Context ctx;
@@ -65,8 +65,8 @@ public class BirthDayDataList {
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
         notificationCustomMessage = s.getString("custom_notification_message", "");
         useNotificationCustomMessage = s.getBoolean("custom_notification_status", false);
-        todayBirthdayNotifications = s.getBoolean("scan_daily", false);
-        notificationInAdvace = s.getBoolean("scan_in_advance", false);
+        showTodayNotifications = s.getBoolean("scan_daily", false);
+        showNotificationInAdvace = s.getBoolean("scan_in_advance", false);
         daysBeforeBirthday = Integer.valueOf(s.getString("scan_in_advance_interval", "1"));
     }
 
@@ -97,26 +97,26 @@ public class BirthDayDataList {
         );
     }
 
-    public boolean isThereAnyBirthDayToday() {
+    public boolean checkBirthdaysPartyForToday() {
         boolean anyBirthDayToday = false;
         this.updateSettings();
 
         if (this.contactList.size() == 0) {
-            anyBirthDayToday = scanBirthDaysNowFromCursor();
+            anyBirthDayToday = scanBirthdaysFromCursor();
         } else {
-            anyBirthDayToday = scanBirthDaysNowFromList();
+            anyBirthDayToday = scanBirthdaysFromList();
         }
 
         return anyBirthDayToday;
     }
 
-    private boolean scanBirthDaysNowFromList() {
+    private boolean scanBirthdaysFromList() {
         boolean anyNotification = false;
 
         for (ContactData person : this.contactList) {
             /* Today notifications */
-            if (person.isThereAPartyToday()) {
-                if (todayBirthdayNotifications) {
+            if (person.isaPartyGoingOnToday()) {
+                if (showTodayNotifications) {
                     try {
                         MessageNotification.notify(this.ctx, person, notificationCustomMessage, useNotificationCustomMessage, person.getDaysUntilNextBirthDay());
                         anyNotification = true;
@@ -127,7 +127,7 @@ public class BirthDayDataList {
             }
 
             /* In advance notifications */
-            else if (notificationInAdvace && (person.getDaysUntilNextBirthDay() <= daysBeforeBirthday)) {
+            else if (showNotificationInAdvace && (person.getDaysUntilNextBirthDay() <= daysBeforeBirthday)) {
                 try {
                     MessageNotification.notify(this.ctx, person, notificationCustomMessage, useNotificationCustomMessage, person.getDaysUntilNextBirthDay());
                     anyNotification = true;
@@ -140,7 +140,7 @@ public class BirthDayDataList {
         return anyNotification;
     }
 
-    private boolean scanBirthDaysNowFromCursor() {
+    private boolean scanBirthdaysFromCursor() {
         boolean anyNotification = false;
         Cursor c = getCursor();
 
@@ -168,8 +168,8 @@ public class BirthDayDataList {
             contact.setPhotoURI(photoURI);
 
             /* Today notifications */
-            if (contact.isThereAPartyToday()) {
-                if (todayBirthdayNotifications) {
+            if (contact.isaPartyGoingOnToday()) {
+                if (showTodayNotifications) {
                     try {
                         MessageNotification.notify(this.ctx, contact, notificationCustomMessage, useNotificationCustomMessage, contact.getDaysUntilNextBirthDay());
                         anyNotification = true;
@@ -179,7 +179,7 @@ public class BirthDayDataList {
                 }
             }
             /* In advance notifications */
-            else if (notificationInAdvace && (contact.getDaysUntilNextBirthDay() <= daysBeforeBirthday)) {
+            else if (showNotificationInAdvace && (contact.getDaysUntilNextBirthDay() <= daysBeforeBirthday)) {
                 try {
                     MessageNotification.notify(this.ctx, contact, notificationCustomMessage, useNotificationCustomMessage, contact.getDaysUntilNextBirthDay());
                     anyNotification = true;

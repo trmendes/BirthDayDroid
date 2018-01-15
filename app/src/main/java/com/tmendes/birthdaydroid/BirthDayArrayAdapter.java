@@ -89,7 +89,7 @@ class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements Filterab
                 viewHolder.ivContactPicture.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_account_circle_white_24dp));
             }
 
-            if (contact.isThereAPartyToday()) {
+            if (contact.isaPartyGoingOnToday()) {
                 viewHolder.tvContactDaysToGo.setText(ctx.getResources().getString(R.string.days_until_birthday));
                 viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                 viewHolder.emojiParty.setVisibility(View.VISIBLE);

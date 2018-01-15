@@ -2,7 +2,9 @@
 
 #### Basic information
 
-BirthDayDroid is an Android application to help you to remember your contact's birthdays. It scans your local contact list looking for birthdays. When it finds it, it will show you the contact's age, sign, days until her/his birthday.
+BirthDayDroid is an Android application to help you to remember your contact's 
+birthdays. It scans your local contact list looking for birthdays. When it 
+finds it, it will show you the contact's age, sign, days until her/his birthday.
 
 #### What is done
 
@@ -10,9 +12,19 @@ BirthDayDroid is an Android application to help you to remember your contact's b
   * Birthday notifications in advance
   * Show age/sign/days until next birthday/week day from each contact
   * Ordering list by age/days until/name/sign
-  * Some infos
+  * Some other infos
 
-#### Links
+#### Screenshots
+
+
+<img src="assets/images/main.png" width="30%">
+<img src="assets/images/menu.png" width="30%">
+<img src="assets/images/more_info.png" width="30%">
+<img src="assets/images/settings.png" width="30%">
+<img src="assets/images/age.png" width="30%">
+<img src="assets/images/sign.png" width="30%">
+
+#### Where can I find it?
 
 <a href="https://f-droid.org/app/com.tmendes.birthdaydroid" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
@@ -25,8 +37,7 @@ For any question, bug report, suggestion please drop us a line
 
 #### Translate
 
-If you want to join our translation team: [BirthDayDroid Translation Project on
-Crowdin.net](https://crowdin.com/project/birthdaydroid)
+Send us a message
 
 #### The BirthDayDroid Project Team
 

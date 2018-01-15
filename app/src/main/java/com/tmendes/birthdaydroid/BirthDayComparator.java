@@ -41,10 +41,10 @@ class BirthDayComparator implements Comparator<ContactData> {
         switch (orderType) {
             case ORDER_AGE:
                 if (sortType == SORT_ASC) {
-                    if ( a.getBirthDay().before(b) ) res = 1;
+                    if ( a.getBirthday().before(b) ) res = 1;
                     else res = -1;
                 } else {
-                    if ( b.getBirthDay().after(a) ) res = -1;
+                    if ( b.getBirthday().after(a) ) res = -1;
                     else res = 1;
                 }
                 break;
