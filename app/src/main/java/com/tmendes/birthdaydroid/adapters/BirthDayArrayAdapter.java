@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,9 +32,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tmendes.birthdaydroid.BirthDayComparator;
+import com.tmendes.birthdaydroid.ContactData;
+import com.tmendes.birthdaydroid.R;
+
 import java.util.ArrayList;
 
-class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements Filterable {
+public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements Filterable {
 
     private final Context ctx;
     private ArrayList<ContactData> contactsBirthDays;

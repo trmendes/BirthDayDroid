@@ -15,13 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.tmendes.birthdaydroid.BirthDayAlarm;
+import com.tmendes.birthdaydroid.BirthDayDataList;
 
 public class BirthDayBroadcastReceiver extends BroadcastReceiver {
 

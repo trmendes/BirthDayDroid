@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,6 +26,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.tmendes.birthdaydroid.MainActivity;
+import com.tmendes.birthdaydroid.R;
 
 public class SettingsFragment extends Fragment {
 

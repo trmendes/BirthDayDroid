@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -36,6 +36,10 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
+import com.tmendes.birthdaydroid.BirthDayDataList;
+import com.tmendes.birthdaydroid.R;
 
 public class ContactListFragment extends Fragment {
 

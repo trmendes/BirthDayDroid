@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.helpers;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -33,9 +33,12 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 
+import com.tmendes.birthdaydroid.ContactData;
+import com.tmendes.birthdaydroid.R;
+
 import java.io.IOException;
 
-class MessageNotification {
+public class MessageNotification {
 
     private static String notificationId;
     private static Uri notificationSound;

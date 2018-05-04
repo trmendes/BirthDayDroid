@@ -19,7 +19,7 @@ package com.tmendes.birthdaydroid;
 
 import java.util.Comparator;
 
-class BirthDayComparator implements Comparator<ContactData> {
+public class BirthDayComparator implements Comparator<ContactData> {
 
     private final int orderType;
     private final int sortType;

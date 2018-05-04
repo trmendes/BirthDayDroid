@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.tmendes.birthdaydroid.helpers.MessageNotification;
+import com.tmendes.birthdaydroid.receivers.BirthDayBroadcastReceiver;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-class BirthDayAlarm {
+public class BirthDayAlarm {
 
     private final PendingIntent pIntent;
     private final Context ctx;

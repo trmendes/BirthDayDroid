@@ -29,6 +29,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
+import com.tmendes.birthdaydroid.fragments.ContactListFragment;
+import com.tmendes.birthdaydroid.fragments.SettingsFragment;
+import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

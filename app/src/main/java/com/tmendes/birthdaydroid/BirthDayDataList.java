@@ -24,6 +24,8 @@ import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 
+import com.tmendes.birthdaydroid.helpers.MessageNotification;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
