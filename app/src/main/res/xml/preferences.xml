@@ -26,16 +26,6 @@
             android:key="scan_in_advance_interval"
             android:summary="@string/settings_scan_adv_sum"
             android:title="@string/settings_scan_adv_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="precise_notification"
-            android:summary="@string/settings_precise_not_sum"
-            android:title="@string/settings_precise_not_title" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="check_battery_status"
-            android:summary="@string/settings_scan_bat_low_sum"
-            android:title="@string/settings_scan_bat_low_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_custom_not">
