@@ -70,7 +70,7 @@ public class Contact {
         this.key = key;
         this.name = name;
         this.date = date;
-        this.photoURI = photoURI;
+        photoURI = photoURI;
 
         parseContactBirthdayField(date);
 
@@ -122,6 +122,9 @@ public class Contact {
         if (age == 0) {
             /* For those who are just born */
             daysAge = (int) (diffBirthDayTodayMs / DAY);
+            if (daysAge < 0) {
+                daysAge = 0;
+            }
         }
 
         nextBirthday = (Calendar) bornOn.clone();
@@ -333,9 +336,7 @@ public class Contact {
         return month;
     }
 
-    private int getYear() {
-        return year;
-    }
+    private int getYear() { return year; }
 
     public int getMonthAge() { return monthAge; }
 

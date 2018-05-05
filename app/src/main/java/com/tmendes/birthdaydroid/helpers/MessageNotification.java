@@ -91,7 +91,7 @@ public class MessageNotification {
             notifyPicture = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
         } else {
             notifyPicture = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.ic_account_circle_white_24dp);
+                    R.drawable.ic_account_circle_black_24dp);
         }
         final String title = contact.getName();
         final String text = notifyMsgBody;
