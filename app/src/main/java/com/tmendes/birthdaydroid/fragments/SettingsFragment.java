@@ -64,14 +64,6 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals("scan_daily") ||
-                    key.equals("scan_daily_interval") ||
-                    key.equals("notification_urgency") ||
-                    key.equals("scan_in_advance_interval") ||
-                    key.equals("custom_notification_message") ||
-                    key.equals("custom_notification_status")) {
-                //TODO UPDATE SETTINGS
-            }
         }
     }
 }

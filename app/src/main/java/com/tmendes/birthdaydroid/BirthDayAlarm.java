@@ -17,12 +17,5 @@ public class BirthDayAlarm {
         this.ctx = ctx;
         Intent intentAlarm = new Intent(this.ctx, BirthDayBroadcastReceiver.class);
         intentAlarm.setAction(ACTION_BD_NOTIFICATION);
-        updateSettings();
-    }
-
-    private void updateSettings() {
-        SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
-        String sound = s.getString("custom_notification_sound", null);
-        //MessageNotification.setNotificationSound(sound);
     }
 }

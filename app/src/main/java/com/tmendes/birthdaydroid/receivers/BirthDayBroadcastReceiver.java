@@ -38,7 +38,6 @@ public class BirthDayBroadcastReceiver extends BroadcastReceiver {
 
         switch (intent.getAction()) {
             case Intent.ACTION_BOOT_COMPLETED:
-                new BirthDayAlarm(context);
                 break;
             case Intent.ACTION_BATTERY_LOW:
                 isBatOk = false;

@@ -98,14 +98,13 @@ public class BirthDay {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 
         boolean anyNotification = false;
-        boolean showTodayNotifications = true;
-        boolean showNotificationInAdvace = false;
+        boolean showTodayNotifications = prefs.getBoolean("scan_daily", false);
+        boolean showNotificationInAdvace = prefs.getBoolean("scan_daily", false);
+        int daysInAdvante = prefs.getInt("scan_in_advance_interval", 3);
 
         if (!showTodayNotifications) {
             return false;
         }
-
-        String notificationCustomMsg = "";
 
         for (Contact contact : this.contactList) {
             if (contact.shallWeCelebrateToday()) {
@@ -114,7 +113,7 @@ public class BirthDay {
                 postNotification(contact);
             }
             else if (showNotificationInAdvace &&
-                    (contact.getDaysUntilNextBirthDay() <= contact.getDaysUntilNextBirthDay())) {
+                    (contact.getDaysUntilNextBirthDay() <= daysInAdvante)) {
                 /* In advance notifications */
                 anyNotification = true;
                 postNotification(contact);
