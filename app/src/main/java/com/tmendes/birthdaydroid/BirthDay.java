@@ -17,12 +17,24 @@
 
 package com.tmendes.birthdaydroid;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 
-import com.tmendes.birthdaydroid.helpers.MessageNotification;
+import com.tmendes.birthdaydroid.helpers.NotificationHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,16 +48,11 @@ public class BirthDay {
     // Contact list
     private ArrayList<Contact> contactList;
 
-    // Statistics about your frinds
+    // Statistics about your friends
     private final Map<Integer, Integer> ageStats = new TreeMap<>();
     private final Map<String, Integer> signStats = new TreeMap<>();
     private final Map<Integer, Integer> monthStats = new TreeMap<>();
     private final Map<Integer, Integer> weekStats = new TreeMap<>();
-
-    private String notificationCustomMessage;
-    private boolean useNotificationCustomMessage;
-    private boolean showNotificationInAdvace, showTodayNotifications;
-    private int daysBeforeBirthday;
 
     private Context ctx;
 
@@ -88,32 +95,29 @@ public class BirthDay {
     }
 
     private boolean scanListForParties() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+
         boolean anyNotification = false;
+        boolean showTodayNotifications = true;
+        boolean showNotificationInAdvace = false;
 
-        for (Contact person : this.contactList) {
-            /* Today notifications */
-            if (person.shallWeCelebrateToday()) {
-                if (showTodayNotifications) {
-                    try {
-                        MessageNotification.notify(this.ctx, person, notificationCustomMessage,
-                                useNotificationCustomMessage, person.getDaysUntilNextBirthDay());
-                        anyNotification = true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+        if (!showTodayNotifications) {
+            return false;
+        }
+
+        String notificationCustomMsg = "";
+
+        for (Contact contact : this.contactList) {
+            if (contact.shallWeCelebrateToday()) {
+                /* Today notifications */
+                anyNotification = true;
+                postNotification(contact);
             }
-
-            /* In advance notifications */
             else if (showNotificationInAdvace &&
-                    (person.getDaysUntilNextBirthDay() <= daysBeforeBirthday)) {
-                try {
-                    MessageNotification.notify(this.ctx, person, notificationCustomMessage,
-                            useNotificationCustomMessage, person.getDaysUntilNextBirthDay());
-                    anyNotification = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    (contact.getDaysUntilNextBirthDay() <= contact.getDaysUntilNextBirthDay())) {
+                /* In advance notifications */
+                anyNotification = true;
+                postNotification(contact);
             }
         }
 
@@ -219,4 +223,74 @@ public class BirthDay {
         );
     }
 
+    @SuppressLint("ResourceType")
+    //FIXME REMOVE SUPPRESS
+    private void postNotification(Contact contact) {
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+            boolean useCustomMsg = prefs
+                    .getBoolean("custom_notification_status", false);
+            String customMsg = prefs.getString("custom_notification_message", "");
+
+            /* Activity Body Msg (on notify click) */
+            StringBuilder activityBodyMsg = new StringBuilder();
+            if (useCustomMsg && customMsg.length() > 0) {
+                activityBodyMsg.append(ctx.
+                        getString(R.string.message_notification_bt_to_come_share_body,
+                                contact.getContactFirstName()));
+            } else {
+                activityBodyMsg.append(ctx.
+                        getString(R.string.message_notification_share_body,
+                                contact.getContactFirstName()));
+            }
+
+            /* Text to notify */
+            /* Title */
+            String title = contact.getName();
+            StringBuilder body = new StringBuilder();
+            if (contact.shallWeCelebrateToday()) {
+                if (contact.isMissingData()) {
+                    body.append(ctx.getString(
+                            R.string.message_notification_message, contact.getContactFirstName(),
+                            contact.getAge()));
+                } else {
+                    body.append(ctx.getString(
+                            R.string.message_notification_message_no_age,
+                            contact.getContactFirstName()));
+                }
+            } else {
+                body.append(ctx.getString(
+                        R.string.message_notification_message_bt_to_come,
+                        contact.getContactFirstName(), contact.getAge() + 1,
+                        contact.getDaysUntilNextBirthDay()));
+            }
+
+            /* Contact Picture */
+            Bitmap notifyPicture;
+            if (contact.getPhotoURI() != null) {
+                notifyPicture = MediaStore.Images.Media.getBitmap(
+                        ctx.getContentResolver(), Uri.parse(contact.getPhotoURI()));
+            } else {
+                notifyPicture = BitmapFactory.decodeResource(ctx.getResources(),
+                        R.drawable.ic_account_circle_black_24dp);
+            }
+
+            /* To open contact when notification clicked */
+            Intent openContact = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
+                            + contact.getKey()));
+            PendingIntent openContactPI = PendingIntent.getActivity(ctx, 0, openContact,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+            /* Notify */
+            NotificationHelper nHelper = new NotificationHelper(this.ctx);
+            Notification.Builder nBuilder = nHelper
+                    .getNotification(title, body.toString(),
+                            notifyPicture, openContactPI, Color.RED);
+            nHelper.notify(System.currentTimeMillis(), nBuilder);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

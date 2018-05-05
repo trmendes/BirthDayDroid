@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.tmendes.birthdaydroid.helpers.MessageNotification;
 import com.tmendes.birthdaydroid.receivers.BirthDayBroadcastReceiver;
 
 public class BirthDayAlarm {
@@ -24,6 +23,6 @@ public class BirthDayAlarm {
     private void updateSettings() {
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
         String sound = s.getString("custom_notification_sound", null);
-        MessageNotification.setNotificationSound(sound);
+        //MessageNotification.setNotificationSound(sound);
     }
 }

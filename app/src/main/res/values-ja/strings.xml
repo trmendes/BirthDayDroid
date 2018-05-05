@@ -33,7 +33,6 @@
   <string name="message_notification_message_no_age">今日は %1$s の誕生日です</string>
   <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s はあと  %3$d 日で %2$d 歳になります</string>
   <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s は今日で %2$d 歳になります</string>
-  <string name="message_notification_action">あの人へのメッセージ</string>
   <string name="message_notification_share_title">Happy Birthday !</string>
   <string name="message_notification_bt_to_come_title">お誕生日だね！</string>
   <string name="message_notification_bt_to_come_share_body">やあ、 %1$s 、どうしてる？ 誕生日はどうするの？</string>

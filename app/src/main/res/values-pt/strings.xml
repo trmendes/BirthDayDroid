@@ -30,7 +30,6 @@
     <string name="message_notification_message_no_age">%1$s aniversário(s) hoje</string>
     <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s completará %2$d em %3$d dia(s)</string>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s esta completando %2$d hoje</string>
-    <string name="message_notification_action">Enviar Mensagem</string>
     <string name="message_notification_share_title">Feliz Aniversário!</string>
     <string name="message_notification_bt_to_come_title">Aniversário chegando!</string>
     <string name="message_notification_bt_to_come_share_body">Oi %1$s Tudo bem? Quais são os planos para o seu aniversário?</string>
