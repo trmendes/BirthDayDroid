@@ -249,20 +249,27 @@ public class BirthDay {
             String title = contact.getName();
             StringBuilder body = new StringBuilder();
             if (contact.shallWeCelebrateToday()) {
-                if (contact.isMissingData()) {
-                    body.append(ctx.getString(
-                            R.string.message_notification_message, contact.getContactFirstName(),
-                            contact.getAge()));
-                } else {
+                if (contact.isMissingYear()) {
                     body.append(ctx.getString(
                             R.string.message_notification_message_no_age,
                             contact.getContactFirstName()));
+                } else {
+                    body.append(ctx.getString(
+                            R.string.message_notification_message, contact.getContactFirstName(),
+                            contact.getAge()));
                 }
             } else {
-                body.append(ctx.getString(
-                        R.string.message_notification_message_bt_to_come,
-                        contact.getContactFirstName(), contact.getAge() + 1,
-                        contact.getDaysUntilNextBirthDay()));
+                if (contact.isMissingYear()) {
+                    body.append(ctx.getString(
+                            R.string.message_notification_message_bt_to_come_no_year,
+                            contact.getContactFirstName(),
+                            contact.getDaysUntilNextBirthDay()));
+                } else {
+                    body.append(ctx.getString(
+                            R.string.message_notification_message_bt_to_come,
+                            contact.getContactFirstName(), contact.getAge() + 1,
+                            contact.getDaysUntilNextBirthDay()));
+                }
             }
 
             /* Contact Picture */

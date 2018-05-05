@@ -54,7 +54,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setLargeIcon(notifyPicture)
                     .setColor(getApplicationContext().getResources()
                             .getColor(color, ctx.getTheme()))
-                    .setSmallIcon(R.drawable.ic_notifications_white_24dp)
+                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
                     .setAutoCancel(true);
 
         } else {
@@ -64,7 +64,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setContentText(body)
                     .setContentIntent(pI)
                     .setLargeIcon(notifyPicture)
-                    .setSmallIcon(R.drawable.ic_notifications_white_24dp)
+                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
                     .setAutoCancel(true);
         }
     }

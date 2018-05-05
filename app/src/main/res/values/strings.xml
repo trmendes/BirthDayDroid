@@ -31,7 +31,8 @@
     <string name="days_until_birthday">There is a party going on today :D</string>
     <string name="birthday_scan_found">Generating Birthday Notifications</string>
     <string name="birthday_scan_not_found">No Birthdays Found Today</string>
-    <string name="message_notification_message_no_age">%1$s birthday(s) today</string>
+    <string name="message_notification_message_no_age">%1$s\'s birthday today</string>
+    <string name="message_notification_message_bt_to_come_no_year">%1$s\'s birthday in %2$d day(s)</string>
     <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s turns %2$d in %3$d day(s)</string>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s is turning %2$d today</string>
     <string name="message_notification_share_title">Happy Birthday!</string>
