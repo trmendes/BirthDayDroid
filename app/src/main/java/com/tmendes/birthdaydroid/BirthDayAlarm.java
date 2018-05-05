@@ -37,39 +37,5 @@ public class BirthDayAlarm {
         boolean preciseNotification = s.getBoolean("precise_notification", false);
 
         MessageNotification.setNotificationSound(sound);
-
-        if ((!scanDaily) && (!scanInAdvance)) {
-            this.cancelAlarm();
-        } else {
-            this.startAlarm(scanDailyInterval, preciseNotification);
-        }
-    }
-
-    private void startAlarm(long mils, boolean preciseNotification) {
-        this.cancelAlarm();
-
-        AlarmManager alarmManager = (AlarmManager) this.ctx.getSystemService(Context.ALARM_SERVICE);
-
-        Calendar now = Calendar.getInstance();
-        Calendar alarm = Calendar.getInstance();
-
-        alarm.setTimeInMillis(mils);
-
-        if (alarm.before(now)) {
-            alarm.set(Calendar.DAY_OF_YEAR, now.get(Calendar.DAY_OF_YEAR) + 1);
-        }
-
-        if (preciseNotification) {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
-        } else {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
-        }
-    }
-
-    private void cancelAlarm() {
-        AlarmManager manager = (AlarmManager) this.ctx.getSystemService(Context.ALARM_SERVICE);
-        if ((manager != null) && (pIntent != null)) {
-            manager.cancel(pIntent);
-        }
     }
 }

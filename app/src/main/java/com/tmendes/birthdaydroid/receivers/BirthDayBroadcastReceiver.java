@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.BirthDayAlarm;
-import com.tmendes.birthdaydroid.BirthDayDataList;
+import com.tmendes.birthdaydroid.BirthDay;
 
 public class BirthDayBroadcastReceiver extends BroadcastReceiver {
 
@@ -52,8 +52,8 @@ public class BirthDayBroadcastReceiver extends BroadcastReceiver {
             }
 
             if (isBatOk) {
-                BirthDayDataList bd = BirthDayDataList.getBirthDayDataList(context);
-                bd.checkBirthdaysPartyForToday();
+                BirthDay bd = BirthDay.getBirthDayList(context);
+                bd.isThereAnyPartyToday();
             }
         }
     }

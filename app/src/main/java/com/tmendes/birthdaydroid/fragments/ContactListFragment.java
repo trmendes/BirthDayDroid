@@ -38,19 +38,23 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
-import com.tmendes.birthdaydroid.BirthDayDataList;
+import com.tmendes.birthdaydroid.BirthDay;
 import com.tmendes.birthdaydroid.R;
 
 public class ContactListFragment extends Fragment {
 
     // Identifier for the permission request
     private static final int READ_CONTACTS_PERMISSIONS_REQUEST = 1;
+
     // Search EditText
     private EditText inputSearch;
+
     // Adapter
     private BirthDayArrayAdapter adapter;
-    // All the birthdays
-    private BirthDayDataList birthdayData;
+
+    // Birthdays
+    private BirthDay birthdayData;
+
     // Context
     private Context ctx;
 
@@ -65,7 +69,7 @@ public class ContactListFragment extends Fragment {
 
         PreferenceManager.setDefaultValues(this.ctx, R.xml.preferences, false);
 
-        this.birthdayData = BirthDayDataList.getBirthDayDataList(this.ctx);
+        this.birthdayData = BirthDay.getBirthDayList(this.ctx);
 
         getPermissionToReadUserContacts();
 

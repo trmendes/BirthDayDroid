@@ -41,14 +41,15 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("unused")
     public static final String TAG = "BirthDayDroid";
 
-    private BirthDayDataList birthdays;
-
-    private BirthDayAlarm birthdayAlarm;
+    private BirthDay birthdays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.birthdays = BirthDay.getBirthDayList(this.getApplicationContext());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,10 +65,6 @@ public class MainActivity extends AppCompatActivity
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
-
-        birthdayAlarm = new BirthDayAlarm(this);
-
-        this.birthdays = BirthDayDataList.getBirthDayDataList(this.getApplicationContext());
 
         Fragment fragment;
         try {
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_scan_now:
-                if (this.birthdays.checkBirthdaysPartyForToday()) {
+                if (this.birthdays.isThereAnyPartyToday()) {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_found), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found), Toast.LENGTH_LONG).show();
@@ -139,10 +136,5 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         return true;
-    }
-
-    public void updateSettings() {
-        birthdayAlarm.updateSettings();
-        birthdays.updateSettings();
     }
 }

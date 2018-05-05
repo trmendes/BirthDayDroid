@@ -32,19 +32,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tmendes.birthdaydroid.BirthDayComparator;
-import com.tmendes.birthdaydroid.ContactData;
+import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 
 import java.util.ArrayList;
 
-public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements Filterable {
+public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filterable {
 
     private final Context ctx;
-    private ArrayList<ContactData> contactsBirthDays;
-    private final ArrayList<ContactData> orglBDList;
+    private ArrayList<Contact> contactsBirthDays;
+    private final ArrayList<Contact> orglBDList;
 
-    public BirthDayArrayAdapter(Context ctx, ArrayList<ContactData> contactsBirthDays) {
+    public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactsBirthDays) {
         super(ctx, -1, contactsBirthDays);
         this.ctx = ctx;
         this.contactsBirthDays = contactsBirthDays;
@@ -78,7 +78,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements F
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
 
-        final ContactData contact = contactsBirthDays.get(position);
+        final Contact contact = contactsBirthDays.get(position);
 
         if (contact != null) {
             viewHolder.tvContactName.setText(contact.getName());
@@ -109,7 +109,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements F
                 }
             }
 
-            if (contact.hasYear()) {
+            if (contact.isMissingData()) {
                 if (contact.getAge() != 0) {
                     viewHolder.tvContactAge.setText(ctx.getResources().getString(R.string.years_old, contact.getAge()));
                 } else {
@@ -155,7 +155,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements F
     }
 
     @Override
-    public ContactData getItem(int position) {
+    public Contact getItem(int position) {
         return contactsBirthDays.get(position);
     }
 
@@ -171,14 +171,14 @@ public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements F
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-                contactsBirthDays = (ArrayList<ContactData>) results.values;
+                contactsBirthDays = (ArrayList<Contact>) results.values;
                 notifyDataSetChanged();
             }
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<ContactData> FilteredArrList = new ArrayList<>();
+                ArrayList<Contact> FilteredArrList = new ArrayList<>();
 
                 if (constraint == null || constraint.length() == 0) {
                     results.count = orglBDList.size();
@@ -188,7 +188,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<ContactData> implements F
                     for (int i = 0; i < orglBDList.size(); i++) {
                         String data = orglBDList.get(i).getName();
                         if (data.toLowerCase().startsWith(constraint.toString())) {
-                            ContactData contact = new ContactData(ctx, orglBDList.get(i).getKey(), orglBDList.get(i).getName(), orglBDList.get(i).getDate(), orglBDList.get(i).getPhotoURI());
+                            Contact contact = new Contact(ctx, orglBDList.get(i).getKey(), orglBDList.get(i).getName(), orglBDList.get(i).getDate(), orglBDList.get(i).getPhotoURI());
                             FilteredArrList.add(contact);
                         }
                     }

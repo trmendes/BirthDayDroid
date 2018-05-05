@@ -33,7 +33,7 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 
-import com.tmendes.birthdaydroid.ContactData;
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class MessageNotification {
         }
     }
 
-    public static void notify(final Context context, ContactData contact, String msgShareBody, boolean customMsg, long daysUntil) throws IOException {
+    public static void notify(final Context context, Contact contact, String msgShareBody, boolean customMsg, long daysUntil) throws IOException {
 
         final Resources res = context.getResources();
 
@@ -72,7 +72,7 @@ public class MessageNotification {
 
         String notifyMsgBody;
         if (contact.isaPartyGoingOnToday()) {
-            if (contact.hasYear()) {
+            if (contact.isMissingData()) {
                 notifyMsgBody = res.getString(
                         R.string.message_notification_message, contact.getContactFirstName(), contact.getAge());
             } else {

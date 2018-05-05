@@ -58,9 +58,7 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onResume() {
             super.onResume();
-            ((MainActivity) getActivity()).updateSettings();
-            getPreferenceScreen().getSharedPreferences()
-                    .registerOnSharedPreferenceChangeListener(this);
+            //TODO UPDATE PREFERENCES
         }
 
         @Override
@@ -78,7 +76,7 @@ public class SettingsFragment extends Fragment {
                     key.equals("scan_in_advance_interval") ||
                     key.equals("custom_notification_message") ||
                     key.equals("custom_notification_status")) {
-                ((MainActivity) getActivity()).updateSettings();
+                //TODO UPDATE SETTINGS
             }
         }
     }

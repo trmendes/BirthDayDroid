@@ -26,7 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.tmendes.birthdaydroid.BirthDayDataList;
+import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.R;
 
 import java.text.DateFormatSymbols;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ public class StatisticsFragment extends Fragment {
                 container, false);
 
         ctx = container.getContext();
-        BirthDayDataList data = BirthDayDataList.getBirthDayDataList(this.ctx);
+        BirthDay data = BirthDay.getBirthDayList(this.ctx);
         DateFormatSymbols dfs = new DateFormatSymbols();
 
         int contactsCounter = data.getList().size();
