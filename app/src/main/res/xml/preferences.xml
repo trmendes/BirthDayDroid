@@ -34,6 +34,7 @@
             android:key="custom_notification_status"
             android:summary="@string/settings_custom_not_sum"
             android:title="@string/settings_custom_not_title" />
+        <!--suppress AndroidDomInspection -->
         <EditTextPreference
             android:defaultValue=""
             android:inputType="text"
