@@ -137,26 +137,26 @@ public class Contact {
         /* In case the birthday is over we add 1 year to the age */
         if (nextBirthday.getTimeInMillis() < nowCal.getTimeInMillis()) {
             nextBirthday.add(Calendar.YEAR, 1);
+        }
+
+        /* Mark those we have to celebrate today \o/ */
+        if (isLeapYear) {
+            if ((nowCal.get(Calendar.DAY_OF_MONTH) == 1)
+                    && (bornOn.get(Calendar.DAY_OF_MONTH) == 29)
+                    && (nowCal.get(Calendar.MONTH) == Calendar.MARCH)) {
+                letsCelebrate = true;
+                ++age;
+            } else if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
+                    && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
+                letsCelebrate = true;
+                ++age;
+            }
         } else {
-            /* Mark those we have to celebrate today \o/ */
-            if (isLeapYear) {
-                if ((nowCal.get(Calendar.DAY_OF_MONTH) == 1)
-                        && (bornOn.get(Calendar.DAY_OF_MONTH) == 29)
-                        && (nowCal.get(Calendar.MONTH) == Calendar.MARCH)) {
-                    letsCelebrate = true;
-                    ++age;
-                } else if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                        && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
-                    letsCelebrate = true;
-                    ++age;
-                }
-            } else {
-                /* In case the birthday is today */
-                if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                        && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
-                    letsCelebrate = true;
-                    ++age;
-                }
+            /* In case the birthday is today */
+            if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
+                    && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
+                letsCelebrate = true;
+                ++age;
             }
         }
     }
