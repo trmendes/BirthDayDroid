@@ -15,7 +15,6 @@ import java.util.GregorianCalendar;
 
 public class BirthDayAlarm {
 
-    private final PendingIntent pIntent;
     private final Context ctx;
 
     public final static String ACTION_BD_NOTIFICATION = "com.tmendes.birthdaydroid.NOTIFICATION";
@@ -24,7 +23,7 @@ public class BirthDayAlarm {
         this.ctx = ctx;
         Intent intentAlarm = new Intent(this.ctx, BirthDayBroadcastReceiver.class);
         intentAlarm.setAction(ACTION_BD_NOTIFICATION);
-        pIntent = PendingIntent.getBroadcast(this.ctx, 1, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this.ctx, 1, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         updateSettings();
     }
 
