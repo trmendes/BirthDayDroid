@@ -70,7 +70,7 @@ public class Contact {
         this.key = key;
         this.name = name;
         this.date = date;
-        photoURI = photoURI;
+        this.photoURI = photoURI;
 
         parseContactBirthdayField(date);
 
