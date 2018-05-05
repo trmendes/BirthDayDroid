@@ -44,13 +44,13 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     private final Context ctx;
 
     private ArrayList<Contact> birthDayList;
-    private final ArrayList<Contact> orglBDList;
+    private final ArrayList<Contact> bdListToRestoreAfterFiltering;
 
     public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactsBirthDays) {
         super(ctx, -1, contactsBirthDays);
         this.ctx = ctx;
         this.birthDayList = contactsBirthDays;
-        this.orglBDList = (ArrayList<Contact>) contactsBirthDays.clone();
+        this.bdListToRestoreAfterFiltering = this.birthDayList;
     }
 
     @NonNull
@@ -204,10 +204,14 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     public Filter getFilter() {
         return new Filter() {
 
-            @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-                birthDayList = (ArrayList<Contact>) results.values;
+                if (constraint.length() == 0) {
+                    birthDayList = bdListToRestoreAfterFiltering;
+                } else {
+                    //noinspection unchecked
+                    birthDayList = (ArrayList<Contact>) results.values;
+                }
                 notifyDataSetChanged();
             }
 
@@ -217,16 +221,18 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 ArrayList<Contact> FilteredArrList = new ArrayList<>();
 
                 if (constraint == null || constraint.length() == 0) {
-                    results.count = orglBDList.size();
-                    results.values = orglBDList;
+                    results.count = bdListToRestoreAfterFiltering.size();
+                    results.values = bdListToRestoreAfterFiltering;
                 } else {
                     constraint = constraint.toString().toLowerCase();
-                    for (int i = 0; i < orglBDList.size(); i++) {
-                        String data = orglBDList.get(i).getName();
+                    for (int i = 0; i < bdListToRestoreAfterFiltering.size(); i++) {
+                        String data = bdListToRestoreAfterFiltering.get(i).getName();
                         if (data.toLowerCase().startsWith(constraint.toString())) {
-                            Contact contact = new Contact(ctx, orglBDList.get(i).getKey(),
-                                    orglBDList.get(i).getName(), orglBDList.get(i).getDate(),
-                                    orglBDList.get(i).getPhotoURI());
+                            Contact contact = new Contact(ctx,
+                                    bdListToRestoreAfterFiltering.get(i).getKey(),
+                                    bdListToRestoreAfterFiltering.get(i).getName(),
+                                    bdListToRestoreAfterFiltering.get(i).getDate(),
+                                    bdListToRestoreAfterFiltering.get(i).getPhotoURI());
                             FilteredArrList.add(contact);
                         }
                     }
