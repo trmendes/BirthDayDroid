@@ -23,9 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.tmendes.birthdaydroid.BirthDayAlarm;
-import com.tmendes.birthdaydroid.BirthDay;
-
 public class BirthDayBroadcastReceiver extends BroadcastReceiver {
 
     private boolean isBatOk = true;
@@ -45,19 +42,6 @@ public class BirthDayBroadcastReceiver extends BroadcastReceiver {
             case Intent.ACTION_BATTERY_OKAY:
                 isBatOk = true;
                 break;
-        }
-
-        if (intent.getAction().equals(BirthDayAlarm.ACTION_BD_NOTIFICATION)) {
-            if (keepShowing) {
-                /* We're going to lie to this app because the users told us to do so by
-                * asking us to show notifications even though the battery is running low */
-                isBatOk = true;
-            }
-
-            if (isBatOk) {
-                BirthDay bd = BirthDay.getBirthDayList(context);
-                bd.shallWeCelebrate();
-            }
         }
     }
 }
