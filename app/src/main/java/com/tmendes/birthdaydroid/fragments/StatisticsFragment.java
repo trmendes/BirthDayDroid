@@ -44,100 +44,103 @@ public class StatisticsFragment extends Fragment {
                 container, false);
 
         ctx = container.getContext();
-        BirthDay data = BirthDay.getBirthDayList(this.ctx);
-        DateFormatSymbols dfs = new DateFormatSymbols();
-
-        int contactsCounter = data.getList().size();
-
-        Map<Integer, Integer> ageStat = data.getAgeStats();
-        Map<String, Integer> signStat = data.getSignStats();
-        Map<Integer, Integer> monthStat = data.getMonthStats();
-        Map<Integer, Integer> weekStat = data.getWeekStats();
 
         Button buttonAges = (Button) v.findViewById(R.id.buttonAges);
         Button buttonSign = (Button) v.findViewById(R.id.buttonSign);
         Button buttonMonth = (Button) v.findViewById(R.id.buttonMonth);
         Button buttonWeek = (Button) v.findViewById(R.id.buttonWeek);
 
-        Iterator it;
-
-        it = ageStat.entrySet().iterator();
-
-        String dialogData = ctx.getResources().getString(R.string.statistics_contacts_counter, contactsCounter);
-
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            int age = (int) pair.getKey();
-            int number = (int) pair.getValue();
-            dialogData += ctx.getResources().getString(R.string.statistics_int_int, number, age);
-        }
-
-        final String finalDialogDataAges = dialogData;
         buttonAges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                BirthDay bdData = BirthDay.getBirthDayList(ctx);
+                Map<Integer, Integer> ageStat = bdData.getAgeStats();
+                String dialogData = ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
+                Iterator it = ageStat.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry) it.next();
+                    int age = (int) pair.getKey();
+                    int number = (int) pair.getValue();
+                    dialogData += ctx.getResources()
+                            .getString(R.string.statistics_int_int, number, age);
+                }
+
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_age_title));
-                alertDialog.setMessage(finalDialogDataAges);
+                alertDialog.setMessage(dialogData);
                 alertDialog.show();
             }
 
         });
 
-        it = signStat.entrySet().iterator();
-        dialogData = ctx.getResources().getString(R.string.statistics_contacts_counter, contactsCounter);
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            String sign = (String) pair.getKey();
-            int number = (int) pair.getValue();
-            dialogData += ctx.getResources().getString(R.string.statistics_int_string, number, sign);
-        }
-
-        final String finalDialogDataSign = dialogData;
         buttonSign.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                BirthDay bdData = BirthDay.getBirthDayList(ctx);
+                Map<String, Integer> signStat = bdData.getSignStats();
+                Iterator it = signStat.entrySet().iterator();
+                String dialogData = ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry) it.next();
+                    String sign = (String) pair.getKey();
+                    int number = (int) pair.getValue();
+                    dialogData += ctx.getResources()
+                            .getString(R.string.statistics_int_string, number, sign);
+                }
+
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_sign_title));
-                alertDialog.setMessage(finalDialogDataSign);
+                alertDialog.setMessage(dialogData);
                 alertDialog.show();
             }
 
         });
 
-        it = monthStat.entrySet().iterator();
-        dialogData = ctx.getResources().getString(R.string.statistics_contacts_counter, contactsCounter);
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            int month = (int) pair.getKey();
-            int number = (int) pair.getValue();
-            dialogData += ctx.getResources().getString(R.string.statistics_int_string, number, dfs.getMonths()[month]);
-        }
-
-        final String finalDialogDataMonth = dialogData;
         buttonMonth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                BirthDay bdData = BirthDay.getBirthDayList(ctx);
+                Map<Integer, Integer> monthStat = bdData.getMonthStats();
+                DateFormatSymbols dfs = new DateFormatSymbols();
+                Iterator it = monthStat.entrySet().iterator();
+                String dialogData = ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry) it.next();
+                    int month = (int) pair.getKey();
+                    int number = (int) pair.getValue();
+                    dialogData += ctx.getResources()
+                            .getString(R.string.statistics_int_string,
+                                    number, dfs.getMonths()[month]);
+                }
+
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_month_title));
-                alertDialog.setMessage(finalDialogDataMonth);
+                alertDialog.setMessage(dialogData);
                 alertDialog.show();
             }
 
         });
 
-        it = weekStat.entrySet().iterator();
-        dialogData = ctx.getResources().getString(R.string.statistics_contacts_counter, contactsCounter);
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            int week = (int) pair.getKey();
-            int number = (int) pair.getValue();
-            dialogData += ctx.getResources().getString(R.string.statistics_int_string, number, dfs.getWeekdays()[week]);
-        }
-
-        final String finalDialogDataWeek = dialogData;
         buttonWeek.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                BirthDay bdData = BirthDay.getBirthDayList(ctx);
+                Map<Integer, Integer> weekStat = bdData.getWeekStats();
+                DateFormatSymbols dfs = new DateFormatSymbols();
+                Iterator it = weekStat.entrySet().iterator();
+                String dialogData = ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry) it.next();
+                    int week = (int) pair.getKey();
+                    int number = (int) pair.getValue();
+                    dialogData += ctx.getResources()
+                            .getString(R.string.statistics_int_string,
+                                    number, dfs.getWeekdays()[week]);
+                }
+
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_week_title));
-                alertDialog.setMessage(finalDialogDataWeek);
+                alertDialog.setMessage(dialogData);
                 alertDialog.show();
             }
 
