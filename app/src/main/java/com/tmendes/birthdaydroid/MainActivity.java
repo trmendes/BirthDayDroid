@@ -18,6 +18,7 @@
 package com.tmendes.birthdaydroid;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -71,9 +72,7 @@ public class MainActivity extends AppCompatActivity
             fragment = ContactListFragment.class.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Fragment fragment;
         Class fragmentClass = null;
@@ -124,9 +123,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

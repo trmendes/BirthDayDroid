@@ -25,7 +25,6 @@
     <string name="birthday_string">%1$s/%2$d</string>
     <string name="contact_has_no_year">No year info :(</string>
     <string name="years_old" tools:ignore="PluralsCandidate">%1$d years old</string>
-    <string name="months_old" tools:ignore="PluralsCandidate">%1$d months old</string>
     <string name="days_old" tools:ignore="PluralsCandidate">%1$d days old</string>
     <string name="next_week_name">Next Birthday will be on %1$s</string>
     <string name="days_until" tools:ignore="PluralsCandidate">%1$d days until her/his birthday</string>
@@ -51,10 +50,6 @@
     <string name="settings_scan_preferences">Birthday Notification Settings</string>
     <string name="settings_scan_not_sum">Show Birthdays daily notifications</string>
     <string name="settings_scan_not_title">Daily notifications</string>
-    <string name="settings_scan_bat_low_sum">Keep showing notifications even when the battery is running low</string>
-    <string name="settings_scan_bat_low_title">Battery low notifications</string>
-    <string name="settings_precise_not_title">Precise Notifications</string>
-    <string name="settings_precise_not_sum">Shall we be precise about the time notification? Turning this feature off you save battery.</string>
     <string name="settings_scan_title">Time for daily notifications</string>
     <string name="settings_scan_not_adv_sum">Show Birthdays notifications in advance</string>
     <string name="settings_scan_not_adv_title">Birthday notifications in advance</string>

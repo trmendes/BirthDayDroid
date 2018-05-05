@@ -36,12 +36,16 @@ public class BirthDayBroadcastReceiver extends BroadcastReceiver {
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(context);
         keepShowing = s.getBoolean("check_battery_status", true);
 
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            new BirthDayAlarm(context);
-        } else if (intent.getAction().equals(Intent.ACTION_BATTERY_LOW)) {
-            isBatOk = false;
-        } else if (intent.getAction().equals(Intent.ACTION_BATTERY_OKAY)) {
-            isBatOk = true;
+        switch (intent.getAction()) {
+            case Intent.ACTION_BOOT_COMPLETED:
+                new BirthDayAlarm(context);
+                break;
+            case Intent.ACTION_BATTERY_LOW:
+                isBatOk = false;
+                break;
+            case Intent.ACTION_BATTERY_OKAY:
+                isBatOk = true;
+                break;
         }
 
         if (intent.getAction().equals(BirthDayAlarm.ACTION_BD_NOTIFICATION)) {

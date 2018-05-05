@@ -20,7 +20,6 @@
     <string name="contact_request_grated">Leitura de contados concedida</string>
     <string name="contact_request_denied">Leitura de contatos negada</string>
     <string name="contact_has_no_year">Sem info de ano :(</string>
-    <string name="months_old" tools:ignore="PluralsCandidate">%1$d meses</string>
     <string name="days_old" tools:ignore="PluralsCandidate">%1$d dias</string>
     <string name="years_old" tools:ignore="PluralsCandidate">%1$d anos</string>
     <string name="next_week_name">Próximo aniversário - %1$s</string>
@@ -47,10 +46,6 @@
     <string name="settings_scan_preferences">Configurações de notificações</string>
     <string name="settings_scan_not_sum">Notificar aniversários diariamente</string>
     <string name="settings_scan_not_title">Notificações diárias</string>
-    <string name="settings_scan_bat_low_sum">Continuar notificando mesmo com a bateria fraca</string>
-    <string name="settings_scan_bat_low_title">Notiicações com bateria fraca</string>
-    <string name="settings_precise_not_title">Notificações precisas</string>
-    <string name="settings_precise_not_sum">Devemos ser precisos quanto ao horário da notificação? Mantendo esta desligada você economiza bateria.</string>
     <string name="settings_scan_title">Horário das notificações diárias</string>
     <string name="settings_scan_not_adv_sum">Mostras notificações de aniversário com antecedência</string>
     <string name="settings_scan_not_adv_title">Notificações com antecedência</string>
@@ -92,5 +87,5 @@
     <string name="array_order_name">Nome</string>
     <string name="array_order_next">Dias para o próximo aniversário</string>
     <string name="array_order_sign">Signo</string>
-    <string name="birthday_string">/%2$s/%1$s</string>
+    <string name="birthday_string">%1$s/%2$d</string>
 </resources>

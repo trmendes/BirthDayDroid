@@ -21,9 +21,8 @@
   <string name="search">連絡先を検索</string>
   <string name="contact_request_grated">連絡先の読み取り許可を与えました</string>
   <string name="contact_request_denied">連絡先の読み取り権限が必要です</string>
-  <string name="birthday_string">%1$s %2$s日</string>
+  <string name="birthday_string">%1$s/%2$d</string>
   <string name="contact_has_no_year">年度情報がありません</string>
-  <string name="months_old" tools:ignore="PluralsCandidate">%1$d months old</string>
   <string name="days_old" tools:ignore="PluralsCandidate">%1$d days old</string>
   <string name="years_old" tools:ignore="PluralsCandidate">%1$d 歳</string>
   <string name="next_week_name">次の誕生日は %1$s です</string>
@@ -50,10 +49,6 @@
   <string name="settings_scan_preferences">誕生日通知の設定</string>
   <string name="settings_scan_not_sum">1日ごとに誕生日の通知を表示します</string>
   <string name="settings_scan_not_title">毎日の通知</string>
-  <string name="settings_scan_bat_low_sum">バッテリー残量が少ないときにも通知を表示する</string>
-  <string name="settings_scan_bat_low_title">バッテリー低下時の通知</string>
-  <string name="settings_precise_not_title">細密な通知</string>
-  <string name="settings_precise_not_sum">通知をより細密にしましょうか？　この機能はバッテリーセーブモードをオフにします。</string>
   <string name="settings_scan_title">毎日の通知の時刻設定</string>
   <string name="settings_scan_not_adv_sum">誕生日を事前に表示して通知します</string>
   <string name="settings_scan_not_adv_title">事前に誕生日を通知</string>

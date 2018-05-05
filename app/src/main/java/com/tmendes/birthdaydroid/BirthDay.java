@@ -151,22 +151,22 @@ public class BirthDay {
                 int bWeek = contact.getBirthDayWeek();
 
                 if (ageStats.get(age) != null) {
-                    ageStats.put(age, ageStats.get(age).intValue() + 1);
+                    ageStats.put(age, ageStats.get(age) + 1);
                 } else {
                     ageStats.put(age, 1);
                 }
                 if (signStats.get(sign) != null) {
-                    signStats.put(sign, signStats.get(sign).intValue() + 1);
+                    signStats.put(sign, signStats.get(sign) + 1);
                 } else {
                     signStats.put(sign, 1);
                 }
                 if (monthStats.get(month) != null) {
-                    monthStats.put(month,  monthStats.get(month).intValue() + 1);
+                    monthStats.put(month, monthStats.get(month) + 1);
                 } else {
                     monthStats.put(month, 1);
                 }
                 if (weekStats.get(bWeek) != null) {
-                    weekStats.put(bWeek, weekStats.get(bWeek).intValue() + 1);
+                    weekStats.put(bWeek, weekStats.get(bWeek) + 1);
                 } else {
                     weekStats.put(bWeek, 1);
                 }

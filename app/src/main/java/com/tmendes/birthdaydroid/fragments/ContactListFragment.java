@@ -59,7 +59,7 @@ public class ContactListFragment extends Fragment {
     private Context ctx;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_contact_list,
@@ -75,11 +75,11 @@ public class ContactListFragment extends Fragment {
 
         this.adapter = new BirthDayArrayAdapter(this.ctx, this.birthdayData.getList());
 
-        ListView listView = (ListView) v.findViewById(R.id.lvContacts);
+        ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
         listView.setAdapter(this.adapter);
 
-        inputSearch = (EditText) v.findViewById(R.id.inputSearch);
+        inputSearch = v.findViewById(R.id.inputSearch);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -107,12 +107,6 @@ public class ContactListFragment extends Fragment {
         return v;
     }
 
-    /**
-     * Called when the fragment is visible to the user and actively running.
-     * This is generally
-     * tied to {@link Activity#onResume() Activity.onResume} of the containing
-     * Activity's lifecycle.
-     */
     @Override
     public void onResume() {
         super.onResume();

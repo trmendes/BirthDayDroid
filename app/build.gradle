@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.tmendes.birthdaydroid"
@@ -78,7 +78,7 @@ allprojects {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:support-v4:27.1.1'
+    compile 'com.android.support:design:27.1.1'
 }

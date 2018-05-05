@@ -19,6 +19,7 @@ package com.tmendes.birthdaydroid.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -30,14 +31,13 @@ import com.tmendes.birthdaydroid.BirthDay;
 import com.tmendes.birthdaydroid.R;
 
 import java.text.DateFormatSymbols;
-import java.util.Iterator;
 import java.util.Map;
 
 public class StatisticsFragment extends Fragment {
 
     private Context ctx;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_statistics,
@@ -45,29 +45,29 @@ public class StatisticsFragment extends Fragment {
 
         ctx = container.getContext();
 
-        Button buttonAges = (Button) v.findViewById(R.id.buttonAges);
-        Button buttonSign = (Button) v.findViewById(R.id.buttonSign);
-        Button buttonMonth = (Button) v.findViewById(R.id.buttonMonth);
-        Button buttonWeek = (Button) v.findViewById(R.id.buttonWeek);
+        Button buttonAges = v.findViewById(R.id.buttonAges);
+        Button buttonSign = v.findViewById(R.id.buttonSign);
+        Button buttonMonth = v.findViewById(R.id.buttonMonth);
+        Button buttonWeek = v.findViewById(R.id.buttonWeek);
 
         buttonAges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 BirthDay bdData = BirthDay.getBirthDayList(ctx);
                 Map<Integer, Integer> ageStat = bdData.getAgeStats();
-                String dialogData = ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
-                Iterator it = ageStat.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry) it.next();
+                StringBuilder dialogData = new StringBuilder(ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+
+                for (Object o : ageStat.entrySet()) {
+                    Map.Entry pair = (Map.Entry) o;
                     int age = (int) pair.getKey();
                     int number = (int) pair.getValue();
-                    dialogData += ctx.getResources()
-                            .getString(R.string.statistics_int_int, number, age);
+                    dialogData.append(ctx.getResources()
+                            .getString(R.string.statistics_int_int, number, age));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_age_title));
-                alertDialog.setMessage(dialogData);
+                alertDialog.setMessage(dialogData.toString());
                 alertDialog.show();
             }
 
@@ -77,20 +77,20 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 BirthDay bdData = BirthDay.getBirthDayList(ctx);
                 Map<String, Integer> signStat = bdData.getSignStats();
-                Iterator it = signStat.entrySet().iterator();
-                String dialogData = ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry) it.next();
+                StringBuilder dialogData = new StringBuilder(ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+
+                for (Object o : signStat.entrySet()) {
+                    Map.Entry pair = (Map.Entry) o;
                     String sign = (String) pair.getKey();
                     int number = (int) pair.getValue();
-                    dialogData += ctx.getResources()
-                            .getString(R.string.statistics_int_string, number, sign);
+                    dialogData.append(ctx.getResources()
+                            .getString(R.string.statistics_int_string, number, sign));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_sign_title));
-                alertDialog.setMessage(dialogData);
+                alertDialog.setMessage(dialogData.toString());
                 alertDialog.show();
             }
 
@@ -101,21 +101,21 @@ public class StatisticsFragment extends Fragment {
                 BirthDay bdData = BirthDay.getBirthDayList(ctx);
                 Map<Integer, Integer> monthStat = bdData.getMonthStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
-                Iterator it = monthStat.entrySet().iterator();
-                String dialogData = ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry) it.next();
+                StringBuilder dialogData = new StringBuilder(ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+
+                for (Object o : monthStat.entrySet()) {
+                    Map.Entry pair = (Map.Entry) o;
                     int month = (int) pair.getKey();
                     int number = (int) pair.getValue();
-                    dialogData += ctx.getResources()
+                    dialogData.append(ctx.getResources()
                             .getString(R.string.statistics_int_string,
-                                    number, dfs.getMonths()[month]);
+                                    number, dfs.getMonths()[month]));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_month_title));
-                alertDialog.setMessage(dialogData);
+                alertDialog.setMessage(dialogData.toString());
                 alertDialog.show();
             }
 
@@ -126,21 +126,21 @@ public class StatisticsFragment extends Fragment {
                 BirthDay bdData = BirthDay.getBirthDayList(ctx);
                 Map<Integer, Integer> weekStat = bdData.getWeekStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
-                Iterator it = weekStat.entrySet().iterator();
-                String dialogData = ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size());
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry) it.next();
+                StringBuilder dialogData = new StringBuilder(ctx.getResources()
+                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+
+                for (Object o : weekStat.entrySet()) {
+                    Map.Entry pair = (Map.Entry) o;
                     int week = (int) pair.getKey();
                     int number = (int) pair.getValue();
-                    dialogData += ctx.getResources()
+                    dialogData.append(ctx.getResources()
                             .getString(R.string.statistics_int_string,
-                                    number, dfs.getWeekdays()[week]);
+                                    number, dfs.getWeekdays()[week]));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_week_title));
-                alertDialog.setMessage(dialogData);
+                alertDialog.setMessage(dialogData.toString());
                 alertDialog.show();
             }
 

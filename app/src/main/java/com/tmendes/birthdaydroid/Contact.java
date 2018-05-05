@@ -28,12 +28,12 @@ import java.util.GregorianCalendar;
 
 public class Contact {
 
-    private String name;
+    private final String name;
     private String sign;
     private String signElement;
-    private String key;
-    private String photoURI;
-    private String date;
+    private final String key;
+    private final String photoURI;
+    private final String date;
 
     private int day;
     private int month;
@@ -60,10 +60,6 @@ public class Contact {
             "dd-MM-yyyy",
             "dd-MM-yyyy hh:mm:ss.SSS",
     };
-
-    public Contact(Context ctx) {
-        this.ctx = ctx;
-    }
 
     public Contact(Context ctx, String key, String name, String date, String photoURI) {
         this.ctx = ctx;
@@ -278,18 +274,6 @@ public class Contact {
         }
     }
 
-    public void setName(String name) {
-        name = name;
-    }
-
-    public void setKeyID(String keyID) {
-        key = keyID;
-    }
-
-    public void setPhotoURI(String photoURI) {
-        photoURI = photoURI;
-    }
-
     public String getMonthName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
         return dfs.getMonths()[month];
@@ -357,8 +341,8 @@ public class Contact {
             return 0L;
         }
 
-        long timeDiffMs = 0;
-        long days = 0;
+        long timeDiffMs;
+        long days;
 
         Calendar now = Calendar.getInstance();
 
