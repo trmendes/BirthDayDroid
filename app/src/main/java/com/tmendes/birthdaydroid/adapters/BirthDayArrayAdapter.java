@@ -159,7 +159,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                         Intent i;
                         i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(
-                                ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + contact.getKey()));
+                                ContactsContract.Contacts.CONTENT_LOOKUP_URI
+                                        + "/" + contact.getKey()));
                         ctx.startActivity(i);
                     }
                 });
