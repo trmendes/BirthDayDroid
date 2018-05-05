@@ -137,10 +137,6 @@ public class MessageNotification {
     private static void notify(final Context context, final Notification notification) {
         final NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-            nm.notify(notificationId, 0, notification);
-        } else {
-            nm.notify(notificationId.hashCode(), notification);
-        }
+        nm.notify(notificationId, 0, notification);
     }
 }
