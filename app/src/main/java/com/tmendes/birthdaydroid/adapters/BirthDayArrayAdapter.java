@@ -57,111 +57,119 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
         ViewHolderItem viewHolder;
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) ctx
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.contact_list_item, parent, false);
-
-            viewHolder = new ViewHolderItem();
-
-            viewHolder.name = (TextView) convertView.findViewById(R.id.tvContactName);
-
-            viewHolder.birthDayWeekName =
-                    (TextView) convertView.findViewById(R.id.tvContactNextBirthDayWeekName);
-
-            viewHolder.age = (TextView) convertView.findViewById(R.id.tvContactAge);
-
-            viewHolder.daysToGo =
-                    (TextView) convertView.findViewById(R.id.tvContactDaysUntil);
-
-            viewHolder.signElement = (TextView) convertView.findViewById(R.id.tvSignAndElement);
-
-            viewHolder.bornOn = (TextView) convertView.findViewById(R.id.tvBirthDay);
-
-            viewHolder.picture =
-                    (ImageView) convertView.findViewById(R.id.ivContactPicture);
-
-            viewHolder.emojiParty = (LinearLayout) convertView.findViewById(R.id.emojiParty);
-
-            viewHolder.emojiPartyTomorrow =
-                    (LinearLayout) convertView.findViewById(R.id.emojiPartyTomorrow);
-
-            convertView.setTag(viewHolder);
-
-        } else {
-            viewHolder = (ViewHolderItem) convertView.getTag();
-        }
-
         final Contact contact = birthDayList.get(position);
 
-        if (contact != null) {
-            viewHolder.name.setText(contact.getName());
+        if (!contact.isMissingData()) {
 
-            viewHolder.birthDayWeekName
-                    .setText(ctx.getResources()
-                            .getString(R.string.next_week_name, contact.getNextBirtDayWeekName()));
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) ctx
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater
+                        .inflate(R.layout.contact_list_item, parent, false);
 
-            viewHolder.signElement.setText(
-                    ctx.getResources().getString(R.string.dual_string,
-                            contact.getSign(), contact.getSignElement()));
+                viewHolder = new ViewHolderItem();
 
-            viewHolder.bornOn.setText(ctx.getResources()
-                    .getString(R.string.birthday_string, new Object[]{contact.getMonthName(), contact.getDay()}));
+                viewHolder.name = (TextView) convertView.findViewById(R.id.tvContactName);
 
-            if (contact.getPhotoURI() != null) {
-                viewHolder.picture.setImageURI(Uri.parse(contact.getPhotoURI()));
+                viewHolder.birthDayWeekName =
+                        (TextView) convertView.findViewById(R.id.tvContactNextBirthDayWeekName);
+
+                viewHolder.age = (TextView) convertView.findViewById(R.id.tvContactAge);
+
+                viewHolder.daysToGo =
+                        (TextView) convertView.findViewById(R.id.tvContactDaysUntil);
+
+                viewHolder.signElement = (TextView) convertView.findViewById(R.id.tvSignAndElement);
+
+                viewHolder.bornOn = (TextView) convertView.findViewById(R.id.tvBirthDay);
+
+                viewHolder.picture =
+                        (ImageView) convertView.findViewById(R.id.ivContactPicture);
+
+                viewHolder.emojiParty = (LinearLayout) convertView.findViewById(R.id.emojiParty);
+
+                viewHolder.emojiPartyTomorrow =
+                        (LinearLayout) convertView.findViewById(R.id.emojiPartyTomorrow);
+
+                convertView.setTag(viewHolder);
+
             } else {
-                viewHolder.picture.setImageDrawable(
-                        ContextCompat.getDrawable(ctx, R.drawable.ic_account_circle_black_24dp));
+                viewHolder = (ViewHolderItem) convertView.getTag();
             }
 
-            if (contact.isaPartyGoingOnToday()) {
-                viewHolder.daysToGo.setText(
-                        ctx.getResources().getString(R.string.days_until_birthday));
-                viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-                viewHolder.emojiParty.setVisibility(View.VISIBLE);
-            } else {
-                if (contact.getDaysUntilNextBirthDay() == 1) {
-                    viewHolder.daysToGo.setText(
-                            ctx.getResources().getString(R.string.birthday_tomorrow));
-                    viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
-                    viewHolder.emojiParty.setVisibility(View.INVISIBLE);
+            if (contact != null) {
+                viewHolder.name.setText(contact.getName());
+
+                viewHolder.birthDayWeekName
+                        .setText(ctx.getResources()
+                                .getString(R.string.next_week_name, contact.getNextBirtDayWeekName()));
+
+                viewHolder.signElement.setText(
+                        ctx.getResources().getString(R.string.dual_string,
+                                contact.getSign(), contact.getSignElement()));
+
+                viewHolder.bornOn.setText(ctx.getResources()
+                        .getString(R.string.birthday_string,
+                                new Object[]{contact.getMonthName(), contact.getDay()}));
+
+                if (contact.getPhotoURI() != null) {
+                    viewHolder.picture.setImageURI(Uri.parse(contact.getPhotoURI()));
                 } else {
-                    viewHolder.daysToGo
-                            .setText(ctx.getResources().getString(
-                                    R.string.days_until, contact.getDaysUntilNextBirthDay()));
-                    viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-                    viewHolder.emojiParty.setVisibility(View.INVISIBLE);
+                    viewHolder.picture.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                    ctx, R.drawable.ic_account_circle_black_24dp));
                 }
-            }
 
-            if (contact.isMissingData()) {
-                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
-            } else {
-                if (contact.getAge() != 0) {
-                    viewHolder.age.setText(ctx.getResources()
-                            .getString(R.string.years_old, contact.getAge()));
+                if (contact.isaPartyGoingOnToday()) {
+                    viewHolder.daysToGo.setText(
+                            ctx.getResources().getString(R.string.days_until_birthday));
+                    viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
+                    viewHolder.emojiParty.setVisibility(View.VISIBLE);
                 } else {
-                    if (contact.getMonthAge() != 0 ) {
-                        viewHolder.age.setText(ctx.getResources()
-                                .getString(R.string.months_old, contact.getMonthAge()));
+                    if (contact.getDaysUntilNextBirthDay() == 1) {
+                        viewHolder.daysToGo.setText(
+                                ctx.getResources().getString(R.string.birthday_tomorrow));
+                        viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
+                        viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                     } else {
-                        viewHolder.age.setText(ctx.getResources()
-                                .getString(R.string.days_old, contact.getDaysAge()));
+                        viewHolder.daysToGo
+                                .setText(
+                                        ctx.getResources().getString(
+                                        R.string.days_until, contact.getDaysUntilNextBirthDay()));
+                        viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
+                        viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                     }
                 }
-            }
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i;
-                    i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(
-                            ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + contact.getKey()));
-                    ctx.startActivity(i);
+                if (contact.isMissingYear()) {
+                    viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+                } else {
+                    if (contact.getAge() != 0) {
+                        viewHolder.age.setText(ctx.getResources()
+                                .getString(R.string.years_old, contact.getAge()));
+                    } else {
+                        if (contact.getMonthAge() != 0) {
+                            viewHolder.age.setText(ctx.getResources()
+                                    .getString(R.string.months_old, contact.getMonthAge()));
+                        } else {
+                            viewHolder.age.setText(ctx.getResources()
+                                    .getString(R.string.days_old, contact.getDaysAge()));
+                        }
+                    }
                 }
-            });
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i;
+                        i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(
+                                ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" +
+                                        contact.getKey()));
+                        ctx.startActivity(i);
+                    }
+                });
+            }
         }
 
         return convertView;
