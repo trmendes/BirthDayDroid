@@ -353,7 +353,7 @@ public class Contact {
     }
 
     public Long getDaysUntilNextBirthDay() {
-        if (isaPartyGoingOnToday()) {
+        if (shallWeCelebrateToday()) {
             return 0L;
         }
 
@@ -374,7 +374,7 @@ public class Contact {
         return days;
     }
 
-    public boolean isaPartyGoingOnToday() {
+    public boolean shallWeCelebrateToday() {
         return letsCelebrate;
     }
 
@@ -390,7 +390,7 @@ public class Contact {
         return "Name: " + getName() + " - Age: " + getAge() + " - [d:" + getDay() + ":m:" +
                 getMonth() + ":y:" + getYear() + "] - " + " sign: " + getSign() + " - Element: " +
                 getSignElement() + " - isMissingData(): " + isMissingData() +
-                " aPartyGoingOnToday(): " + isaPartyGoingOnToday();
+                " aPartyGoingOnToday(): " + shallWeCelebrateToday();
     }
 
 }

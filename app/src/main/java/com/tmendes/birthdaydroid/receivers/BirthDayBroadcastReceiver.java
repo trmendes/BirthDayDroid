@@ -53,7 +53,7 @@ public class BirthDayBroadcastReceiver extends BroadcastReceiver {
 
             if (isBatOk) {
                 BirthDay bd = BirthDay.getBirthDayList(context);
-                bd.isThereAnyPartyToday();
+                bd.shallWeCelebrate();
             }
         }
     }

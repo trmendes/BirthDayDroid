@@ -120,7 +120,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                                     ctx, R.drawable.ic_account_circle_black_24dp));
                 }
 
-                if (contact.isaPartyGoingOnToday()) {
+                if (contact.shallWeCelebrateToday()) {
                     viewHolder.daysToGo.setText(
                             ctx.getResources().getString(R.string.days_until_birthday));
                     viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);

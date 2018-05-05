@@ -60,11 +60,11 @@ public class BirthDay {
         return birthdays;
     }
 
-    public boolean isThereAnyPartyToday() {
+    public boolean shallWeCelebrate() {
         if (this.contactList.size() == 0) {
             refreshList();
         }
-        return scanListForTodayBirthdays();
+        return scanListForParties();
     }
 
     public Map<Integer, Integer> getAgeStats() {
@@ -87,12 +87,12 @@ public class BirthDay {
         return contactList;
     }
 
-    private boolean scanListForTodayBirthdays() {
+    private boolean scanListForParties() {
         boolean anyNotification = false;
 
         for (Contact person : this.contactList) {
             /* Today notifications */
-            if (person.isaPartyGoingOnToday()) {
+            if (person.shallWeCelebrateToday()) {
                 if (showTodayNotifications) {
                     try {
                         MessageNotification.notify(this.ctx, person, notificationCustomMessage,
