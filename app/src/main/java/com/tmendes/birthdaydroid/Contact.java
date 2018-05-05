@@ -42,6 +42,7 @@ public class Contact {
     private int monthAge;
     private int daysAge;
 
+    private boolean missingYear = false;
     private boolean missingData = true;
     private boolean letsCelebrate = false;
 
@@ -94,12 +95,13 @@ public class Contact {
 
                 if (format.contains("y")) {
                     year = bornOn.get(Calendar.YEAR);
-                    missingData = false;
+                    missingYear = false;
                 } else {
                     year = 0;
-                    missingData = true;
+                    missingYear = true;
                 }
 
+                missingData = false;
                 break;
             } catch (ParseException ignored) {
                 missingData = true;
@@ -114,16 +116,19 @@ public class Contact {
         final boolean isLeapYear = ((nowYear % 4 == 0)
                 && (nowYear % 100 != 0) || (nowYear % 400 == 0));
 
-        final long diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
+        long diffBirthDayTodayMs;
 
         /* Years */
-        age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
-
-        if (age == 0) {
-            /* For those who are just born */
-            daysAge = (int) (diffBirthDayTodayMs / DAY);
-            if (daysAge < 0) {
-                daysAge = 0;
+        if (!missingYear) {
+            diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
+            age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
+            if (age == 0) {
+                /* For those who are just born */
+                daysAge = (int) (diffBirthDayTodayMs / DAY);
+                /* People still can't be born on the future /o\ */
+                if (daysAge < 0) {
+                    daysAge = 0;
+                }
             }
         }
 
@@ -377,7 +382,11 @@ public class Contact {
     }
 
     public boolean isMissingData() {
-        return year == 0;
+        return missingData;
+    }
+
+    public boolean isMissingYear() {
+        return missingYear;
     }
 
     public String toString() {
