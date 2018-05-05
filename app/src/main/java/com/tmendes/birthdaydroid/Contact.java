@@ -39,7 +39,6 @@ public class Contact {
     private int month;
     private int year;
     private int age;
-    private int monthAge;
     private int daysAge;
 
     private boolean missingYear = false;
@@ -360,19 +359,19 @@ public class Contact {
             return 0L;
         }
 
-        long timeDifferenceMilliseconds = 0;
+        long timeDiffMs = 0;
         long days = 0;
 
         Calendar now = Calendar.getInstance();
 
         if (nextBirthday.getTimeInMillis() >= now.getTimeInMillis()) {
-            timeDifferenceMilliseconds = nextBirthday.getTimeInMillis() - now.getTimeInMillis();
+            timeDiffMs = nextBirthday.getTimeInMillis() - now.getTimeInMillis();
         } else {
-            timeDifferenceMilliseconds = now.getTimeInMillis() - nextBirthday.getTimeInMillis();
+            timeDiffMs = now.getTimeInMillis() - nextBirthday.getTimeInMillis();
         }
 
         /* Days */
-        days = (int) (timeDifferenceMilliseconds / (60 * 60 * 1000 * 24)) + 1;
+        days = (int) (timeDiffMs / DAY) + 1;
 
         return days;
     }
