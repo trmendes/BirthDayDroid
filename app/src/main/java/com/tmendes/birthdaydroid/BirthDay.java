@@ -99,8 +99,9 @@ public class BirthDay {
 
         boolean anyNotification = false;
         boolean showTodayNotifications = prefs.getBoolean("scan_daily", false);
-        boolean showNotificationInAdvace = prefs.getBoolean("scan_daily", false);
-        int daysInAdvante = prefs.getInt("scan_in_advance_interval", 3);
+        boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
+        int daysInAdvance = Integer.parseInt(prefs
+                .getString("scan_in_advance_interval", "3"));
 
         if (!showTodayNotifications) {
             return false;
@@ -113,7 +114,7 @@ public class BirthDay {
                 postNotification(contact);
             }
             else if (showNotificationInAdvace &&
-                    (contact.getDaysUntilNextBirthDay() <= daysInAdvante)) {
+                    (contact.getDaysUntilNextBirthDay() <= daysInAdvance)) {
                 /* In advance notifications */
                 anyNotification = true;
                 postNotification(contact);

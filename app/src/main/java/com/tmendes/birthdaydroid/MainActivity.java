@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     // TAG - debug
     @SuppressWarnings("unused")
     public static final String TAG = "BirthDayDroid";
+    public static final int DEFAULT_ALARM_TIME = 8;
 
     private BirthDay birthdays;
 
