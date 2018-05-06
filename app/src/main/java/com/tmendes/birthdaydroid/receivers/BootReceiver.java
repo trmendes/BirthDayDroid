@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 public class BootReceiver extends BroadcastReceiver {
 
-    AlarmReceiver alarm = new AlarmReceiver();
+    private final AlarmReceiver alarm = new AlarmReceiver();
 
     @Override
     public void onReceive(Context context, Intent intent) {

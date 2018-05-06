@@ -18,7 +18,6 @@
 package com.tmendes.birthdaydroid;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -227,23 +226,6 @@ public class BirthDay {
     //FIXME REMOVE SUPPRESS
     private void postNotification(Contact contact) {
         try {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-            boolean useCustomMsg = prefs
-                    .getBoolean("custom_notification_status", false);
-            String customMsg = prefs.getString("custom_notification_message", "");
-
-            /* Activity Body Msg (on notify click) */
-            StringBuilder activityBodyMsg = new StringBuilder();
-            if (useCustomMsg && customMsg.length() > 0) {
-                activityBodyMsg.append(ctx.
-                        getString(R.string.message_notification_bt_to_come_share_body,
-                                contact.getContactFirstName()));
-            } else {
-                activityBodyMsg.append(ctx.
-                        getString(R.string.message_notification_share_body,
-                                contact.getContactFirstName()));
-            }
-
             /* Text to notify */
             /* Title */
             String title = contact.getName();

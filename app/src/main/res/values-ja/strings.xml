@@ -33,10 +33,6 @@
   <string name="message_notification_message_no_age">今日は %1$s の誕生日です</string>
   <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s はあと  %3$d 日で %2$d 歳になります</string>
   <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s は今日で %2$d 歳になります</string>
-  <string name="message_notification_share_title">Happy Birthday !</string>
-  <string name="message_notification_bt_to_come_title">お誕生日だね！</string>
-  <string name="message_notification_bt_to_come_share_body">やあ、 %1$s 、どうしてる？ 誕生日はどうするの？</string>
-  <string name="message_notification_share_body">ねえ、%1$s！最高のハッピーバースデーになりますように！</string>
   <string name="birthday_tomorrow">明日はあの人の誕生日です</string>
   <string name="menu_birthday_list">生年月日リスト</string>
   <string name="menu_scan_now">スキャンします</string>
@@ -53,10 +49,6 @@
   <string name="settings_scan_not_adv_title">事前に誕生日を通知</string>
   <string name="settings_scan_adv_sum">お友達を驚かせる準備をするために、何日前からあなたの連絡帳でお誕生日をチェックすればいいか教えてください</string>
   <string name="settings_scan_adv_title">カウントダウン設定</string>
-  <string name="settings_custom_not">通知のカスタム設定</string>
-  <string name="settings_custom_not_sum">自分で作った誕生日のお祝いメッセージを設定します</string>
-  <string name="settings_custom_not_title">誕生日のメッセージ設定</string>
-  <string name="settings_custom_msg_sum">あなたからの誕生日のお祝いメッセージを入力または編集してください</string>
   <string name="settings_list_preferences">誕生日リストの設定</string>
   <string name="settings_list_input_sum">日付/年齢/氏名/星座</string>
   <string name="settings_list_input_title">並び順</string>

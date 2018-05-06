@@ -35,10 +35,6 @@
     <string name="message_notification_message_bt_to_come_no_year">%1$s\'s birthday in %2$d day(s)</string>
     <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s turns %2$d in %3$d day(s)</string>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s is turning %2$d today</string>
-    <string name="message_notification_share_title">Happy Birthday!</string>
-    <string name="message_notification_bt_to_come_title">Birthday to come!</string>
-    <string name="message_notification_bt_to_come_share_body">Hey %1$s What\'s up? What are you up to on your Birthday?</string>
-    <string name="message_notification_share_body">Hi %1$s! I wish you a happy birthday and the best!</string>
     <string name="birthday_tomorrow">Tomorrow is her/his birthday</string>
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_scan_now">Scan Now</string>
@@ -55,10 +51,6 @@
     <string name="settings_scan_not_adv_title">Birthday notifications in advance</string>
     <string name="settings_scan_adv_sum">Tell us how many days in advance shall we check your contacts for their birthdays so you have time to prepare your friend a surprise</string>
     <string name="settings_scan_adv_title">Days in advance</string>
-    <string name="settings_custom_not">Custom notification Preferences</string>
-    <string name="settings_custom_not_sum">Set up a custom message for a birthday wish</string>
-    <string name="settings_custom_not_title">Custom birthday wish</string>
-    <string name="settings_custom_msg_sum">Enter or edit your custom birthday wish</string>
     <string name="settings_list_preferences">BirthDay List Preferences</string>
     <string name="settings_list_input_sum">Days/Age/Name/Sign</string>
     <string name="settings_list_input_title">Sort by</string>

@@ -27,20 +27,7 @@
             android:summary="@string/settings_scan_adv_sum"
             android:title="@string/settings_scan_adv_title" />
     </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/settings_custom_not">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="custom_notification_status"
-            android:summary="@string/settings_custom_not_sum"
-            android:title="@string/settings_custom_not_title" />
-        <!--suppress AndroidDomInspection -->
-        <EditTextPreference
-            android:defaultValue=""
-            android:inputType="text"
-            android:key="custom_notification_message"
-            android:title="@string/settings_custom_msg_sum" />
-    </PreferenceCategory>
+    
     <PreferenceCategory android:title="@string/settings_list_preferences">
         <ListPreference
             android:defaultValue="0"

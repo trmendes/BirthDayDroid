@@ -30,10 +30,6 @@
     <string name="message_notification_message_no_age">%1$s aniversário(s) hoje</string>
     <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s completará %2$d em %3$d dia(s)</string>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s esta completando %2$d hoje</string>
-    <string name="message_notification_share_title">Feliz Aniversário!</string>
-    <string name="message_notification_bt_to_come_title">Aniversário chegando!</string>
-    <string name="message_notification_bt_to_come_share_body">Oi %1$s Tudo bem? Quais são os planos para o seu aniversário?</string>
-    <string name="message_notification_share_body">Hi %1$s! Eu lhe desejo um feliz aniversário e tudo de melhor!</string>
     <string name="birthday_tomorrow">Amanhã é seu aniversário</string>
     <string name="menu_birthday_list">Aniversários</string>
     <string name="menu_scan_now">Buscar agora</string>
@@ -50,10 +46,6 @@
     <string name="settings_scan_not_adv_title">Notificações com antecedência</string>
     <string name="settings_scan_adv_sum">Nos diga quantos dias de antecedência devemos verificar os seus contactos em busca de aniversários para você ter tempo para preparar o seu amigo uma surpresa</string>
     <string name="settings_scan_adv_title">Dias de antecedência</string>
-    <string name="settings_custom_not">Preferências de notificação customizadas</string>
-    <string name="settings_custom_not_sum">Insira uma mensagem de aniversário customizada</string>
-    <string name="settings_custom_not_title">Mensagem de aniversário customizada</string>
-    <string name="settings_custom_msg_sum">Entre com uma mensagem de aniversário customizada</string>
     <string name="settings_list_preferences">Preferências da lista de aniversário</string>
     <string name="settings_list_input_sum">Dias/Idade/Nome/Signo</string>
     <string name="settings_list_input_title">Ordenar por</string>

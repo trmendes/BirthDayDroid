@@ -6,21 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 
-import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 
 public class NotificationHelper extends ContextWrapper {
     private NotificationManager notifManager;
-    private Context ctx;
+    private final Context ctx;
 
-    public static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
-    public static final String CHANNEL_ONE_NAME = "Channel One";
+    private static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
+    private static final String CHANNEL_ONE_NAME = "Channel One";
 
     public NotificationHelper(Context ctx) {
         super(ctx);
@@ -28,10 +26,10 @@ public class NotificationHelper extends ContextWrapper {
         createChannels();
     }
 
-    public void createChannels() {
+    private void createChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
-                    CHANNEL_ONE_NAME, notifManager.IMPORTANCE_HIGH);
+                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setShowBadge(true);

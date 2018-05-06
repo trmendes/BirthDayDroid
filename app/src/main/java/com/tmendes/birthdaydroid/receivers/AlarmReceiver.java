@@ -17,17 +17,14 @@ import static android.app.AlarmManager.INTERVAL_DAY;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    AlarmManager alarmManager;
-    PendingIntent alarmIntent;
-    private NotificationHelper notificationHelper;
-    private Context ctx;
+    private AlarmManager alarmManager;
+    private PendingIntent alarmIntent;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ctx = context;
-        notificationHelper = new NotificationHelper(ctx);
+        NotificationHelper notificationHelper = new NotificationHelper(context);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
     }
 
