@@ -17,7 +17,6 @@
 
 package com.tmendes.birthdaydroid;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -42,10 +41,8 @@ import java.util.TreeMap;
 
 public class BirthDay {
 
-    private static BirthDay birthdays;
-
     // Contact list
-    private ArrayList<Contact> contactList;
+    private final ArrayList<Contact> contactList;
 
     // Statistics about your friends
     private final Map<Integer, Integer> ageStats = new TreeMap<>();
@@ -53,17 +50,12 @@ public class BirthDay {
     private final Map<Integer, Integer> monthStats = new TreeMap<>();
     private final Map<Integer, Integer> weekStats = new TreeMap<>();
 
-    private Context ctx;
+    private final Context ctx;
 
-    public static BirthDay getBirthDayList(Context ctx) {
-        if (birthdays == null) {
-            birthdays = new BirthDay();
-            birthdays.ctx = ctx;
-            if (birthdays.contactList == null) {
-                birthdays.contactList = new ArrayList<>();
-            }
-        }
-        return birthdays;
+    public BirthDay(Context ctx) {
+        this.ctx = ctx;
+        contactList = new ArrayList<>();
+        refreshList();
     }
 
     public boolean shallWeCelebrate() {
@@ -222,8 +214,6 @@ public class BirthDay {
         );
     }
 
-    @SuppressLint("ResourceType")
-    //FIXME REMOVE SUPPRESS
     private void postNotification(Contact contact) {
         try {
             /* Text to notify */

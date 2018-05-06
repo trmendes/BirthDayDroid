@@ -28,7 +28,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
@@ -43,14 +42,10 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "BirthDayDroid";
     public static final int DEFAULT_ALARM_TIME = 8;
 
-    private BirthDay birthdays;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        this.birthdays = BirthDay.getBirthDayList(this.getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,11 +99,12 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_scan_now:
-                if (this.birthdays.shallWeCelebrate()) {
+                // FIXME Find another way!
+                /*if (this.birthdays.shallWeCelebrate()) {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_found), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found), Toast.LENGTH_LONG).show();
-                }
+                }*/
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;

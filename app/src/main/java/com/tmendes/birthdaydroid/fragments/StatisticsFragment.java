@@ -36,6 +36,7 @@ import java.util.Map;
 public class StatisticsFragment extends Fragment {
 
     private Context ctx;
+    private BirthDay birthDay;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class StatisticsFragment extends Fragment {
                 container, false);
 
         ctx = container.getContext();
+        birthDay = new BirthDay(ctx);
 
         Button buttonAges = v.findViewById(R.id.buttonAges);
         Button buttonSign = v.findViewById(R.id.buttonSign);
@@ -52,10 +54,10 @@ public class StatisticsFragment extends Fragment {
 
         buttonAges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                BirthDay bdData = BirthDay.getBirthDayList(ctx);
-                Map<Integer, Integer> ageStat = bdData.getAgeStats();
+                Map<Integer, Integer> ageStat = birthDay.getAgeStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+                        .getString(R.string.statistics_contacts_counter,
+                                birthDay.getList().size()));
 
                 for (Object o : ageStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -75,10 +77,10 @@ public class StatisticsFragment extends Fragment {
 
         buttonSign.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                BirthDay bdData = BirthDay.getBirthDayList(ctx);
-                Map<String, Integer> signStat = bdData.getSignStats();
+                Map<String, Integer> signStat = birthDay.getSignStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+                        .getString(R.string.statistics_contacts_counter,
+                                birthDay.getList().size()));
 
                 for (Object o : signStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -98,11 +100,11 @@ public class StatisticsFragment extends Fragment {
 
         buttonMonth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                BirthDay bdData = BirthDay.getBirthDayList(ctx);
-                Map<Integer, Integer> monthStat = bdData.getMonthStats();
+                Map<Integer, Integer> monthStat = birthDay.getMonthStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+                        .getString(R.string.statistics_contacts_counter,
+                                birthDay.getList().size()));
 
                 for (Object o : monthStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -123,11 +125,11 @@ public class StatisticsFragment extends Fragment {
 
         buttonWeek.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                BirthDay bdData = BirthDay.getBirthDayList(ctx);
-                Map<Integer, Integer> weekStat = bdData.getWeekStats();
+                Map<Integer, Integer> weekStat = birthDay.getWeekStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter, bdData.getList().size()));
+                        .getString(R.string.statistics_contacts_counter,
+                                birthDay.getList().size()));
 
                 for (Object o : weekStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;

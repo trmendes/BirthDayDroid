@@ -69,7 +69,7 @@ public class ContactListFragment extends Fragment {
 
         PreferenceManager.setDefaultValues(this.ctx, R.xml.preferences, false);
 
-        this.birthdayData = BirthDay.getBirthDayList(this.ctx);
+        this.birthdayData = new BirthDay(this.ctx);
 
         getPermissionToReadUserContactsAndRefreshIt();
 
