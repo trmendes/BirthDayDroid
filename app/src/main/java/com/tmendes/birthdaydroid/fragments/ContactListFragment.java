@@ -71,7 +71,7 @@ public class ContactListFragment extends Fragment {
 
         this.birthdayData = BirthDay.getBirthDayList(this.ctx);
 
-        getPermissionToReadUserContacts();
+        getPermissionToReadUserContactsAndRefreshIt();
 
         this.adapter = new BirthDayArrayAdapter(this.ctx, this.birthdayData.getList());
 
@@ -110,8 +110,8 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        birthdayData.refreshList();
-        this.updateSortSettings();
+        getPermissionToReadUserContactsAndRefreshIt();
+        updateSortSettings();
     }
 
     private void updateSortSettings() {
@@ -123,7 +123,7 @@ public class ContactListFragment extends Fragment {
 
     // Called when the user is performing an action which requires the app to read the
     // user's contacts
-    private void getPermissionToReadUserContacts() {
+    private void getPermissionToReadUserContactsAndRefreshIt() {
         if (ContextCompat.checkSelfPermission(this.ctx, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
 
