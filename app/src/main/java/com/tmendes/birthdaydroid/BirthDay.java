@@ -19,11 +19,9 @@ package com.tmendes.birthdaydroid;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -45,24 +43,17 @@ public class BirthDay {
     private final ArrayList<Contact> contactList;
 
     // Statistics about your friends
-    private final Map<Integer, Integer> ageStats = new TreeMap<>();
-    private final Map<String, Integer> signStats = new TreeMap<>();
-    private final Map<Integer, Integer> monthStats = new TreeMap<>();
-    private final Map<Integer, Integer> weekStats = new TreeMap<>();
+    private final Map<Integer, Integer> ageStats;
+    private final Map<String, Integer> signStats;
+    private final Map<Integer, Integer> monthStats;
+    private final Map<Integer, Integer> weekStats;
 
-    private final Context ctx;
-
-    public BirthDay(Context ctx) {
-        this.ctx = ctx;
+    public BirthDay() {
         contactList = new ArrayList<>();
-        refreshList();
-    }
-
-    public boolean shallWeCelebrate() {
-        if (this.contactList.size() == 0) {
-            refreshList();
-        }
-        return scanListForParties();
+        ageStats = new TreeMap<>();
+        signStats = new TreeMap<>();
+        monthStats = new TreeMap<>();
+        weekStats = new TreeMap<>();
     }
 
     public Map<Integer, Integer> getAgeStats() {
@@ -85,14 +76,14 @@ public class BirthDay {
         return contactList;
     }
 
-    private boolean scanListForParties() {
+    public boolean shallWeCelebrate(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-
-        boolean anyNotification = false;
         boolean showTodayNotifications = prefs.getBoolean("scan_daily", false);
         boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
         int daysInAdvance = Integer.parseInt(prefs
                 .getString("scan_in_advance_interval", "3"));
+
+        boolean anyNotification = false;
 
         if (!showTodayNotifications) {
             return false;
@@ -102,81 +93,20 @@ public class BirthDay {
             if (contact.shallWeCelebrateToday()) {
                 /* Today notifications */
                 anyNotification = true;
-                postNotification(contact);
+                postNotification(ctx, contact);
             }
             else if (showNotificationInAdvace &&
                     (contact.getDaysUntilNextBirthDay() <= daysInAdvance)) {
                 /* In advance notifications */
                 anyNotification = true;
-                postNotification(contact);
+                postNotification(ctx, contact);
             }
         }
 
         return anyNotification;
     }
 
-    public void refreshList() {
-
-        clearLists();
-
-        Cursor c = getCursor();
-
-        if (!c.moveToFirst()) {
-            c.close();
-            return;
-        }
-
-        final int keyColumn = c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
-        final int dateColumn = c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
-        final int nameColumn = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        final int photoColumn = c.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
-
-        do {
-            Contact contact = new Contact(this.ctx,
-                    c.getString(keyColumn),
-                    c.getString(nameColumn),
-                    c.getString(dateColumn),
-                    c.getString(photoColumn));
-
-            if (!contact.isMissingData()) {
-
-                String sign = contact.getSign();
-                int age = contact.getAge();
-                int month = contact.getMonth();
-                int bWeek = contact.getBirthDayWeek();
-
-                if (ageStats.get(age) != null) {
-                    ageStats.put(age, ageStats.get(age) + 1);
-                } else {
-                    ageStats.put(age, 1);
-                }
-                if (signStats.get(sign) != null) {
-                    signStats.put(sign, signStats.get(sign) + 1);
-                } else {
-                    signStats.put(sign, 1);
-                }
-                if (monthStats.get(month) != null) {
-                    monthStats.put(month, monthStats.get(month) + 1);
-                } else {
-                    monthStats.put(month, 1);
-                }
-                if (weekStats.get(bWeek) != null) {
-                    weekStats.put(bWeek, weekStats.get(bWeek) + 1);
-                } else {
-                    weekStats.put(bWeek, 1);
-                }
-
-            }
-
-            this.contactList.add(contact);
-
-
-        } while (c.moveToNext());
-
-        c.close();
-    }
-
-    private void clearLists() {
+    public void clearLists() {
         if (contactList != null) {
             contactList.clear();
             ageStats.clear();
@@ -186,35 +116,7 @@ public class BirthDay {
         }
     }
 
-    private Cursor getCursor() {
-        ContentResolver r = this.ctx.getContentResolver();
-
-        String[] projection = new String[]{
-                ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.LOOKUP_KEY,
-                ContactsContract.CommonDataKinds.Event.START_DATE,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-        };
-
-        String selection = ContactsContract.Data.MIMETYPE +
-                "=? AND " + ContactsContract.CommonDataKinds.Event.TYPE + "=?";
-
-        String[] args = new String[]{
-                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
-        };
-
-        return r.query(
-                ContactsContract.Data.CONTENT_URI,
-                projection,
-                selection,
-                args,
-                null
-        );
-    }
-
-    private void postNotification(Contact contact) {
+    private void postNotification(Context ctx, Contact contact) {
         try {
             /* Text to notify */
             /* Title */
@@ -262,10 +164,10 @@ public class BirthDay {
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
             /* Notify */
-            NotificationHelper nHelper = new NotificationHelper(this.ctx);
+            NotificationHelper nHelper = new NotificationHelper(ctx);
             Notification.Builder nBuilder = nHelper
                     .getNotification(title, body.toString(),
-                            notifyPicture, openContactPI, Color.RED);
+                            notifyPicture, openContactPI, Color.BLUE);
             nHelper.notify(System.currentTimeMillis(), nBuilder);
 
         } catch (IOException e) {

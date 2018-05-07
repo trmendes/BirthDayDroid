@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
 
 import java.text.DateFormatSymbols;
@@ -45,7 +46,7 @@ public class StatisticsFragment extends Fragment {
                 container, false);
 
         ctx = container.getContext();
-        birthDay = new BirthDay(ctx);
+        birthDay = ((MainActivity) getActivity()).getBirthDays();
 
         Button buttonAges = v.findViewById(R.id.buttonAges);
         Button buttonSign = v.findViewById(R.id.buttonSign);

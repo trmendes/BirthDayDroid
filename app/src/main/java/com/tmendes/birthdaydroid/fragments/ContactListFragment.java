@@ -17,16 +17,12 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -35,25 +31,17 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
-import com.tmendes.birthdaydroid.BirthDay;
 import com.tmendes.birthdaydroid.R;
 
 public class ContactListFragment extends Fragment {
-
-    // Identifier for the permission request
-    private static final int READ_CONTACTS_PERMISSIONS_REQUEST = 1;
-
     // Search EditText
     private EditText inputSearch;
 
     // Adapter
     private BirthDayArrayAdapter adapter;
-
-    // Birthdays
-    private BirthDay birthdayData;
 
     // Context
     private Context ctx;
@@ -65,22 +53,20 @@ public class ContactListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_contact_list,
                 container, false);
 
-        this.ctx = container.getContext();
+        ctx = container.getContext();
 
-        PreferenceManager.setDefaultValues(this.ctx, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(ctx, R.xml.preferences, false);
 
-        this.birthdayData = new BirthDay(this.ctx);
-
-        getPermissionToReadUserContactsAndRefreshIt();
-
-        this.adapter = new BirthDayArrayAdapter(this.ctx, this.birthdayData.getList());
+        adapter = new BirthDayArrayAdapter(ctx,
+                ((MainActivity) getActivity()).getBirthDays().getList());
 
         ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
-        listView.setAdapter(this.adapter);
+        listView.setAdapter(adapter);
 
         inputSearch = v.findViewById(R.id.inputSearch);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getActivity().getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         inputSearch.addTextChangedListener(new TextWatcher() {
 
@@ -102,7 +88,7 @@ public class ContactListFragment extends Fragment {
             }
         });
 
-        this.updateSortSettings();
+        updateSortSettings();
 
         return v;
     }
@@ -110,7 +96,7 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getPermissionToReadUserContactsAndRefreshIt();
+        ((MainActivity) getActivity()).refreshBirthDayList();
         updateSortSettings();
     }
 
@@ -119,51 +105,5 @@ public class ContactListFragment extends Fragment {
         int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
         int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
         adapter.sort(sortInput, sortMethod);
-    }
-
-    // Called when the user is performing an action which requires the app to read the
-    // user's contacts
-    private void getPermissionToReadUserContactsAndRefreshIt() {
-        if (ContextCompat.checkSelfPermission(this.ctx, Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // The permission is NOT already granted.
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.READ_CONTACTS)) {
-
-                AlertDialog.Builder builderDialog = new AlertDialog.Builder(this.ctx);
-                builderDialog.setMessage(ctx.getResources().getString(R.string.alert_contacts_dialog_msg));
-                builderDialog.setCancelable(true);
-                AlertDialog alertDialog = builderDialog.create();
-                alertDialog.show();
-
-            }
-
-            // Fire off an async request to actually get the permission
-            // This will show the standard permission request dialog UI
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
-                    READ_CONTACTS_PERMISSIONS_REQUEST);
-        } else {
-            birthdayData.refreshList();
-        }
-    }
-
-    // Callback with the request from calling requestPermissions(...)
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        // Make sure it's our original READ_CONTACTS request
-        if (requestCode == READ_CONTACTS_PERMISSIONS_REQUEST) {
-            if (grantResults.length == 1 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this.ctx, getResources().getString(R.string.contact_request_grated), Toast.LENGTH_SHORT).show();
-                birthdayData.refreshList();
-            } else {
-                Toast.makeText(this.ctx, getResources().getString(R.string.contact_request_denied), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
     }
 }

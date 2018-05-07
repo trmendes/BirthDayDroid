@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.tmendes.birthdaydroid"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 12
         versionName '20170615_VC12'
