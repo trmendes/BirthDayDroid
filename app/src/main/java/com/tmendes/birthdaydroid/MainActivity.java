@@ -18,12 +18,22 @@
 package com.tmendes.birthdaydroid;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -41,13 +51,13 @@ import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
+import com.tmendes.birthdaydroid.helpers.NotificationHelper;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    // TAG - debug
-    @SuppressWarnings("unused")
-    public static final String TAG = "BirthDayDroid";
 
     // the Default time to notify the user about a birthday
     public static final int DEFAULT_ALARM_TIME = 8;
@@ -65,7 +75,7 @@ public class MainActivity extends AppCompatActivity
 
         birthDays = new BirthDay();
 
-        refreshBirthDayList();
+            refreshBirthDayList();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,12 +129,17 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_scan_now:
-                if (this.birthDays.shallWeCelebrate(getApplicationContext())) {
-                    Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
-                            Toast.LENGTH_LONG).show();
-                } else {
+                ArrayList<Contact> notifications = this.birthDays.
+                        shallWeCelebrate(getApplicationContext());
+                if (notifications.size() == 0) {
                     Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),
                             Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
+                            Toast.LENGTH_LONG).show();
+                    for (Contact contact : notifications) {
+                        postNotification(this, contact);
+                    }
                 }
                 break;
             case R.id.nav_settings:
@@ -158,9 +173,7 @@ public class MainActivity extends AppCompatActivity
 
     public void refreshBirthDayList() {
 
-        if (!getPermissionToReadUserContacts()) {
-            return;
-        }
+        getPermissionToReadUserContacts();
 
         Cursor c = getCursor();
 
@@ -252,8 +265,6 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    // Called when the user is performing an action which requires the app to read the
-    // user's contacts
     private boolean getPermissionToReadUserContacts() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.READ_CONTACTS)
@@ -279,6 +290,8 @@ public class MainActivity extends AppCompatActivity
                     READ_CONTACTS_PERMISSIONS_REQUEST);
 
             return false;
+        } else {
+            refreshBirthDayList();
         }
 
         return true;
@@ -304,6 +317,67 @@ public class MainActivity extends AppCompatActivity
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void postNotification(MainActivity mainActivity, Contact contact) {
+        try {
+            /* Text to notify */
+            /* Title */
+            String title = contact.getName();
+            StringBuilder body = new StringBuilder();
+            if (contact.shallWeCelebrateToday()) {
+                if (contact.isMissingYear()) {
+                    body.append(getApplicationContext().getString(
+                            R.string.message_notification_message_no_age,
+                            contact.getContactFirstName()));
+                } else {
+                    body.append(getApplicationContext().getString(
+                            R.string.message_notification_message, contact.getContactFirstName(),
+                            contact.getAge()));
+                }
+            } else {
+                if (contact.isMissingYear()) {
+                    body.append(getApplicationContext().getString(
+                            R.string.message_notification_message_bt_to_come_no_year,
+                            contact.getContactFirstName(),
+                            contact.getDaysUntilNextBirthDay()));
+                } else {
+                    body.append(getApplicationContext().getString(
+                            R.string.message_notification_message_bt_to_come,
+                            contact.getContactFirstName(), contact.getAge() + 1,
+                            contact.getDaysUntilNextBirthDay()));
+                }
+            }
+
+            /* Contact Picture */
+            Bitmap notifyPicture;
+            if (contact.getPhotoURI() != null) {
+                notifyPicture = MediaStore.Images.Media.getBitmap(
+                        getApplicationContext().getContentResolver(),
+                        Uri.parse(contact.getPhotoURI()));
+            } else {
+                notifyPicture = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                        R.drawable.ic_account_circle_black_24dp);
+            }
+
+            /* To open contact when notification clicked */
+            Intent openContact = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
+                            + contact.getKey()));
+            PendingIntent openContactPI = PendingIntent.getActivity(getApplicationContext(),
+                    0, openContact,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+            /* Notify */
+            NotificationHelper nHelper = new NotificationHelper(getApplicationContext());
+            @SuppressLint("ResourceType") Notification.Builder nBuilder = nHelper
+                    .getNotification(title, body.toString(),
+                            notifyPicture, openContactPI, Color.BLUE);
+            nHelper.notify(System.currentTimeMillis(), nBuilder);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

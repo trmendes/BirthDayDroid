@@ -6,12 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
 
-import com.tmendes.birthdaydroid.helpers.NotificationHelper;
-
+import com.tmendes.birthdaydroid.MainActivity;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
@@ -22,10 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationHelper notificationHelper = new NotificationHelper(context);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
+        ((MainActivity)context.getApplicationContext()).getBirthDays().shallWeCelebrate(context);
     }
 
     public void setAlarm(Context context, long toRingAt) {

@@ -20,6 +20,7 @@ package com.tmendes.birthdaydroid.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -28,7 +29,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
+
+import java.util.Calendar;
 
 public class SettingsFragment extends Fragment {
 
@@ -64,6 +69,23 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+            boolean dailyNotification = prefs.getBoolean("daily_notifications", false);
+
+            Calendar defaultToRingAt = Calendar.getInstance();
+            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
+            defaultToRingAt.set(Calendar.MINUTE, 0);
+            defaultToRingAt.set(Calendar.SECOND, 0);
+
+            long toRingAt = prefs.getLong("scan_daily_interval",
+                    defaultToRingAt.getTimeInMillis());
+
+            if (dailyNotification) {
+                new AlarmReceiver().setAlarm(getContext(), toRingAt);
+            } else {
+                new AlarmReceiver().cancelAlarm(getContext());
+            }
         }
     }
 }
