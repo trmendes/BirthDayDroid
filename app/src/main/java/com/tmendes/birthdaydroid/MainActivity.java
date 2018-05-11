@@ -17,28 +17,11 @@
 
 package com.tmendes.birthdaydroid;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -51,9 +34,7 @@ import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
-import com.tmendes.birthdaydroid.helpers.NotificationHelper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -61,9 +42,6 @@ public class MainActivity extends AppCompatActivity
 
     // the Default time to notify the user about a birthday
     public static final int DEFAULT_ALARM_TIME = 8;
-
-    // Identifier for the permission request
-    private static final int READ_CONTACTS_PERMISSIONS_REQUEST = 1;
 
     // Birthdays
     private BirthDay birthDays;
@@ -73,9 +51,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        birthDays = new BirthDay();
-
-            refreshBirthDayList();
+        birthDays = new BirthDay(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -129,18 +105,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_scan_now:
-                ArrayList<Contact> notifications = this.birthDays.
-                        shallWeCelebrate(getApplicationContext());
-                if (notifications.size() == 0) {
-                    Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
-                            Toast.LENGTH_LONG).show();
-                    for (Contact contact : notifications) {
-                        postNotification(this, contact);
-                    }
-                }
+                isTodayADayToCelebrate();
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
@@ -167,217 +132,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public BirthDay getBirthDays() {
+    public void isTodayADayToCelebrate() {
+        ArrayList<Contact> notifications = this.birthDays.shallWeCelebrate();
+        if (notifications.size() == 0) {
+            Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
+                    Toast.LENGTH_LONG).show();
+            for (Contact contact : notifications) {
+                birthDays.postNotification(contact);
+            }
+        }
+    }
+
+    public BirthDay getBirthday() {
          return birthDays;
     }
 
-    public void refreshBirthDayList() {
-
-        getPermissionToReadUserContacts();
-
-        Cursor c = getCursor();
-
-        if (!c.moveToFirst()) {
-            c.close();
-            return;
-        }
-
-        final int keyColumn = c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
-        final int dateColumn = c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
-        final int nameColumn = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        final int photoColumn = c.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
-
-        birthDays.clearLists();
-
-        do {
-            Contact contact = new Contact(getApplicationContext(),
-                    c.getString(keyColumn),
-                    c.getString(nameColumn),
-                    c.getString(dateColumn),
-                    c.getString(photoColumn));
-
-            if (!contact.isMissingData()) {
-
-                String sign = contact.getSign();
-                int age = contact.getAge();
-                int month = contact.getMonth();
-                int bWeek = contact.getBirthDayWeek();
-
-                if (birthDays.getAgeStats().get(age) != null) {
-                    birthDays.getAgeStats().put(age, birthDays.getAgeStats().get(age) + 1);
-                } else {
-                    birthDays.getAgeStats().put(age, 1);
-                }
-                if (birthDays.getSignStats().get(sign) != null) {
-                    birthDays.getSignStats().put(sign,
-                            birthDays.getSignStats().get(sign) + 1);
-                } else {
-                    birthDays.getSignStats().put(sign, 1);
-                }
-                if (birthDays.getMonthStats().get(month) != null) {
-                    birthDays.getMonthStats().put(month,
-                            birthDays.getMonthStats().get(month) + 1);
-                } else {
-                    birthDays.getMonthStats().put(month, 1);
-                }
-                if (birthDays.getWeekStats().get(bWeek) != null) {
-                    birthDays.getWeekStats().put(bWeek,
-                            birthDays.getWeekStats().get(bWeek) + 1);
-                } else {
-                    birthDays.getWeekStats().put(bWeek, 1);
-                }
-
-            }
-
-            birthDays.getList().add(contact);
-
-
-        } while (c.moveToNext());
-
-        c.close();
-    }
-
-    private Cursor getCursor() {
-        ContentResolver r = getApplicationContext().getContentResolver();
-
-        String[] projection = new String[]{
-                ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.LOOKUP_KEY,
-                ContactsContract.CommonDataKinds.Event.START_DATE,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-        };
-
-        String selection = ContactsContract.Data.MIMETYPE +
-                "=? AND " + ContactsContract.CommonDataKinds.Event.TYPE + "=?";
-
-        String[] args = new String[]{
-                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
-        };
-
-        return r.query(
-                ContactsContract.Data.CONTENT_URI,
-                projection,
-                selection,
-                args,
-                null
-        );
-    }
-
-    private boolean getPermissionToReadUserContacts() {
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // The permission is NOT already granted.
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.READ_CONTACTS)) {
-
-                AlertDialog.Builder builderDialog = new AlertDialog
-                        .Builder(getApplicationContext());
-                builderDialog.setMessage(getApplicationContext().getResources()
-                        .getString(R.string.alert_contacts_dialog_msg));
-                builderDialog.setCancelable(true);
-                AlertDialog alertDialog = builderDialog.create();
-                alertDialog.show();
-
-            }
-
-            // Fire off an async request to actually get the permission
-            // This will show the standard permission request dialog UI
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
-                    READ_CONTACTS_PERMISSIONS_REQUEST);
-
-            return false;
-        } else {
-            refreshBirthDayList();
-        }
-
-        return true;
-    }
-
-    // Callback with the request from calling requestPermissions(...)
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        // Make sure it's our original READ_CONTACTS request
-        if (requestCode == READ_CONTACTS_PERMISSIONS_REQUEST) {
-            if (grantResults.length == 1 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.contact_request_grated),
-                        Toast.LENGTH_SHORT).show();
-                refreshBirthDayList();
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.contact_request_denied),
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    private void postNotification(MainActivity mainActivity, Contact contact) {
-        try {
-            /* Text to notify */
-            /* Title */
-            String title = contact.getName();
-            StringBuilder body = new StringBuilder();
-            if (contact.shallWeCelebrateToday()) {
-                if (contact.isMissingYear()) {
-                    body.append(getApplicationContext().getString(
-                            R.string.message_notification_message_no_age,
-                            contact.getContactFirstName()));
-                } else {
-                    body.append(getApplicationContext().getString(
-                            R.string.message_notification_message, contact.getContactFirstName(),
-                            contact.getAge()));
-                }
-            } else {
-                if (contact.isMissingYear()) {
-                    body.append(getApplicationContext().getString(
-                            R.string.message_notification_message_bt_to_come_no_year,
-                            contact.getContactFirstName(),
-                            contact.getDaysUntilNextBirthDay()));
-                } else {
-                    body.append(getApplicationContext().getString(
-                            R.string.message_notification_message_bt_to_come,
-                            contact.getContactFirstName(), contact.getAge() + 1,
-                            contact.getDaysUntilNextBirthDay()));
-                }
-            }
-
-            /* Contact Picture */
-            Bitmap notifyPicture;
-            if (contact.getPhotoURI() != null) {
-                notifyPicture = MediaStore.Images.Media.getBitmap(
-                        getApplicationContext().getContentResolver(),
-                        Uri.parse(contact.getPhotoURI()));
-            } else {
-                notifyPicture = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                        R.drawable.ic_account_circle_black_24dp);
-            }
-
-            /* To open contact when notification clicked */
-            Intent openContact = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
-                            + contact.getKey()));
-            PendingIntent openContactPI = PendingIntent.getActivity(getApplicationContext(),
-                    0, openContact,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-            /* Notify */
-            NotificationHelper nHelper = new NotificationHelper(getApplicationContext());
-            @SuppressLint("ResourceType") Notification.Builder nBuilder = nHelper
-                    .getNotification(title, body.toString(),
-                            notifyPicture, openContactPI, Color.BLUE);
-            nHelper.notify(System.currentTimeMillis(), nBuilder);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

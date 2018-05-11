@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
@@ -58,7 +59,7 @@ public class ContactListFragment extends Fragment {
         PreferenceManager.setDefaultValues(ctx, R.xml.preferences, false);
 
         adapter = new BirthDayArrayAdapter(ctx,
-                ((MainActivity) getActivity()).getBirthDays().getList());
+                ((MainActivity) getActivity()).getBirthday().getBirthDayList());
 
         ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
@@ -89,6 +90,7 @@ public class ContactListFragment extends Fragment {
         });
 
         updateSortSettings();
+        ((MainActivity) getActivity()).getBirthday().refresh();
 
         return v;
     }
@@ -96,8 +98,9 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).refreshBirthDayList();
         updateSortSettings();
+        ((MainActivity) getActivity()).getBirthday().refresh();
+
     }
 
     private void updateSortSettings() {
@@ -105,5 +108,10 @@ public class ContactListFragment extends Fragment {
         int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
         int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
         adapter.sort(sortInput, sortMethod);
+    }
+
+    public void printMsgToast() {
+        Toast.makeText(ctx, "bla bla bla bla",
+                Toast.LENGTH_LONG).show();
     }
 }

@@ -46,7 +46,7 @@ public class StatisticsFragment extends Fragment {
                 container, false);
 
         ctx = container.getContext();
-        birthDay = ((MainActivity) getActivity()).getBirthDays();
+        birthDay = ((MainActivity) getActivity()).getBirthday();
 
         Button buttonAges = v.findViewById(R.id.buttonAges);
         Button buttonSign = v.findViewById(R.id.buttonSign);
@@ -58,7 +58,7 @@ public class StatisticsFragment extends Fragment {
                 Map<Integer, Integer> ageStat = birthDay.getAgeStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getString(R.string.statistics_contacts_counter,
-                                birthDay.getList().size()));
+                                birthDay.getBirthDayList().size()));
 
                 for (Object o : ageStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -81,7 +81,7 @@ public class StatisticsFragment extends Fragment {
                 Map<String, Integer> signStat = birthDay.getSignStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getString(R.string.statistics_contacts_counter,
-                                birthDay.getList().size()));
+                                birthDay.getBirthDayList().size()));
 
                 for (Object o : signStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -105,7 +105,7 @@ public class StatisticsFragment extends Fragment {
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getString(R.string.statistics_contacts_counter,
-                                birthDay.getList().size()));
+                                birthDay.getBirthDayList().size()));
 
                 for (Object o : monthStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -130,7 +130,7 @@ public class StatisticsFragment extends Fragment {
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getString(R.string.statistics_contacts_counter,
-                                birthDay.getList().size()));
+                                birthDay.getBirthDayList().size()));
 
                 for (Object o : weekStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;

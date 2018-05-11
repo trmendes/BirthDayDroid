@@ -7,8 +7,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.MainActivity;
+import com.tmendes.birthdaydroid.fragments.ContactListFragment;
+
+import java.util.ArrayList;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
@@ -19,7 +26,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ((MainActivity)context.getApplicationContext()).getBirthDays().shallWeCelebrate(context);
+        BirthDay birthDay = new BirthDay(context);
+        birthDay.refresh();
+        ArrayList<Contact> todayBirthdayList = birthDay
+                .shallWeCelebrate();
+        for (Contact contact : todayBirthdayList) {
+            birthDay.postNotification(contact);
+        }
+        Toast.makeText(context.getApplicationContext(), "ALARM REC Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+        Log.i("birthday: ", "ALARM REC Broadcast received!");
     }
 
     public void setAlarm(Context context, long toRingAt) {

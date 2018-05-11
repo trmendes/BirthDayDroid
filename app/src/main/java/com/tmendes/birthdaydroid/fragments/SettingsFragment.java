@@ -25,9 +25,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
@@ -82,8 +84,12 @@ public class SettingsFragment extends Fragment {
                     defaultToRingAt.getTimeInMillis());
 
             if (dailyNotification) {
+                Toast.makeText(getContext(), "ettings daily on!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+                Log.i("birthday: ", "settings daily on!");
                 new AlarmReceiver().setAlarm(getContext(), toRingAt);
             } else {
+                Toast.makeText(getContext(), "ettings daily off!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+                Log.i("birthday: ", "settings daily off!");
                 new AlarmReceiver().cancelAlarm(getContext());
             }
         }
