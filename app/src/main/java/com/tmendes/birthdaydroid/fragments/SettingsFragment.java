@@ -20,22 +20,17 @@ package com.tmendes.birthdaydroid.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
 
-import java.util.Calendar;
+import java.util.Objects;
 
 public class SettingsFragment extends Fragment {
 
@@ -44,7 +39,7 @@ public class SettingsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_settings,
                 container, false);
 
-        getActivity().getFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction()
                 .replace(R.id.setting_frame, new PrefFragment())
                 .commit();
 
@@ -71,27 +66,6 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-            boolean dailyNotification = prefs.getBoolean("daily_notifications", false);
-
-            Calendar defaultToRingAt = Calendar.getInstance();
-            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
-            defaultToRingAt.set(Calendar.MINUTE, 0);
-            defaultToRingAt.set(Calendar.SECOND, 0);
-
-            long toRingAt = prefs.getLong("scan_daily_interval",
-                    defaultToRingAt.getTimeInMillis());
-
-            if (dailyNotification) {
-                Toast.makeText(getContext(), "ettings daily on!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-                Log.i("birthday: ", "settings daily on!");
-                new AlarmReceiver().setAlarm(getContext(), toRingAt);
-            } else {
-                Toast.makeText(getContext(), "ettings daily off!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-                Log.i("birthday: ", "settings daily off!");
-                new AlarmReceiver().cancelAlarm(getContext());
-            }
         }
     }
 }

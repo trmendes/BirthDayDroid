@@ -17,7 +17,9 @@
 
 package com.tmendes.birthdaydroid;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -34,8 +37,10 @@ import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
+import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,6 +94,27 @@ public class MainActivity extends AppCompatActivity
                 super.onBackPressed();
             }
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        boolean dailyNotification = prefs.getBoolean("scan_daily", false);
+
+        if (dailyNotification) {
+            Calendar defaultToRingAt = Calendar.getInstance();
+            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
+            defaultToRingAt.set(Calendar.MINUTE, 0);
+            defaultToRingAt.set(Calendar.SECOND, 0);
+
+            long toRingAt = prefs.getLong("scan_daily_interval",
+                    defaultToRingAt.getTimeInMillis());
+            Toast.makeText(getApplicationContext(), "ettings daily on!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            Log.i("birthday: ", "settings daily on!");
+            new AlarmReceiver().setAlarm(getApplicationContext(), toRingAt);
+        } else {
+            Toast.makeText(getApplicationContext(), "ettings daily off!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            Log.i("birthday: ", "settings daily off!");
+            new AlarmReceiver().cancelAlarm(getApplicationContext());
+        }
     }
 
     @Override
@@ -132,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void isTodayADayToCelebrate() {
+    private void isTodayADayToCelebrate() {
         ArrayList<Contact> notifications = this.birthDays.shallWeCelebrate();
         if (notifications.size() == 0) {
             Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),

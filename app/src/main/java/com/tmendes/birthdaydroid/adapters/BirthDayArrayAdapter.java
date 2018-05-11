@@ -38,6 +38,7 @@ import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filterable {
 
@@ -66,7 +67,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater
+                convertView = Objects.requireNonNull(inflater)
                         .inflate(R.layout.contact_list_item, parent, false);
 
                 viewHolder = new ViewHolderItem();

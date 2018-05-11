@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.tmendes.birthdaydroid.MainActivity;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class BootReceiver extends BroadcastReceiver {
 
@@ -18,7 +19,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+        if (Objects.requireNonNull(intent.getAction()).equals("android.intent.action.BOOT_COMPLETED")) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             Calendar defaultToRingAt = Calendar.getInstance();

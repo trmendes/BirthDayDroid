@@ -33,6 +33,7 @@ import com.tmendes.birthdaydroid.R;
 
 import java.text.DateFormatSymbols;
 import java.util.Map;
+import java.util.Objects;
 
 public class StatisticsFragment extends Fragment {
 
@@ -46,7 +47,7 @@ public class StatisticsFragment extends Fragment {
                 container, false);
 
         ctx = container.getContext();
-        birthDay = ((MainActivity) getActivity()).getBirthday();
+        birthDay = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
 
         Button buttonAges = v.findViewById(R.id.buttonAges);
         Button buttonSign = v.findViewById(R.id.buttonSign);

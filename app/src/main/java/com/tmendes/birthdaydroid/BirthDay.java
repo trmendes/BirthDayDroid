@@ -38,12 +38,11 @@ import com.tmendes.birthdaydroid.helpers.NotificationHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class BirthDay {
 
     // Contact list
-    private ArrayList<Contact> contactList;
+    private final ArrayList<Contact> contactList;
     private final StatisticsProvider statistics;
     private final Context ctx;
 

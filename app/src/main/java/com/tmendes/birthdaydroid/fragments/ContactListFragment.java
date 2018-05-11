@@ -31,11 +31,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 import com.tmendes.birthdaydroid.R;
+
+import java.util.Objects;
 
 public class ContactListFragment extends Fragment {
     // Search EditText
@@ -59,7 +60,7 @@ public class ContactListFragment extends Fragment {
         PreferenceManager.setDefaultValues(ctx, R.xml.preferences, false);
 
         adapter = new BirthDayArrayAdapter(ctx,
-                ((MainActivity) getActivity()).getBirthday().getBirthDayList());
+                ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().getBirthDayList());
 
         ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
@@ -99,7 +100,7 @@ public class ContactListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateSortSettings();
-        ((MainActivity) getActivity()).getBirthday().refresh();
+        ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().refresh();
 
     }
 
@@ -110,8 +111,4 @@ public class ContactListFragment extends Fragment {
         adapter.sort(sortInput, sortMethod);
     }
 
-    public void printMsgToast() {
-        Toast.makeText(ctx, "bla bla bla bla",
-                Toast.LENGTH_LONG).show();
-    }
 }

@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.BirthDay;
 import com.tmendes.birthdaydroid.Contact;
-import com.tmendes.birthdaydroid.MainActivity;
-import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 
 import java.util.ArrayList;
 
