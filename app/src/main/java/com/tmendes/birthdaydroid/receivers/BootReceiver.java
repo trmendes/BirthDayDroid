@@ -30,9 +30,6 @@ public class BootReceiver extends BroadcastReceiver {
             long toRingAt = prefs.getLong("scan_daily_interval",
                     defaultToRingAt.getTimeInMillis());
 
-            Toast.makeText(context.getApplicationContext(), "BootReceiver REC Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-            Log.i("birthday: ", "BootReceiver REC Broadcast received!");
-
             alarm.setAlarm(context, toRingAt);
         }
     }

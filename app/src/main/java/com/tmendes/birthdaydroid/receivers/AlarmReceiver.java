@@ -24,15 +24,24 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        BirthDay birthDay = new BirthDay(context);
-        birthDay.refresh();
-        ArrayList<Contact> todayBirthdayList = birthDay
-                .shallWeCelebrate();
-        for (Contact contact : todayBirthdayList) {
-            birthDay.postNotification(contact);
+        if (intent.getAction() != null && context != null) {
+            Log.i("birthday", "-----" + intent.getAction());
+            if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
+                Toast.makeText(context.getApplicationContext(), "ALARM REC Broadcast received! - BOOT COMPLETE", Toast.LENGTH_SHORT).show();
+                Log.i("birthday: ", "ALARM REC Broadcast received! - BOOT COMPLETE");
+                return;
+            } else {
+                BirthDay birthDay = new BirthDay(context);
+                birthDay.refresh();
+                ArrayList<Contact> todayBirthdayList = birthDay
+                        .shallWeCelebrate();
+                for (Contact contact : todayBirthdayList) {
+                    birthDay.postNotification(contact);
+                }
+                Toast.makeText(context.getApplicationContext(), "ALARM REC Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+                Log.i("birthday: ", "ALARM REC Broadcast received!");
+            }
         }
-        Toast.makeText(context.getApplicationContext(), "ALARM REC Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-        Log.i("birthday: ", "ALARM REC Broadcast received!");
     }
 
     public void setAlarm(Context context, long toRingAt) {
