@@ -1,17 +1,20 @@
 package com.tmendes.birthdaydroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.preference.DialogPreference;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
+import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class TimePreference extends DialogPreference {
     private final Calendar calendar;
@@ -30,8 +33,8 @@ public class TimePreference extends DialogPreference {
 
         setPositiveButtonText(ctxt.getResources().getString(R.string.settings_time_set));
         setNegativeButtonText(ctxt.getResources().getString(R.string.settings_time_cancel));
-        calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
+
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -71,6 +74,7 @@ public class TimePreference extends DialogPreference {
             }
 
             setSummary(getSummary());
+
             if (callChangeListener(calendar.getTimeInMillis())) {
                 persistLong(calendar.getTimeInMillis());
                 notifyChanged();
@@ -85,20 +89,18 @@ public class TimePreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-
         if (restoreValue) {
             long persistedValue;
             try {
                 persistedValue = getPersistedLong(System.currentTimeMillis());
             } catch (Exception e) {
-                //Stale persisted data may be the wrong type
                 persistedValue = System.currentTimeMillis();
             }
             calendar.setTimeInMillis(persistedValue);
+
         } else if (defaultValue != null) {
             calendar.setTimeInMillis(Long.parseLong((String) defaultValue));
         } else {
-            //!restoreValue, defaultValue == null
             calendar.setTimeInMillis(System.currentTimeMillis());
         }
 

@@ -7,13 +7,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.BirthDay;
 import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
@@ -24,27 +24,25 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction() != null && context != null) {
-            Log.i("birthday", "-----" + intent.getAction());
-            if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-                Toast.makeText(context.getApplicationContext(), "ALARM REC Broadcast received! - BOOT COMPLETE", Toast.LENGTH_SHORT).show();
-                Log.i("birthday: ", "ALARM REC Broadcast received! - BOOT COMPLETE");
-                return;
-            } else {
-                BirthDay birthDay = new BirthDay(context);
-                birthDay.refresh();
-                ArrayList<Contact> todayBirthdayList = birthDay
-                        .shallWeCelebrate();
-                for (Contact contact : todayBirthdayList) {
-                    birthDay.postNotification(contact);
-                }
-                Toast.makeText(context.getApplicationContext(), "ALARM REC Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-                Log.i("birthday: ", "ALARM REC Broadcast received!");
-            }
+        BirthDay birthDay = new BirthDay(context);
+        birthDay.refresh();
+        ArrayList<Contact> todayBirthdayList = birthDay
+                .shallWeCelebrate();
+        for (Contact contact : todayBirthdayList) {
+            birthDay.postNotification(contact);
         }
     }
 
-    public void setAlarm(Context context, long toRingAt) {
+    public void setAlarm(Context context, long toGoesOffAt) {
+
+        if (toGoesOffAt == 0) {
+            Calendar defaultToRingAt = Calendar.getInstance();
+            defaultToRingAt.set(Calendar.HOUR, MainActivity.DEFAULT_ALARM_TIME);
+            defaultToRingAt.set(Calendar.MINUTE, 0);
+            defaultToRingAt.set(Calendar.SECOND, 0);
+            toGoesOffAt = defaultToRingAt.getTimeInMillis();
+        }
+
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         alarmIntent = PendingIntent.getBroadcast(context,
@@ -54,7 +52,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         /* Repeat it every 24 hours from the configured time */
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                toRingAt,
+                toGoesOffAt,
                 INTERVAL_DAY,
                 alarmIntent);
 

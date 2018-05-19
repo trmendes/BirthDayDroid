@@ -90,8 +90,8 @@ public class ContactListFragment extends Fragment {
             }
         });
 
-        updateSortSettings();
         ((MainActivity) getActivity()).getBirthday().refresh();
+        updateSortSettings();
 
         return v;
     }
@@ -99,9 +99,8 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateSortSettings();
         ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().refresh();
-
+        updateSortSettings();
     }
 
     private void updateSortSettings() {

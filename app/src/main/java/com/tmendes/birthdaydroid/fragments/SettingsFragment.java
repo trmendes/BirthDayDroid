@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
 
 import java.util.Objects;
 
@@ -51,10 +52,18 @@ public class SettingsFragment extends Fragment {
 
     public static class PrefFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
         }
 
         @Override
@@ -65,7 +74,18 @@ public class SettingsFragment extends Fragment {
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            if (key.equals("scan_daily") || key.equals("scan_daily_interval")) {
+                boolean dailyNotification = prefs.getBoolean("scan_daily", false);
+
+                AlarmReceiver alarm = new AlarmReceiver();
+                alarm.cancelAlarm(getContext());
+
+                if (dailyNotification) {
+                    long toGoesOffAt = prefs.getLong("scan_daily_interval", 0);
+                    alarm.setAlarm(getContext(), toGoesOffAt);
+                }
+            }
         }
     }
 }

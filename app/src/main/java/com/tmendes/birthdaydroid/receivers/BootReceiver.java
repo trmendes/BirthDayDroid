@@ -21,15 +21,7 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (Objects.requireNonNull(intent.getAction()).equals("android.intent.action.BOOT_COMPLETED")) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-            Calendar defaultToRingAt = Calendar.getInstance();
-            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
-            defaultToRingAt.set(Calendar.MINUTE, 0);
-            defaultToRingAt.set(Calendar.SECOND, 0);
-
-            long toRingAt = prefs.getLong("scan_daily_interval",
-                    defaultToRingAt.getTimeInMillis());
-
+            long toRingAt = prefs.getLong("scan_daily_interval", 0);
             alarm.setAlarm(context, toRingAt);
         }
     }

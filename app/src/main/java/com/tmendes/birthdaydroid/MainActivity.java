@@ -41,6 +41,7 @@ import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -93,27 +94,6 @@ public class MainActivity extends AppCompatActivity
             } else {
                 super.onBackPressed();
             }
-        }
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        boolean dailyNotification = prefs.getBoolean("scan_daily", false);
-
-        if (dailyNotification) {
-            Calendar defaultToRingAt = Calendar.getInstance();
-            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
-            defaultToRingAt.set(Calendar.MINUTE, 0);
-            defaultToRingAt.set(Calendar.SECOND, 0);
-
-            long toRingAt = prefs.getLong("scan_daily_interval",
-                    defaultToRingAt.getTimeInMillis());
-            Toast.makeText(getApplicationContext(), "ettings daily on!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-            Log.i("birthday: ", "settings daily on!");
-            new AlarmReceiver().setAlarm(getApplicationContext(), toRingAt);
-        } else {
-            Toast.makeText(getApplicationContext(), "ettings daily off!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-            Log.i("birthday: ", "settings daily off!");
-            new AlarmReceiver().cancelAlarm(getApplicationContext());
         }
     }
 
