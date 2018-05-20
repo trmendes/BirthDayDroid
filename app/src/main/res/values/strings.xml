@@ -24,16 +24,31 @@
     <string name="dual_string" translatable="false">%1$s/%2$s</string>
     <string name="birthday_string">%1$s/%2$d</string>
     <string name="contact_has_no_year">No year info :(</string>
-    <string name="years_old" tools:ignore="PluralsCandidate">%1$d years old</string>
-    <string name="days_old" tools:ignore="PluralsCandidate">%1$d days old</string>
+    <plurals name="years_old">
+        <item quantity="one">%1$d year old</item>
+        <item quantity="other">%1$d years old</item>
+    </plurals>
+    <plurals name="days_old">
+        <item quantity="one">%1$d day old</item>
+        <item quantity="other">%1$d days old</item>
+    </plurals>
     <string name="next_week_name">Next Birthday will be on %1$s</string>
-    <string name="days_until" tools:ignore="PluralsCandidate">%1$d days until her/his birthday</string>
+    <plurals name="days_until">
+        <item quantity="one">%1$d day until her/his birthday</item>
+        <item quantity="other">%1$d days until her/his birthday</item>
+    </plurals>
     <string name="days_until_birthday">There is a party going on today :D</string>
     <string name="birthday_scan_found">Generating Birthday Notifications</string>
     <string name="birthday_scan_not_found">No Birthdays Found Today</string>
     <string name="message_notification_message_no_age">%1$s\'s birthday today</string>
-    <string name="message_notification_message_bt_to_come_no_year">%1$s\'s birthday in %2$d day(s)</string>
-    <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s turns %2$d in %3$d day(s)</string>
+    <plurals name="message_notification_message_bt_to_come_no_year">
+        <item quantity="one">%1$s\'s birthday is tomorrow</item>
+        <item quantity="other">%1$s\'s birthday in %2$d days</item>
+    </plurals>
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="one">%1$s turns %2$d tomorrow</item>
+        <item quantity="other">%1$s turns %2$d in %3$d days</item>
+    </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s is turning %2$d today</string>
     <string name="birthday_tomorrow">Tomorrow is her/his birthday</string>
     <string name="menu_birthday_list">Birthday List</string>
@@ -65,10 +80,19 @@
     <string name="statistics_sign_title">Sign Info</string>
     <string name="statistics_month_title">Birth Month Info</string>
     <string name="statistics_week_title">Birth Week Info</string>
-    <string name="statistics_contacts_counter" tools:ignore="PluralsCandidate">From %1$d contact(s):\n\n</string>
-    <string name="statistics_int_int">\t %1$d \t contacts \t - \t %2$d \t years old\n</string>
-    <string name="statistics_int_string">\t %1$d \t contacts \t - \t %2$s\n</string>
-    <string name="about_title">© 2016/2016 The BirthDayDroid Project</string>
+    <plurals name="statistics_contacts_counter">
+        <item quantity="one">From %1$d contact:\n\n</item>
+        <item quantity="other">From %1$d contacts:\n\n</item>
+    </plurals>
+    <plurals name="statistics_int_int">
+        <item quantity="one">\t %1$d \t contact \t - \t %2$d \t years old\n</item>
+        <item quantity="other">\t %1$d \t contacts \t - \t %2$d \t years old\n</item>
+    </plurals>
+    <plurals name="statistics_int_string">
+        <item quantity="one">\t %1$d \t contact \t - \t %2$s\n</item>
+        <item quantity="other">\t %1$d \t contacts \t - \t %2$s\n</item>
+    </plurals>
+    <string name="about_title">The BirthDayDroid Project</string>
     <string name="about_info">The BirthDayDroid Project is an opensource project created to help you to remember your friend\'s birthdays</string>
     <string name="about_help">You can help us :D</string>
     <string name="about_developer"><a href="https://github.com/tribeirom/BirthDayDroid">Are you a developer or a designer?</a></string>

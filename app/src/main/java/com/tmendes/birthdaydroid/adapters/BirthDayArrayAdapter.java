@@ -138,8 +138,10 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 } else {
                     viewHolder.daysToGo
                             .setText(
-                                    ctx.getResources().getString(
-                                    R.string.days_until, contact.getDaysUntilNextBirthDay()));
+                                    ctx.getResources().getQuantityString(
+                                            R.plurals.days_until,
+                                            contact.getDaysUntilNextBirthDay().intValue(),
+                                            contact.getDaysUntilNextBirthDay().intValue()));
                     viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                     viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                 }
@@ -149,11 +151,11 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
             } else {
                 if (contact.getAge() != 0) {
-                    viewHolder.age.setText(ctx.getResources()
-                            .getString(R.string.years_old, contact.getAge()));
+                    viewHolder.age.setText(ctx.getResources().getQuantityString(
+                            R.plurals.years_old, contact.getAge(), contact.getAge()));
                 } else {
-                    viewHolder.age.setText(ctx.getResources()
-                                .getString(R.string.days_old, contact.getDaysAge()));
+                    viewHolder.age.setText(ctx.getResources().getQuantityString(
+                            R.plurals.days_old, contact.getDaysAge(), contact.getDaysAge()));
                 }
             }
 

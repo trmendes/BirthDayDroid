@@ -58,7 +58,9 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 Map<Integer, Integer> ageStat = birthDay.getAgeStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter,
+                        .getQuantityString(
+                                R.plurals.statistics_contacts_counter,
+                                birthDay.getBirthDayList().size(),
                                 birthDay.getBirthDayList().size()));
 
                 for (Object o : ageStat.entrySet()) {
@@ -66,7 +68,7 @@ public class StatisticsFragment extends Fragment {
                     int age = (int) pair.getKey();
                     int number = (int) pair.getValue();
                     dialogData.append(ctx.getResources()
-                            .getString(R.string.statistics_int_int, number, age));
+                            .getQuantityString(R.plurals.statistics_int_int, number, number, age));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
@@ -81,7 +83,9 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 Map<String, Integer> signStat = birthDay.getSignStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter,
+                        .getQuantityString(
+                                R.plurals.statistics_contacts_counter,
+                                birthDay.getBirthDayList().size(),
                                 birthDay.getBirthDayList().size()));
 
                 for (Object o : signStat.entrySet()) {
@@ -89,7 +93,8 @@ public class StatisticsFragment extends Fragment {
                     String sign = (String) pair.getKey();
                     int number = (int) pair.getValue();
                     dialogData.append(ctx.getResources()
-                            .getString(R.string.statistics_int_string, number, sign));
+                            .getQuantityString(
+                                    R.plurals.statistics_int_string, number, number, sign));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
@@ -105,7 +110,9 @@ public class StatisticsFragment extends Fragment {
                 Map<Integer, Integer> monthStat = birthDay.getMonthStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter,
+                        .getQuantityString(
+                                R.plurals.statistics_contacts_counter,
+                                birthDay.getBirthDayList().size(),
                                 birthDay.getBirthDayList().size()));
 
                 for (Object o : monthStat.entrySet()) {
@@ -113,8 +120,8 @@ public class StatisticsFragment extends Fragment {
                     int month = (int) pair.getKey();
                     int number = (int) pair.getValue();
                     dialogData.append(ctx.getResources()
-                            .getString(R.string.statistics_int_string,
-                                    number, dfs.getMonths()[month]));
+                            .getQuantityString(R.plurals.statistics_int_string,
+                                    number, number, dfs.getMonths()[month]));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
@@ -130,7 +137,9 @@ public class StatisticsFragment extends Fragment {
                 Map<Integer, Integer> weekStat = birthDay.getWeekStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getString(R.string.statistics_contacts_counter,
+                        .getQuantityString(
+                                R.plurals.statistics_contacts_counter,
+                                birthDay.getBirthDayList().size(),
                                 birthDay.getBirthDayList().size()));
 
                 for (Object o : weekStat.entrySet()) {
@@ -138,8 +147,8 @@ public class StatisticsFragment extends Fragment {
                     int week = (int) pair.getKey();
                     int number = (int) pair.getValue();
                     dialogData.append(ctx.getResources()
-                            .getString(R.string.statistics_int_string,
-                                    number, dfs.getWeekdays()[week]));
+                            .getQuantityString(R.plurals.statistics_int_string,
+                                    number, number, dfs.getWeekdays()[week]));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();

@@ -1,17 +1,13 @@
 package com.tmendes.birthdaydroid;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.preference.DialogPreference;
-import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
-
-import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
 
 import java.util.Calendar;
 import java.util.Date;

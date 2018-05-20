@@ -115,15 +115,17 @@ public class BirthDay {
                 }
             } else {
                 if (contact.isMissingYear()) {
-                    body.append(ctx.getString(
-                            R.string.message_notification_message_bt_to_come_no_year,
+                    body.append(ctx.getResources().getQuantityString(
+                            R.plurals.message_notification_message_bt_to_come_no_year,
+                            contact.getDaysUntilNextBirthDay().intValue(),
                             contact.getContactFirstName(),
-                            contact.getDaysUntilNextBirthDay()));
+                            contact.getDaysUntilNextBirthDay().intValue()));
                 } else {
-                    body.append(ctx.getString(
-                            R.string.message_notification_message_bt_to_come,
+                    body.append(ctx.getResources().getQuantityString(
+                            R.plurals.message_notification_message_bt_to_come,
+                            contact.getDaysUntilNextBirthDay().intValue(),
                             contact.getContactFirstName(), contact.getAge() + 1,
-                            contact.getDaysUntilNextBirthDay()));
+                            contact.getDaysUntilNextBirthDay().intValue()));
                 }
             }
 

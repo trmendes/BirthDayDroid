@@ -20,15 +20,27 @@
     <string name="contact_request_grated">Leitura de contados concedida</string>
     <string name="contact_request_denied">Leitura de contatos negada</string>
     <string name="contact_has_no_year">Sem info de ano :(</string>
-    <string name="days_old" tools:ignore="PluralsCandidate">%1$d dias</string>
-    <string name="years_old" tools:ignore="PluralsCandidate">%1$d anos</string>
+    <plurals name="days_old">
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dias</item>
+    </plurals>
+    <plurals name="years_old">
+        <item quantity="one">%1$d ano</item>
+        <item quantity="other">%1$d anos</item>
+    </plurals>
     <string name="next_week_name">Próximo aniversário - %1$s</string>
-    <string name="days_until" tools:ignore="PluralsCandidate">%1$d dia(s) antes de seu aniversário</string>
+    <plurals name="days_until">
+        <item quantity="one">%1$d dia antes de seu aniversário</item>
+        <item quantity="other">%1$d dias antes de seu aniversário</item>
+    </plurals>
     <string name="days_until_birthday">Tem uma festa acontecendo hoje :D</string>
     <string name="birthday_scan_found">Gerando notificações de aniversários</string>
     <string name="birthday_scan_not_found">Nenhum aniversário encontrado hoje</string>
     <string name="message_notification_message_no_age">%1$s aniversário(s) hoje</string>
-    <string name="message_notification_message_bt_to_come" tools:ignore="PluralsCandidate">%1$s completará %2$d em %3$d dia(s)</string>
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="one">%1$s completará %2$d em %3$d dia</item>
+        <item quantity="other">%1$s completará %2$d em %3$d dias</item>
+    </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s esta completando %2$d hoje</string>
     <string name="birthday_tomorrow">Amanhã é seu aniversário</string>
     <string name="menu_birthday_list">Aniversários</string>
@@ -60,9 +72,18 @@
     <string name="statistics_sign_title">Info de Signos</string>
     <string name="statistics_month_title">Info de Meses</string>
     <string name="statistics_week_title">Info de Semanas</string>
-    <string name="statistics_contacts_counter" tools:ignore="PluralsCandidate">De %1$d contato(s):\n\n</string>
-    <string name="statistics_int_int">\t %1$d \t contatos \t - \t %2$d \t anos\n</string>
-    <string name="statistics_int_string">\t %1$d \t contatos \t - \t %2$s\n</string>
+    <plurals name="statistics_contacts_counter">
+        <item quantity="one">De %1$d contato:\n\n</item>
+        <item quantity="other">De %1$d contatos:\n\n</item>
+    </plurals>
+    <plurals name="statistics_int_int">
+        <item quantity="one">\t %1$d \t contato \t - \t %2$d \t anos\n</item>
+        <item quantity="other">\t %1$d \t contatos \t - \t %2$d \t anos\n</item>
+    </plurals>
+    <plurals name="statistics_int_string">
+        <item quantity="one">\t %1$d \t contato \t - \t %2$s\n</item>
+        <item quantity="other">\t %1$d \t contatos \t - \t %2$s\n</item>
+    </plurals>
     <string name="about_title">© 2016/2016 Projeto BirthDayDroid</string>
     <string name="about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
     <string name="about_help">Você pode nos ajudar :D</string>
