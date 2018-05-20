@@ -5,12 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.tmendes.birthdaydroid.MainActivity;
-
-import java.util.Calendar;
 import java.util.Objects;
 
 public class BootReceiver extends BroadcastReceiver {

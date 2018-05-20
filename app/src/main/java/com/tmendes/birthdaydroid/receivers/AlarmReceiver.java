@@ -14,6 +14,7 @@ import com.tmendes.birthdaydroid.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
@@ -22,14 +23,18 @@ public class AlarmReceiver extends BroadcastReceiver {
     private AlarmManager alarmManager;
     private PendingIntent alarmIntent;
 
+    private final static String ACTION_BD_NOTIFICATION = "com.tmendes.birthdaydroid.NOTIFICATION";
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        BirthDay birthDay = new BirthDay(context);
-        birthDay.refresh();
-        ArrayList<Contact> todayBirthdayList = birthDay
-                .shallWeCelebrate();
-        for (Contact contact : todayBirthdayList) {
-            birthDay.postNotification(contact);
+        if (Objects.requireNonNull(intent.getAction()).equals(ACTION_BD_NOTIFICATION)) {
+            BirthDay birthDay = new BirthDay(context);
+            birthDay.refresh();
+            ArrayList<Contact> todayBirthdayList = birthDay
+                    .shallWeCelebrate();
+            for (Contact contact : todayBirthdayList) {
+                birthDay.postNotification(contact);
+            }
         }
     }
 
@@ -43,11 +48,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             toGoesOffAt = defaultToRingAt.getTimeInMillis();
         }
 
+        Intent intentAlarm = new Intent(context, AlarmReceiver.class);
+        intentAlarm.setAction(ACTION_BD_NOTIFICATION);
+
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         alarmIntent = PendingIntent.getBroadcast(context,
                 0,
-                new Intent(context, AlarmReceiver.class),
+                intentAlarm,
                 0);
 
         /* Repeat it every 24 hours from the configured time */
