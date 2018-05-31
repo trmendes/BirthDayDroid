@@ -18,9 +18,8 @@
 package com.tmendes.birthdaydroid.fragments;
 
 import android.content.ClipboardManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.R;
+
+import java.util.Objects;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -39,12 +40,7 @@ public class DonationFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_donation, container, false);
 
@@ -55,11 +51,11 @@ public class DonationFragment extends Fragment {
         bitcoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getContext().
+                ClipboardManager clipboard = (ClipboardManager) Objects.requireNonNull(getContext()).
                         getSystemService(CLIPBOARD_SERVICE);
                 final android.content.ClipData clipData = android.content.ClipData
                         .newPlainText(BITCOIN_ADDR, BITCOIN_ADDR);
-                clipboard.setPrimaryClip(clipData);
+                Objects.requireNonNull(clipboard).setPrimaryClip(clipData);
                 Toast.makeText(getContext(), getContext().getResources().
                         getString(R.string.copy_to_clipboard), Toast.LENGTH_SHORT).show();
             }

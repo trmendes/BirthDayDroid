@@ -96,9 +96,9 @@
     <string name="about_title">The BirthDayDroid Project</string>
     <string name="about_info">The BirthDayDroid Project is an opensource project created to help you to remember your friend\'s birthdays</string>
     <string name="about_help">You can help us :D</string>
-    <string name="about_developer"><a href="https://github.com/tribeirom/BirthDayDroid">Are you a developer or a designer?</a></string>
-    <string name="about_issue"><a href="https://github.com/tribeirom/BirthDayDroid/issues">Do you have any feature requests and/or bug resport?</a></string>
-    <string name="about_translator"><a href="https://crowdin.com/project/birthdaydroid">May you help us to support a new language?</a></string>
+    <string name="about_developer"><a href="https://gitlab.com/tmendes/BirthDayDroid">Are you a developer or a designer?</a></string>
+    <string name="about_issue"><a href="https://gitlab.com/trmendes/BirtmendesthDayDroid/issues">Do you have any feature requests and/or bug resport?</a></string>
+    <string name="about_translator"><a href="https://gitlab.com/tmendes/BirthDayDroid">May you help us to support a new language?</a></string>
     <string name="about_developers_title">Developers</string>
     <string name="about_devel_name" translatable="false">Thiago Mendes</string>
     <string name="about_os_cc_title" translatable="false">OpenSource / Creative Commons</string>
@@ -115,7 +115,7 @@
     <string name="array_order_sign">Sign</string>
     <string name="array_order_asc">Asc</string>
     <string name="array_order_desc">Desc</string>
-    <string name="donation_wallet">Wallets</string>
+    <string name="donation_wallet">Wallets (click to copy it)</string>
     <string name="donation_title">Make a donation :D</string>
     <string name="donatinon_text">If you like this app and want support it.\nCoins are super welcome \\o/</string>
     <string name="copy_to_clipboard">Text copied to your clipboard</string>

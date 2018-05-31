@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,7 +25,7 @@
 
     <View
         android:layout_height="2dip"
-        android:layout_margin="20px"
+        android:layout_margin="20dp"
         android:background="#FF0000"
         android:padding="20dp" />
 
@@ -67,28 +66,29 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            tools:ignore="UseCompoundDrawables,UselessParent">
 
 
             <ImageView
                 android:id="@+id/bitcoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:contentDescription="ss"
-                android:paddingRight="10dp"
+                android:contentDescription="@string/image"
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
                 android:src="@mipmap/ic_bitcoin" />
 
             <TextView
                 android:id="@+id/tvBitcoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:textIsSelectable="true"
                 android:text="@string/donation_wallet"
                 android:typeface="sans"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
         </LinearLayout>
     </TableRow>
 
