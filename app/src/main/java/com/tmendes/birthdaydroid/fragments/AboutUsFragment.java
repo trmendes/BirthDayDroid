@@ -54,7 +54,6 @@ public class AboutUsFragment extends Fragment {
                 .getString(R.string.build, BuildConfig.VERSION_CODE));
 
         return v;
-
     }
 
 }

@@ -25,9 +25,9 @@
 
     <View
         android:layout_height="2dip"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="#FF0000"
-        android:padding="20dp" />
+        android:padding="10dp" />
 
     <TableRow
         android:layout_width="match_parent"
@@ -43,6 +43,12 @@
             android:textSize="18sp"
             android:typeface="sans" />
     </TableRow>
+
+    <View
+        android:layout_height="2dip"
+        android:layout_margin="10dp"
+        android:background="#FF0000"
+        android:padding="10dp" />
 
     <TableRow
         android:layout_width="match_parent"

@@ -107,4 +107,7 @@
     <string name="donation_title">Faça uma doaćao :D</string>
     <string name="donatinon_text">Se você gostou desse aplicativo\\ne quer dar um suporte.\\nBitcoins são super bem vindas.</string>
     <string name="copy_to_clipboard">Texto copiado para a área de transferência</string>
+    <string name="exit_dialog">Você tem certeza que deseja sair?</string>
+    <string name="exit_yes">Sim</string>
+    <string name="exit_no">Não</string>
 </resources>
