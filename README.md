@@ -53,6 +53,10 @@ Thiago Ribeiro Mendes<br/>
 
 Emoji provided free by [Emoji One](http://emojione.com/)
 
+Bitcon Icon made by [freepik](https://www.flaticon.com/authors/freepik) from www.flaticon.com
+Ethereum Icon made by [smashicons](https://www.flaticon.com/authors/smashicons) from www.flaticon.com
+
+
 # License
 
     Copyright 2015-2016 The BirthDayDroid Project Team

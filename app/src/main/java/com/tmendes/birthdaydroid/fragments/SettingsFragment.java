@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.receivers.AlarmReceiver;
+import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
 import java.util.Objects;
 
@@ -78,12 +78,13 @@ public class SettingsFragment extends Fragment {
             if (key.equals("scan_daily") || key.equals("scan_daily_interval")) {
                 boolean dailyNotification = prefs.getBoolean("scan_daily", false);
 
-                AlarmReceiver alarm = new AlarmReceiver();
-                alarm.cancelAlarm(getContext());
+                AlarmHelper alarm = new AlarmHelper();
 
                 if (dailyNotification) {
                     long toGoesOffAt = prefs.getLong("scan_daily_interval", 0);
                     alarm.setAlarm(getContext(), toGoesOffAt);
+                } else {
+                    alarm.cancelAlarm(getContext());
                 }
             }
         }

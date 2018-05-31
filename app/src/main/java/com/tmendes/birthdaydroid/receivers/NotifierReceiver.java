@@ -20,27 +20,22 @@ package com.tmendes.birthdaydroid.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.tmendes.birthdaydroid.helpers.AlarmHelper;
+import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.Contact;
 
-import java.util.Objects;
+import java.util.ArrayList;
 
-public class BootReceiver extends BroadcastReceiver {
-
-    private final AlarmHelper alarm = new AlarmHelper();
+public class NotifierReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("ETA", "ERA P ENTRAR AQUI NA DE BOOT!?");
-        if (Objects.requireNonNull(intent.getAction()).equals("android.intent.action.BOOT_COMPLETED")) {
-            Log.i("ETA", "E MEU? COMO ASSIM? EH DE BOOT?");
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            long toRingAt = prefs.getLong("scan_daily_interval", 0);
-            alarm.cancelAlarm(context);
-            alarm.setAlarm(context, toRingAt);
+        BirthDay birthDay = new BirthDay(context);
+        birthDay.refresh();
+        ArrayList<Contact> todayBirthdayList = birthDay
+                .shallWeCelebrate();
+        for (Contact contact : todayBirthdayList) {
+            birthDay.postNotification(contact);
         }
     }
 }

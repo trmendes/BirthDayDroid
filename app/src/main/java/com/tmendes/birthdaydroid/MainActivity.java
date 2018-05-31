@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
+import com.tmendes.birthdaydroid.fragments.DonationFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
 
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
+                break;
+            case R.id.nav_donations:
+                fragmentClass = DonationFragment.class;
                 break;
             case R.id.nav_about:
                 fragmentClass = AboutUsFragment.class;

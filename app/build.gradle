@@ -32,9 +32,9 @@ android {
         // if true, treat all warnings as errors
         warningsAsErrors true
         // turn off checking the given issue id's
-        disable 'TypographyFractions','TypographyQuotes'
+        disable 'TypographyFractions', 'TypographyQuotes'
         // turn on the given issue id's
-        enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
+        enable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
         // check *only* the given issue id's
         check 'NewApi', 'InlinedApi'
         // if true, don't include source code lines in the error output

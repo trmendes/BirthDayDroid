@@ -54,6 +54,7 @@
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_scan_now">Scan Now</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_donations">Donations</string>
     <string name="menu_statistics">More info</string>
     <string name="menu_about">About</string>
     <string name="settings_not_sound_title">Notification Sound</string>
@@ -102,6 +103,8 @@
     <string name="about_devel_name" translatable="false">Thiago Mendes</string>
     <string name="about_os_cc_title" translatable="false">OpenSource / Creative Commons</string>
     <string name="about_oc_cc_01"><a href="http://emojione.com/">Emoji provided free by Emoji One</a></string>
+    <string name="about_oc_cc_02"><a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a></string>
+    <string name="about_oc_cc_03"><a href="https://www.flaticon.com/authors/smashicons/">Ethereum Icon made by smashicons from www.flaticon.com</a></string>
     <string name="about_translator_title">Translators</string>
     <string name="about_translator_name_language" translatable="false">Thiago Mendes (ptBR/en)\n原田宇陀児 (Japanese)</string>
     <string name="image" translatable="false">Image</string>
@@ -112,4 +115,6 @@
     <string name="array_order_sign">Sign</string>
     <string name="array_order_asc">Asc</string>
     <string name="array_order_desc">Desc</string>
+    <string name="donation_bitcoin">My Bitcoin Wallet is %1$s</string>
+    <string name="donatinon_text">If you like this app and want to help us to buy some coffee. Please, send me a few coins :D and send me an email telling about it so I can say thanks. They are more then welcome \\o/</string>
 </resources>
