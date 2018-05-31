@@ -34,9 +34,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("ETA", "ERA P ENTRAR AQUI NA DE BOOT!?");
         if (Objects.requireNonNull(intent.getAction()).equals("android.intent.action.BOOT_COMPLETED")) {
-            Log.i("ETA", "E MEU? COMO ASSIM? EH DE BOOT?");
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             long toRingAt = prefs.getLong("scan_daily_interval", 0);
             alarm.cancelAlarm(context);
