@@ -1,10 +1,10 @@
 *.iml
-*.log
 .gradle
 /local.properties
-/.idea/workspace.xml
 /.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
 .DS_Store
 /build
 /captures
-app/lint-report.html
+.externalNativeBuild

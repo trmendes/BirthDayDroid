@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2015-2016 The Food Restriction Project Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.tmendes.birthdaydroid;
 
 import android.content.Context;
@@ -11,7 +28,6 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class TimePreference extends DialogPreference {
     private final Calendar calendar;
@@ -30,8 +46,8 @@ public class TimePreference extends DialogPreference {
 
         setPositiveButtonText(ctxt.getResources().getString(R.string.settings_time_set));
         setNegativeButtonText(ctxt.getResources().getString(R.string.settings_time_cancel));
-        calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
+
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -71,6 +87,7 @@ public class TimePreference extends DialogPreference {
             }
 
             setSummary(getSummary());
+
             if (callChangeListener(calendar.getTimeInMillis())) {
                 persistLong(calendar.getTimeInMillis());
                 notifyChanged();
@@ -85,20 +102,18 @@ public class TimePreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-
         if (restoreValue) {
             long persistedValue;
             try {
                 persistedValue = getPersistedLong(System.currentTimeMillis());
             } catch (Exception e) {
-                //Stale persisted data may be the wrong type
                 persistedValue = System.currentTimeMillis();
             }
             calendar.setTimeInMillis(persistedValue);
+
         } else if (defaultValue != null) {
             calendar.setTimeInMillis(Long.parseLong((String) defaultValue));
         } else {
-            //!restoreValue, defaultValue == null
             calendar.setTimeInMillis(System.currentTimeMillis());
         }
 
