@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.tmendes.birthdaydroid"
-        minSdkVersion 19
-        targetSdkVersion 24
-        versionCode 12
-        versionName '20170615_VC12'
+        minSdkVersion 23
+        targetSdkVersion 27
+        versionCode 20
+        versionName '20180531_VC20'
     }
     buildTypes {
         release {
@@ -32,9 +32,9 @@ android {
         // if true, treat all warnings as errors
         warningsAsErrors true
         // turn off checking the given issue id's
-        disable 'TypographyFractions','TypographyQuotes'
+        disable 'TypographyFractions', 'TypographyQuotes'
         // turn on the given issue id's
-        enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
+        enable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
         // check *only* the given issue id's
         check 'NewApi', 'InlinedApi'
         // if true, don't include source code lines in the error output
@@ -78,7 +78,7 @@ allprojects {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
-    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:support-v4:27.1.1'
+    compile 'com.android.support:design:27.1.1'
 }

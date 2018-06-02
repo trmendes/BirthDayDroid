@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:padding="10dp"
+    android:stretchColumns="1"
+    tools:context=".fragments.DonationFragment">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dip">
+
+        <TextView
+            android:id="@+id/donationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/donation_title"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+
+    </TableRow>
+
+    <View
+        android:layout_height="2dip"
+        android:layout_margin="10dp"
+        android:background="#FF0000"
+        android:padding="10dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/donationText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:singleLine="false"
+            android:text="@string/donatinon_text"
+            android:textSize="18sp"
+            android:typeface="sans" />
+    </TableRow>
+
+    <View
+        android:layout_height="2dip"
+        android:layout_margin="10dp"
+        android:background="#FF0000"
+        android:padding="10dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/donnation_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:singleLine="false"
+            android:text="@string/donation_wallet"
+            android:textSize="18sp"
+            android:typeface="sans" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:ignore="UseCompoundDrawables,UselessParent">
+
+
+            <ImageView
+                android:id="@+id/bitcoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image"
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
+                android:src="@mipmap/ic_bitcoin" />
+
+            <TextView
+                android:id="@+id/tvBitcoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textIsSelectable="true"
+                android:text="@string/donation_wallet"
+                android:typeface="sans"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </TableRow>
+
+</TableLayout>

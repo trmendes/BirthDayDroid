@@ -17,37 +17,62 @@
 
 package com.tmendes.birthdaydroid;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
+import com.tmendes.birthdaydroid.fragments.ContactListFragment;
+import com.tmendes.birthdaydroid.fragments.DonationFragment;
+import com.tmendes.birthdaydroid.fragments.SettingsFragment;
+import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
+import com.tmendes.birthdaydroid.helpers.PermissionHelper;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // TAG - debug
-    @SuppressWarnings("unused")
-    public static final String TAG = "BirthDayDroid";
+    // the Default time to notify the user about a birthday
+    public static final int DEFAULT_ALARM_TIME = 8;
 
-    private BirthDayDataList birthdays;
+    // Birthdays
+    private BirthDay birthDays;
 
-    private BirthDayAlarm birthdayAlarm;
+    // Permission Control
+    private PermissionHelper permissionHelper;
+    private static final int PERMISSION_CONTACT_READ = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        permissionHelper = new PermissionHelper(this);
+        requestForPermissions(PERMISSION_CONTACT_READ);
+
+        birthDays = new BirthDay(getApplicationContext(), permissionHelper);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         if (drawer != null) {
@@ -55,42 +80,43 @@ public class MainActivity extends AppCompatActivity
             toggle.syncState();
         }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        birthdayAlarm = new BirthDayAlarm(this);
+        openContactFragments();
+    }
 
-        this.birthdays = BirthDayDataList.getBirthDayDataList(this.getApplicationContext());
-
+    private void openContactFragments() {
         Fragment fragment;
         try {
             fragment = ContactListFragment.class.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer != null) {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
-            }
-        }
+        new AlertDialog.Builder(this)
+                .setMessage(getBaseContext().getResources().getString(R.string.exit_dialog))
+                .setCancelable(false)
+                .setPositiveButton(getBaseContext().getResources().getString(R.string.exit_yes),
+                        new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton(getBaseContext().getResources().getString(R.string.exit_no),
+                        null)
+                .show();
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Fragment fragment;
         Class fragmentClass = null;
@@ -103,14 +129,13 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_scan_now:
-                if (this.birthdays.checkBirthdaysPartyForToday()) {
-                    Toast.makeText(this, getResources().getString(R.string.birthday_scan_found), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found), Toast.LENGTH_LONG).show();
-                }
+                isTodayADayToCelebrate();
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
+                break;
+            case R.id.nav_donations:
+                fragmentClass = DonationFragment.class;
                 break;
             case R.id.nav_about:
                 fragmentClass = AboutUsFragment.class;
@@ -122,22 +147,119 @@ public class MainActivity extends AppCompatActivity
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
         }
         return true;
     }
 
-    public void updateSettings() {
-        birthdayAlarm.updateSettings();
-        birthdays.updateSettings();
+    private void isTodayADayToCelebrate() {
+        ArrayList<Contact> notifications = this.birthDays.shallWeCelebrate();
+        if (notifications.size() == 0) {
+            Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
+                    Toast.LENGTH_LONG).show();
+            for (Contact contact : notifications) {
+                birthDays.postNotification(contact);
+            }
+        }
     }
+
+    public BirthDay getBirthday() {
+         return birthDays;
+    }
+
+    private void requestForPermissions(int permission) {
+
+        String permissionString = "";
+        boolean isPermissionValid;
+
+        if (permission == PERMISSION_CONTACT_READ) {
+            permissionString = Manifest.permission.READ_CONTACTS;
+            isPermissionValid = true;
+        } else {
+            isPermissionValid = false;
+        }
+
+        if (isPermissionValid) {
+            if (ContextCompat.checkSelfPermission(this, permissionString)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        permissionString)) {
+                    displayPermissionExplanation(permission);
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            PERMISSION_CONTACT_READ);
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+                // Permission has already been granted
+                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+                openContactFragments();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_CONTACT_READ: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+                    openContactFragments();
+                } else {
+                    permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
+                }
+            }
+        }
+    }
+
+    private void displayPermissionExplanation(final int permission) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        switch (permission) {
+            case PERMISSION_CONTACT_READ:
+                builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
+                builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
+        }
+
+        builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow), new Dialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (permission) {
+                    case PERMISSION_CONTACT_READ:
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.READ_CONTACTS},
+                                PERMISSION_CONTACT_READ);
+                        break;
+                }
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.alert_permissions_deny), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }

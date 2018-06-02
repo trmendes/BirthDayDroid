@@ -15,11 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.comparators;
+
+import com.tmendes.birthdaydroid.Contact;
 
 import java.util.Comparator;
 
-class BirthDayComparator implements Comparator<ContactData> {
+public class BirthDayComparator implements Comparator<Contact> {
 
     private final int orderType;
     private final int sortType;
@@ -29,7 +31,7 @@ class BirthDayComparator implements Comparator<ContactData> {
         this.sortType = sortType;
     }
 
-    public int compare(ContactData a, ContactData b) {
+    public int compare(Contact a, Contact b) {
 
         int res = 0;
         final int ORDER_DAYS_UNTIL_BIRTHDAY = 0;

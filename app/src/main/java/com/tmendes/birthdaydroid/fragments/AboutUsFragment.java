@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -25,20 +26,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.tmendes.birthdaydroid.BuildConfig;
+import com.tmendes.birthdaydroid.R;
+
 public class AboutUsFragment extends Fragment {
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_about_us,
                 container, false);
 
-        TextView appVersion = (TextView) v.findViewById(R.id.tvVersion);
-        TextView tvHelpDevel = (TextView) v.findViewById(R.id.tvHelpDevel);
-        TextView tvHelpIssue = (TextView) v.findViewById(R.id.tvHelpIssue);
-        TextView tvHelpTranslator = (TextView) v.findViewById(R.id.tvHelpTranslator);
-        TextView tvIcons01 = (TextView) v.findViewById(R.id.tvIcons01);
-        TextView tvTranslatorNames = (TextView) v.findViewById(R.id.tvTranslatorNames);
+        TextView appVersion = v.findViewById(R.id.tvVersion);
+        TextView tvHelpDevel = v.findViewById(R.id.tvHelpDevel);
+        TextView tvHelpIssue = v.findViewById(R.id.tvHelpIssue);
+        TextView tvHelpTranslator = v.findViewById(R.id.tvHelpTranslator);
+        TextView tvIcons01 = v.findViewById(R.id.tvIcons01);
+        TextView tvTranslatorNames = v.findViewById(R.id.tvTranslatorNames);
 
         tvHelpDevel.setMovementMethod(LinkMovementMethod.getInstance());
         tvHelpIssue.setMovementMethod(LinkMovementMethod.getInstance());
@@ -46,10 +50,10 @@ public class AboutUsFragment extends Fragment {
         tvIcons01.setMovementMethod(LinkMovementMethod.getInstance());
         tvTranslatorNames.setMovementMethod(LinkMovementMethod.getInstance());
 
-        appVersion.setText(container.getContext().getResources().getString(R.string.build, BuildConfig.VERSION_CODE));
+        appVersion.setText(container.getContext().getResources()
+                .getString(R.string.build, BuildConfig.VERSION_CODE));
 
         return v;
-
     }
 
 }

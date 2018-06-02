@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,24 +28,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.AlarmHelper;
+
+import java.util.Objects;
+
 public class SettingsFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings,
                 container, false);
 
-        getActivity().getFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction()
                 .replace(R.id.setting_frame, new PrefFragment())
                 .commit();
 
-        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return v;
     }
 
     public static class PrefFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -55,9 +62,8 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onResume() {
             super.onResume();
-            ((MainActivity) getActivity()).updateSettings();
-            getPreferenceScreen().getSharedPreferences()
-                    .registerOnSharedPreferenceChangeListener(this);
+            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
         }
 
         @Override
@@ -68,14 +74,18 @@ public class SettingsFragment extends Fragment {
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals("scan_daily") ||
-                    key.equals("scan_daily_interval") ||
-                    key.equals("notification_urgency") ||
-                    key.equals("scan_in_advance_interval") ||
-                    key.equals("custom_notification_message") ||
-                    key.equals("custom_notification_status")) {
-                ((MainActivity) getActivity()).updateSettings();
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            if (key.equals("scan_daily") || key.equals("scan_daily_interval")) {
+                boolean dailyNotification = prefs.getBoolean("scan_daily", false);
+
+                AlarmHelper alarm = new AlarmHelper();
+
+                if (dailyNotification) {
+                    long toGoesOffAt = prefs.getLong("scan_daily_interval", 0);
+                    alarm.setAlarm(getContext(), toGoesOffAt);
+                } else {
+                    alarm.cancelAlarm(getContext());
+                }
             }
         }
     }
