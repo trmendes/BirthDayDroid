@@ -17,12 +17,16 @@
 
 package com.tmendes.birthdaydroid.receivers;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 
 import com.tmendes.birthdaydroid.BirthDay;
 import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.util.ArrayList;
 
@@ -30,12 +34,17 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        BirthDay birthDay = new BirthDay(context);
-        birthDay.refresh();
-        ArrayList<Contact> todayBirthdayList = birthDay
-                .shallWeCelebrate();
-        for (Contact contact : todayBirthdayList) {
-            birthDay.postNotification(contact);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
+                == PackageManager.PERMISSION_GRANTED) {
+            PermissionHelper permission = new PermissionHelper(context);
+            permission.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+            BirthDay birthDay = new BirthDay(context, permission);
+            birthDay.refresh();
+            ArrayList<Contact> todayBirthdayList = birthDay
+                    .shallWeCelebrate();
+            for (Contact contact : todayBirthdayList) {
+                birthDay.postNotification(contact);
+            }
         }
     }
 }

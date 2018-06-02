@@ -17,12 +17,17 @@
 
 package com.tmendes.birthdaydroid;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -37,6 +42,7 @@ import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 import com.tmendes.birthdaydroid.fragments.DonationFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
+import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.util.ArrayList;
 
@@ -49,12 +55,19 @@ public class MainActivity extends AppCompatActivity
     // Birthdays
     private BirthDay birthDays;
 
+    // Permission Control
+    private PermissionHelper permissionHelper;
+    private static final int PERMISSION_CONTACT_READ = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        birthDays = new BirthDay(getApplicationContext());
+        permissionHelper = new PermissionHelper(this);
+        requestForPermissions(PERMISSION_CONTACT_READ);
+
+        birthDays = new BirthDay(getApplicationContext(), permissionHelper);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +85,10 @@ public class MainActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
+        openContactFragments();
+    }
+
+    private void openContactFragments() {
         Fragment fragment;
         try {
             fragment = ContactListFragment.class.newInstance();
@@ -158,6 +175,91 @@ public class MainActivity extends AppCompatActivity
 
     public BirthDay getBirthday() {
          return birthDays;
+    }
+
+    private void requestForPermissions(int permission) {
+
+        String permissionString = "";
+        boolean isPermissionValid;
+
+        if (permission == PERMISSION_CONTACT_READ) {
+            permissionString = Manifest.permission.READ_CONTACTS;
+            isPermissionValid = true;
+        } else {
+            isPermissionValid = false;
+        }
+
+        if (isPermissionValid) {
+            if (ContextCompat.checkSelfPermission(this, permissionString)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        permissionString)) {
+                    displayPermissionExplanation(permission);
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            PERMISSION_CONTACT_READ);
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+                // Permission has already been granted
+                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+                openContactFragments();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_CONTACT_READ: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+                    openContactFragments();
+                } else {
+                    permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
+                }
+            }
+        }
+    }
+
+    private void displayPermissionExplanation(final int permission) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        switch (permission) {
+            case PERMISSION_CONTACT_READ:
+                builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
+                builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
+        }
+
+        builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow), new Dialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (permission) {
+                    case PERMISSION_CONTACT_READ:
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.READ_CONTACTS},
+                                PERMISSION_CONTACT_READ);
+                        break;
+                }
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.alert_permissions_deny), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 }

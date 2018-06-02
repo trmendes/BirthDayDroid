@@ -17,8 +17,6 @@
     <string name="sign_element_air">風</string>
     <string name="sign_element_water">水</string>
     <string name="search">連絡先を検索</string>
-    <string name="contact_request_grated">連絡先の読み取り許可を与えました</string>
-    <string name="contact_request_denied">連絡先の読み取り権限が必要です</string>
     <string name="birthday_string">%1$s/%2$d</string>
     <string name="contact_has_no_year">年度情報がありません</string>
     <plurals name="days_old">
@@ -43,6 +41,7 @@
     <string name="menu_birthday_list">生年月日リスト</string>
     <string name="menu_scan_now">スキャンします</string>
     <string name="menu_settings">設定</string>
+    <string name="menu_donations">Donation</string>
     <string name="menu_statistics">詳細情報</string>
     <string name="menu_about">BirthDayDroid のこと</string>
     <string name="settings_not_sound_title">通知音</string>
@@ -64,7 +63,10 @@
     <string name="settings_time_cancel">キャンセル</string>
     <string name="navigation_drawer_open">ナビゲーション ドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーを閉じる</string>
+    <string name="alert_contats_dialog_title">Read contacts permission nedded</string>
     <string name="alert_contacts_dialog_msg">この権限がないとアプリは動作しません。誕生日のデータを取得するために、あなたの連絡先リストにアクセスする必要があります。</string>
+    <string name="alert_permissions_allow">OK</string>
+    <string name="alert_permissions_deny">Deny</string>
     <string name="statistics_age_title">年齢別</string>
     <string name="statistics_sign_title">星座別</string>
     <string name="statistics_month_title">誕生月別</string>
@@ -86,6 +88,8 @@
     <string name="about_translator"><a href="https://crowdin.com/project/birthdaydroid">あなたの言葉で私たちの翻訳を手伝ってくれませんか？</a></string>
     <string name="about_developers_title">デベロッパー</string>
     <string name="about_oc_cc_01"><a href="http://emojione.com/">フリー絵文字提供 by Emoji One</a></string>
+    <string name="about_oc_cc_02"><a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a></string>
+    <string name="about_oc_cc_03"><a href="https://www.flaticon.com/authors/smashicons/">Ethereum Icon made by smashicons from www.flaticon.com</a></string>
     <string name="about_translator_title">翻訳者</string>
     <string name="array_order_next">次の誕生日までの日数</string>
     <string name="array_order_age">年齢</string>
@@ -93,4 +97,11 @@
     <string name="array_order_sign">星座</string>
     <string name="array_order_asc">昇順</string>
     <string name="array_order_desc">降順</string>
+    <string name="donation_wallet">Wallets (click to copy it)</string>
+    <string name="donation_title">Make a donation :D</string>
+    <string name="donatinon_text">If you like this app and want support it.\nCoins are super welcome \\o/</string>
+    <string name="copy_to_clipboard">Text copied to your clipboard</string>
+    <string name="exit_dialog">Are you sure you want to exit?</string>
+    <string name="exit_yes">Yes</string>
+    <string name="exit_no">No</string>
 </resources>
