@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 27
         versionCode 20
-        versionName '20180531_VC20'
+        versionName '20180602_VC20'
     }
     buildTypes {
         release {
