@@ -1,40 +1,22 @@
-あなたの国の言葉でこのアプリの開発を手伝って下さい。こちらのリンクから: https://gitlab.com/tmendes/birthdaydroid
+Help us to translate this app to your language: <a href="https://gitlab.com/tmendes/birthdaydroid">https://gitlab.com/tmendes/birthdaydroid</a>
 
+Free! No Ads! Opensource :D!
 
-完全無料！
-広告なし！
-オープンソース！ :D
+BirthDayDroid is an Android application to help you to remember your contact's birthdays. It scans your local contact list looking for birthdays. When it finds it, it will show you the contact's age, sign, days until her/his birthday.
 
+This project is an opensource project and you will find it at: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
 
-BirthDayDroid は、あなたの連絡先の中の人たちのお誕生日を思い出させてくれるAndroidアプリです。
-あなたの端末内の電話帳をスキャンして誕生日を検索します。
-見つけたら、あなたに、相手の年齢、星座、誕生日までの期間をお知らせします。
+If you want to help us to translate this app to your language go to: <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
 
-
-このプロジェクトこちらのリンク先にてオープンソースで行っております。: https://gitlab.com/tmendes/birthdaydroid/
-
-
-もし翻訳で私たちのアプリ開発にご協力いただけるのでしたらこちらのリンク先にてお願いいたします。: https://gitlab.com/tmendes/birthdaydroid
-
-
-Thanks to: 
-Emoji provided free by Emoji One
+Thanks to:
 <a href="http://emojione.com/">Emoji provided free by Emoji One</a>
 <a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a>
 <a href="https://www.flaticon.com/authors/smashicons/">Ethereum Icon made by smashicons from www.flaticon.com</a>
 
-
-このアプリは以下の権限を必要とします:
-
-* 連絡先の読み取り
-
-Birthday Droid は、あなたの端末内の連絡先に入力された誕生日をチェックして働くために、必要な場合に連絡先へのアクセスを要求します。
-その権限の要求が不審と思われましたら、上記のリンク先よりソースコードを確かめることができます。
-
-* バイブレーションの制御
-
-誕生日を振動でお知らせします
-
-* 起動時の実行
-
-誕生日の通知を登録した場合に、端末の起動と同時にアプリが始動します
+PERMISSIONS:
+* Read your contacts
+Birthday Droid will work checking the birthday entry from each contact from your contact list so it will request you to have access to your contatcs. You can check our source code if you still don't trust giving us that permission.
+* Control vibration
+ Birthday Notifications
+* Run at Startup
+ To register the time for the Birthday Notifications
