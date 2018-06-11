@@ -47,7 +47,7 @@ For any question, bug report, suggestion please drop us a line
 
 #### Translate
 
-If you want to help us to translate this app to your language go to: <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
+If you want to help us to translate this app to your language go to: <a href="https://transifex.com/wlnomads/birthdaydroid/">https://transifex.com/wlnomads/birthdaydroid</a>
 
 #### The BirthDayDroid Project Team
 
@@ -64,7 +64,6 @@ Thiago Ribeiro Mendes<br/>
 Emoji provided free by [Emoji One](http://emojione.com/)
 
 Bitcon Icon made by [freepik](https://www.flaticon.com/authors/freepik) from www.flaticon.com
-Ethereum Icon made by [smashicons](https://www.flaticon.com/authors/smashicons) from www.flaticon.com
 
 # License
 
