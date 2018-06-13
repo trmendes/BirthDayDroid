@@ -11,7 +11,6 @@ If you want to help us to translate this app to your language go to: <a href="ww
 Thanks to:
 <a href="http://emojione.com/">Emoji provided free by Emoji One</a>
 <a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a>
-<a href="https://www.flaticon.com/authors/smashicons/">Ethereum Icon made by smashicons from www.flaticon.com</a>
 
 PERMISSIONS:
 * Read your contacts

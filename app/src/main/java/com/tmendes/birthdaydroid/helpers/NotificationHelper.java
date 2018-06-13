@@ -67,8 +67,6 @@ public class NotificationHelper extends ContextWrapper {
                     .setColorized(true)
                     .setContentIntent(pI)
                     .setLargeIcon(notifyPicture)
-                    .setColor(getApplicationContext().getResources()
-                            .getColor(color, ctx.getTheme()))
                     .setSmallIcon(R.drawable.ic_cake_white_24dp)
                     .setAutoCancel(true);
 
