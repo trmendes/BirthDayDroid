@@ -2,6 +2,9 @@ Free! No Ads! Opensource :D!
 
 BirthDayDroid is a simple Android application to help you to remember your contact's birthdays. It scans your local contact list looking for birthdays. When it finds it, it will show you the contact's age, sign, days until her/his birthday.
 
+* Check our webpage
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
+
 * Open source:
 
 This project is an opensource project and you will find it at: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
@@ -12,7 +15,7 @@ If you want to help us to translate this app to your language go to: <a href="ww
 
 * Keep us awake :)
 
-If you want to buy us a coffee go to our webpage and check the links there <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
+If you want to buy us a coffee go to our webpage and check the links there <a href="https://tmendes.gitlab.io/BirthDayDroid/</a>
 
 * Thanks to:
 
