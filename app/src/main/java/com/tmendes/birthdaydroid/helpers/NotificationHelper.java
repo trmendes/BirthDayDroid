@@ -32,14 +32,12 @@ import com.tmendes.birthdaydroid.R;
 
 public class NotificationHelper extends ContextWrapper {
     private NotificationManager notifManager;
-    private final Context ctx;
 
     private static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
     private static final String CHANNEL_ONE_NAME = "Channel One";
 
     public NotificationHelper(Context ctx) {
         super(ctx);
-        this.ctx = ctx;
         createChannels();
     }
 

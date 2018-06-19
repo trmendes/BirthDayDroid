@@ -23,8 +23,10 @@ import android.content.Context;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Contact {
 
@@ -41,7 +43,6 @@ public class Contact {
     private int age;
     private int daysAge;
 
-    private boolean missingYear = false;
     private boolean missingData = true;
     private boolean letsCelebrate = false;
 
@@ -52,14 +53,14 @@ public class Contact {
 
     private static final long DAY = 60 * 60 * 1000 * 24;
 
-    private final static String[] formats = new String[]{
-            "--MM-dd",
-            "dd-MM--",
-            "yyyy-MM-dd",
-            "yyyy-MM-dd hh:mm:ss.SSS",
-            "dd-MM-yyyy",
-            "dd-MM-yyyy hh:mm:ss.SSS",
-    };
+    private final List<String> knownPatterns = Arrays.asList(
+            "--M-dd",
+            "dd-M--",
+            "yyyy-M-dd",
+            "yyyy-M-dd hh:mm:ss.SSS",
+            "dd-M-y",
+            "dd-M-y hh:mm:ss.SSS"
+    );
 
     public Contact(Context ctx, String key, String name, String date, String photoURI) {
         this.ctx = ctx;
@@ -76,26 +77,12 @@ public class Contact {
         }
     }
 
-    private void parseContactBirthdayField(String date) {
-        for (String format : formats) {
+    @SuppressLint("SimpleDateFormat")
+    private void parseContactBirthdayField(String dateString) {
+        for (String pattern : knownPatterns) {
             try {
-                @SuppressLint("SimpleDateFormat")
-                SimpleDateFormat df = new SimpleDateFormat(format);
-                df.setLenient(false);
                 bornOn = new GregorianCalendar();
-                bornOn.setTime(df.parse(date));
-
-                day = bornOn.get(Calendar.DAY_OF_MONTH);
-                month = bornOn.get(Calendar.MONTH);
-
-                if (format.contains("y")) {
-                    year = bornOn.get(Calendar.YEAR);
-                    missingYear = false;
-                } else {
-                    year = 0;
-                    missingYear = true;
-                }
-
+                bornOn.setTime(new SimpleDateFormat(pattern).parse(dateString));
                 missingData = false;
                 break;
             } catch (ParseException ignored) {
@@ -113,20 +100,23 @@ public class Contact {
 
         long diffBirthDayTodayMs;
 
-        /* Years */
-        if (!missingYear) {
-            diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
-            age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
-            if (age == 0) {
-                /* For those who are just born */
-                daysAge = (int) (diffBirthDayTodayMs / DAY);
-                /* People still can't be born on the future /o\ */
-                if (daysAge < 0) {
-                    daysAge = 0;
-                }
+        day = bornOn.get(Calendar.DAY_OF_MONTH);
+        month = bornOn.get(Calendar.MONTH);
+        year = bornOn.get(Calendar.YEAR);
+
+        /* Age */
+        diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
+        age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
+        if (age == 0) {
+            /* For those who are just born */
+            daysAge = (int) (diffBirthDayTodayMs / DAY);
+            /* People still can't be born on the future /o\ */
+            if (daysAge < 0) {
+                daysAge = 0;
             }
         }
 
+        /* Next Birthday */
         nextBirthday = (Calendar) bornOn.clone();
         nextBirthday.set(Calendar.YEAR, nowYear);
 
@@ -135,7 +125,7 @@ public class Contact {
             nextBirthday.add(Calendar.YEAR, 1);
         }
 
-        /* Mark those we have to celebrate today \o/ */
+        /* Party Today \o/ */
         if (isLeapYear) {
             if ((nowCal.get(Calendar.DAY_OF_MONTH) == 1)
                     && (bornOn.get(Calendar.DAY_OF_MONTH) == 29)
@@ -148,7 +138,6 @@ public class Contact {
                 ++age;
             }
         } else {
-            /* In case the birthday is today */
             if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
                     && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
                 letsCelebrate = true;
@@ -340,6 +329,9 @@ public class Contact {
         if (shallWeCelebrateToday()) {
             return 0L;
         }
+        if (nextBirthday == null) {
+            return Long.MAX_VALUE;
+        }
 
         long timeDiffMs;
         long days;
@@ -366,15 +358,11 @@ public class Contact {
         return missingData;
     }
 
-    public boolean isMissingYear() {
-        return missingYear;
-    }
-
     public String toString() {
         return "Name: " + getName() + " - Age: " + getAge() + " - [d:" + getDay() + ":m:" +
                 getMonth() + ":y:" + getYear() + "] - " + " sign: " + getSign() + " - Element: " +
-                getSignElement() + " - isMissingData(): " + isMissingData() +
-                " aPartyGoingOnToday(): " + shallWeCelebrateToday();
+                getSignElement() + " - isMissingData(): " + " aPartyGoingOnToday(): "
+                + shallWeCelebrateToday();
     }
 
 }

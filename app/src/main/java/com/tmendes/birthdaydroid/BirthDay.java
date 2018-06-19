@@ -69,11 +69,14 @@ public class BirthDay {
 
             if (showTodayNotifications) {
                 for (Contact contact : this.contactList) {
+                    long daysUntilNextBirthday = contact.getDaysUntilNextBirthDay();
                     if (contact.shallWeCelebrateToday()) {
                         /* Today notifications */
                         notifications.add(contact);
                     } else if (showNotificationInAdvace &&
-                            (contact.getDaysUntilNextBirthDay() <= daysInAdvance)) {
+                            daysUntilNextBirthday > 0 &&
+                            daysUntilNextBirthday != Long.MAX_VALUE &&
+                            daysUntilNextBirthday <= daysInAdvance) {
                         /* In advance notifications */
                         notifications.add(contact);
                     }
@@ -127,29 +130,16 @@ public class BirthDay {
                 String title = contact.getName();
                 StringBuilder body = new StringBuilder();
                 if (contact.shallWeCelebrateToday()) {
-                    if (contact.isMissingYear()) {
-                        body.append(ctx.getString(
-                                R.string.message_notification_message_no_age,
-                                contact.getContactFirstName()));
-                    } else {
-                        body.append(ctx.getString(
+                    body.append(ctx.getString(
                                 R.string.message_notification_message, contact.getContactFirstName(),
                                 contact.getAge()));
-                    }
                 } else {
-                    if (contact.isMissingYear()) {
-                        body.append(ctx.getResources().getQuantityString(
-                                R.plurals.message_notification_message_bt_to_come_no_year,
-                                contact.getDaysUntilNextBirthDay().intValue(),
-                                contact.getContactFirstName(),
-                                contact.getDaysUntilNextBirthDay().intValue()));
-                    } else {
-                        body.append(ctx.getResources().getQuantityString(
+                    body.append(ctx.getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthDay().intValue(),
                                 contact.getContactFirstName(), contact.getAge() + 1,
                                 contact.getDaysUntilNextBirthDay().intValue()));
-                    }
+
                 }
 
                 /* Contact Picture */

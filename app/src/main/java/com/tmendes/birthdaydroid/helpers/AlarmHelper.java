@@ -17,6 +17,7 @@
 
 package com.tmendes.birthdaydroid.helpers;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -53,6 +54,7 @@ public class AlarmHelper {
             defaultToRingAt.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
         }
 
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String formattedDate = df.format(defaultToRingAt.getTime());
         Log.i("Alarm", "Setting alarm at " + formattedDate);
