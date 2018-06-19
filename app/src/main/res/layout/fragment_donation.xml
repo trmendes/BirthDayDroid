@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:text="@string/donation_title"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     </TableRow>
 
@@ -62,6 +63,7 @@
             android:singleLine="false"
             android:text="@string/donation_wallet"
             android:textSize="18sp"
+            android:textStyle="bold"
             android:typeface="sans" />
     </TableRow>
 
@@ -94,6 +96,43 @@
                 android:text="@string/donation_wallet"
                 android:typeface="sans"
                 android:textSize="14sp" />
+
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dip">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables,UselessParent">
+
+
+            <TextView
+                android:id="@+id/tvDonTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/donation_others"
+                android:textIsSelectable="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/tvWeb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/website"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                android:typeface="sans" />
 
         </LinearLayout>
     </TableRow>

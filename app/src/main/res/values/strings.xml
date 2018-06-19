@@ -125,4 +125,6 @@
     <string name="exit_no">No</string>
     <string name="statistics_fail_title">Fail Log</string>
     <string name="log_cant_parse">Can\'t parse %1$s</string>
+    <string name="donation_others">Other ways to donate, check: </string>
+    <string name="website" translatable="false"><a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a></string>
 </resources>

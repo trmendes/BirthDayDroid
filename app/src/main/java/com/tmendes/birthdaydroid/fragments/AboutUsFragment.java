@@ -43,12 +43,14 @@ public class AboutUsFragment extends Fragment {
         TextView tvHelpTranslator = v.findViewById(R.id.tvHelpTranslator);
         TextView tvIcons01 = v.findViewById(R.id.tvIcons01);
         TextView tvTranslatorNames = v.findViewById(R.id.tvTranslatorNames);
+        TextView tvWeb = v.findViewById(R.id.tvWeb);
 
         tvHelpDevel.setMovementMethod(LinkMovementMethod.getInstance());
         tvHelpIssue.setMovementMethod(LinkMovementMethod.getInstance());
         tvHelpTranslator.setMovementMethod(LinkMovementMethod.getInstance());
         tvIcons01.setMovementMethod(LinkMovementMethod.getInstance());
         tvTranslatorNames.setMovementMethod(LinkMovementMethod.getInstance());
+        tvWeb.setMovementMethod(LinkMovementMethod.getInstance());
 
         appVersion.setText(container.getContext().getResources()
                 .getString(R.string.build, BuildConfig.VERSION_CODE));
