@@ -28,10 +28,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
@@ -53,15 +55,17 @@ public class StatisticsFragment extends Fragment {
         Button buttonSign = v.findViewById(R.id.buttonSign);
         Button buttonMonth = v.findViewById(R.id.buttonMonth);
         Button buttonWeek = v.findViewById(R.id.buttonWeek);
+        Button buttonFailLog = v.findViewById(R.id.buttonFailLog);
 
         buttonAges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                int size = birthDay.getBirthDayList().size();
                 Map<Integer, Integer> ageStat = birthDay.getAgeStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getQuantityString(
                                 R.plurals.statistics_contacts_counter,
-                                birthDay.getBirthDayList().size(),
-                                birthDay.getBirthDayList().size()));
+                                size,
+                                size));
 
                 for (Object o : ageStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -81,12 +85,13 @@ public class StatisticsFragment extends Fragment {
 
         buttonSign.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                int size = birthDay.getBirthDayList().size();
                 Map<String, Integer> signStat = birthDay.getSignStats();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getQuantityString(
                                 R.plurals.statistics_contacts_counter,
-                                birthDay.getBirthDayList().size(),
-                                birthDay.getBirthDayList().size()));
+                                size,
+                                size));
 
                 for (Object o : signStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -107,13 +112,14 @@ public class StatisticsFragment extends Fragment {
 
         buttonMonth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                int size = birthDay.getBirthDayList().size();
                 Map<Integer, Integer> monthStat = birthDay.getMonthStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getQuantityString(
                                 R.plurals.statistics_contacts_counter,
-                                birthDay.getBirthDayList().size(),
-                                birthDay.getBirthDayList().size()));
+                                size,
+                                size));
 
                 for (Object o : monthStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
@@ -134,25 +140,43 @@ public class StatisticsFragment extends Fragment {
 
         buttonWeek.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                int size = birthDay.getBirthDayList().size();
                 Map<Integer, Integer> weekStat = birthDay.getWeekStats();
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 StringBuilder dialogData = new StringBuilder(ctx.getResources()
                         .getQuantityString(
                                 R.plurals.statistics_contacts_counter,
-                                birthDay.getBirthDayList().size(),
-                                birthDay.getBirthDayList().size()));
+                                size,
+                                size));
 
                 for (Object o : weekStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
-                    int week = (int) pair.getKey();
+                    int month = (int) pair.getKey();
                     int number = (int) pair.getValue();
                     dialogData.append(ctx.getResources()
                             .getQuantityString(R.plurals.statistics_int_string,
-                                    number, number, dfs.getWeekdays()[week]));
+                                    number, number, dfs.getMonths()[month]));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
                 alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_week_title));
+                alertDialog.setMessage(dialogData.toString());
+                alertDialog.show();
+            }
+
+        });
+
+        buttonFailLog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                ArrayList<Contact> failLog = birthDay.getFailContactList();
+                StringBuilder dialogData = new StringBuilder("");
+
+                for (Contact contact : failLog) {
+                    dialogData.append(contact.getFailMsg());
+                }
+
+                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
+                alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_fail_title));
                 alertDialog.setMessage(dialogData.toString());
                 alertDialog.show();
             }

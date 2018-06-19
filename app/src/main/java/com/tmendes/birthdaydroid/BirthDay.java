@@ -122,6 +122,13 @@ public class BirthDay {
         return new TreeMap<>();
     }
 
+    public ArrayList<Contact> getFailContactList() {
+        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
+            return statistics.getFailList();
+        }
+        return new ArrayList<>();
+    }
+
     public void postNotification(Contact contact) {
         if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
             try {
@@ -197,8 +204,7 @@ public class BirthDay {
                         c.getString(dateColumn),
                         c.getString(photoColumn));
 
-                if (!contact.isMissingData()) {
-
+                if (!contact.failOnParseDateString()) {
                     String sign = contact.getSign();
                     int age = contact.getAge();
                     int month = contact.getMonth();
@@ -209,18 +215,21 @@ public class BirthDay {
                     } else {
                         statistics.getAgeStats().put(age, 1);
                     }
+
                     if (statistics.getSignStats().get(sign) != null) {
                         statistics.getSignStats().put(sign,
                                 statistics.getSignStats().get(sign) + 1);
                     } else {
                         statistics.getSignStats().put(sign, 1);
                     }
+
                     if (statistics.getMonthStats().get(month) != null) {
                         statistics.getMonthStats().put(month,
                                 statistics.getMonthStats().get(month) + 1);
                     } else {
                         statistics.getMonthStats().put(month, 1);
                     }
+
                     if (statistics.getWeekStats().get(bWeek) != null) {
                         statistics.getWeekStats().put(bWeek,
                                 statistics.getWeekStats().get(bWeek) + 1);
@@ -228,11 +237,10 @@ public class BirthDay {
                         statistics.getWeekStats().put(bWeek, 1);
                     }
 
+                    contactList.add(contact);
+                } else {
+                    statistics.getFailList().add(contact);
                 }
-
-                contactList.add(contact);
-
-
             } while (c.moveToNext());
 
             c.close();
@@ -258,7 +266,7 @@ public class BirthDay {
                     ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
             };
 
-            String selection = ContactsContract.Data.MIMETYPE +
+           String selection = ContactsContract.Data.MIMETYPE +
                     "=? AND " + ContactsContract.CommonDataKinds.Event.TYPE + "=?";
 
             String[] args = new String[]{

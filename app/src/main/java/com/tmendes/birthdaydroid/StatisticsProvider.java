@@ -17,6 +17,7 @@
 
 package com.tmendes.birthdaydroid;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -25,12 +26,14 @@ class StatisticsProvider {
     private final Map<String, Integer> signStats;
     private final Map<Integer, Integer> monthStats;
     private final Map<Integer, Integer> weekStats;
+    private final ArrayList<Contact> failList;
 
     public StatisticsProvider() {
         ageStats = new TreeMap<>();
         signStats = new TreeMap<>();
         monthStats = new TreeMap<>();
         weekStats = new TreeMap<>();
+        failList = new ArrayList<>();
     }
 
     public void reset() {
@@ -38,6 +41,7 @@ class StatisticsProvider {
         signStats.clear();
         monthStats.clear();
         weekStats.clear();
+        failList.clear();
     }
 
     public Map<Integer, Integer> getAgeStats() {
@@ -54,6 +58,10 @@ class StatisticsProvider {
 
     public Map<Integer, Integer> getWeekStats() {
         return weekStats;
+    }
+
+    public ArrayList<Contact> getFailList() {
+        return failList;
     }
 
 }

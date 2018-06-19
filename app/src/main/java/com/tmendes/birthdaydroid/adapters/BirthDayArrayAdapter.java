@@ -62,7 +62,20 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
         final Contact contact = birthDayList.get(position);
 
-        if (!contact.isMissingData()) {
+        if (!contact.failOnParseDateString()) {
+
+            String name = contact.getName();
+            String photoUri = contact.getPhotoURI();
+            int age = contact.getAge();
+            int daysAge = contact.getDaysAge();
+            
+            String dayWeek = contact.getNextBirthDayWeekName();
+            int day = contact.getDay();
+            String monthName = contact.getMonthName();
+            
+            int daysUntilBirthday = contact.getDaysUntilNextBirthDay().intValue();
+            String zodiacSign = contact.getSign();
+            String zodiacSignElement = contact.getSignElement();
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx
@@ -101,23 +114,23 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             }
 
 
-            viewHolder.name.setText(contact.getName());
+            viewHolder.name.setText(name);
 
             viewHolder.birthDayWeekName
                     .setText(ctx.getResources()
-                            .getString(R.string.next_week_name, contact.getNextBirtDayWeekName()));
+                            .getString(R.string.next_week_name, dayWeek));
 
             viewHolder.signElement.setText(
                     ctx.getResources().getString(R.string.dual_string,
-                            contact.getSign(), contact.getSignElement()));
+                            zodiacSign, zodiacSignElement));
 
             viewHolder.bornOn.setText(
                     ctx.getResources().getString(
-                            R.string.birthday_string, contact.getMonthName(), contact.getDay())
+                            R.string.birthday_string, monthName, day)
             );
 
-            if (contact.getPhotoURI() != null) {
-                viewHolder.picture.setImageURI(Uri.parse(contact.getPhotoURI()));
+            if (photoUri != null) {
+                viewHolder.picture.setImageURI(Uri.parse(photoUri));
             } else {
                 viewHolder.picture.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -130,7 +143,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                 viewHolder.emojiParty.setVisibility(View.VISIBLE);
             } else {
-                if (contact.getDaysUntilNextBirthDay() == 1) {
+                if (daysUntilBirthday == 1) {
                     viewHolder.daysToGo.setText(
                             ctx.getResources().getString(R.string.birthday_tomorrow));
                     viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
@@ -140,20 +153,19 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                             .setText(
                                     ctx.getResources().getQuantityString(
                                             R.plurals.days_until,
-                                            contact.getDaysUntilNextBirthDay().intValue(),
-                                            contact.getDaysUntilNextBirthDay().intValue()));
+                                            daysUntilBirthday,
+                                            daysUntilBirthday));
                     viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                     viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                 }
             }
 
-
-            if (contact.getAge() != 0) {
+            if (age != 0) {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
-                        R.plurals.years_old, contact.getAge(), contact.getAge()));
+                        R.plurals.years_old, age, age));
             } else {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
-                        R.plurals.days_old, contact.getDaysAge(), contact.getDaysAge()));
+                        R.plurals.days_old, daysAge, daysAge));
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -226,8 +238,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < bdListToRestoreAfterFiltering.size(); i++) {
-                        String data = bdListToRestoreAfterFiltering.get(i).getName();
-                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                        String name = bdListToRestoreAfterFiltering.get(i).getName();
+                        if (name.toLowerCase().startsWith(constraint.toString())) {
                             Contact contact = new Contact(ctx,
                                     bdListToRestoreAfterFiltering.get(i).getKey(),
                                     bdListToRestoreAfterFiltering.get(i).getName(),

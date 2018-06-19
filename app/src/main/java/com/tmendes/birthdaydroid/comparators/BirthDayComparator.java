@@ -42,6 +42,16 @@ public class BirthDayComparator implements Comparator<Contact> {
 
         switch (orderType) {
             case ORDER_AGE:
+            case ORDER_DAYS_UNTIL_BIRTHDAY:
+            case ORDER_SIGN:
+                if (a.failOnParseDateString() || b.failOnParseDateString()) {
+                    return 0;
+                }
+                break;
+        }
+
+        switch (orderType) {
+            case ORDER_AGE:
                 if (sortType == SORT_ASC) {
                     if ( a.getBirthday().before(b) ) res = 1;
                     else res = -1;

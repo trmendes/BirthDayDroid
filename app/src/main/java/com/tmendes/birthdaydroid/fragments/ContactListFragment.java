@@ -90,9 +90,6 @@ public class ContactListFragment extends Fragment {
             }
         });
 
-        ((MainActivity) getActivity()).getBirthday().refresh();
-        updateSortSettings();
-
         return v;
     }
 

@@ -30,6 +30,8 @@ import java.util.List;
 
 public class Contact {
 
+    private final Context ctx;
+
     private final String name;
     private String sign;
     private String signElement;
@@ -43,13 +45,13 @@ public class Contact {
     private int age;
     private int daysAge;
 
-    private boolean missingData = true;
+    private String failMsg;
+
+    private boolean failOnParseDateString = true;
     private boolean letsCelebrate = false;
 
     private Calendar bornOn;
     private Calendar nextBirthday;
-
-    private final Context ctx;
 
     private static final long DAY = 60 * 60 * 1000 * 24;
 
@@ -71,7 +73,7 @@ public class Contact {
 
         parseContactBirthdayField(date);
 
-        if (!missingData) {
+        if (!failOnParseDateString) {
             setContactBirthDayInfo();
             setContactSign();
         }
@@ -83,10 +85,16 @@ public class Contact {
             try {
                 bornOn = new GregorianCalendar();
                 bornOn.setTime(new SimpleDateFormat(pattern).parse(dateString));
-                missingData = false;
+                failOnParseDateString = false;
                 break;
             } catch (ParseException ignored) {
-                missingData = true;
+                StringBuilder dialogData = new StringBuilder("* ");
+                dialogData.append(name);
+                dialogData.append("\n");
+                dialogData.append(ctx.getResources().getString(R.string.log_cant_parse, dateString));
+                dialogData.append("\n");
+                failMsg = dialogData.toString();
+                failOnParseDateString = true;
             }
         }
     }
@@ -272,7 +280,7 @@ public class Contact {
         return bornOn.get(Calendar.DAY_OF_WEEK);
     }
 
-    public String getNextBirtDayWeekName() {
+    public String getNextBirthDayWeekName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
         return dfs.getWeekdays()[nextBirthday.get(Calendar.DAY_OF_WEEK)];
 
@@ -354,14 +362,18 @@ public class Contact {
         return letsCelebrate;
     }
 
-    public boolean isMissingData() {
-        return missingData;
+    public boolean failOnParseDateString() {
+        return failOnParseDateString;
+    }
+
+    public String getFailMsg() {
+        return failMsg;
     }
 
     public String toString() {
         return "Name: " + getName() + " - Age: " + getAge() + " - [d:" + getDay() + ":m:" +
                 getMonth() + ":y:" + getYear() + "] - " + " sign: " + getSign() + " - Element: " +
-                getSignElement() + " - isMissingData(): " + " aPartyGoingOnToday(): "
+                getSignElement() + " - failOnParseDateString(): " + " aPartyGoingOnToday(): "
                 + shallWeCelebrateToday();
     }
 

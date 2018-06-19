@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        //FIXME Add a better message to warn the user about the back button
         new AlertDialog.Builder(this)
                 .setMessage(getBaseContext().getResources().getString(R.string.exit_dialog))
                 .setCancelable(false)
