@@ -1,0 +1,1 @@
+* Fix some problems parsing dates when using different patterns
