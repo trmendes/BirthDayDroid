@@ -151,11 +151,11 @@ public class StatisticsFragment extends Fragment {
 
                 for (Object o : weekStat.entrySet()) {
                     Map.Entry pair = (Map.Entry) o;
-                    int month = (int) pair.getKey();
+                    int weekDay = (int) pair.getKey();
                     int number = (int) pair.getValue();
                     dialogData.append(ctx.getResources()
                             .getQuantityString(R.plurals.statistics_int_string,
-                                    number, number, dfs.getMonths()[month]));
+                                    number, number, dfs.getWeekdays()[weekDay]));
                 }
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();

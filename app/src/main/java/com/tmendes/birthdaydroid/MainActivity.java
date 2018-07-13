@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
 
         switch (id) {
+            case android.R.id.home:
+                finish();
             case R.id.nav_birthday_list:
                 fragmentClass = ContactListFragment.class;
                 break;

@@ -57,5 +57,4 @@ public class AboutUsFragment extends Fragment {
 
         return v;
     }
-
 }

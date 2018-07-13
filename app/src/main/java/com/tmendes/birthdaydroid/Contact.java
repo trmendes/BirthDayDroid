@@ -130,6 +130,7 @@ public class Contact {
 
         /* In case the birthday is over we add 1 year to the age */
         if (nextBirthday.getTimeInMillis() < nowCal.getTimeInMillis()) {
+            ++age;
             nextBirthday.add(Calendar.YEAR, 1);
         }
 
@@ -139,17 +140,14 @@ public class Contact {
                     && (bornOn.get(Calendar.DAY_OF_MONTH) == 29)
                     && (nowCal.get(Calendar.MONTH) == Calendar.MARCH)) {
                 letsCelebrate = true;
-                ++age;
             } else if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
                     && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
                 letsCelebrate = true;
-                ++age;
             }
         } else {
             if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
                     && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
                 letsCelebrate = true;
-                ++age;
             }
         }
     }
