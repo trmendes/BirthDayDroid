@@ -47,6 +47,7 @@ public class Contact {
 
     private String failMsg;
 
+    private boolean containsYearInfo = false;
     private boolean failOnParseDateString = true;
     private boolean letsCelebrate = false;
 
@@ -56,12 +57,14 @@ public class Contact {
     private static final long DAY = 60 * 60 * 1000 * 24;
 
     private final List<String> knownPatterns = Arrays.asList(
-            "--M-dd",
-            "dd-M--",
             "yyyy-M-dd",
             "yyyy-M-dd hh:mm:ss.SSS",
             "dd-M-y",
-            "dd-M-y hh:mm:ss.SSS"
+            "dd-M-y hh:mm:ss.SSS",
+            "--M-dd",
+            "--M-dd hh:mm:ss.SSS",
+            "dd-M-- hh:mm:ss.SSS",
+            "dd-M--"
     );
 
     public Contact(Context ctx, String key, String name, String date, String photoURI) {
@@ -86,16 +89,25 @@ public class Contact {
                 bornOn = new GregorianCalendar();
                 bornOn.setTime(new SimpleDateFormat(pattern).parse(dateString));
                 failOnParseDateString = false;
+                if (pattern.contains("y")) {
+                    containsYearInfo = true;
+                } else {
+                    containsYearInfo = false;
+                }
                 break;
             } catch (ParseException ignored) {
-                StringBuilder dialogData = new StringBuilder("* ");
-                dialogData.append(name);
-                dialogData.append("\n");
-                dialogData.append(ctx.getResources().getString(R.string.log_cant_parse, dateString));
-                dialogData.append("\n");
-                failMsg = dialogData.toString();
+                containsYearInfo = false;
                 failOnParseDateString = true;
             }
+        }
+
+        if (failOnParseDateString) {
+            StringBuilder dialogData = new StringBuilder(" ");
+            dialogData.append(name);
+            dialogData.append("\n");
+            dialogData.append(ctx.getResources().getString(R.string.log_cant_parse, dateString));
+            dialogData.append("\n");
+            failMsg.concat(dialogData.toString());
         }
     }
 
@@ -110,18 +122,24 @@ public class Contact {
 
         day = bornOn.get(Calendar.DAY_OF_MONTH);
         month = bornOn.get(Calendar.MONTH);
-        year = bornOn.get(Calendar.YEAR);
 
         /* Age */
-        diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
-        age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
-        if (age == 0) {
-            /* For those who are just born */
-            daysAge = (int) (diffBirthDayTodayMs / DAY);
-            /* People still can't be born on the future /o\ */
-            if (daysAge < 0) {
-                daysAge = 0;
+        if (containsYearInfo) {
+            year = bornOn.get(Calendar.YEAR);
+            diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
+            age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
+            if (age == 0) {
+                /* For those who are just born */
+                daysAge = (int) (diffBirthDayTodayMs / DAY);
+                /* People still can't be born on the future /o\ */
+                if (daysAge < 0) {
+                    daysAge = 0;
+                }
             }
+        } else {
+            bornOn.set(Calendar.YEAR, nowYear);
+            year = -1;
+            age = -1;
         }
 
         /* Next Birthday */
@@ -130,7 +148,9 @@ public class Contact {
 
         /* In case the birthday is over we add 1 year to the age */
         if (nextBirthday.getTimeInMillis() < nowCal.getTimeInMillis()) {
-            ++age;
+            if (age >= 0) {
+                ++age;
+            }
             nextBirthday.add(Calendar.YEAR, 1);
         }
 

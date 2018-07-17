@@ -160,12 +160,14 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 }
             }
 
-            if (age != 0) {
+            if (age > 0) {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.years_old, age, age));
-            } else {
+            } else if (age == 0) {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.days_old, daysAge, daysAge));
+            } else {
+                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {

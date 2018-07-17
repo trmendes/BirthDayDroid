@@ -95,7 +95,7 @@ public class AlarmHelper {
         PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(context,
                 0,
                 alarmIntent,
-                0);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(pendingAlarmIntent);
 
         /* Alarm won't start again if device is rebooted */
