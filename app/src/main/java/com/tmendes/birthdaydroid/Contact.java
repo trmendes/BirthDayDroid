@@ -74,6 +74,8 @@ public class Contact {
         this.date = date;
         this.photoURI = photoURI;
 
+        failMsg = "";
+
         parseContactBirthdayField(date);
 
         if (!failOnParseDateString) {
