@@ -116,7 +116,8 @@ public class Contact {
         /* Years */
         if (!missingYear) {
             diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
-            age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
+            //Subtract 1 to get 365 days
+            age = (int) (diffBirthDayTodayMs / (DAY * (nowCal.getMaximum(Calendar.DAY_OF_YEAR) - 1)));
             if (age == 0) {
                 /* For those who are just born */
                 daysAge = (int) (diffBirthDayTodayMs / DAY);
