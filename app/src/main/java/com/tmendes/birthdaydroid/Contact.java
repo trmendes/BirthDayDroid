@@ -45,7 +45,7 @@ public class Contact {
     private int age;
     private int daysAge;
 
-    private String failMsg;
+    private final String failMsg;
 
     private boolean containsYearInfo = false;
     private boolean failOnParseDateString = true;
@@ -91,11 +91,7 @@ public class Contact {
                 bornOn = new GregorianCalendar();
                 bornOn.setTime(new SimpleDateFormat(pattern).parse(dateString));
                 failOnParseDateString = false;
-                if (pattern.contains("y")) {
-                    containsYearInfo = true;
-                } else {
-                    containsYearInfo = false;
-                }
+                containsYearInfo = pattern.contains("y");
                 break;
             } catch (ParseException ignored) {
                 containsYearInfo = false;
@@ -104,12 +100,11 @@ public class Contact {
         }
 
         if (failOnParseDateString) {
-            StringBuilder dialogData = new StringBuilder(" ");
-            dialogData.append(name);
-            dialogData.append("\n");
-            dialogData.append(ctx.getResources().getString(R.string.log_cant_parse, dateString));
-            dialogData.append("\n");
-            failMsg.concat(dialogData.toString());
+            String dialogData = " " + name +
+                    "\n" +
+                    ctx.getResources().getString(R.string.log_cant_parse, dateString) +
+                    "\n";
+            failMsg.concat(dialogData);
         }
     }
 

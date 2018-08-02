@@ -17,19 +17,26 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.method.LinkMovementMethod;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.tmendes.birthdaydroid.BuildConfig;
 import com.tmendes.birthdaydroid.R;
 
-public class AboutUsFragment extends Fragment {
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class AboutUsFragment extends Fragment  implements View.OnClickListener {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,23 +45,60 @@ public class AboutUsFragment extends Fragment {
                 container, false);
 
         TextView appVersion = v.findViewById(R.id.tvVersion);
-        TextView tvHelpDevel = v.findViewById(R.id.tvHelpDevel);
-        TextView tvHelpIssue = v.findViewById(R.id.tvHelpIssue);
-        TextView tvHelpTranslator = v.findViewById(R.id.tvHelpTranslator);
-        TextView tvIcons01 = v.findViewById(R.id.tvIcons01);
-        TextView tvTranslatorNames = v.findViewById(R.id.tvTranslatorNames);
-        TextView tvWeb = v.findViewById(R.id.tvWeb);
+        Button btChangelog = v.findViewById(R.id.about_us_bt_changelog);
+        WebView webViewCredits = v.findViewById(R.id.webViewCredits);
 
-        tvHelpDevel.setMovementMethod(LinkMovementMethod.getInstance());
-        tvHelpIssue.setMovementMethod(LinkMovementMethod.getInstance());
-        tvHelpTranslator.setMovementMethod(LinkMovementMethod.getInstance());
-        tvIcons01.setMovementMethod(LinkMovementMethod.getInstance());
-        tvTranslatorNames.setMovementMethod(LinkMovementMethod.getInstance());
-        tvWeb.setMovementMethod(LinkMovementMethod.getInstance());
+        btChangelog.setOnClickListener(this);
+
+        webViewCredits.loadUrl("file:///android_asset/credits.html");
 
         appVersion.setText(container.getContext().getResources()
                 .getString(R.string.build, BuildConfig.VERSION_CODE));
 
         return v;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.about_us_bt_changelog:
+                try {
+                    InputStream changelogIS = view.getResources().getAssets().open("changelog.txt");
+                    String s = readTextFile(changelogIS);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setMessage(s);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    private String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outputStream.toString();
     }
 }

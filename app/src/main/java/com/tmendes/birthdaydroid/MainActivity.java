@@ -39,7 +39,6 @@ import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
-import com.tmendes.birthdaydroid.fragments.DonationFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         permissionHelper = new PermissionHelper(this);
-        requestForPermissions(PERMISSION_CONTACT_READ);
+        requestForPermissions();
 
         birthDays = new BirthDay(getApplicationContext(), permissionHelper);
 
@@ -137,9 +136,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
                 break;
-            case R.id.nav_donations:
-                fragmentClass = DonationFragment.class;
-                break;
             case R.id.nav_about:
                 fragmentClass = AboutUsFragment.class;
                 break;
@@ -180,40 +176,32 @@ public class MainActivity extends AppCompatActivity
          return birthDays;
     }
 
-    private void requestForPermissions(int permission) {
+    private void requestForPermissions() {
 
-        String permissionString = "";
-        boolean isPermissionValid;
+        String permissionString;
 
-        if (permission == PERMISSION_CONTACT_READ) {
-            permissionString = Manifest.permission.READ_CONTACTS;
-            isPermissionValid = true;
-        } else {
-            isPermissionValid = false;
-        }
+        permissionString = Manifest.permission.READ_CONTACTS;
 
-        if (isPermissionValid) {
-            if (ContextCompat.checkSelfPermission(this, permissionString)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // Permission is not granted
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        permissionString)) {
-                    displayPermissionExplanation(permission);
-                } else {
-                    // No explanation needed; request the permission
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.READ_CONTACTS},
-                            PERMISSION_CONTACT_READ);
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
-                }
+        if (ContextCompat.checkSelfPermission(this, permissionString)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    permissionString)) {
+                displayPermissionExplanation();
             } else {
-                // Permission has already been granted
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
-                openContactFragments();
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        PERMISSION_CONTACT_READ);
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
             }
+        } else {
+            // Permission has already been granted
+            permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+            openContactFragments();
         }
     }
 
@@ -232,10 +220,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void displayPermissionExplanation(final int permission) {
+    private void displayPermissionExplanation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        switch (permission) {
+        switch (MainActivity.PERMISSION_CONTACT_READ) {
             case PERMISSION_CONTACT_READ:
                 builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
                 builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
@@ -244,7 +232,7 @@ public class MainActivity extends AppCompatActivity
         builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow), new Dialog.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (permission) {
+                switch (MainActivity.PERMISSION_CONTACT_READ) {
                     case PERMISSION_CONTACT_READ:
                         ActivityCompat.requestPermissions(MainActivity.this,
                                 new String[]{Manifest.permission.READ_CONTACTS},

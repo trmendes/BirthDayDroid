@@ -26,7 +26,6 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ColorRes;
 
 import com.tmendes.birthdaydroid.R;
 
@@ -56,8 +55,7 @@ public class NotificationHelper extends ContextWrapper {
     public Notification.Builder getNotification(String title,
                                                 String body,
                                                 Bitmap notifyPicture,
-                                                PendingIntent pI,
-                                                @ColorRes int color) {
+                                                PendingIntent pI) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
                     .setContentTitle(title)

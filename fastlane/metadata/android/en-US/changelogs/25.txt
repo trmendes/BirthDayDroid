@@ -1,0 +1,2 @@
+* A new about fragment
+* Remove Donation from the app menu (check the app homepage if you feel like donating)

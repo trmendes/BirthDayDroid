@@ -34,7 +34,6 @@
     <string name="days_until_birthday">Tem uma festa acontecendo hoje :D</string>
     <string name="birthday_scan_found">Gerando notificações de aniversários</string>
     <string name="birthday_scan_not_found">Nenhum aniversário encontrado hoje</string>
-    <string name="message_notification_message_no_age">%1$s aniversário(s) hoje</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s completará %2$d em %3$d dia</item>
         <item quantity="other">%1$s completará %2$d em %3$d dias</item>
@@ -85,17 +84,7 @@
         <item quantity="one">\t %1$d \t contato \t - \t %2$s\n</item>
         <item quantity="other">\t %1$d \t contatos \t - \t %2$s\n</item>
     </plurals>
-    <string name="about_title">© 2016/2016 Projeto BirthDayDroid</string>
     <string name="about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
-    <string name="about_help">Você pode nos ajudar :D</string>
-    <string name="about_developer"><a href="https://github.com/tribeirom/BirthDayDroid">Você é um desenvolvedor ou um artista?</a></string>
-    <string name="about_issue"><a href="https://github.com/tribeirom/BirthDayDroid/issues">Você tem algum pedido ou viu algo estranho?</a></string>
-    <string name="about_translator"><a href="https://crowdin.com/project/birthdaydroid">Você pode nos ajudar com uma lova língua?</a></string>
-    <string name="about_developers_title">Desenvolvedores</string>
-    <string name="about_oc_cc_01"><a href="http://emojione.com/">Emoji gratuitos por Emoji One</a></string>
-    <string name="about_oc_cc_02"><a href="https://www.flaticon.com/authors/freepik">Ícone Bitcon feito por freepik de www.flaticon.com</a></string>
-    <string name="about_oc_cc_03"><a href="https://www.flaticon.com/authors/smashicons/">ícone Ethereum feito por smashicons de www.flaticon.com</a></string>
-    <string name="about_translator_title">Tradutores</string>
     <string name="array_order_age">Idade</string>
     <string name="array_order_asc">Asc</string>
     <string name="array_order_desc">Desc</string>
@@ -103,16 +92,10 @@
     <string name="array_order_next">Dias para o próximo aniversário</string>
     <string name="array_order_sign">Signo</string>
     <string name="birthday_string">%1$s/%2$d</string>
-    <string name="menu_donations">Doações</string>
-    <string name="donation_wallet">Carteiras (clique para copiar)</string>
-    <string name="donation_title">Faça uma doaćao :D</string>
-    <string name="donatinon_text">Se você gostou desse aplicativo\\ne quer dar um suporte.\\nBitcoins são super bem vindas.</string>
-    <string name="copy_to_clipboard">Texto copiado para a área de transferência</string>
     <string name="exit_dialog">Você tem certeza que deseja sair?</string>
     <string name="exit_yes">Sim</string>
     <string name="exit_no">Não</string>
     <string name="statistics_fail_title">Log de falhas</string>
     <string name="log_cant_parse">Não foi possível entender %1$s</string>
-    <string name="donation_others">Outras formas de doaćão, verifique: </string>
-    <string name="website" translatable="false"><a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a></string>
+    <string name="about_us_bt_changelog">Changelog</string>
 </resources>

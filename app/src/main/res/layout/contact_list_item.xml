@@ -124,14 +124,12 @@
         android:padding="3dip">
 
         <ImageView
-            android:id="@+id/ivEmojiP04"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_party_01" />
 
         <ImageView
-            android:id="@+id/ivEmojiP05"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"
@@ -151,35 +149,30 @@
         android:padding="3dip">
 
         <ImageView
-            android:id="@+id/ivEmojiP06"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_party_03" />
 
         <ImageView
-            android:id="@+id/ivEmojiP07"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_party_04" />
 
         <ImageView
-            android:id="@+id/ivEmojiP08"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_party_05" />
 
         <ImageView
-            android:id="@+id/ivEmojiP09"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_party_06" />
 
         <ImageView
-            android:id="@+id/ivEmojiP10"
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:contentDescription="@string/image"

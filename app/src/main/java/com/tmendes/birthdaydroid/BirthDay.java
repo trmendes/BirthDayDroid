@@ -172,7 +172,7 @@ public class BirthDay {
                 NotificationHelper nHelper = new NotificationHelper(ctx);
                 @SuppressLint("ResourceType") Notification.Builder nBuilder = nHelper
                         .getNotification(title, body.toString(),
-                                notifyPicture, openContactPI, Color.BLUE);
+                                notifyPicture, openContactPI);
                 nHelper.notify(System.currentTimeMillis(), nBuilder);
 
             } catch (IOException e) {
