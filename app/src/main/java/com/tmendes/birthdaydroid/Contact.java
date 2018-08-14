@@ -109,13 +109,21 @@ public class Contact {
     }
 
     private void setContactBirthDayInfo() {
-        Calendar nowCal = Calendar.getInstance();
-        final int nowYear = nowCal.get(Calendar.YEAR);
+        Calendar actualCal = Calendar.getInstance();
+        final int actualYear = actualCal.get(Calendar.YEAR);
 
-        final boolean isLeapYear = ((nowYear % 4 == 0)
-                && (nowYear % 100 != 0) || (nowYear % 400 == 0));
+        final boolean isLeapYear = ((actualYear % 4 == 0)
+                && (actualYear % 100 != 0) || (actualYear % 400 == 0));
 
-        long diffBirthDayTodayMs;
+        /* Set The Next Birthday Info */
+        nextBirthday = (Calendar) bornOn.clone();
+        nextBirthday.set(Calendar.YEAR, actualYear);
+
+        boolean birthDayAlreadyPassed = nextBirthday.getTimeInMillis() < actualCal.getTimeInMillis();
+
+        if (birthDayAlreadyPassed) {
+            nextBirthday.add(Calendar.YEAR, 1);
+        }
 
         day = bornOn.get(Calendar.DAY_OF_MONTH);
         month = bornOn.get(Calendar.MONTH);
@@ -123,47 +131,40 @@ public class Contact {
         /* Age */
         if (containsYearInfo) {
             year = bornOn.get(Calendar.YEAR);
-            diffBirthDayTodayMs = nowCal.getTimeInMillis() - bornOn.getTimeInMillis();
-            age = (int) (diffBirthDayTodayMs / (DAY * nowCal.getMaximum(Calendar.DAY_OF_YEAR)));
-            if (age == 0) {
-                /* For those who are just born */
-                daysAge = (int) (diffBirthDayTodayMs / DAY);
-                /* People still can't be born on the future /o\ */
-                if (daysAge < 0) {
-                    daysAge = 0;
+            if (year > actualYear) {
+                daysAge = 0;
+                age = 0;
+            } else {
+                age = actualYear - year;
+
+                if (!birthDayAlreadyPassed) {
+                    --age;
+                }
+
+                if (age == 0) {
+                    /* For those who are just born */
+                    daysAge = (int) ((actualCal.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY);
                 }
             }
         } else {
-            bornOn.set(Calendar.YEAR, nowYear);
+            bornOn.set(Calendar.YEAR, actualYear);
             year = -1;
             age = -1;
         }
 
-        /* Next Birthday */
-        nextBirthday = (Calendar) bornOn.clone();
-        nextBirthday.set(Calendar.YEAR, nowYear);
-
-        /* In case the birthday is over we add 1 year to the age */
-        if (nextBirthday.getTimeInMillis() < nowCal.getTimeInMillis()) {
-            if (age >= 0) {
-                ++age;
-            }
-            nextBirthday.add(Calendar.YEAR, 1);
-        }
-
         /* Party Today \o/ */
         if (isLeapYear) {
-            if ((nowCal.get(Calendar.DAY_OF_MONTH) == 1)
+            if ((actualCal.get(Calendar.DAY_OF_MONTH) == 1)
                     && (bornOn.get(Calendar.DAY_OF_MONTH) == 29)
-                    && (nowCal.get(Calendar.MONTH) == Calendar.MARCH)) {
+                    && (actualCal.get(Calendar.MONTH) == Calendar.MARCH)) {
                 letsCelebrate = true;
-            } else if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                    && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
+            } else if (actualCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
+                    && actualCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
                 letsCelebrate = true;
             }
         } else {
-            if (nowCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                    && nowCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
+            if (actualCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
+                    && actualCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
                 letsCelebrate = true;
             }
         }
