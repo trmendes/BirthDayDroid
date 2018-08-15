@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">BirthDay Droid</string>
+    <string name="app_name" translatable="false">BirthDayDroid</string>
     <string name="app_desc">Your Birthday Reminder</string>
     <string name="sign_aquarius">Aquarius</string>
     <string name="sign_capricorn">Capricorn</string>
@@ -20,7 +20,7 @@
     <string name="search">Search Contact</string>
     <string name="dual_string" translatable="false">%1$s/%2$s</string>
     <string name="birthday_string">%1$s/%2$d</string>
-    <string name="contact_has_no_year">No year info :(</string>
+    <string name="contact_has_no_year">No year specified :(</string>
     <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
         <item quantity="other">%1$d years old</item>
@@ -46,29 +46,29 @@
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_scan_now">Scan Now</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_statistics">More info</string>
+    <string name="menu_statistics">More Info</string>
     <string name="menu_about">About</string>
     <string name="settings_not_sound_title">Notification Sound</string>
-    <string name="settings_not_sound_sum">Set the sound of your birthday notification</string>
+    <string name="settings_not_sound_sum">Set the birthday notifications\' sound</string>
     <string name="settings_scan_preferences">Birthday Notification Settings</string>
-    <string name="settings_scan_not_sum">Show daily birthday notifications</string>
-    <string name="settings_scan_not_title">Daily notifications</string>
-    <string name="settings_scan_title">Time for daily notifications</string>
-    <string name="settings_scan_not_adv_sum">Show birthday notifications in advance</string>
-    <string name="settings_scan_not_adv_title">Birthday notifications in advance</string>
-    <string name="settings_scan_adv_sum">Tell us how many days in advance shall we check your contacts for their birthdays so you have time to prepare a surprise for your friend</string>
-    <string name="settings_scan_adv_title">Days in advance</string>
-    <string name="settings_list_preferences">Birthday List Preferences</string>
-    <string name="settings_list_input_sum">Days/Age/Name/Sign</string>
-    <string name="settings_list_input_title">Sort by</string>
+    <string name="settings_scan_not_sum">Show birthday notifications daily</string>
+    <string name="settings_scan_not_title">Daily Notifications</string>
+    <string name="settings_scan_title">Time for Daily Notifications</string>
+    <string name="settings_scan_not_adv_sum">Show birthdays notifications in advance</string>
+    <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
+    <string name="settings_scan_adv_sum">How many days in advance shall we check your contacts for their birthdays, so you have time to prepare your friend a surprise</string>
+    <string name="settings_scan_adv_title">Days in Advance</string>
+    <string name="settings_list_preferences">Birthday List Settings</string>
+    <string name="settings_list_input_sum">Days Until Birthday/Age/Name/Sign</string>
+    <string name="settings_list_input_title">Sort By</string>
     <string name="settings_list_order_sum">Ascending or Descending</string>
     <string name="settings_list_order_title">Sort Order</string>
     <string name="settings_time_set">Set</string>
     <string name="settings_time_cancel">Cancel</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="alert_contats_dialog_title">Read contacts permission needed</string>
-    <string name="alert_contacts_dialog_msg">We need access to your contact list in order to fetch your contact birthdays</string>
+    <string name="alert_contats_dialog_title">Permission to Read Contacts Nedded</string>
+    <string name="alert_contacts_dialog_msg">We need access to your contact list in order to fetch their birthdays</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Deny</string>
     <string name="statistics_age_title">Age Info</string>
@@ -80,22 +80,22 @@
         <item quantity="other">From %1$d contacts:\n\n</item>
     </plurals>
     <plurals name="statistics_int_int">
-        <item quantity="one">\t %1$d \t contact \t - \t %2$d \t years old\n</item>
-        <item quantity="other">\t %1$d \t contacts \t - \t %2$d \t years old\n</item>
+        <item quantity="one">\t%1$d\tcontact\t-\t%2$d\tyears old\n</item>
+        <item quantity="other">\t%1$d\tcontacts\t-\t%2$d\tyears old\n</item>
     </plurals>
     <plurals name="statistics_int_string">
-        <item quantity="one">\t %1$d \t contact \t - \t %2$s\n</item>
-        <item quantity="other">\t %1$d \t contacts \t - \t %2$s\n</item>
+        <item quantity="one">\t%1$d\tcontact\t-\t%2$s\n</item>
+        <item quantity="other">\t%1$d\tcontacts\t-\t%2$s\n</item>
     </plurals>
-    <string name="about_info" tools:keep="@string/about_info">The BirthDayDroid Project is an open-source project created to help you to remember your friends\' birthdays</string>
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
     <string name="image" translatable="false">Image</string>
     <string name="string" translatable="false">String</string>
     <string name="array_order_next">Days until next birthday</string>
     <string name="array_order_age">Age</string>
     <string name="array_order_name">Name</string>
     <string name="array_order_sign">Sign</string>
-    <string name="array_order_asc">Asc</string>
-    <string name="array_order_desc">Desc</string>
+    <string name="array_order_asc">Ascending</string>
+    <string name="array_order_desc">Descending</string>
     <string name="exit_dialog">Are you sure you want to exit?</string>
     <string name="exit_yes">Yes</string>
     <string name="exit_no">No</string>

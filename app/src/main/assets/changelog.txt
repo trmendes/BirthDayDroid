@@ -1,2 +1,7 @@
-V25 - A new about fragment
-    - Remove Donation from the app menu (check the app homepage if you feel like donating)
+* V26
+- Grammar & spelling fixes
+- Fix a problem with the age of some contacts
+
+* V25
+- A new about fragment
+- Remove Donation from the app menu (check the app homepage if you feel like donating)
