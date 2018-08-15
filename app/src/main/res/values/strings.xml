@@ -58,6 +58,8 @@
     <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
     <string name="settings_scan_adv_sum">How many days in advance shall we check your contacts for their birthdays, so you have time to prepare your friend a surprise</string>
     <string name="settings_scan_adv_title">Days in Advance</string>
+    <string name="settings_scan_precise_title">Precise notifications</string>
+    <string name="settings_scan_precise">Notify you precisily when you configure it and at the birthday date</string>
     <string name="settings_list_preferences">Birthday List Settings</string>
     <string name="settings_list_input_sum">Days Until Birthday/Age/Name/Sign</string>
     <string name="settings_list_input_title">Sort By</string>

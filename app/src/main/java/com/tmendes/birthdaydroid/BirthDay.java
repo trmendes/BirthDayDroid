@@ -38,6 +38,7 @@ import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -63,6 +64,7 @@ public class BirthDay {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
             boolean showTodayNotifications = prefs.getBoolean("scan_daily", false);
             boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
+            boolean preciseAdvanceNotification = prefs.getBoolean("precise_notification", false);
             int daysInAdvance = Integer.parseInt(prefs
                     .getString("scan_in_advance_interval", "3"));
 
@@ -78,7 +80,14 @@ public class BirthDay {
                             daysUntilNextBirthday != Long.MAX_VALUE &&
                             daysUntilNextBirthday <= daysInAdvance) {
                         /* In advance notifications */
-                        notifications.add(contact);
+                        if (preciseAdvanceNotification) {
+                            if (daysUntilNextBirthday == daysInAdvance) {
+                                notifications.add(contact);
+                            }
+                        } else {
+                            /* Notify the user every day until the contact birthday */
+                            notifications.add(contact);
+                        }
                     }
                 }
             }
