@@ -19,10 +19,15 @@ package com.tmendes.birthdaydroid.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +42,7 @@ import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -129,8 +135,25 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                             R.string.birthday_string, monthName, day)
             );
 
+
             if (photoUri != null) {
-                viewHolder.picture.setImageURI(Uri.parse(photoUri));
+                try {
+                    Bitmap src = MediaStore
+                            .Images
+                            .Media
+                            .getBitmap(ctx.getContentResolver(), Uri.parse(photoUri));
+
+                    RoundedBitmapDrawable dr =
+                            RoundedBitmapDrawableFactory.create(ctx.getResources(), src);
+                    dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
+
+                    viewHolder.picture.setImageDrawable(dr);
+                } catch (IOException e) {
+                    viewHolder.picture.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                    ctx, R.drawable.ic_account_circle_black_24dp));
+                }
+
             } else {
                 viewHolder.picture.setImageDrawable(
                         ContextCompat.getDrawable(

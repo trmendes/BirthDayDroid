@@ -17,11 +17,13 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -85,6 +87,11 @@ public class SettingsFragment extends Fragment {
                 } else {
                     alarm.cancelAlarm(getContext());
                 }
+            } else if (key.equals("dark_theme")) {
+                getActivity().finish();
+                final Intent intent = getActivity().getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
             }
         }
     }

@@ -64,7 +64,10 @@ public class ContactListFragment extends Fragment {
 
         ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
+        listView.setDividerHeight(0);
+        listView.setDivider(null);
         listView.setAdapter(adapter);
+
 
         inputSearch = v.findViewById(R.id.inputSearch);
         getActivity().getWindow()
