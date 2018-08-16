@@ -59,7 +59,7 @@
     <string name="settings_scan_adv_sum">How many days in advance shall we check your contacts for their birthdays, so you have time to prepare your friend a surprise</string>
     <string name="settings_scan_adv_title">Days in Advance</string>
     <string name="settings_scan_precise_title">Precise notifications</string>
-    <string name="settings_scan_precise">Notify you precisily when you configure it and at the birthday date</string>
+    <string name="settings_scan_precise">Only one notification in advance</string>
     <string name="settings_list_preferences">Birthday List Settings</string>
     <string name="settings_list_input_sum">Days Until Birthday/Age/Name/Sign</string>
     <string name="settings_list_input_title">Sort By</string>
@@ -67,6 +67,9 @@
     <string name="settings_list_order_title">Sort Order</string>
     <string name="settings_time_set">Set</string>
     <string name="settings_time_cancel">Cancel</string>
+    <string name="settings_layout_preferences">Layout</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme">Dark</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="alert_contats_dialog_title">Permission to Read Contacts Nedded</string>
