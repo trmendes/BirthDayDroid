@@ -40,6 +40,7 @@ her/his birthday.
 <br />
 
 [![Liberapay Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/zeh/donate "Donate using Liberapay")
+[![Paypal Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=XVJVNV22KN7MG&lc=BR&item_name=WlNomads&item_number=WLNomas&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
 
 #### Contact
 
