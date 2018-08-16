@@ -1,5 +1,8 @@
 # BirthDayDroid
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://gitlab.com/tmendes/BirthdayDroid/blob/master/LICENSE)
+[![API](https://img.shields.io/badge/API-16%2B-orange.svg?style=flat-square)](https://android-arsenal.com/api?level=23)
+
 #### Basic information
 
 BirthDayDroid is a simple Android application to help you to remember your
@@ -35,10 +38,8 @@ her/his birthday.
 
 [Check BirthdayDroid webpage if you want to help us :)](https://tmendes.gitlab.io/BirthDayDroid/)
 <br />
-<img src="http://img.shields.io/liberapay/patrons/zeh.svg?logo=liberapay">
-<br />
-<img src="http://img.shields.io/liberapay/goal/zeh.svg?logo=liberapay">
 
+[![Liberapay Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/zeh/donate "Donate using Liberapay")
 
 #### Contact
 
