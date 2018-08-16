@@ -85,12 +85,12 @@
         <item quantity="other">From %1$d contacts:\n\n</item>
     </plurals>
     <plurals name="statistics_int_int">
-        <item quantity="one">\t%1$d\tcontact\t-\t%2$d\tyears old\n</item>
-        <item quantity="other">\t%1$d\tcontacts\t-\t%2$d\tyears old\n</item>
+        <item quantity="one">\t %1$d \t contact \t - \t %2$d \t years old\n</item>
+        <item quantity="other">\t %1$d \t contacts \t - \t %2$d \t years old\n</item>
     </plurals>
     <plurals name="statistics_int_string">
-        <item quantity="one">\t%1$d\tcontact\t-\t%2$s\n</item>
-        <item quantity="other">\t%1$d\tcontacts\t-\t%2$s\n</item>
+        <item quantity="one">\t %1$d \tcontact \t - \t %2$s\n</item>
+        <item quantity="other">\t %1$d \tcontacts \t - \t %2$s\n</item>
     </plurals>
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
     <string name="image" translatable="false">Image</string>
