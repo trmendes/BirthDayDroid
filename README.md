@@ -33,8 +33,12 @@ her/his birthday.
 
 #### Help us buying us a coffee \o/
 
-[Check BirthdayDroid webpage if you want to help us
-:)](https://tmendes.gitlab.io/BirthDayDroid/)
+[Check BirthdayDroid webpage if you want to help us :)](https://tmendes.gitlab.io/BirthDayDroid/)
+<br />
+<img src="http://img.shields.io/liberapay/patrons/zeh.svg?logo=liberapay">
+<br />
+<img src="http://img.shields.io/liberapay/goal/zeh.svg?logo=liberapay">
+
 
 #### Contact
 
