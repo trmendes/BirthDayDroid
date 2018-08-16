@@ -1,7 +1,7 @@
 # BirthDayDroid
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://gitlab.com/tmendes/BirthDayDroid/blob/master/LICENSE)
-[![API](https://img.shields.io/badge/API-16%2B-orange.svg?style=flat-square)](https://android-arsenal.com/api?level=23)
+[![API](https://img.shields.io/badge/API-23%2B-orange.svg?style=flat-square)](https://android-arsenal.com/api?level=23)
 
 #### Basic information
 
