@@ -1,3 +1,10 @@
+* V27_B1
+- Rounded Icons
+- Dark Theme
+- More control over notification in advance
+- Made the preferences dialog a little better \o/
+- Cosmetic changes :O
+
 * V26
 - Grammar & spelling fixes
 - Fix a problem with the age of some contacts
