@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -90,6 +91,16 @@ public class ContactListFragment extends Fragment {
             public void afterTextChanged(Editable arg0) {
                 String text = inputSearch.getText().toString();
                 adapter.getFilter().filter(text);
+            }
+        });
+
+        inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
             }
         });
 
