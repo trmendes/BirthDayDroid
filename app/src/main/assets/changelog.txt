@@ -12,6 +12,7 @@
     * Zodiac Element
     * Doing a wider search on the contact names
 - Better navigation. No more exit message \o/
+- A better way to choose how many days in advance you want to be notified
 
 * V26
 - Grammar & spelling fixes

@@ -66,7 +66,7 @@ public class BirthDay {
             boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
             boolean preciseAdvanceNotification = prefs.getBoolean("precise_notification", false);
             int daysInAdvance = Integer.parseInt(prefs
-                    .getString("scan_in_advance_interval", "3"));
+                    .getString("days_in_advance_interval", "1"));
 
 
             if (showTodayNotifications) {

@@ -27,13 +27,11 @@
             android:summary="@string/settings_scan_not_adv_sum"
             android:title="@string/settings_scan_not_adv_title" />
 
-        <EditTextPreference
+        <com.tmendes.birthdaydroid.NumberPickerPreference
             android:dependency="scan_in_advance"
-            android:defaultValue="1"
-            android:inputType="numberDecimal"
-            android:key="scan_in_advance_interval"
-            android:summary="@string/settings_scan_adv_sum"
-            android:title="@string/settings_scan_adv_title" />
+            android:key="days_in_advance_intervalsc"
+            android:title="@string/settings_scan_adv_title"
+            android:summary="@string/settings_scan_adv_sum" />
 
         <CheckBoxPreference
             android:dependency="scan_in_advance"
