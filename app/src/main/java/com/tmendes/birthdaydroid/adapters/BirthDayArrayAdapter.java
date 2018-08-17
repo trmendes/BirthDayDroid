@@ -261,10 +261,25 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                     results.count = bdListToRestoreAfterFiltering.size();
                     results.values = bdListToRestoreAfterFiltering;
                 } else {
-                    constraint = constraint.toString().toLowerCase();
+                    String name, age, daysAge, birthdayWeekName, monthName, sign, signElement, constraintStr;
+                    constraintStr = constraint.toString().toLowerCase();
+
                     for (int i = 0; i < bdListToRestoreAfterFiltering.size(); i++) {
-                        String name = bdListToRestoreAfterFiltering.get(i).getName();
-                        if (name.toLowerCase().startsWith(constraint.toString())) {
+                        name = bdListToRestoreAfterFiltering.get(i).getName().toLowerCase();
+                        monthName = bdListToRestoreAfterFiltering.get(i).getMonthName().toLowerCase();
+                        birthdayWeekName = bdListToRestoreAfterFiltering.get(i).getNextBirthDayWeekName().toLowerCase();
+                        sign = bdListToRestoreAfterFiltering.get(i).getSign().toLowerCase();
+                        signElement = bdListToRestoreAfterFiltering.get(i).getSignElement().toLowerCase();
+                        age = Integer.toString(bdListToRestoreAfterFiltering.get(i).getAge());
+                        daysAge = Integer.toString(bdListToRestoreAfterFiltering.get(i).getDaysAge());
+
+                        if (name.contains(constraintStr) ||
+                                age.startsWith(constraintStr) ||
+                                daysAge.startsWith(constraintStr) ||
+                                monthName.contains(constraintStr) ||
+                                birthdayWeekName.contains(constraint) ||
+                                sign.contains(constraintStr) ||
+                                signElement.contains(constraintStr)) {
                             Contact contact = new Contact(ctx,
                                     bdListToRestoreAfterFiltering.get(i).getKey(),
                                     bdListToRestoreAfterFiltering.get(i).getName(),

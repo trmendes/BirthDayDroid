@@ -16,7 +16,7 @@
     <string name="sign_element_earth">Terra</string>
     <string name="sign_element_air">Ar</string>
     <string name="sign_element_water">Água</string>
-    <string name="search">Procurar contato</string>
+    <string name="search">Procurar por idade, nome, signo, etc</string>
     <string name="contact_has_no_year">Sem info de ano :(</string>
     <plurals name="days_old">
         <item quantity="one">%1$d dia</item>

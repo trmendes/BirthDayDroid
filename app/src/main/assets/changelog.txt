@@ -4,6 +4,13 @@
 - More control over notification in advance
 - Made the preferences dialog a little better \o/
 - Cosmetic changes :O
+- Better Search Function: Now you can search contact by:
+    * Age
+    * Month Name (January, June, etc)
+    * Next Birthday Week name (check who is having a birthday party on Saturdays)
+    * Zodiac Sign
+    * Zodiac Element
+    * Doing a wider search on the contact names
 
 * V26
 - Grammar & spelling fixes
