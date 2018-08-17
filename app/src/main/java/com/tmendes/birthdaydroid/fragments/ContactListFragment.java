@@ -99,7 +99,7 @@ public class ContactListFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    inputManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 }
             }
         });
