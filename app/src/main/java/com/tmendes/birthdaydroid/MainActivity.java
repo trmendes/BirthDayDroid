@@ -113,6 +113,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (backStackEntryCount == 0) {
+            new AlertDialog.Builder(this)
+                    .setMessage(getBaseContext().getResources().getString(R.string.exit_dialog))
+                    .setCancelable(false)
+                    .setPositiveButton(getBaseContext().getResources().getString(R.string.exit_yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    MainActivity.this.finish();
+                                }
+                            })
+                    .setNegativeButton(getBaseContext().getResources().getString(R.string.exit_no),
+                            null)
+                    .show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Fragment fragment;

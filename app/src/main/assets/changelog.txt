@@ -6,7 +6,7 @@
     * Zodiac Sign
     * Zodiac Element
     * Doing a wider search on the contact names
-- Better navigation. No more exit message \o/
+- Better navigation. No more accidental exit messages \o/
 - A better way to choose how many days in advance you want to be notified
 - Close soft keyboard when it loses focus
 
