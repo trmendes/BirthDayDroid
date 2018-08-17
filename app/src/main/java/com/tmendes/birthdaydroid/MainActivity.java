@@ -19,6 +19,7 @@ package com.tmendes.birthdaydroid;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -36,7 +37,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
@@ -109,23 +113,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        //FIXME Add a better message to warn the user about the back button
-        new AlertDialog.Builder(this)
-                .setMessage(getBaseContext().getResources().getString(R.string.exit_dialog))
-                .setCancelable(false)
-                .setPositiveButton(getBaseContext().getResources().getString(R.string.exit_yes),
-                        new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.finish();
-                    }
-                })
-                .setNegativeButton(getBaseContext().getResources().getString(R.string.exit_no),
-                        null)
-                .show();
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Fragment fragment;
@@ -134,6 +121,7 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case android.R.id.home:
                 finish();
+                /* No break */
             case R.id.nav_birthday_list:
                 fragmentClass = ContactListFragment.class;
                 break;
@@ -155,7 +143,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -165,6 +153,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
         }
+
         return true;
     }
 

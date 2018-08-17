@@ -11,6 +11,7 @@
     * Zodiac Sign
     * Zodiac Element
     * Doing a wider search on the contact names
+- Better navigation. No more exit message \o/
 
 * V26
 - Grammar & spelling fixes
