@@ -23,9 +23,6 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.IntentCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +42,6 @@ public class SettingsFragment extends Fragment {
         Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction()
                 .replace(R.id.setting_frame, new PrefFragment())
                 .commit();
-
-        DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
 
         return v;
     }
