@@ -53,7 +53,9 @@
     <string name="settings_scan_title">Horário das notificações diárias</string>
     <string name="settings_scan_not_adv_sum">Mostras notificações de aniversário com antecedência</string>
     <string name="settings_scan_not_adv_title">Notificações com antecedência</string>
-    <string name="settings_scan_adv_sum">Nos diga quantos dias de antecedência devemos verificar os seus contactos em busca de aniversários para você ter tempo para preparar o seu amigo uma surpresa</string>
+    <string name="settings_scan_adv_sum">Quantos dias com antecedência devemos verificar os seus contactos em busca de aniversários para você ter tempo para preparar o seu amigo uma surpresa</string>
+    <string name="settings_scan_precise_title">Notificação precisa</string>
+    <string name="settings_scan_precise">Somente uma notificação com antecedência</string>
     <string name="settings_scan_adv_title">Dias de antecedência</string>
     <string name="settings_list_preferences">Preferências da lista de aniversário</string>
     <string name="settings_list_input_sum">Dias/Idade/Nome/Signo</string>
@@ -62,6 +64,8 @@
     <string name="settings_list_order_title">Order de listagem</string>
     <string name="settings_time_set">Setar</string>
     <string name="settings_time_cancel">Cancelar</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme">Escuro</string>
     <string name="navigation_drawer_open">Abrir a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
     <string name="alert_contats_dialog_title">Acesso aos contatos é necessário</string>
