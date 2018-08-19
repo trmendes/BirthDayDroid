@@ -385,12 +385,4 @@ public class Contact {
     public String getFailMsg() {
         return failMsg;
     }
-
-    public String toString() {
-        return "Name: " + getName() + " - Age: " + getAge() + " - [d:" + getDay() + ":m:" +
-                getMonth() + ":y:" + getYear() + "] - " + " sign: " + getSign() + " - Element: " +
-                getSignElement() + " - failOnParseDateString(): " + " aPartyGoingOnToday(): "
-                + shallWeCelebrateToday();
-    }
-
 }
