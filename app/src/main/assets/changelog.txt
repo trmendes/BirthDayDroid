@@ -1,16 +1,22 @@
+* V27_B3
+
+- Fix Notification message for contacts with no birth year specified
+
 * V27_B2
+
 - Better Search Function: Now you can search contact by:
-    * Age
-    * Month Name (January, June, etc)
-    * Next Birthday Week name (check who is having a birthday party on Saturdays)
-    * Zodiac Sign
-    * Zodiac Element
-    * Doing a wider search on the contact names
+    - Age
+    - Month Name (January, June, etc)
+    - Next Birthday Week name (check who is having a birthday party on Saturdays)
+    - Zodiac Sign
+    - Zodiac Element
+    - Doing a wider search on the contact names
 - Better navigation. No more accidental exit messages \o/
 - A better way to choose how many days in advance you want to be notified
 - Close soft keyboard when it loses focus
 
 * V27_B1
+
 - Rounded Icons
 - Dark Theme
 - More control over notification in advance
@@ -18,9 +24,11 @@
 - Cosmetic changes :O
 
 * V26
+
 - Grammar & spelling fixes
 - Fix a problem with the age of some contacts
 
 * V25
+
 - A new about fragment
 - Remove Donation from the app menu (check the app homepage if you feel like donating)

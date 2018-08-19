@@ -65,8 +65,7 @@ public class BirthDay {
             boolean showTodayNotifications = prefs.getBoolean("scan_daily", false);
             boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
             boolean preciseAdvanceNotification = prefs.getBoolean("precise_notification", false);
-            int daysInAdvance = Integer.parseInt(prefs
-                    .getString("days_in_advance_interval", "1"));
+            int daysInAdvance = prefs.getInt("days_in_advance_interval", 1);
 
 
             if (showTodayNotifications) {
@@ -146,9 +145,13 @@ public class BirthDay {
                 String title = contact.getName();
                 StringBuilder body = new StringBuilder();
                 if (contact.shallWeCelebrateToday()) {
-                    body.append(ctx.getString(
+                    if (contact.getAge() > 0) {
+                        body.append(ctx.getString(
                                 R.string.message_notification_message, contact.getContactFirstName(),
                                 contact.getAge()));
+                    } else {
+                        body.append(ctx.getString(R.string.days_until_birthday));
+                    }
                 } else {
                     body.append(ctx.getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
