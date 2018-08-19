@@ -337,8 +337,6 @@ public class Contact {
         return month;
     }
 
-    private int getYear() { return year; }
-
     public int getDaysAge() { return daysAge; }
 
     public Calendar getBirthday() {

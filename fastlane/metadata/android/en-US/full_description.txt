@@ -4,7 +4,6 @@ BirthDayDroid is a simple Android application to help you to remember your conta
 
 * Check our webpage
 <a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
-
 * Open source:
 
 This project is an opensource project and you will find it at: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
@@ -19,8 +18,9 @@ If you want to buy us a coffee go to our webpage and check the links there <a hr
 
 * Thanks to:
 
-<a href="http://emojione.com/">Emoji provided free by Emoji One</a>
-<a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a>
+App Icon: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+Navigation bar icons: <a href="https://design.google.com/icons/">Google Team</a><br />
+Emojis: <a href="http://emojione.com/">Free emojis provided by Emoji One</a><br />
 
 * PERMISSIONS:
 

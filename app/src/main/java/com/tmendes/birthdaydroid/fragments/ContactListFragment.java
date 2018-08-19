@@ -34,8 +34,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.tmendes.birthdaydroid.MainActivity;
-import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 
 import java.util.Objects;
 
@@ -99,7 +99,7 @@ public class ContactListFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getView()).getWindowToken(), 0);
                 }
             }
         });

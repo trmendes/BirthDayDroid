@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -38,7 +37,6 @@ import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;

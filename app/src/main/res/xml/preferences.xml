@@ -1,4 +1,6 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:keep="@xml/preferences">
     <PreferenceCategory android:title="@string/settings_scan_preferences">
         <CheckBoxPreference
             android:defaultValue="true"

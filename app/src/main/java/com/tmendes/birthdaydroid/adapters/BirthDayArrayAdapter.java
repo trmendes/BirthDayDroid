@@ -19,7 +19,6 @@ package com.tmendes.birthdaydroid.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -38,9 +37,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
 import com.tmendes.birthdaydroid.Contact;
-import com.tmendes.birthdaydroid.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

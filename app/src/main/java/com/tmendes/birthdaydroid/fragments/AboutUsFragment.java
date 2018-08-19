@@ -62,14 +62,6 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
         if (useDarkTheme) {
             webViewCredits.setBackgroundColor(0);
-            webViewCredits.getSettings().setJavaScriptEnabled(true);
-            webViewCredits.setWebViewClient(new WebViewClient() {
-                public void onPageFinished(WebView view, String url) {
-                    view.loadUrl(
-                            "javascript:document.body.style.setProperty(\"color\", \"white\");"
-                    );
-                }
-            });
         }
 
         return v;
