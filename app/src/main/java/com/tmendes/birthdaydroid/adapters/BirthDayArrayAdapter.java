@@ -162,7 +162,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
             if (contact.shallWeCelebrateToday()) {
                 viewHolder.daysToGo.setText(
-                        ctx.getResources().getString(R.string.days_until_birthday));
+                        ctx.getResources().getString(R.string.party_message));
                 viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                 viewHolder.emojiParty.setVisibility(View.VISIBLE);
             } else {

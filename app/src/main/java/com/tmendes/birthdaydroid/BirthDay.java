@@ -150,7 +150,7 @@ public class BirthDay {
                                 R.string.message_notification_message, contact.getContactFirstName(),
                                 contact.getAge()));
                     } else {
-                        body.append(ctx.getString(R.string.days_until_birthday));
+                        body.append(ctx.getString(R.string.party_message));
                     }
                 } else {
                     body.append(ctx.getResources().getQuantityString(

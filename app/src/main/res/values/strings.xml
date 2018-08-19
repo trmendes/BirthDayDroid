@@ -34,7 +34,7 @@
         <item quantity="one">%1$d day until her/his birthday</item>
         <item quantity="other">%1$d days until her/his birthday</item>
     </plurals>
-    <string name="days_until_birthday">There is a party going on today :D</string>
+    <string name="party_message">There is a party going on today :D</string>
     <string name="birthday_scan_found">Generating Birthday Notifications</string>
     <string name="birthday_scan_not_found">No Birthdays Found Today</string>
     <plurals name="message_notification_message_bt_to_come">
