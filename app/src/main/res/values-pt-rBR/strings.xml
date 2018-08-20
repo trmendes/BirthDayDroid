@@ -26,10 +26,10 @@
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
     </plurals>
-    <string name="next_week_name">Próximo aniversário - %1$s</string>
+    <string name="next_week_name">Próximo %1$sserá %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$d dia antes de seu aniversário</item>
-        <item quantity="other">%1$d dias antes de seu aniversário</item>
+        <item quantity="one">%1$dantes do %2$s</item>
+        <item quantity="other">%1$ddias antes do %2$s</item>
     </plurals>
     <string name="party_message">Tem uma festa acontecendo hoje :D</string>
     <string name="birthday_scan_found">Gerando notificações de aniversários</string>
@@ -39,9 +39,10 @@
         <item quantity="other">%1$s completará %2$d em %3$d dias</item>
     </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s esta completando %2$d hoje</string>
-    <string name="birthday_tomorrow">Amanhã é seu aniversário</string>
+    <string name="birthday_tomorrow">Amanhã é seu %1$s</string>
     <string name="menu_birthday_list">Aniversários</string>
     <string name="menu_scan_now">Buscar agora</string>
+    <string name="menu_donate">Doação</string>
     <string name="menu_settings">Configurações</string>
     <string name="menu_statistics">Mais info</string>
     <string name="menu_about">Sobre</string>
@@ -67,6 +68,7 @@
     <string name="settings_layout_preferences">Interface</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Escuro</string>
+    <string name="settings_swipe_down">Deslize para baixo para gerar notificações</string>
     <string name="navigation_drawer_open">Abrir a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
     <string name="alert_contats_dialog_title">Acesso aos contatos é necessário</string>
@@ -103,5 +105,7 @@
     <string name="statistics_fail_title">Log de falhas</string>
     <string name="log_cant_parse">Não foi possível entender %1$s</string>
     <string name="about_us_bt_changelog">Changelog</string>
-    </resources>
+    <string name="type_birthday">aniversário</string>
+    <string name="type_anniversary">aniversário</string>
+</resources>
 

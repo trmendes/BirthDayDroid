@@ -26,10 +26,10 @@
         <item quantity="one">%1$d dag gammal</item>
         <item quantity="other">%1$d dagar gammal</item>
     </plurals>
-    <string name="next_week_name">Nästa födelsedag kommer att vara på en %1$s</string>
+    <string name="next_week_name">Nästa %1$s kommer att vara på en %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$d dag till hennes/hans födelsedag</item>
-        <item quantity="other">%1$d dagar till hennes/hans födelsedag</item>
+        <item quantity="one">%1$d dag till hennes/hans %2$s</item>
+        <item quantity="other">%1$d dagar till hennes/hans %2$s</item>
     </plurals>
     <string name="party_message">I dag festas det :D</string>
     <string name="birthday_scan_found">Skapar födelsedagsavisering</string>
@@ -39,9 +39,10 @@
         <item quantity="other">%1$s fyller %2$d om %3$d dagar</item>
     </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s fyller %2$d i dag</string>
-    <string name="birthday_tomorrow">I morgon är det hennes/hans födelsedag</string>
+    <string name="birthday_tomorrow">I morgon är det hennes/hans %1$s</string>
     <string name="menu_birthday_list">Födelsedagslista</string>
     <string name="menu_scan_now">Sök nu</string>
+    <string name="menu_donate">Donera</string>
     <string name="menu_settings">Inställningar</string>
     <string name="menu_statistics">Mer info</string>
     <string name="menu_about">Om</string>
@@ -67,6 +68,7 @@
     <string name="settings_layout_preferences">Layout</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Mörk</string>
+    <string name="settings_swipe_down">Svep neråt för att generera aviseringar</string>
     <string name="navigation_drawer_open">Öppna navigeringsmappen</string>
     <string name="navigation_drawer_close">Stäng navigeringsmappen</string>
     <string name="alert_contats_dialog_title">Tillstånd krävs för att läsa kontakterna</string>
@@ -103,5 +105,7 @@
     <string name="statistics_fail_title">Fellogg</string>
     <string name="log_cant_parse">Det gick inte att analysera %1$s</string>
     <string name="about_us_bt_changelog">Ändringslogg</string>
-    </resources>
+    <string name="type_birthday">födelsedag</string>
+    <string name="type_anniversary">årsdag</string>
+</resources>
 
