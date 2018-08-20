@@ -62,7 +62,7 @@ Thiago Ribeiro Mendes<br/>
 
 ##### Special thanks
 
-Emoji provided free by [Emoji One](http://emojione.com/)
+Emoji provided free by [Emoji One](https://emojione.com/)
 
 Bitcon Icon made by [freepik](https://www.flaticon.com/authors/freepik) from www.flaticon.com
 
@@ -83,5 +83,5 @@ Bitcon Icon made by [freepik](https://www.flaticon.com/authors/freepik) from www
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 

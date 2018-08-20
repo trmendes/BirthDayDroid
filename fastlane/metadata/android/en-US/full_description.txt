@@ -18,9 +18,9 @@ If you want to buy us a coffee go to our webpage and check the links there <a hr
 
 * Thanks to:
 
-App Icon: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+App Icon: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
 Navigation bar icons: <a href="https://design.google.com/icons/">Google Team</a><br />
-Emojis: <a href="http://emojione.com/">Free emojis provided by Emoji One</a><br />
+Emojis: <a href="https://emojione.com/">Free emojis provided by Emoji One</a><br />
 
 * PERMISSIONS:
 
