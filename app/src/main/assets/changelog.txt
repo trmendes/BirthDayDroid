@@ -20,15 +20,12 @@
 - Donate link
 - Swipe down to force generate notifications
 - Add support for a few new languages thanks to a bunch of nice people :D \o/
-    - Russian
     - German
     - French
     - Swedish
-    - Italian
 - Grammar/language fix
     - Portuguese
     - English
-    - Japanese
 
 * V26
 
