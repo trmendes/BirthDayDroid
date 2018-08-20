@@ -56,6 +56,7 @@ public class ContactListFragment extends Fragment {
     private Context ctx;
 
     private SwipeRefreshLayout refreshLayout;
+    private boolean swipeDown;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -116,7 +117,6 @@ public class ContactListFragment extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        Log.i("bla bla bla", "onRefresh called from SwipeRefreshLayout");
                         isTodayADayToCelebrate();
                     }
                 }
@@ -128,6 +128,8 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        swipeDown = prefs.getBoolean("swipe_down_to_notify", false);
         ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().refresh();
         updateSortSettings();
     }
@@ -140,16 +142,18 @@ public class ContactListFragment extends Fragment {
     }
 
     private void isTodayADayToCelebrate() {
-        BirthDay birthDays = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
-        ArrayList<Contact> notifications = birthDays.shallWeCelebrate();
-        if (notifications.size() == 0) {
-            Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
-                    Toast.LENGTH_LONG).show();
-            for (Contact contact : notifications) {
-                birthDays.postNotification(contact);
+        if (swipeDown) {
+            BirthDay birthDays = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
+            ArrayList<Contact> notifications = birthDays.shallWeCelebrate();
+            if (notifications.size() == 0) {
+                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
+                        Toast.LENGTH_LONG).show();
+                for (Contact contact : notifications) {
+                    birthDays.postNotification(contact);
+                }
             }
         }
         refreshLayout.setRefreshing(false);
