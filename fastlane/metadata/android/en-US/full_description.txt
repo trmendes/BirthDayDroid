@@ -11,7 +11,7 @@ This project is an opensource project and you will find it at: <a href="https://
 
 * Help us to have this app translated to your language
 
-If you want to help us to translate this app to your language go to: <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
+If you want to help us to translate this app to your language go to: <a href="https://www.transifex.com/wlnomads/birthdaydroid">https://www.transifex.com/wlnomads/birthdaydroid</a>
 
 * Keep us awake :)
 
@@ -19,7 +19,7 @@ If you want to buy us a coffee go to our webpage and check the links there <a hr
 
 * Thanks to:
 
-<a href="http://emojione.com/">Emoji provided free by Emoji One</a>
+<a href="https://www.emojione.com/">Emoji provided free by Emoji One</a>
 <a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a>
 
 * PERMISSIONS:
