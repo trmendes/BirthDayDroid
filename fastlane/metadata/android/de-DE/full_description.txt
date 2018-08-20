@@ -18,9 +18,9 @@ Wenn du uns einen Kaffee spendieren möchtest, gehe bitte auf unsere Internetsei
 
 * Danke an:
 
-Anwendungssymbol: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis </a><br />
+Anwendungssymbol: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis </a><br />
 Navigationsleisten-Symbole: <a href="https://design.google.com/icons/">Google Team</a><br />
-Emojis: <a href="http://emojione.com/">Freie Emojis bereitgestellt von Emoji One</a><br />
+Emojis: <a href="https://emojione.com/">Freie Emojis bereitgestellt von Emoji One</a><br />
 
 * BERECHTIGUNGEN:
 

@@ -18,9 +18,9 @@ Se ci vuoi comprare un caffè, visita la nostra pagina web.  Lì troverai come f
 
 * Grazie a:
 
-Icona dell'app: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+Icona dell'app: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
 Icone della barra di navigazione: <a href="https://design.google.com/icons/">Google Team</a><br />
-Emoji: <a href="http://emojione.com/"> Emoji gratuite fornite da Emoji One</a><br />
+Emoji: <a href="https://emojione.com/"> Emoji gratuite fornite da Emoji One</a><br />
 
 * PERMESSI:
 

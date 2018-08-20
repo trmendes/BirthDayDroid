@@ -18,9 +18,9 @@ Se você quiser nos pagar um café de uma olhada nos links de nossa página <a h
 
 * Agradecimentos:
 
-Ícone do App: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+Ícone do App: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
 Ícones da barra de navegação: <a href="https://design.google.com/icons/">Google Team</a><br />
-Emojis: <a href="http://emojione.com/">Emoji One</a><br />
+Emojis: <a href="https://emojione.com/">Emoji One</a><br />
 
 * PERMISSÕES
 

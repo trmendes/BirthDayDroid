@@ -18,9 +18,9 @@ Om du vill bjuda oss på en kopp kaffe, gå då till vår hemsida och ta en titt
 
 * Tack till:
 
-App-ikon: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+App-ikon: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
 Ikoner för navigeringsfältet: <a href="https://design.google.com/icons/">Google Team</a><br />
-Emojis: <a href="http://emojione.com/">Gratis emojis tillhandahållen av Emoji One</a><br />
+Emojis: <a href="https://emojione.com/">Gratis emojis tillhandahållen av Emoji One</a><br />
 
 * BEHÖRIGHETER:
 
