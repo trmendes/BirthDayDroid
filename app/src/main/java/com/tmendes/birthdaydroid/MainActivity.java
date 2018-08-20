@@ -122,21 +122,17 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        this.doubleBackToExitPressedOnce = true;
-
         if (backStackEntryCount == 0) {
             Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
-        }
+            this.doubleBackToExitPressedOnce = true;
+            new Handler().postDelayed(new Runnable() {
 
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-
-        if (backStackEntryCount > 0) {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+        } else {
             super.onBackPressed();
         }
     }
