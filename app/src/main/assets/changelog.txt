@@ -18,7 +18,7 @@
 - Fix Notification message for contacts with no birth year specified
 - Hide the Fail log button if there is nothing to show
 - Donate link
-- Swipe down to force generate notifications
+- Swipe down to force to generate birthday notifications (optional)
 - Add support for a few new languages thanks to a bunch of nice people :D \o/
     - German
     - French
