@@ -32,6 +32,8 @@ public class Contact {
 
     private final Context ctx;
 
+    private final int eventType;
+
     private final String name;
     private String sign;
     private String signElement;
@@ -41,7 +43,6 @@ public class Contact {
 
     private int day;
     private int month;
-    private int year;
     private int age;
     private int daysAge;
 
@@ -67,12 +68,13 @@ public class Contact {
             "dd-M--"
     );
 
-    public Contact(Context ctx, String key, String name, String date, String photoURI) {
+    public Contact(Context ctx, String key, String name, String date, String photoURI, int eventType) {
         this.ctx = ctx;
         this.key = key;
         this.name = name;
         this.date = date;
         this.photoURI = photoURI;
+        this.eventType = eventType;
 
         failMsg = "";
 
@@ -129,6 +131,7 @@ public class Contact {
         month = bornOn.get(Calendar.MONTH);
 
         /* Age */
+        int year;
         if (containsYearInfo) {
             year = bornOn.get(Calendar.YEAR);
             if (year > actualYear) {
@@ -383,4 +386,6 @@ public class Contact {
     public String getFailMsg() {
         return failMsg;
     }
+
+    public int getEventType() { return eventType; }
 }

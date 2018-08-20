@@ -45,6 +45,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY;
+import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
+
 public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filterable {
 
     private final Context ctx;
@@ -81,6 +84,21 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             int daysUntilBirthday = contact.getDaysUntilNextBirthDay().intValue();
             String zodiacSign = contact.getSign();
             String zodiacSignElement = contact.getSignElement();
+
+            int eventyType = contact.getEventType();
+            String eventTypeStr;
+
+            switch (eventyType) {
+                default:
+                case TYPE_BIRTHDAY:
+                    eventTypeStr = ctx.getResources().getString(R.string.type_birthday);
+                    break;
+                case TYPE_ANNIVERSARY:
+                    eventTypeStr = ctx.getResources().getString(R.string.type_anniversary);
+                    break;
+            }
+
+            eventTypeStr = eventTypeStr.toLowerCase();
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx
@@ -123,7 +141,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
             viewHolder.birthDayWeekName
                     .setText(ctx.getResources()
-                            .getString(R.string.next_week_name, dayWeek));
+                            .getString(R.string.next_week_name, eventTypeStr, dayWeek));
 
             viewHolder.signElement.setText(
                     ctx.getResources().getString(R.string.dual_string,
@@ -167,7 +185,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             } else {
                 if (daysUntilBirthday == 1) {
                     viewHolder.daysToGo.setText(
-                            ctx.getResources().getString(R.string.birthday_tomorrow));
+                            ctx.getResources().getString(R.string.birthday_tomorrow, eventTypeStr));
                     viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
                     viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                 } else {
@@ -176,7 +194,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                                     ctx.getResources().getQuantityString(
                                             R.plurals.days_until,
                                             daysUntilBirthday,
-                                            daysUntilBirthday));
+                                            daysUntilBirthday,
+                                            eventTypeStr));
                     viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                     viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                 }
@@ -283,7 +302,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                                     bdListToRestoreAfterFiltering.get(i).getKey(),
                                     bdListToRestoreAfterFiltering.get(i).getName(),
                                     bdListToRestoreAfterFiltering.get(i).getDate(),
-                                    bdListToRestoreAfterFiltering.get(i).getPhotoURI());
+                                    bdListToRestoreAfterFiltering.get(i).getPhotoURI(),
+                                    bdListToRestoreAfterFiltering.get(i).getEventType());
                             FilteredArrList.add(contact);
                         }
                     }

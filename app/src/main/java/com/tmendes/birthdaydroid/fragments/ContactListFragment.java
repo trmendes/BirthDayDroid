@@ -23,8 +23,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +34,15 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ContactListFragment extends Fragment {
@@ -48,6 +54,8 @@ public class ContactListFragment extends Fragment {
 
     // Context
     private Context ctx;
+
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -68,7 +76,6 @@ public class ContactListFragment extends Fragment {
         listView.setDividerHeight(0);
         listView.setDivider(null);
         listView.setAdapter(adapter);
-
 
         inputSearch = v.findViewById(R.id.inputSearch);
         getActivity().getWindow()
@@ -104,6 +111,17 @@ public class ContactListFragment extends Fragment {
             }
         });
 
+        refreshLayout = v.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i("bla bla bla", "onRefresh called from SwipeRefreshLayout");
+                        isTodayADayToCelebrate();
+                    }
+                }
+        );
+
         return v;
     }
 
@@ -119,6 +137,22 @@ public class ContactListFragment extends Fragment {
         int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
         int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
         adapter.sort(sortInput, sortMethod);
+    }
+
+    private void isTodayADayToCelebrate() {
+        BirthDay birthDays = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
+        ArrayList<Contact> notifications = birthDays.shallWeCelebrate();
+        if (notifications.size() == 0) {
+            Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
+                    Toast.LENGTH_LONG).show();
+            for (Contact contact : notifications) {
+                birthDays.postNotification(contact);
+            }
+        }
+        refreshLayout.setRefreshing(false);
     }
 
 }

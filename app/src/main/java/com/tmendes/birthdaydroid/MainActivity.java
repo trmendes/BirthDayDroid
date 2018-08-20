@@ -20,8 +20,10 @@ package com.tmendes.birthdaydroid;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -155,8 +157,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_statistics:
                 fragmentClass = StatisticsFragment.class;
                 break;
-            case R.id.nav_scan_now:
-                isTodayADayToCelebrate();
+            case R.id.nav_donate:
+                Intent browserIntent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://tmendes.gitlab.io/BirthDayDroid/#donate")
+                );
+                startActivity(browserIntent);
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
@@ -182,20 +188,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         return true;
-    }
-
-    private void isTodayADayToCelebrate() {
-        ArrayList<Contact> notifications = this.birthDays.shallWeCelebrate();
-        if (notifications.size() == 0) {
-            Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
-                    Toast.LENGTH_LONG).show();
-            for (Contact contact : notifications) {
-                birthDays.postNotification(contact);
-            }
-        }
     }
 
     public BirthDay getBirthday() {

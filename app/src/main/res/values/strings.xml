@@ -29,10 +29,10 @@
         <item quantity="one">%1$d day old</item>
         <item quantity="other">%1$d days old</item>
     </plurals>
-    <string name="next_week_name">Next birthday will be on a %1$s</string>
+    <string name="next_week_name">Next %1$s will be on a %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$d day until her/his birthday</item>
-        <item quantity="other">%1$d days until her/his birthday</item>
+        <item quantity="one">%1$d day until her/his %2$s</item>
+        <item quantity="other">%1$d days until her/his %2$s</item>
     </plurals>
     <string name="party_message">There is a party going on today :D</string>
     <string name="birthday_scan_found">Generating Birthday Notifications</string>
@@ -42,9 +42,10 @@
         <item quantity="other">%1$s turns %2$d in %3$d days</item>
     </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s is turning %2$d today</string>
-    <string name="birthday_tomorrow">Tomorrow is her/his birthday</string>
+    <string name="birthday_tomorrow">Tomorrow is her/his %1$s</string>
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_scan_now">Scan Now</string>
+    <string name="menu_donate">Donate</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_statistics">More Info</string>
     <string name="menu_about">About</string>
@@ -70,6 +71,7 @@
     <string name="settings_layout_preferences">Layout</string>
     <string name="settings_theme_title">Theme</string>
     <string name="settings_theme">Dark</string>
+    <string name="settings_swipe_down">Swipe down to generate notifications</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="alert_contats_dialog_title">Permission to Read Contacts Nedded</string>
@@ -109,5 +111,7 @@
     <string name="log_cant_parse">Can\'t parse %1$s</string>
     <string name="about_us_bt_changelog">Changelog</string>
     <string name="build" translatable="false">Build %1$d</string>
+    <string name="type_birthday">birthday</string>
+    <string name="type_anniversary">anniversary</string>
 </resources>
 

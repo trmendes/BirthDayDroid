@@ -41,6 +41,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
+import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY;
+import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
+
 public class BirthDay {
 
     // Contact list
@@ -142,6 +145,21 @@ public class BirthDay {
                 /* Title */
                 String title = contact.getName();
                 StringBuilder body = new StringBuilder();
+
+                String eventTypeStr;
+
+                switch (contact.getEventType()) {
+                    default:
+                    case TYPE_BIRTHDAY:
+                        eventTypeStr = ctx.getResources().getString(R.string.type_birthday);
+                        break;
+                    case TYPE_ANNIVERSARY:
+                        eventTypeStr = ctx.getResources().getString(R.string.type_anniversary);
+                        break;
+                }
+
+                eventTypeStr = eventTypeStr.toLowerCase();
+
                 if (contact.shallWeCelebrateToday()) {
                     if (contact.getAge() > 0) {
                         body.append(ctx.getString(
@@ -160,7 +178,9 @@ public class BirthDay {
                     } else {
                         body.append(ctx.getResources().getQuantityString(
                                 R.plurals.days_until,
-                                contact.getDaysUntilNextBirthDay().intValue()));
+                                contact.getDaysUntilNextBirthDay().intValue(),
+                                contact.getDaysUntilNextBirthDay().intValue(),
+                                eventTypeStr));
                     }
 
                 }
@@ -210,6 +230,7 @@ public class BirthDay {
             final int dateColumn = c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
             final int nameColumn = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
             final int photoColumn = c.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
+            final int typeColumn = c.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE);
 
             clearLists();
 
@@ -218,7 +239,8 @@ public class BirthDay {
                         c.getString(keyColumn),
                         c.getString(nameColumn),
                         c.getString(dateColumn),
-                        c.getString(photoColumn));
+                        c.getString(photoColumn),
+                        c.getInt(typeColumn));
 
                 if (!contact.failOnParseDateString()) {
                     String sign = contact.getSign();
@@ -280,14 +302,27 @@ public class BirthDay {
                     ContactsContract.CommonDataKinds.Event.START_DATE,
                     ContactsContract.Contacts.DISPLAY_NAME,
                     ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+                    ContactsContract.CommonDataKinds.Event.TYPE
             };
 
-           String selection = ContactsContract.Data.MIMETYPE +
-                    "=? AND " + ContactsContract.CommonDataKinds.Event.TYPE + "=?";
+           String selection = ContactsContract.Data.MIMETYPE
+                   + "=? AND ("
+                   + ContactsContract.CommonDataKinds.Event.TYPE // Birthday
+                   + "=? OR "
+                   + ContactsContract.CommonDataKinds.Event.TYPE // Annniversary
+                   + "=? OR "
+                   + ContactsContract.CommonDataKinds.Event.TYPE // Other
+                   + "=? OR "
+                   + ContactsContract.CommonDataKinds.Event.TYPE // Custom
+                   + "=?)";
+
 
             String[] args = new String[]{
                     ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
+                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY),
+                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY),
+                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_OTHER),
+                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM)
             };
 
             return r.query(
