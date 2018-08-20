@@ -151,11 +151,17 @@ public class BirthDay {
                         body.append(ctx.getString(R.string.party_message));
                     }
                 } else {
-                    body.append(ctx.getResources().getQuantityString(
+                    if (contact.getAge() > 0) {
+                        body.append(ctx.getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthDay().intValue(),
                                 contact.getContactFirstName(), contact.getAge() + 1,
                                 contact.getDaysUntilNextBirthDay().intValue()));
+                    } else {
+                        body.append(ctx.getResources().getQuantityString(
+                                R.plurals.days_until,
+                                contact.getDaysUntilNextBirthDay().intValue()));
+                    }
 
                 }
 
