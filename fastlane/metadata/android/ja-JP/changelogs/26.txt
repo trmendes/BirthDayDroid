@@ -1,2 +1,0 @@
-* Grammar & spelling fixes
-* Fix a problem with the age of some contacts

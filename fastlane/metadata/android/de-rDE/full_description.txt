@@ -1,0 +1,32 @@
+Frei! Keine Werbung! Freier Quellcode :D!
+
+BirthDayDroid ist eine eine einfache Android Anwendung die dir hilft die Geburtstage deiner Kontakte nicht zu vergessen. Sie durchsucht deine lokalen Kontakte nach Geburtstagen. Wenn sie Geburtstage findet werden das Alter, Sternzeichen und die Tage bis zu seinem/ihrem Geburtstag angezeigt.
+
+* Besuche unsere Internetseite
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
+* Freier Quellcode:
+
+Dies ist ein quelloffenes Projekt und du findest es auf: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
+
+* Hilf uns die App in deine Sprache zu übersetzen
+
+Wenn du uns beim übersetzen der App in deine Sprache helfen willst besuche: <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
+
+* Halte uns wach :)
+
+Wenn du uns einen Kaffee spendieren möchtest, gehe bitte auf unsere Internetseite und nutze die Links dort <a href="https://tmendes.gitlab.io/BirthDayDroid/</a>
+
+* Vielen Dank an:
+
+Anwendungssymbol: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis </a><br />
+Navigationsleisten-Symbole: <a href="https://design.google.com/icons/">Google Team</a><br />
+Emojis: <a href="http://emojione.com/">Freie Emojis bereitgestellt von Emoji One</a><br />
+
+* BERECHTIGUNGEN:
+
+* Deine Kontakte lesen
+BirthdayDroid funktioniert, indem es den Geburtstags Eintrag von deinen Kontakten einließt, somit braucht es Zugriff auf deine Kontakte. Wenn du uns nicht traust kannst du dir gerne den Quellcode anschauen um sicher zugehen.
+* Vibration steuern
+Geburtstags Erinnerung
+* Beim Systemstart ausführen
+Um festzustellen wann eine Geburtstags Benachrichtigung angezeigt werden muss.

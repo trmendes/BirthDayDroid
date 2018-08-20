@@ -1,1 +1,0 @@
-* Fix Exception on Notification when running Android 8

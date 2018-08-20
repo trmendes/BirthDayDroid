@@ -1,0 +1,32 @@
+Livre! Sem anúncios! Código aberto :D!
+
+BirthDayDroid é um aplicativo Android simples para ajudá-lo a lembrar aniversários dos seus contatos. Ele Faz uma busca em sua lista de contatos procurando por datas de aniversários. Quando encontra, ele mostrará a idade do contato, o signo, os dias até o aniversário dela(e).
+
+* Verifique nossa página
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
+* Código aberto
+
+Este projeto é de código aberto e você o encontra em: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
+
+* Nos ajude a traduzir esta aplicativo para  sua lingua
+
+Se você quer ajudar a traduzir esse aplicativo verifique: <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
+
+* Nos mantenha acordados
+
+Se você quiser nos pagar um café de uma olhada nos links de nossa página <a href="https://tmendes.gitlab.io/BirthDayDroid/</a>
+
+* Agradecimentos:
+
+Ícone do App: <a href="http://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+Ícones da barra de navegação: <a href="https://design.google.com/icons/">Google Team</a><br />
+Emojis: <a href="http://emojione.com/">Emoji One</a><br />
+
+* PERMISSÕES
+
+* Ler seus contatos
+O BirthdayDroid funciona verificando o aniversário de cada contato da sua lista de contatos. e por isso é necessário o acesso a estes. Você pode verificar nosso código-fonte se ainda não confiar em nos dar essa permissão.
+* Controle de vibração
+Notificações de aniversários
+* Executar na inicialização
+Para registrar o moento da notificação
