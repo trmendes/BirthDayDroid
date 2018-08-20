@@ -131,9 +131,8 @@ public class Contact {
         month = bornOn.get(Calendar.MONTH);
 
         /* Age */
-        int year;
         if (containsYearInfo) {
-            year = bornOn.get(Calendar.YEAR);
+            int year = bornOn.get(Calendar.YEAR);
             if (year > actualYear) {
                 daysAge = 0;
                 age = 0;
@@ -151,7 +150,6 @@ public class Contact {
             }
         } else {
             bornOn.set(Calendar.YEAR, actualYear);
-            year = -1;
             age = -1;
         }
 
