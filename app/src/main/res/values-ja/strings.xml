@@ -17,19 +17,18 @@
     <string name="sign_element_air">風</string>
     <string name="sign_element_water">水</string>
     <string name="search">連絡先を検索</string>
-    <string name="birthday_string">%1$s/%2$d</string>
     <string name="contact_has_no_year">年度情報がありません</string>
-    <plurals name="days_old">
-        <item quantity="other">%1$d 日</item>
-    </plurals>
     <plurals name="years_old">
         <item quantity="other">%1$d 歳</item>
+    </plurals>
+    <plurals name="days_old">
+        <item quantity="other">%1$d 日</item>
     </plurals>
     <string name="next_week_name">次の誕生日は %1$s です</string>
     <plurals name="days_until">
         <item quantity="other">この人の誕生日まであと %1$d 日</item>
     </plurals>
-    <string name="days_until_birthday">今日はパーティ！ :D</string>
+    <string name="party_message">今日はパーティ！ :D</string>
     <string name="birthday_scan_found">誕生日の通知を設定</string>
     <string name="birthday_scan_not_found">今日が誕生日の人はいません</string>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s は今日で %2$d 歳になります</string>
@@ -79,7 +78,7 @@
     <plurals name="statistics_int_string">
         <item quantity="other">\t %1$d \t 人 \t - \t %2$s\n</item>
     </plurals>
-    <string name="about_info">The BirthDayDroid Project は、あなたがお友達の誕生日を忘れないようお手伝いするために作られたオープンソースのプロジェクトです。</string>
+    <string name="about_info" tools:keep="@string/about_info">The BirthDayDroid Project は、あなたがお友達の誕生日を忘れないようお手伝いするために作られたオープンソースのプロジェクトです。</string>
     <string name="array_order_next">次の誕生日までの日数</string>
     <string name="array_order_age">年齢</string>
     <string name="array_order_name">氏名</string>
@@ -92,4 +91,5 @@
     <string name="statistics_fail_title">失敗ログ</string>
     <string name="log_cant_parse">解析できません %1$s</string>
     <string name="about_us_bt_changelog">ログの変更</string>
-</resources>
+    </resources>
+

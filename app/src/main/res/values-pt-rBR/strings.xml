@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_desc">Seus lembretes de aniversários</string>
+    <string name="app_desc">Seu lembrete de aniversários</string>
     <string name="sign_aquarius">Aquário</string>
     <string name="sign_capricorn">Capricórnio</string>
     <string name="sign_pisces">Peixes</string>
@@ -17,21 +17,21 @@
     <string name="sign_element_air">Ar</string>
     <string name="sign_element_water">Água</string>
     <string name="search">Procurar por idade, nome, signo, etc</string>
-    <string name="contact_has_no_year">Sem info de ano :(</string>
-    <plurals name="days_old">
-        <item quantity="one">%1$d dia</item>
-        <item quantity="other">%1$d dias</item>
-    </plurals>
+    <string name="contact_has_no_year">Sem ano definido :(</string>
     <plurals name="years_old">
         <item quantity="one">%1$d ano</item>
         <item quantity="other">%1$d anos</item>
+    </plurals>
+    <plurals name="days_old">
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dias</item>
     </plurals>
     <string name="next_week_name">Próximo aniversário - %1$s</string>
     <plurals name="days_until">
         <item quantity="one">%1$d dia antes de seu aniversário</item>
         <item quantity="other">%1$d dias antes de seu aniversário</item>
     </plurals>
-    <string name="days_until_birthday">Tem uma festa acontecendo hoje :D</string>
+    <string name="party_message">Tem uma festa acontecendo hoje :D</string>
     <string name="birthday_scan_found">Gerando notificações de aniversários</string>
     <string name="birthday_scan_not_found">Nenhum aniversário encontrado hoje</string>
     <plurals name="message_notification_message_bt_to_come">
@@ -54,16 +54,17 @@
     <string name="settings_scan_not_adv_sum">Mostras notificações de aniversário com antecedência</string>
     <string name="settings_scan_not_adv_title">Notificações com antecedência</string>
     <string name="settings_scan_adv_sum">Quantos dias com antecedência devemos verificar os seus contactos em busca de aniversários para você ter tempo para preparar o seu amigo uma surpresa</string>
+    <string name="settings_scan_adv_title">Dias de antecedência</string>
     <string name="settings_scan_precise_title">Notificação precisa</string>
     <string name="settings_scan_precise">Somente uma notificação com antecedência</string>
-    <string name="settings_scan_adv_title">Dias de antecedência</string>
     <string name="settings_list_preferences">Preferências da lista de aniversário</string>
-    <string name="settings_list_input_sum">Dias/Idade/Nome/Signo</string>
+    <string name="settings_list_input_sum">Dias antes do aniversário/Idade/Nome/Signo</string>
     <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Ascendente ou descendente</string>
     <string name="settings_list_order_title">Order de listagem</string>
     <string name="settings_time_set">Setar</string>
     <string name="settings_time_cancel">Cancelar</string>
+    <string name="settings_layout_preferences">Interface</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Escuro</string>
     <string name="navigation_drawer_open">Abrir a gaveta de navegação</string>
@@ -88,18 +89,19 @@
         <item quantity="one">\t %1$d \t contato \t - \t %2$s\n</item>
         <item quantity="other">\t %1$d \t contatos \t - \t %2$s\n</item>
     </plurals>
-    <string name="about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
-    <string name="array_order_age">Idade</string>
-    <string name="array_order_asc">Asc</string>
-    <string name="array_order_desc">Desc</string>
-    <string name="array_order_name">Nome</string>
+    <string name="about_info" tools:keep="@string/about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
     <string name="array_order_next">Dias para o próximo aniversário</string>
+    <string name="array_order_age">Idade</string>
+    <string name="array_order_name">Nome</string>
     <string name="array_order_sign">Signo</string>
-    <string name="birthday_string">%1$s/%2$d</string>
+    <string name="array_order_asc">Crescente</string>
+    <string name="array_order_desc">Decrescente</string>
+    <string name="exit_warning_msg">Por favor, clique \"voltar\" novamente para sair</string>
     <string name="exit_dialog">Você tem certeza que deseja sair?</string>
     <string name="exit_yes">Sim</string>
     <string name="exit_no">Não</string>
     <string name="statistics_fail_title">Log de falhas</string>
     <string name="log_cant_parse">Não foi possível entender %1$s</string>
     <string name="about_us_bt_changelog">Changelog</string>
-</resources>
+    </resources>
+

@@ -19,7 +19,7 @@
     <string name="sign_element_water">Water</string>
     <string name="search">Search for age, name, sign, etc</string>
     <string name="dual_string" translatable="false">%1$s/%2$s</string>
-    <string name="birthday_string">%1$s/%2$d</string>
+    <string name="birthday_string" translatable="false">%1$s/%2$d</string>
     <string name="contact_has_no_year">No year specified :(</string>
     <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
@@ -101,6 +101,7 @@
     <string name="array_order_sign">Sign</string>
     <string name="array_order_asc">Ascending</string>
     <string name="array_order_desc">Descending</string>
+    <string name="exit_warning_msg">Please click back again to exit</string>
     <string name="exit_dialog">Are you sure you want to exit?</string>
     <string name="exit_yes">Yes</string>
     <string name="exit_no">No</string>

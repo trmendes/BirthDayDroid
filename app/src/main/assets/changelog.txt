@@ -1,9 +1,10 @@
-* V27_B3
+* V27
 
-- Fix Notification message for contacts with no birth year specified
-
-* V27_B2
-
+- Rounded Icons
+- Dark Theme
+- More control over notification in advance
+- Made the preferences dialog a little better \o/
+- Cosmetic changes :O
 - Better Search Function: Now you can search contact by:
     - Age
     - Month Name (January, June, etc)
@@ -14,14 +15,18 @@
 - Better navigation. No more accidental exit messages \o/
 - A better way to choose how many days in advance you want to be notified
 - Close soft keyboard when it loses focus
-
-* V27_B1
-
-- Rounded Icons
-- Dark Theme
-- More control over notification in advance
-- Made the preferences dialog a little better \o/
-- Cosmetic changes :O
+- Fix Notification message for contacts with no birth year specified
+- Hide the Fail log button if there is nothing to show
+- Add support for a few new languages thanks to a bunch of nice people :D \o/
+    - Russian
+    - German
+    - French
+    - Swedish
+    - Italian
+- Grammar/language fix
+    - Portuguese
+    - English
+    - Japanese
 
 * V26
 

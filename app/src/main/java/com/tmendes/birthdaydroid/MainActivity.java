@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity
     // Permission Control
     private PermissionHelper permissionHelper;
     private static final int PERMISSION_CONTACT_READ = 100;
+
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,20 +114,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+
         if (backStackEntryCount == 0) {
-            new AlertDialog.Builder(this)
-                    .setMessage(getBaseContext().getResources().getString(R.string.exit_dialog))
-                    .setCancelable(false)
-                    .setPositiveButton(getBaseContext().getResources().getString(R.string.exit_yes),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    MainActivity.this.finish();
-                                }
-                            })
-                    .setNegativeButton(getBaseContext().getResources().getString(R.string.exit_no),
-                            null)
-                    .show();
-        } else {
+            Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+
+        if (backStackEntryCount > 0) {
             super.onBackPressed();
         }
     }
