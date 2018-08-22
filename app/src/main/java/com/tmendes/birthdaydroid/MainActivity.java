@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }, 2000);
         } else {
-            super.onBackPressed();
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
 
