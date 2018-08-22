@@ -23,9 +23,13 @@
     - German
     - French
     - Swedish
+    - Italian
 - Grammar/language fix
-    - Portuguese
+    - Brazilian Portuguese
     - English
+- Not a 100% supported
+    - Russian
+    - Japanese
 
 * V26
 

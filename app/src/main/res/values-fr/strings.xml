@@ -26,10 +26,10 @@
         <item quantity="one">%1$d jours</item>
         <item quantity="other">%1$d jours</item>
     </plurals>
-    <string name="next_week_name">Le prochain anniversaire sera un %1$s</string>
+    <string name="next_week_name">Le prochain %1$s sera un %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$d jours avant son anniversaire</item>
-        <item quantity="other">%1$d jours avant son anniversaire</item>
+        <item quantity="one">%1$d jour avant son %2$s</item>
+        <item quantity="other">%1$d jours avant son %2$s</item>
     </plurals>
     <string name="party_message">Une fête bat son plein aujourd\'hui :D</string>
     <string name="birthday_scan_found">Création des notifications d\'anniversaire</string>
@@ -39,9 +39,10 @@
         <item quantity="other">%1$s aura %2$d ans dans %3$d jours</item>
     </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s a %2$d aujourd\'hui</string>
-    <string name="birthday_tomorrow">Son anniversaire est demain</string>
+    <string name="birthday_tomorrow">Son %1$s est demain</string>
     <string name="menu_birthday_list">Liste des anniversaires</string>
     <string name="menu_scan_now">Scanner maintenant</string>
+    <string name="menu_donate">Donation</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_statistics">Plus d\'informations</string>
     <string name="menu_about">À propos</string>
@@ -67,6 +68,7 @@
     <string name="settings_layout_preferences">L\'apparence</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_theme">Sombre</string>
+    <string name="settings_swipe_down">Glisser vers le bas pour générer les notifications</string>
     <string name="navigation_drawer_open">Ouvrir le panneau de navigation</string>
     <string name="navigation_drawer_close">Fermer le panneau de navigation</string>
     <string name="alert_contats_dialog_title">La permission de lecture des contacts est nécessaire</string>
@@ -103,5 +105,7 @@
     <string name="statistics_fail_title">Journal d\'échecs</string>
     <string name="log_cant_parse">Impossible de lire %1$s</string>
     <string name="about_us_bt_changelog">Journal des modifications</string>
-    </resources>
+    <string name="type_birthday">anniversaire</string>
+    <string name="type_anniversary">anniversaire</string>
+</resources>
 

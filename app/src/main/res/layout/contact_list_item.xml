@@ -32,7 +32,6 @@
         android:layout_toEndOf="@+id/thumbnail"
         android:layout_toStartOf="@+id/tvContactAge"
         android:singleLine="true"
-        android:textColor="?attr/editTextColor"
         android:text="@string/string"
         android:textSize="14sp"
         android:textStyle="bold"
