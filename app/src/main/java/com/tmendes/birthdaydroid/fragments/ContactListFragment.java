@@ -130,6 +130,7 @@ public class ContactListFragment extends Fragment {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         swipeDown = prefs.getBoolean("swipe_down_to_notify", false);
+        refreshLayout.setEnabled( swipeDown );
         ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().refresh();
         updateSortSettings();
     }
