@@ -1,3 +1,5 @@
+The BirthDayDroid project is now developed using the GitLab services. To avoid forgotten pull requests, etc. head over to [GitLab](https://gitlab.com/tmendes/BirthDayDroid).
+
 # BirthDayDroid
 
 #### Basic information
