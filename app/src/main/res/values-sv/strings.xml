@@ -41,7 +41,6 @@
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s fyller %2$d i dag</string>
     <string name="birthday_tomorrow">I morgon är det hennes/hans %1$s</string>
     <string name="menu_birthday_list">Födelsedagslista</string>
-    <string name="menu_scan_now">Sök nu</string>
     <string name="menu_donate">Donera</string>
     <string name="menu_settings">Inställningar</string>
     <string name="menu_statistics">Mer info</string>
@@ -99,7 +98,6 @@
     <string name="array_order_asc">Stigande</string>
     <string name="array_order_desc">Fallande</string>
     <string name="exit_warning_msg">Tryck bakåt en gång till för att avsluta</string>
-    <string name="exit_dialog">Är det säkert du vill avsluta?</string>
     <string name="exit_yes">Ja</string>
     <string name="exit_no">Nej</string>
     <string name="statistics_fail_title">Fellogg</string>

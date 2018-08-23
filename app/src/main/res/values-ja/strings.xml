@@ -32,7 +32,6 @@
     </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s は今日で %2$d 歳になります</string>
     <string name="menu_birthday_list">生年月日リスト</string>
-    <string name="menu_scan_now">スキャンします</string>
     <string name="menu_settings">設定</string>
     <string name="menu_statistics">詳細情報</string>
     <string name="menu_about">BirthDayDroid のこと</string>
@@ -85,7 +84,6 @@
     <string name="array_order_asc">昇順</string>
     <string name="array_order_desc">降順</string>
     <string name="exit_warning_msg">終了するにはもう一度戻るをクリックしてください</string>
-    <string name="exit_dialog">本当に終了してもよろしいですか？</string>
     <string name="exit_yes">はい</string>
     <string name="exit_no">いいえ</string>
     <string name="statistics_fail_title">失敗ログ</string>

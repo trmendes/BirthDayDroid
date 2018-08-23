@@ -41,7 +41,6 @@
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s compie %2$d anni oggi</string>
     <string name="birthday_tomorrow">Domani è il suo %1$s</string>
     <string name="menu_birthday_list">Lista dei compleanni</string>
-    <string name="menu_scan_now">Scansiona ora</string>
     <string name="menu_donate">Dona</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="menu_statistics">Maggiori informazioni</string>
@@ -99,7 +98,6 @@
     <string name="array_order_asc">Crescente</string>
     <string name="array_order_desc">Decrescente</string>
     <string name="exit_warning_msg">Per piacere clicca nuovamente indietro per uscire</string>
-    <string name="exit_dialog">Sei sicuro di voler uscire</string>
     <string name="exit_yes">Sì</string>
     <string name="exit_no">No</string>
     <string name="statistics_fail_title">Log dei fallimenti</string>

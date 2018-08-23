@@ -41,7 +41,6 @@
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s a %2$d aujourd\'hui</string>
     <string name="birthday_tomorrow">Son %1$s est demain</string>
     <string name="menu_birthday_list">Liste des anniversaires</string>
-    <string name="menu_scan_now">Scanner maintenant</string>
     <string name="menu_donate">Donation</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_statistics">Plus d\'informations</string>
@@ -99,7 +98,6 @@
     <string name="array_order_asc">Croissant</string>
     <string name="array_order_desc">Décroissant</string>
     <string name="exit_warning_msg">Veuillez appuyer de nouveau pour quitter</string>
-    <string name="exit_dialog">Êtes-vous sûr de vouloir quitter?</string>
     <string name="exit_yes">Oui</string>
     <string name="exit_no">Non</string>
     <string name="statistics_fail_title">Journal d\'échecs</string>

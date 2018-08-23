@@ -43,7 +43,6 @@
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s сегодня исполняется %2$d лет</string>
     <string name="birthday_tomorrow"> Завтра у него/неё %1$s</string>
     <string name="menu_birthday_list">Список дней рождения</string>
-    <string name="menu_scan_now">Проверить сейчас</string>
     <string name="menu_donate">жертвовать</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_statistics">Подробно</string>
@@ -107,7 +106,6 @@
     <string name="array_order_asc">По возрастанию</string>
     <string name="array_order_desc">По убыванию</string>
     <string name="exit_warning_msg">Повторите попытку, чтобы выйти</string>
-    <string name="exit_dialog">Вы точно хотите выйти?</string>
     <string name="exit_yes">Да</string>
     <string name="exit_no">Нет</string>
     <string name="statistics_fail_title">Журнал сбоев</string>

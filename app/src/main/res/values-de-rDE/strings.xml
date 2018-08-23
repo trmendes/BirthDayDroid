@@ -41,7 +41,6 @@
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s ist heute %2$d geworden</string>
     <string name="birthday_tomorrow">Morgen ist ihr/sein %1$s</string>
     <string name="menu_birthday_list">Geburtstags Liste</string>
-    <string name="menu_scan_now">Jetzt suchen</string>
     <string name="menu_donate">Spenden</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_statistics">Weitere Informationen</string>
@@ -99,7 +98,6 @@
     <string name="array_order_asc">Aufsteigend</string>
     <string name="array_order_desc">Absteigend</string>
     <string name="exit_warning_msg">Drücken Sie erneut zurück, um zu beenden</string>
-    <string name="exit_dialog">Sicher das du die App verlassen willst?</string>
     <string name="exit_yes">Ja</string>
     <string name="exit_no">Nein</string>
     <string name="statistics_fail_title">Fehler Log</string>
