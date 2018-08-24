@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        if (fragmentClass != null) {
+        if (fragmentClass != null && fragmentClass != ContactListFragment.class) {
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
