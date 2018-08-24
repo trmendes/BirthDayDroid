@@ -172,9 +172,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                if (fragmentClass != ContactListFragment.class) {
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
-                }    
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
