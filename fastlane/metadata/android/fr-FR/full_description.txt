@@ -3,18 +3,16 @@ Gratuit! Sans pubs! Open source! :D
 BirthDayDroid est une application Android simple pour vous aider à vous rappeler les anniversaires de vos contacts. Il scanne votre liste de contacts locaux à la recherche d'anniversaires. Quand il le trouvera, il vous montrera l'âge du contact, le signe astrologique et les jours jusqu'à son anniversaire.
 
 * Consultez notre page web
-<a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
+
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">BirthdayDroid Webpage</a>
+
 * Open source:
 
-Ce projet est un projet open source et vous le trouverez à l'adresse suivante : <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
+Ce projet est un projet open source et vous le trouverez à l'adresse suivante : <a href="https://gitlab.com/tmendes/BirthDayDroid">Gitlab</a>
 
 * Aidez-nous à faire traduire cette application dans votre langue
 
-Si vous voulez nous aider à traduire cette application dans votre langue, rendez-vous à l'adresse suivante : <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
-
-* Gardez-nous éveillés :)
-
-Si vous voulez nous acheter un café, allez sur notre page web et vérifiez les liens qui s'y trouvent. <a href="https://tmendes.gitlab.io/BirthDayDroid/</a>
+Si vous voulez nous aider à traduire cette application dans votre langue, rendez-vous à l'adresse suivante : <a href="www.transifex.com/wlnomads/birthdaydroid">Transifex</a>
 
 * Merci à :
 
@@ -26,7 +24,11 @@ Emojis: <a href="https://emojione.com/">emojis gratuit fourni par Emoji One</a><
 
 * Lisez vos contacts
 BirthdayDroid va travailler en vérifiant l'anniversaire de chaque contact de votre liste, ainsi l'application vous demande d'avoir accès à vos contatcs. Vous pouvez vérifier notre code source si vous n'avez toujours pas confiance en nous donnant cette permission.
+
 * Contrôle le vribreur
+
 Notifications d'anniversaire
+
 * Exécuter au démarrage
+
 Pour enregistrer l'heure pour les notifications d'anniversaire

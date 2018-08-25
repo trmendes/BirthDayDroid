@@ -3,18 +3,16 @@ Gratuita!  Senza pubblicità!  Opensource!
 BirthDayDroid è una semplice applicazione Android che ti aiuta a ricordare i compleanni dei tuoi contatti.  Essa scansiona la tua lista di contatti alla ricerca dei compleanni.  Per ogni contatto con compleanno trovato, visualizza l'età, il segno zodiacale, e i giorni mancanti al compleanno.
 
 * Controlla la nostra pagina web
-<a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
+
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">BirthdayDroid Webpage</a>
+
 * Open source:
 
-Questo progetto è opensource, e lo puoi trovare qui: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
+Questo progetto è opensource, e lo puoi trovare qui: <a href="https://gitlab.com/tmendes/BirthDayDroid">Gitlab</a>
 
 * Aiutaci a tradurre questa app nella tua lingua
 
-Per aiutarci a tradurre questa app nella tua lingua, visita: <a href="www.transifex.com/wlnomads/birthdaydroid">www.transifex.com/wlnomads/birthdaydroid</a>
-
-* Mantienici svegli :)
-
-Se ci vuoi comprare un caffè, visita la nostra pagina web.  Lì troverai come fare <a href="https://tmendes.gitlab.io/BirthDayDroid/</a>
+Per aiutarci a tradurre questa app nella tua lingua, visita: <a href="www.transifex.com/wlnomads/birthdaydroid">Transifex</a>
 
 * Grazie a:
 
@@ -26,7 +24,11 @@ Emoji: <a href="https://emojione.com/"> Emoji gratuite fornite da Emoji One</a><
 
 * Legge i tuoi contatti
 BirthdayDroid deve necessariamente accedere ai tuoi contatti per leggere i compleanni.  Puoi controllare il codice sorgente dell'applicazione, se non hai fiducia nel concedere questo permesso.
+
 * Controlla la vibrazione
+
 Notifiche dei compleanni
+
 * Avvia all'accensione
+
 Per conoscere l'orario per le notifiche di compleanno
