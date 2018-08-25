@@ -17,13 +17,12 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +42,6 @@ public class SettingsFragment extends Fragment {
         Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction()
                 .replace(R.id.setting_frame, new PrefFragment())
                 .commit();
-
-        DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
 
         return v;
     }
@@ -85,6 +81,11 @@ public class SettingsFragment extends Fragment {
                 } else {
                     alarm.cancelAlarm(getContext());
                 }
+            } else if (key.equals("dark_theme")) {
+                getActivity().finish();
+                final Intent intent = getActivity().getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
             }
         }
     }

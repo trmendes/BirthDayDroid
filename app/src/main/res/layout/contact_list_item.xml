@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginEnd="5dip"
+        android:layout_marginEnd="3dp"
         android:background="@drawable/image_bg"
         android:padding="3dip">
 
         <ImageView
             android:id="@+id/ivContactPicture"
             android:layout_width="64dip"
-            android:layout_height="64dip"
+            android:layout_height="70dp"
             android:contentDescription="@string/image" />
 
     </LinearLayout>
@@ -33,7 +33,6 @@
         android:layout_toStartOf="@+id/tvContactAge"
         android:singleLine="true"
         android:text="@string/string"
-        android:textColor="#040404"
         android:textSize="14sp"
         android:textStyle="bold"
         android:typeface="sans" />
@@ -50,7 +49,6 @@
         android:layout_toStartOf="@+id/tvBirthDay"
         android:singleLine="true"
         android:text="@string/string"
-        android:textColor="#343434"
         android:textSize="12sp" />
 
     <!-- Days to go to her/his birthday -->
@@ -64,7 +62,6 @@
         android:layout_toStartOf="@+id/tvSignAndElement"
         android:singleLine="true"
         android:text="@string/string"
-        android:textColor="#343434"
         android:textSize="12sp" />
 
     <!-- Contact Age -->
@@ -77,7 +74,7 @@
         android:layout_marginEnd="5dip"
         android:gravity="end"
         android:text="@string/string"
-        android:textColor="#10bcc9"
+        android:textColor="?android:attr/colorAccent"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -92,7 +89,7 @@
         android:layout_marginEnd="5dip"
         android:gravity="end"
         android:text="@string/string"
-        android:textColor="#10bcc9"
+        android:textColor="?android:attr/colorAccent"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -107,7 +104,7 @@
         android:layout_marginEnd="5dip"
         android:gravity="end"
         android:text="@string/string"
-        android:textColor="#10bcc9"
+        android:textColor="?android:attr/colorAccent"
         android:textSize="12sp"
         android:textStyle="bold" />
 

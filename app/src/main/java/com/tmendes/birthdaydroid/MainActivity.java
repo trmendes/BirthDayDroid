@@ -20,8 +20,13 @@ package com.tmendes.birthdaydroid;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -58,8 +63,18 @@ public class MainActivity extends AppCompatActivity
     private PermissionHelper permissionHelper;
     private static final int PERMISSION_CONTACT_READ = 100;
 
+    private boolean doubleBackToExitPressedOnce = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        if (useDarkTheme) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppThemeLight);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -100,19 +115,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        //FIXME Add a better message to warn the user about the back button
-        new AlertDialog.Builder(this)
-                .setMessage(getBaseContext().getResources().getString(R.string.exit_dialog))
-                .setCancelable(false)
-                .setPositiveButton(getBaseContext().getResources().getString(R.string.exit_yes),
-                        new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.finish();
-                    }
-                })
-                .setNegativeButton(getBaseContext().getResources().getString(R.string.exit_no),
-                        null)
-                .show();
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        if (backStackEntryCount == 0) {
+            Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
+            this.doubleBackToExitPressedOnce = true;
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+        } else {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
     }
 
     @Override
@@ -124,14 +146,19 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case android.R.id.home:
                 finish();
+                /* No break */
             case R.id.nav_birthday_list:
                 fragmentClass = ContactListFragment.class;
                 break;
             case R.id.nav_statistics:
                 fragmentClass = StatisticsFragment.class;
                 break;
-            case R.id.nav_scan_now:
-                isTodayADayToCelebrate();
+            case R.id.nav_donate:
+                Intent browserIntent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://tmendes.gitlab.io/BirthDayDroid/#donate")
+                );
+                startActivity(browserIntent);
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
@@ -141,11 +168,11 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        if (fragmentClass != null) {
+        if (fragmentClass != null && fragmentClass != ContactListFragment.class) {
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -155,21 +182,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        return true;
-    }
 
-    private void isTodayADayToCelebrate() {
-        ArrayList<Contact> notifications = this.birthDays.shallWeCelebrate();
-        if (notifications.size() == 0) {
-            Toast.makeText(this, getResources().getString(R.string.birthday_scan_not_found),
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.birthday_scan_found),
-                    Toast.LENGTH_LONG).show();
-            for (Contact contact : notifications) {
-                birthDays.postNotification(contact);
-            }
-        }
+        return true;
     }
 
     public BirthDay getBirthday() {

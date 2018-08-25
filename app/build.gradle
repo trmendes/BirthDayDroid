@@ -7,8 +7,8 @@ android {
         applicationId "com.tmendes.birthdaydroid"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 26
-        versionName '20180814_VC26'
+        versionCode 27
+        versionName '20180825_VC27'
     }
     buildTypes {
         release {
@@ -77,9 +77,10 @@ allprojects {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:support-v4:27.1.1'
-    compile 'com.android.support:design:27.1.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support:support-v4:27.1.1'
+    api 'com.android.support:design:27.1.1'
     implementation 'org.sufficientlysecure:donations:2.6'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 }

@@ -57,6 +57,10 @@ public class StatisticsFragment extends Fragment {
         Button buttonWeek = v.findViewById(R.id.buttonWeek);
         Button buttonFailLog = v.findViewById(R.id.buttonFailLog);
 
+        if (birthDay.getFailContactList().size() == 0) {
+            buttonFailLog.setVisibility(View.INVISIBLE);
+        }
+
         buttonAges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 int size = birthDay.getBirthDayList().size();

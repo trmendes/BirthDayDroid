@@ -1,5 +1,8 @@
 # BirthDayDroid
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://gitlab.com/tmendes/BirthDayDroid/blob/master/LICENSE)
+[![API](https://img.shields.io/badge/API-23%2B-orange.svg?style=flat-square)](https://android-arsenal.com/api?level=23)
+
 #### Basic information
 
 BirthDayDroid is a simple Android application to help you to remember your
@@ -33,8 +36,11 @@ her/his birthday.
 
 #### Help us buying us a coffee \o/
 
-[Check BirthdayDroid webpage if you want to help us
-:)](https://tmendes.gitlab.io/BirthDayDroid/)
+[Check BirthdayDroid webpage if you want to help us :)](https://tmendes.gitlab.io/BirthDayDroid/)
+<br />
+
+[![Liberapay Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/zeh/donate "Donate using Liberapay")
+[![Paypal Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=XVJVNV22KN7MG&lc=BR&item_name=WlNomads&item_number=WLNomas&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
 
 #### Contact
 
@@ -56,7 +62,7 @@ Thiago Ribeiro Mendes<br/>
 
 ##### Special thanks
 
-Emoji provided free by [Emoji One](http://emojione.com/)
+Emoji provided free by [Emoji One](https://emojione.com/)
 
 Bitcon Icon made by [freepik](https://www.flaticon.com/authors/freepik) from www.flaticon.com
 
@@ -77,5 +83,5 @@ Bitcon Icon made by [freepik](https://www.flaticon.com/authors/freepik) from www
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 

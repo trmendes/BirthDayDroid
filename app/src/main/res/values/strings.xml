@@ -17,9 +17,9 @@
     <string name="sign_element_earth">Earth</string>
     <string name="sign_element_air">Air</string>
     <string name="sign_element_water">Water</string>
-    <string name="search">Search Contact</string>
+    <string name="search">Search for age, name, sign, etc</string>
     <string name="dual_string" translatable="false">%1$s/%2$s</string>
-    <string name="birthday_string">%1$s/%2$d</string>
+    <string name="birthday_string" translatable="false">%1$s/%2$d</string>
     <string name="contact_has_no_year">No year specified :(</string>
     <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
@@ -29,12 +29,12 @@
         <item quantity="one">%1$d day old</item>
         <item quantity="other">%1$d days old</item>
     </plurals>
-    <string name="next_week_name">Next birthday will be on a %1$s</string>
+    <string name="next_week_name">Next %1$s will be on a %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$d day until her/his birthday</item>
-        <item quantity="other">%1$d days until her/his birthday</item>
+        <item quantity="one">%1$d day until next %2$s</item>
+        <item quantity="other">%1$d days until next %2$s</item>
     </plurals>
-    <string name="days_until_birthday">There is a party going on today :D</string>
+    <string name="party_message">There is a party going on today :D</string>
     <string name="birthday_scan_found">Generating Birthday Notifications</string>
     <string name="birthday_scan_not_found">No Birthdays Found Today</string>
     <plurals name="message_notification_message_bt_to_come">
@@ -42,9 +42,9 @@
         <item quantity="other">%1$s turns %2$d in %3$d days</item>
     </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s is turning %2$d today</string>
-    <string name="birthday_tomorrow">Tomorrow is her/his birthday</string>
+    <string name="birthday_tomorrow">Tomorrow is her/his %1$s</string>
     <string name="menu_birthday_list">Birthday List</string>
-    <string name="menu_scan_now">Scan Now</string>
+    <string name="menu_donate">Donate</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_statistics">More Info</string>
     <string name="menu_about">About</string>
@@ -58,6 +58,8 @@
     <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
     <string name="settings_scan_adv_sum">How many days in advance shall we check your contacts for their birthdays, so you have time to prepare your friend a surprise</string>
     <string name="settings_scan_adv_title">Days in Advance</string>
+    <string name="settings_scan_precise_title">Precise Notifications</string>
+    <string name="settings_scan_precise">Only one notification in advance</string>
     <string name="settings_list_preferences">Birthday List Settings</string>
     <string name="settings_list_input_sum">Days Until Birthday/Age/Name/Sign</string>
     <string name="settings_list_input_title">Sort By</string>
@@ -65,6 +67,10 @@
     <string name="settings_list_order_title">Sort Order</string>
     <string name="settings_time_set">Set</string>
     <string name="settings_time_cancel">Cancel</string>
+    <string name="settings_layout_preferences">Layout</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme">Dark</string>
+    <string name="settings_swipe_down">Swipe down to generate notifications</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="alert_contats_dialog_title">Permission to Read Contacts Nedded</string>
@@ -80,12 +86,12 @@
         <item quantity="other">From %1$d contacts:\n\n</item>
     </plurals>
     <plurals name="statistics_int_int">
-        <item quantity="one">\t%1$d\tcontact\t-\t%2$d\tyears old\n</item>
-        <item quantity="other">\t%1$d\tcontacts\t-\t%2$d\tyears old\n</item>
+        <item quantity="one">\t %1$d \t contact \t - \t %2$d \t years old\n</item>
+        <item quantity="other">\t %1$d \t contacts \t - \t %2$d \t years old\n</item>
     </plurals>
     <plurals name="statistics_int_string">
-        <item quantity="one">\t%1$d\tcontact\t-\t%2$s\n</item>
-        <item quantity="other">\t%1$d\tcontacts\t-\t%2$s\n</item>
+        <item quantity="one">\t %1$d \tcontact \t - \t %2$s\n</item>
+        <item quantity="other">\t %1$d \tcontacts \t - \t %2$s\n</item>
     </plurals>
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
     <string name="image" translatable="false">Image</string>
@@ -96,12 +102,12 @@
     <string name="array_order_sign">Sign</string>
     <string name="array_order_asc">Ascending</string>
     <string name="array_order_desc">Descending</string>
-    <string name="exit_dialog">Are you sure you want to exit?</string>
-    <string name="exit_yes">Yes</string>
-    <string name="exit_no">No</string>
+    <string name="exit_warning_msg">Press back again to exit</string>
     <string name="statistics_fail_title">Fail Log</string>
     <string name="log_cant_parse">Can\'t parse %1$s</string>
     <string name="about_us_bt_changelog">Changelog</string>
     <string name="build" translatable="false">Build %1$d</string>
+    <string name="type_birthday">birthday</string>
+    <string name="type_anniversary">anniversary</string>
 </resources>
 

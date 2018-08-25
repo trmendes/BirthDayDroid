@@ -1,0 +1,34 @@
+Gratis! Inga annonser! Öppen källkod :D!
+
+BirthDayDroid är en enkel Android-applikation som påminner dig om dina kontakters födelsedagar. Den söker igenom dina lokala kontakter och letar efter födelsedagar. När den har hittat födelsedagen kommer den att visa dina kontakters ålder, stjärntecken och dagar till henne/hans födelsedag.
+
+* Kolla in vår hemsida
+
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">BirthdayDroid Webpage</a>
+
+* Öppen källkod:
+
+Detta är ett öppet källkodsprojekt och du hittar det här: <a href="https://gitlab.com/tmendes/BirthDayDroid">Gitlab</a>
+
+* Hjälp oss att översätta denna app till ditt språk
+
+Om du vill hjälpa till att översätta denna app till ditt språk gör du det här: <a href="www.transifex.com/wlnomads/birthdaydroid">Transifex</a>
+
+* Tack till:
+
+App-ikon: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+Ikoner för navigeringsfältet: <a href="https://design.google.com/icons/">Google Team</a><br />
+Emojis: <a href="https://emojione.com/">Gratis emojis tillhandahållen av Emoji One</a><br />
+
+* BEHÖRIGHETER:
+
+* Läser dina kontakter
+BirthdayDroid söker igenom dina kontakter och letar efter deras födelsedag.  Därför måste du ge oss tillgång till dina kontakter. Om du inte litar på oss kan du ta en titt på vår källkod innan du ger oss tillåtelse.
+
+* Styr vibrationer
+
+ Födelsedagsaviseringar
+
+* Kör vid uppstart
+
+För att registrera tiden för födelsedagsaviseringen

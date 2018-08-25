@@ -23,19 +23,25 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.MainActivity;
-import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ContactListFragment extends Fragment {
@@ -47,6 +53,9 @@ public class ContactListFragment extends Fragment {
 
     // Context
     private Context ctx;
+
+    private SwipeRefreshLayout refreshLayout;
+    private boolean swipeDown;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,6 +73,8 @@ public class ContactListFragment extends Fragment {
 
         ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
+        listView.setDividerHeight(0);
+        listView.setDivider(null);
         listView.setAdapter(adapter);
 
         inputSearch = v.findViewById(R.id.inputSearch);
@@ -90,12 +101,35 @@ public class ContactListFragment extends Fragment {
             }
         });
 
+        inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getView()).getWindowToken(), 0);
+                }
+            }
+        });
+
+        refreshLayout = v.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        isTodayADayToCelebrate();
+                    }
+                }
+        );
+
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        swipeDown = prefs.getBoolean("swipe_down_to_notify", false);
+        refreshLayout.setEnabled( swipeDown );
         ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().refresh();
         updateSortSettings();
     }
@@ -105,6 +139,24 @@ public class ContactListFragment extends Fragment {
         int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
         int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
         adapter.sort(sortInput, sortMethod);
+    }
+
+    private void isTodayADayToCelebrate() {
+        if (swipeDown) {
+            BirthDay birthDays = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
+            ArrayList<Contact> notifications = birthDays.shallWeCelebrate();
+            if (notifications.size() == 0) {
+                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
+                        Toast.LENGTH_LONG).show();
+                for (Contact contact : notifications) {
+                    birthDays.postNotification(contact);
+                }
+            }
+        }
+        refreshLayout.setRefreshing(false);
     }
 
 }

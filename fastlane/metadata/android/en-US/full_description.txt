@@ -3,30 +3,32 @@ Free! No Ads! Opensource :D!
 BirthDayDroid is a simple Android application to help you to remember your contact's birthdays. It scans your local contact list looking for birthdays. When it finds it, it will show you the contact's age, sign, days until her/his birthday.
 
 * Check our webpage
-<a href="https://tmendes.gitlab.io/BirthDayDroid/">https://tmendes.gitlab.io/BirthDayDroid/</a>
+
+<a href="https://tmendes.gitlab.io/BirthDayDroid/">BirthdayDroid Webpage</a>
 
 * Open source:
 
-This project is an opensource project and you will find it at: <a href="https://gitlab.com/tmendes/BirthDayDroid">https://gitlab.com/tmendes/BirthDayDroid</a>
+This project is an opensource project and you will find it at: <a href="https://gitlab.com/tmendes/BirthDayDroid">Gitlab</a>
 
 * Help us to have this app translated to your language
 
-If you want to help us to translate this app to your language go to: <a href="https://www.transifex.com/wlnomads/birthdaydroid">https://www.transifex.com/wlnomads/birthdaydroid</a>
-
-* Keep us awake :)
-
-If you want to buy us a coffee go to our webpage and check the links there <a href="https://tmendes.gitlab.io/BirthDayDroid/</a>
+If you want to help us to translate this app to your language go to: <a href="www.transifex.com/wlnomads/birthdaydroid">Transifex</a>
 
 * Thanks to:
 
-<a href="https://www.emojione.com/">Emoji provided free by Emoji One</a>
-<a href="https://www.flaticon.com/authors/freepik">Bitcon Icon made by freepik from www.flaticon.com</a>
+App Icon: <a href="https://mozilla.github.io/fxemoji">Firefox OS Emojis</a><br />
+Navigation bar icons: <a href="https://design.google.com/icons/">Google Team</a><br />
+Emojis: <a href="https://emojione.com/">Free emojis provided by Emoji One</a><br />
 
 * PERMISSIONS:
 
 * Read your contacts
-Birthday Droid will work checking the birthday entry from each contact from your contact list so it will request you to have access to your contatcs. You can check our source code if you still don't trust giving us that permission.
+BirthdayDroid will work checking the birthday entry from each contact from your contact list so it will request you to have access to your contacts. You can check our source code if you still don't trust giving us that permission.
+
 * Control vibration
+
  Birthday Notifications
+
 * Run at Startup
+
  To register the time for the Birthday Notifications

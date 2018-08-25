@@ -18,7 +18,9 @@
 package com.tmendes.birthdaydroid.fragments;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -54,6 +56,12 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
 
         appVersion.setText(container.getContext().getResources()
                 .getString(R.string.build, BuildConfig.VERSION_CODE));
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        if (useDarkTheme) {
+            webViewCredits.setBackgroundColor(0);
+        }
 
         return v;
     }

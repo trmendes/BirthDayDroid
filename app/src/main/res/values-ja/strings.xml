@@ -17,25 +17,21 @@
     <string name="sign_element_air">風</string>
     <string name="sign_element_water">水</string>
     <string name="search">連絡先を検索</string>
-    <string name="birthday_string">%1$s/%2$d</string>
     <string name="contact_has_no_year">年度情報がありません</string>
-    <plurals name="days_old">
-        <item quantity="other">%1$d 日</item>
-    </plurals>
     <plurals name="years_old">
         <item quantity="other">%1$d 歳</item>
     </plurals>
-    <string name="next_week_name">次の誕生日は %1$s です</string>
-    <plurals name="days_until">
-        <item quantity="other">この人の誕生日まであと %1$d 日</item>
+    <plurals name="days_old">
+        <item quantity="other">%1$d 日</item>
     </plurals>
-    <string name="days_until_birthday">今日はパーティ！ :D</string>
+    <string name="party_message">今日はパーティ！ :D</string>
     <string name="birthday_scan_found">誕生日の通知を設定</string>
     <string name="birthday_scan_not_found">今日が誕生日の人はいません</string>
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="other">%1$sターン%2$dに%3$d日々</item>
+    </plurals>
     <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s は今日で %2$d 歳になります</string>
-    <string name="birthday_tomorrow">明日はあの人の誕生日です</string>
     <string name="menu_birthday_list">生年月日リスト</string>
-    <string name="menu_scan_now">スキャンします</string>
     <string name="menu_settings">設定</string>
     <string name="menu_statistics">詳細情報</string>
     <string name="menu_about">BirthDayDroid のこと</string>
@@ -49,13 +45,18 @@
     <string name="settings_scan_not_adv_title">事前に誕生日を通知</string>
     <string name="settings_scan_adv_sum">お友達を驚かせる準備をするために、何日前からあなたの連絡帳でお誕生日をチェックすればいいか教えてください</string>
     <string name="settings_scan_adv_title">カウントダウン設定</string>
-    <string name="settings_list_preferences">誕生日リストの設定</string>
+    <string name="settings_scan_precise_title">正確な通知</string>
+    <string name="settings_scan_precise">Only one notification in advance</string>
+    <string name="settings_list_preferences">あらかじめ1つの通知のみ</string>
     <string name="settings_list_input_sum">日付/年齢/氏名/星座</string>
     <string name="settings_list_input_title">並び順</string>
     <string name="settings_list_order_sum">昇順または降順</string>
     <string name="settings_list_order_title">並び替え</string>
     <string name="settings_time_set">セット</string>
     <string name="settings_time_cancel">キャンセル</string>
+    <string name="settings_layout_preferences">レイアウト</string>
+    <string name="settings_theme_title">テーマ</string>
+    <string name="settings_theme">ダーク</string>
     <string name="navigation_drawer_open">ナビゲーション ドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーを閉じる</string>
     <string name="alert_contats_dialog_title">連絡先の読み取り権限が必要です</string>
@@ -75,17 +76,24 @@
     <plurals name="statistics_int_string">
         <item quantity="other">\t %1$d \t 人 \t - \t %2$s\n</item>
     </plurals>
-    <string name="about_info">The BirthDayDroid Project は、あなたがお友達の誕生日を忘れないようお手伝いするために作られたオープンソースのプロジェクトです。</string>
+    <string name="about_info" tools:keep="@string/about_info">The BirthDayDroid Project は、あなたがお友達の誕生日を忘れないようお手伝いするために作られたオープンソースのプロジェクトです。</string>
     <string name="array_order_next">次の誕生日までの日数</string>
     <string name="array_order_age">年齢</string>
     <string name="array_order_name">氏名</string>
     <string name="array_order_sign">星座</string>
     <string name="array_order_asc">昇順</string>
     <string name="array_order_desc">降順</string>
-    <string name="exit_dialog">本当に終了してもよろしいですか？</string>
+    <string name="exit_warning_msg">終了するにはもう一度戻るをクリックしてください</string>
     <string name="exit_yes">はい</string>
     <string name="exit_no">いいえ</string>
     <string name="statistics_fail_title">失敗ログ</string>
     <string name="log_cant_parse">解析できません %1$s</string>
     <string name="about_us_bt_changelog">ログの変更</string>
+    <string name="next_week_name">Next %1$s will be on a %2$s</string>
+    <string name="birthday_tomorrow">Tomorrow is her/his %1$s</string>
+    <string name="menu_donate">Donate</string>
+    <string name="settings_swipe_down">Swipe down to generate notifications</string>
+    <string name="type_birthday">birthday</string>
+    <string name="type_anniversary">anniversary</string>
 </resources>
+
