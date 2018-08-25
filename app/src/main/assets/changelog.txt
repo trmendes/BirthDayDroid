@@ -24,11 +24,11 @@
     - French
     - Swedish
     - Italian
+    - Russian
 - Grammar/language fix
     - Brazilian Portuguese
     - English
 - Not a 100% supported
-    - Russian
     - Japanese
 
 * V26
