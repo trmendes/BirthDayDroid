@@ -28,7 +28,7 @@
     </plurals>
     <string name="next_week_name">Próximo %1$sserá %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$dantes do %2$s</item>
+        <item quantity="one">%1$ddia antes do %2$s</item>
         <item quantity="other">%1$ddias antes do %2$s</item>
     </plurals>
     <string name="party_message">Tem uma festa acontecendo hoje :D</string>
@@ -97,9 +97,7 @@
     <string name="array_order_sign">Signo</string>
     <string name="array_order_asc">Crescente</string>
     <string name="array_order_desc">Decrescente</string>
-    <string name="exit_warning_msg">Por favor, clique \"voltar\" novamente para sair</string>
-    <string name="exit_yes">Sim</string>
-    <string name="exit_no">Não</string>
+    <string name="exit_warning_msg">Clique em voltar mais uma vez para sair</string>
     <string name="statistics_fail_title">Log de falhas</string>
     <string name="log_cant_parse">Não foi possível entender %1$s</string>
     <string name="about_us_bt_changelog">Changelog</string>

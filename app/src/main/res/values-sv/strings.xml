@@ -28,8 +28,8 @@
     </plurals>
     <string name="next_week_name">Nästa %1$s kommer att vara på en %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">%1$d dag till hennes/hans %2$s</item>
-        <item quantity="other">%1$d dagar till hennes/hans %2$s</item>
+        <item quantity="one">%1$d dag till nästa %2$s</item>
+        <item quantity="other">%1$d dagar till nästa %2$s</item>
     </plurals>
     <string name="party_message">I dag festas det :D</string>
     <string name="birthday_scan_found">Skapar födelsedagsavisering</string>
@@ -98,8 +98,6 @@
     <string name="array_order_asc">Stigande</string>
     <string name="array_order_desc">Fallande</string>
     <string name="exit_warning_msg">Tryck bakåt en gång till för att avsluta</string>
-    <string name="exit_yes">Ja</string>
-    <string name="exit_no">Nej</string>
     <string name="statistics_fail_title">Fellogg</string>
     <string name="log_cant_parse">Det gick inte att analysera %1$s</string>
     <string name="about_us_bt_changelog">Ändringslogg</string>

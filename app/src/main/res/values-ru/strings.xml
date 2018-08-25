@@ -31,6 +31,12 @@
         <item quantity="other">%1$d дней от роду</item>
     </plurals>
     <string name="next_week_name">Следующий %1$s будет на %2$s</string>
+    <plurals name="days_until">
+        <item quantity="one">%1$d день до следующего %2$s</item>
+        <item quantity="few">%1$d дня до следующего %2$s</item>
+        <item quantity="many">%1$d дней до следующего %2$s</item>
+        <item quantity="other">%1$d дней до следующего %2$s</item>
+    </plurals>
     <string name="party_message">Сегодня празднуют день рождения :D</string>
     <string name="birthday_scan_found">Создание уведомлений о днях рождения</string>
     <string name="birthday_scan_not_found">Сегодня нет дней рождения</string>
@@ -105,9 +111,7 @@
     <string name="array_order_sign">Знак</string>
     <string name="array_order_asc">По возрастанию</string>
     <string name="array_order_desc">По убыванию</string>
-    <string name="exit_warning_msg">Повторите попытку, чтобы выйти</string>
-    <string name="exit_yes">Да</string>
-    <string name="exit_no">Нет</string>
+    <string name="exit_warning_msg">Нажмите еще раз, чтобы выйти</string>
     <string name="statistics_fail_title">Журнал сбоев</string>
     <string name="log_cant_parse">Невозможно разобрать %1$s</string>
     <string name="about_us_bt_changelog">Что нового</string>
