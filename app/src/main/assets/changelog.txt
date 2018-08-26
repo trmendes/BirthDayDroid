@@ -1,3 +1,8 @@
+* V28
+- Remove Donate from the menu
+- Fix Birthday list Menu bug
+- Fix Timepicker deault time
+
 * V27
 
 - Rounded Icons

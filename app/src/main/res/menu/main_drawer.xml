@@ -15,10 +15,6 @@
             android:icon="@drawable/ic_settings_white_24dp"
             android:title="@string/menu_settings" />
         <item
-            android:id="@+id/nav_donate"
-            android:icon="@drawable/ic_notifications_white_24dp"
-            android:title="@string/menu_donate" />
-        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_comment_white_24dp"
             android:title="@string/menu_about" />

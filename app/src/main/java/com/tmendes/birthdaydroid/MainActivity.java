@@ -155,13 +155,6 @@ public class MainActivity extends AppCompatActivity
 
                 fragmentClass = StatisticsFragment.class;
                 break;
-            case R.id.nav_donate:
-                Intent browserIntent = new Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://tmendes.gitlab.io/BirthDayDroid/#donate")
-                );
-                startActivity(browserIntent);
-                break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
                 break;
