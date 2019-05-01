@@ -69,9 +69,9 @@ public class BirthDayComparator implements Comparator<Contact> {
                 break;
             case ORDER_SIGN:
                 if (sortType == SORT_ASC) {
-                    res = (a.getSign()).compareTo(b.getSign());
+                    res = (a.getZodiac()).compareTo(b.getZodiac());
                 } else {
-                    res = (b.getSign()).compareTo(a.getSign());
+                    res = (b.getZodiac()).compareTo(a.getZodiac());
                 }
                 break;
             case ORDER_NAME:
