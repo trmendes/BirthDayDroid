@@ -56,12 +56,13 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
     private ArrayList<Contact> birthDayList;
     private final ArrayList<Contact> bdListToRestoreAfterFiltering;
-    private final boolean hideZoadiac;
+    private final boolean hideZoadiac, hideNoYearMsg;
 
     public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactsBirthDays) {
         super(ctx, -1, contactsBirthDays);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        hideNoYearMsg = prefs.getBoolean("hide_no_year_msg", false);
         this.ctx = ctx;
         this.birthDayList = contactsBirthDays;
         this.bdListToRestoreAfterFiltering = this.birthDayList;
@@ -127,7 +128,6 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 if (this.hideZoadiac) {
                     viewHolder.zodiacElement.setVisibility(View.INVISIBLE);
                 }
-
 
                 viewHolder.bornOn = convertView.findViewById(R.id.tvBirthDay);
 
@@ -217,7 +217,11 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.days_old, daysAge, daysAge));
             } else {
-                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+                if (hideNoYearMsg) {
+                    viewHolder.age.setText("");
+                } else {
+                    viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+                }
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
