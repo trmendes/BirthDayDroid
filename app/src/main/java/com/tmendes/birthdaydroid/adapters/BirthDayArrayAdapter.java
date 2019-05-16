@@ -82,7 +82,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             String photoUri = contact.getPhotoURI();
             int age = contact.getAge();
             int daysAge = contact.getDaysAge();
-            
+
             String dayWeek = contact.getNextBirthDayWeekName();
             int day = contact.getDay();
             String monthName = contact.getMonthName();
