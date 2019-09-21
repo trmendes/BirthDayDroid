@@ -19,8 +19,10 @@ package com.tmendes.birthdaydroid.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -37,9 +39,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
-import com.tmendes.birthdaydroid.Contact;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,9 +56,13 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
     private ArrayList<Contact> birthDayList;
     private final ArrayList<Contact> bdListToRestoreAfterFiltering;
+    private final boolean hideZoadiac, hideNoYearMsg;
 
     public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactsBirthDays) {
         super(ctx, -1, contactsBirthDays);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        hideNoYearMsg = prefs.getBoolean("hide_no_year_msg", false);
         this.ctx = ctx;
         this.birthDayList = contactsBirthDays;
         this.bdListToRestoreAfterFiltering = this.birthDayList;
@@ -76,14 +82,14 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             String photoUri = contact.getPhotoURI();
             int age = contact.getAge();
             int daysAge = contact.getDaysAge();
-            
+
             String dayWeek = contact.getNextBirthDayWeekName();
             int day = contact.getDay();
             String monthName = contact.getMonthName();
             
             int daysUntilBirthday = contact.getDaysUntilNextBirthDay().intValue();
-            String zodiacSign = contact.getSign();
-            String zodiacSignElement = contact.getSignElement();
+            String zodiacSign = contact.getZodiac();
+            String zodiacSignElement = contact.getZodiacElement();
 
             int eventyType = contact.getEventType();
             String eventTypeStr;
@@ -118,7 +124,10 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 viewHolder.daysToGo =
                         convertView.findViewById(R.id.tvContactDaysUntil);
 
-                viewHolder.signElement = convertView.findViewById(R.id.tvSignAndElement);
+                viewHolder.zodiacElement = convertView.findViewById(R.id.tvZodiac);
+                if (this.hideZoadiac) {
+                    viewHolder.zodiacElement.setVisibility(View.INVISIBLE);
+                }
 
                 viewHolder.bornOn = convertView.findViewById(R.id.tvBirthDay);
 
@@ -143,7 +152,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                     .setText(ctx.getResources()
                             .getString(R.string.next_week_name, eventTypeStr, dayWeek));
 
-            viewHolder.signElement.setText(
+            viewHolder.zodiacElement.setText(
                     ctx.getResources().getString(R.string.dual_string,
                             zodiacSign, zodiacSignElement));
 
@@ -208,7 +217,11 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.days_old, daysAge, daysAge));
             } else {
-                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+                if (hideNoYearMsg) {
+                    viewHolder.age.setText("");
+                } else {
+                    viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+                }
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +245,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         TextView birthDayWeekName;
         TextView age;
         TextView daysToGo;
-        TextView signElement;
+        TextView zodiacElement;
         TextView bornOn;
         ImageView picture;
         LinearLayout emojiParty;
@@ -279,15 +292,15 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                     results.count = bdListToRestoreAfterFiltering.size();
                     results.values = bdListToRestoreAfterFiltering;
                 } else {
-                    String name, age, daysAge, birthdayWeekName, monthName, sign, signElement, constraintStr;
+                    String name, age, daysAge, birthdayWeekName, monthName, zodiac, zodiacElement, constraintStr;
                     constraintStr = constraint.toString().toLowerCase();
 
                     for (int i = 0; i < bdListToRestoreAfterFiltering.size(); i++) {
                         name = bdListToRestoreAfterFiltering.get(i).getName().toLowerCase();
                         monthName = bdListToRestoreAfterFiltering.get(i).getMonthName().toLowerCase();
                         birthdayWeekName = bdListToRestoreAfterFiltering.get(i).getNextBirthDayWeekName().toLowerCase();
-                        sign = bdListToRestoreAfterFiltering.get(i).getSign().toLowerCase();
-                        signElement = bdListToRestoreAfterFiltering.get(i).getSignElement().toLowerCase();
+                        zodiac = bdListToRestoreAfterFiltering.get(i).getZodiac().toLowerCase();
+                        zodiacElement = bdListToRestoreAfterFiltering.get(i).getZodiacElement().toLowerCase();
                         age = Integer.toString(bdListToRestoreAfterFiltering.get(i).getAge());
                         daysAge = Integer.toString(bdListToRestoreAfterFiltering.get(i).getDaysAge());
 
@@ -296,8 +309,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                                 daysAge.startsWith(constraintStr) ||
                                 monthName.contains(constraintStr) ||
                                 birthdayWeekName.contains(constraint) ||
-                                sign.contains(constraintStr) ||
-                                signElement.contains(constraintStr)) {
+                                zodiac.contains(constraintStr) ||
+                                zodiacElement.contains(constraintStr)) {
                             Contact contact = new Contact(ctx,
                                     bdListToRestoreAfterFiltering.get(i).getKey(),
                                     bdListToRestoreAfterFiltering.get(i).getName(),

@@ -18,7 +18,9 @@
 package com.tmendes.birthdaydroid.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -48,14 +50,21 @@ public class StatisticsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_statistics,
                 container, false);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+
         ctx = container.getContext();
         birthDay = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
 
         Button buttonAges = v.findViewById(R.id.buttonAges);
-        Button buttonSign = v.findViewById(R.id.buttonSign);
+        Button buttonZodiac = v.findViewById(R.id.buttonSign);
         Button buttonMonth = v.findViewById(R.id.buttonMonth);
         Button buttonWeek = v.findViewById(R.id.buttonWeek);
         Button buttonFailLog = v.findViewById(R.id.buttonFailLog);
+
+        if (hideZoadiac) {
+            buttonZodiac.setVisibility(View.INVISIBLE);
+        }
 
         if (birthDay.getFailContactList().size() == 0) {
             buttonFailLog.setVisibility(View.INVISIBLE);
@@ -87,7 +96,7 @@ public class StatisticsFragment extends Fragment {
 
         });
 
-        buttonSign.setOnClickListener(new View.OnClickListener() {
+        buttonZodiac.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 int size = birthDay.getBirthDayList().size();
                 Map<String, Integer> signStat = birthDay.getSignStats();

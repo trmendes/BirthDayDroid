@@ -59,7 +59,7 @@
         android:layout_below="@id/tvContactNextBirthDayWeekName"
         android:layout_marginTop="1dip"
         android:layout_toEndOf="@+id/thumbnail"
-        android:layout_toStartOf="@+id/tvSignAndElement"
+        android:layout_toStartOf="@+id/tvZodiac"
         android:singleLine="true"
         android:text="@string/string"
         android:textSize="12sp" />
@@ -95,7 +95,7 @@
 
     <!-- Sign/Element -->
     <TextView
-        android:id="@+id/tvSignAndElement"
+        android:id="@+id/tvZodiac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

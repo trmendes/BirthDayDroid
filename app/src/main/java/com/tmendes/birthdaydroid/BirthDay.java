@@ -243,7 +243,7 @@ public class BirthDay {
                         c.getInt(typeColumn));
 
                 if (!contact.failOnParseDateString()) {
-                    String sign = contact.getSign();
+                    String sign = contact.getZodiac();
                     int age = contact.getAge();
                     int month = contact.getMonth();
                     int bWeek = contact.getBirthDayWeek();

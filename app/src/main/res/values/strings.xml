@@ -56,6 +56,8 @@
     <string name="settings_scan_title">Time for Daily Notifications</string>
     <string name="settings_scan_not_adv_sum">Show birthdays notifications in advance</string>
     <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
+    <string name="settings_list_hide_zodiac">Hide Zodiac</string>
+    <string name="settings_hide_no_year_msg">Hide missing year message</string>
     <string name="settings_scan_adv_sum">How many days in advance shall we check your contacts for their birthdays, so you have time to prepare your friend a surprise</string>
     <string name="settings_scan_adv_title">Days in Advance</string>
     <string name="settings_scan_precise_title">Precise Notifications</string>
