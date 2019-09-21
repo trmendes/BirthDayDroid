@@ -31,17 +31,13 @@
         <item quantity="one">%1$d jours avant son %2$s</item>
         <item quantity="other">%1$d jours avant son %2$s</item>
     </plurals>
-    <string name="party_message">Une fête bat son plein aujourd\'hui :D</string>
     <string name="birthday_scan_found">Création des notifications d\'anniversaire</string>
-    <string name="birthday_scan_not_found">Aucun anniversaire aujourd\'hui</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s aura %2$d ans demain</item>
         <item quantity="other">%1$s aura %2$d ans dans %3$d jours</item>
     </plurals>
-    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s a %2$d aujourd\'hui</string>
     <string name="birthday_tomorrow">Son %1$s est demain</string>
     <string name="menu_birthday_list">Liste des anniversaires</string>
-    <string name="menu_donate">Donation</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_statistics">Plus d\'informations</string>
     <string name="menu_about">À propos</string>
