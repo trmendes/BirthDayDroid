@@ -77,7 +77,6 @@ public class BirthDay {
                         notifications.add(contact);
                     } else if (showNotificationInAdvace &&
                             daysUntilNextBirthday > 0 &&
-                            daysUntilNextBirthday != Long.MAX_VALUE &&
                             daysUntilNextBirthday <= daysInAdvance) {
                         /* In advance notifications */
                         if (preciseAdvanceNotification) {
