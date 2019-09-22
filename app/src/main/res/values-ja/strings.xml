@@ -24,13 +24,10 @@
     <plurals name="days_old">
         <item quantity="other">%1$d 日</item>
     </plurals>
-    <string name="party_message">今日はパーティ！ :D</string>
     <string name="birthday_scan_found">誕生日の通知を設定</string>
-    <string name="birthday_scan_not_found">今日が誕生日の人はいません</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="other">%1$sターン%2$dに%3$d日々</item>
     </plurals>
-    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s は今日で %2$d 歳になります</string>
     <string name="menu_birthday_list">生年月日リスト</string>
     <string name="menu_settings">設定</string>
     <string name="menu_statistics">詳細情報</string>
@@ -83,17 +80,8 @@
     <string name="array_order_sign">星座</string>
     <string name="array_order_asc">昇順</string>
     <string name="array_order_desc">降順</string>
-    <string name="exit_warning_msg">終了するにはもう一度戻るをクリックしてください</string>
-    <string name="exit_yes">はい</string>
-    <string name="exit_no">いいえ</string>
     <string name="statistics_fail_title">失敗ログ</string>
     <string name="log_cant_parse">解析できません %1$s</string>
     <string name="about_us_bt_changelog">ログの変更</string>
-    <string name="next_week_name">Next %1$s will be on a %2$s</string>
-    <string name="birthday_tomorrow">Tomorrow is her/his %1$s</string>
-    <string name="menu_donate">Donate</string>
-    <string name="settings_swipe_down">Swipe down to generate notifications</string>
-    <string name="type_birthday">birthday</string>
-    <string name="type_anniversary">anniversary</string>
-</resources>
+    </resources>
 

@@ -31,17 +31,13 @@
         <item quantity="one">%1$d dag till nästa %2$s</item>
         <item quantity="other">%1$d dagar till nästa %2$s</item>
     </plurals>
-    <string name="party_message">I dag festas det :D</string>
     <string name="birthday_scan_found">Skapar födelsedagsavisering</string>
-    <string name="birthday_scan_not_found">Inga födelsedagar hittades i dag</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s fyller %2$d i morgon</item>
         <item quantity="other">%1$s fyller %2$d om %3$d dagar</item>
     </plurals>
-    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s fyller %2$d i dag</string>
     <string name="birthday_tomorrow">I morgon är det hennes/hans %1$s</string>
     <string name="menu_birthday_list">Födelsedagslista</string>
-    <string name="menu_donate">Donera</string>
     <string name="menu_settings">Inställningar</string>
     <string name="menu_statistics">Mer info</string>
     <string name="menu_about">Om</string>

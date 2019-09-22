@@ -17,20 +17,15 @@ public class PermissionHelper {
     }
 
     public void updatePermissionPreferences(int permission, boolean status) {
-        switch (permission) {
-            case CONTACT_PERMISSION: {
-                contactReadStatus = status;
-            }
-            break;
+        if (permission == CONTACT_PERMISSION) {
+            contactReadStatus = status;
         }
     }
 
     public boolean checkPermissionPreferences(int permission) {
         boolean allowed = false;
-        switch (permission) {
-            case CONTACT_PERMISSION: {
-                allowed = contactReadStatus;
-            }
+        if (permission == CONTACT_PERMISSION) {
+            allowed = contactReadStatus;
         }
 
         if (!allowed) {

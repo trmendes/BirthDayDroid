@@ -77,7 +77,6 @@ public class BirthDay {
                         notifications.add(contact);
                     } else if (showNotificationInAdvace &&
                             daysUntilNextBirthday > 0 &&
-                            daysUntilNextBirthday != Long.MAX_VALUE &&
                             daysUntilNextBirthday <= daysInAdvance) {
                         /* In advance notifications */
                         if (preciseAdvanceNotification) {
@@ -161,19 +160,19 @@ public class BirthDay {
                 eventTypeStr = eventTypeStr.toLowerCase();
 
                 if (contact.shallWeCelebrateToday()) {
-                    if (contact.getAge() > 0) {
+                    if (contact.getYearsAge() > 0) {
                         body.append(ctx.getString(
                                 R.string.message_notification_message, contact.getContactFirstName(),
-                                contact.getAge()));
+                                contact.getYearsAge()));
                     } else {
                         body.append(ctx.getString(R.string.party_message));
                     }
                 } else {
-                    if (contact.getAge() > 0) {
+                    if (contact.getYearsAge() > 0) {
                         body.append(ctx.getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthDay().intValue(),
-                                contact.getContactFirstName(), contact.getAge() + 1,
+                                contact.getContactFirstName(), contact.getYearsAge() + 1,
                                 contact.getDaysUntilNextBirthDay().intValue()));
                     } else {
                         body.append(ctx.getResources().getQuantityString(
@@ -244,7 +243,7 @@ public class BirthDay {
 
                 if (!contact.failOnParseDateString()) {
                     String sign = contact.getZodiac();
-                    int age = contact.getAge();
+                    int age = contact.getYearsAge();
                     int month = contact.getMonth();
                     int bWeek = contact.getBirthDayWeek();
 

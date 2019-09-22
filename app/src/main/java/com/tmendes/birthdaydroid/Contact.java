@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -91,9 +92,15 @@ public class Contact {
         for (String pattern : knownPatterns) {
             try {
                 bornOn = new GregorianCalendar();
-                bornOn.setTime(new SimpleDateFormat(pattern).parse(dateString));
-                failOnParseDateString = false;
-                containsYearInfo = pattern.contains("y");
+                Date bornOnDate = new SimpleDateFormat(pattern).parse(dateString);
+                if (bornOnDate != null) {
+                    bornOn.setTime(bornOnDate);
+                    failOnParseDateString = false;
+                    containsYearInfo = pattern.contains("y");
+                } else {
+                    containsYearInfo = false;
+                    failOnParseDateString = true;
+                }
                 break;
             } catch (ParseException ignored) {
                 containsYearInfo = false;
@@ -111,61 +118,67 @@ public class Contact {
     }
 
     private void setContactBirthDayInfo() {
-        Calendar actualCal = Calendar.getInstance();
-        final int actualYear = actualCal.get(Calendar.YEAR);
+        Calendar today = Calendar.getInstance();
+        final int todayYear = today.get(Calendar.YEAR);
+        final boolean isLeapYear = new GregorianCalendar().isLeapYear(todayYear);
 
-        final boolean isLeapYear = ((actualYear % 4 == 0)
-                && (actualYear % 100 != 0) || (actualYear % 400 == 0));
+        Calendar thisYearBirthday = (Calendar) bornOn.clone();
+        thisYearBirthday.set(Calendar.YEAR, todayYear);
 
         /* Set The Next Birthday Info */
-        nextBirthday = (Calendar) bornOn.clone();
-        nextBirthday.set(Calendar.YEAR, actualYear);
+        this.nextBirthday = (Calendar) bornOn.clone();
 
-        boolean birthDayAlreadyPassed = nextBirthday.getTimeInMillis() < actualCal.getTimeInMillis();
+        boolean lateBirthday = thisYearBirthday.getTimeInMillis() < today.getTimeInMillis();
+        if (lateBirthday) {
+            this.nextBirthday.set(Calendar.YEAR, todayYear + 1);
+        } else {
+            this.nextBirthday.set(Calendar.YEAR, todayYear);
 
-        if (birthDayAlreadyPassed) {
-            nextBirthday.add(Calendar.YEAR, 1);
         }
-
-        day = bornOn.get(Calendar.DAY_OF_MONTH);
-        month = bornOn.get(Calendar.MONTH);
+        this.day = bornOn.get(Calendar.DAY_OF_MONTH);
+        this.month = bornOn.get(Calendar.MONTH);
 
         /* Age */
         if (containsYearInfo) {
-            int year = bornOn.get(Calendar.YEAR);
-            if (year > actualYear) {
-                daysAge = 0;
-                age = 0;
+            long daysOld = (today.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY;
+            boolean lessThanAYear;
+
+            if (daysOld >= 0) {
+                if (isLeapYear) {
+                    lessThanAYear = daysOld < 366;
+                } else {
+                    lessThanAYear = daysOld < 365;
+                }
+
+                if (lessThanAYear) {
+                    this.age = 0;
+                    this.daysAge = (int) daysOld;
+                } else {
+                    age = todayYear - bornOn.get(Calendar.YEAR);
+                    if (!lateBirthday) {
+                        --age;
+                    }
+                }
             } else {
-                age = actualYear - year;
-
-                if (!birthDayAlreadyPassed) {
-                    --age;
-                }
-
-                if (age == 0) {
-                    /* For those who are just born */
-                    daysAge = (int) ((actualCal.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY);
-                }
+                /* Born in the Future */
+                this.age = 0;
+                this.daysAge = 0;
             }
         } else {
-            bornOn.set(Calendar.YEAR, actualYear);
+            bornOn.set(Calendar.YEAR, todayYear);
             age = -1;
         }
 
         /* Party Today \o/ */
-        if (isLeapYear) {
-            if ((actualCal.get(Calendar.DAY_OF_MONTH) == 1)
-                    && (bornOn.get(Calendar.DAY_OF_MONTH) == 29)
-                    && (actualCal.get(Calendar.MONTH) == Calendar.MARCH)) {
-                letsCelebrate = true;
-            } else if (actualCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                    && actualCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
-                letsCelebrate = true;
-            }
+        if (!isLeapYear &&
+                (bornOn.get(Calendar.DAY_OF_MONTH) == 29
+                        && bornOn.get(Calendar.MONTH) == Calendar.FEBRUARY) &&
+                (today.get(Calendar.DAY_OF_MONTH) == 1
+                        && today.get(Calendar.MONTH) == Calendar.MARCH)) {
+            letsCelebrate = true;
         } else {
-            if (actualCal.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                    && actualCal.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
+            if (today.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
+                    && today.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
                 letsCelebrate = true;
             }
         }
@@ -299,8 +312,14 @@ public class Contact {
 
     public String getNextBirthDayWeekName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getWeekdays()[nextBirthday.get(Calendar.DAY_OF_WEEK)];
+        return dfs.getWeekdays()[this.nextBirthday.get(Calendar.DAY_OF_WEEK)];
+    }
 
+    public String getPrevBirthDayWeekName() {
+        Calendar prevBirthDay = (Calendar) this.nextBirthday.clone();
+        prevBirthDay.set(Calendar.YEAR, prevBirthDay.get(Calendar.YEAR) - 1);
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        return dfs.getWeekdays()[prevBirthDay.get(Calendar.DAY_OF_WEEK)];
     }
 
     public String getName() {
@@ -340,19 +359,18 @@ public class Contact {
 
     public int getDaysAge() { return daysAge; }
 
+    public int getYearsAge() { return age; }
+
     public Calendar getBirthday() {
         return bornOn;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public Long getDaysUntilNextBirthDay() {
         if (shallWeCelebrateToday()) {
             return 0L;
         }
-        if (nextBirthday == null) {
+
+        if (this.nextBirthday == null) {
             return Long.MAX_VALUE;
         }
 
@@ -361,10 +379,10 @@ public class Contact {
 
         Calendar now = Calendar.getInstance();
 
-        if (nextBirthday.getTimeInMillis() >= now.getTimeInMillis()) {
-            timeDiffMs = nextBirthday.getTimeInMillis() - now.getTimeInMillis();
+        if (this.nextBirthday.getTimeInMillis() >= now.getTimeInMillis()) {
+            timeDiffMs = this.nextBirthday.getTimeInMillis() - now.getTimeInMillis();
         } else {
-            timeDiffMs = now.getTimeInMillis() - nextBirthday.getTimeInMillis();
+            timeDiffMs = now.getTimeInMillis() - this.nextBirthday.getTimeInMillis();
         }
 
         /* Days */

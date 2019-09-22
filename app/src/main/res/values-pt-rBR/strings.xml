@@ -31,17 +31,16 @@
         <item quantity="one">%1$ddia antes do %2$s</item>
         <item quantity="other">%1$ddias antes do %2$s</item>
     </plurals>
-    <string name="party_message">Tem uma festa acontecendo hoje :D</string>
+    <string name="party_message">Tem uma festa acontecendo :D</string>
     <string name="birthday_scan_found">Gerando notificações de aniversários</string>
-    <string name="birthday_scan_not_found">Nenhum aniversário encontrado hoje</string>
+    <string name="birthday_scan_not_found">Nenhum aniversário encontrado</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s completará %2$d em %3$d dia</item>
         <item quantity="other">%1$s completará %2$d em %3$d dias</item>
     </plurals>
-    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s esta completando %2$d hoje</string>
+    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$sesta completando %2$d</string>
     <string name="birthday_tomorrow">Amanhã é seu %1$s</string>
     <string name="menu_birthday_list">Aniversários</string>
-    <string name="menu_donate">Doação</string>
     <string name="menu_settings">Configurações</string>
     <string name="menu_statistics">Mais info</string>
     <string name="menu_about">Sobre</string>
@@ -53,6 +52,8 @@
     <string name="settings_scan_title">Horário das notificações diárias</string>
     <string name="settings_scan_not_adv_sum">Mostras notificações de aniversário com antecedência</string>
     <string name="settings_scan_not_adv_title">Notificações com antecedência</string>
+    <string name="settings_list_hide_zodiac">Esconder o zodíaco</string>
+    <string name="settings_hide_no_year_msg">Esconder mensagem de ano não presente</string>
     <string name="settings_scan_adv_sum">Quantos dias com antecedência devemos verificar os seus contactos em busca de aniversários para você ter tempo para preparar o seu amigo uma surpresa</string>
     <string name="settings_scan_adv_title">Dias de antecedência</string>
     <string name="settings_scan_precise_title">Notificação precisa</string>

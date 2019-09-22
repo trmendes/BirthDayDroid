@@ -182,7 +182,7 @@ public class StatisticsFragment extends Fragment {
         buttonFailLog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 ArrayList<Contact> failLog = birthDay.getFailContactList();
-                StringBuilder dialogData = new StringBuilder("");
+                StringBuilder dialogData = new StringBuilder();
 
                 for (Contact contact : failLog) {
                     dialogData.append(contact.getFailMsg());

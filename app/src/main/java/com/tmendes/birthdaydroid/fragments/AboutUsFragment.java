@@ -69,28 +69,25 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()) {
+        if (view.getId() == R.id.about_us_bt_changelog) {
+            try {
+                InputStream changelogIS = view.getResources().getAssets().open("changelog.txt");
+                String s = readTextFile(changelogIS);
 
-            case R.id.about_us_bt_changelog:
-                try {
-                    InputStream changelogIS = view.getResources().getAssets().open("changelog.txt");
-                    String s = readTextFile(changelogIS);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage(s);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setMessage(s);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                AlertDialog alert = builder.create();
+                alert.show();
 
-                    AlertDialog alert = builder.create();
-                    alert.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

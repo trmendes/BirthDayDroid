@@ -217,15 +217,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_CONTACT_READ: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
-                    openContactFragments();
-                } else {
-                    permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
-                }
+        if (requestCode == PERMISSION_CONTACT_READ) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
+                openContactFragments();
+            } else {
+                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
             }
         }
     }
@@ -233,22 +231,15 @@ public class MainActivity extends AppCompatActivity
     private void displayPermissionExplanation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        switch (MainActivity.PERMISSION_CONTACT_READ) {
-            case PERMISSION_CONTACT_READ:
-                builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
-                builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
-        }
+        builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
+        builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
 
         builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow), new Dialog.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (MainActivity.PERMISSION_CONTACT_READ) {
-                    case PERMISSION_CONTACT_READ:
-                        ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.READ_CONTACTS},
-                                PERMISSION_CONTACT_READ);
-                        break;
-                }
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        PERMISSION_CONTACT_READ);
             }
         });
 

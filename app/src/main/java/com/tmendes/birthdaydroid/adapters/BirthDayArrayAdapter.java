@@ -45,6 +45,8 @@ import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY;
@@ -57,6 +59,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     private ArrayList<Contact> birthDayList;
     private final ArrayList<Contact> bdListToRestoreAfterFiltering;
     private final boolean hideZoadiac, hideNoYearMsg;
+    private final int AFTERBIRTH_TRESHOLD;
+    private final boolean isLeap;
 
     public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactsBirthDays) {
         super(ctx, -1, contactsBirthDays);
@@ -66,6 +70,13 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         this.ctx = ctx;
         this.birthDayList = contactsBirthDays;
         this.bdListToRestoreAfterFiltering = this.birthDayList;
+        this.isLeap = new GregorianCalendar().isLeapYear(
+                Calendar.getInstance().get(Calendar.YEAR));
+        if (this.isLeap) {
+            this.AFTERBIRTH_TRESHOLD = 359;
+        } else {
+            this.AFTERBIRTH_TRESHOLD = 358;
+        }
     }
 
     @NonNull
@@ -80,7 +91,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
             String name = contact.getName();
             String photoUri = contact.getPhotoURI();
-            int age = contact.getAge();
+            int age = contact.getYearsAge();
             int daysAge = contact.getDaysAge();
 
             String dayWeek = contact.getNextBirthDayWeekName();
@@ -198,13 +209,34 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                     viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
                     viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                 } else {
-                    viewHolder.daysToGo
-                            .setText(
-                                    ctx.getResources().getQuantityString(
-                                            R.plurals.days_until,
-                                            daysUntilBirthday,
-                                            daysUntilBirthday,
-                                            eventTypeStr));
+                    if (daysUntilBirthday >= this.AFTERBIRTH_TRESHOLD) {
+                        long days_ago;
+                        if (this.isLeap) {
+                            days_ago = 366 - contact.getDaysUntilNextBirthDay() + 1;
+                        } else {
+                            days_ago = 365 - contact.getDaysUntilNextBirthDay() + 1;
+                        }
+
+                        viewHolder.birthDayWeekName
+                                .setText(ctx.getResources()
+                                        .getString(R.string.prev_week_name, eventTypeStr,
+                                                contact.getPrevBirthDayWeekName()));
+
+                        viewHolder.daysToGo
+                                .setText(
+                                        ctx.getResources().getQuantityString(
+                                                R.plurals.days_ago,
+                                                (int) days_ago,
+                                                (int) days_ago));
+                    } else {
+                        viewHolder.daysToGo
+                                .setText(
+                                        ctx.getResources().getQuantityString(
+                                                R.plurals.days_until,
+                                                daysUntilBirthday,
+                                                daysUntilBirthday,
+                                                eventTypeStr));
+                    }
                     viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                     viewHolder.emojiParty.setVisibility(View.INVISIBLE);
                 }
@@ -301,7 +333,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                         birthdayWeekName = bdListToRestoreAfterFiltering.get(i).getNextBirthDayWeekName().toLowerCase();
                         zodiac = bdListToRestoreAfterFiltering.get(i).getZodiac().toLowerCase();
                         zodiacElement = bdListToRestoreAfterFiltering.get(i).getZodiacElement().toLowerCase();
-                        age = Integer.toString(bdListToRestoreAfterFiltering.get(i).getAge());
+                        age = Integer.toString(bdListToRestoreAfterFiltering.get(i).getYearsAge());
                         daysAge = Integer.toString(bdListToRestoreAfterFiltering.get(i).getDaysAge());
 
                         if (name.contains(constraintStr) ||

@@ -61,6 +61,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setContentTitle(title)
                     .setContentText(body)
                     .setColorized(true)
+                    .setShowWhen(true)
                     .setContentIntent(pI)
                     .setLargeIcon(notifyPicture)
                     .setSmallIcon(R.drawable.ic_cake_white_24dp)
@@ -73,6 +74,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setContentText(body)
                     .setContentIntent(pI)
                     .setLargeIcon(notifyPicture)
+                    .setShowWhen(true)
                     .setSmallIcon(R.drawable.ic_cake_white_24dp)
                     .setAutoCancel(true);
         }

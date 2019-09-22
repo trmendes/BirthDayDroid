@@ -37,19 +37,15 @@
         <item quantity="many">%1$d дней до следующего %2$s</item>
         <item quantity="other">%1$d дней до следующего %2$s</item>
     </plurals>
-    <string name="party_message">Сегодня празднуют день рождения :D</string>
     <string name="birthday_scan_found">Создание уведомлений о днях рождения</string>
-    <string name="birthday_scan_not_found">Сегодня нет дней рождения</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s исполняется %2$d лет завтра</item>
         <item quantity="few">%1$s исполняется %2$d лет через %3$d дней</item>
         <item quantity="many">%1$s исполняется %2$d лет через %3$d дней</item>
         <item quantity="other">%1$s исполняется %2$d лет через %3$d дней</item>
     </plurals>
-    <string name="message_notification_message" tools:ignore="PluralsCandidate">%1$s сегодня исполняется %2$d лет</string>
     <string name="birthday_tomorrow"> Завтра у него/неё %1$s</string>
     <string name="menu_birthday_list">Список дней рождения</string>
-    <string name="menu_donate">жертвовать</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_statistics">Подробно</string>
     <string name="menu_about">О программе</string>
