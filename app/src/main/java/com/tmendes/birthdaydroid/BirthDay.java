@@ -56,7 +56,7 @@ public class BirthDay {
         this.ctx = ctx;
         this.permissions = permissions;
         contactList = new ArrayList<>();
-        statistics = new StatisticsProvider();
+        statistics = StatisticsProvider.getInstance();
     }
 
     public ArrayList<Contact> shallWeCelebrate() {
@@ -128,13 +128,6 @@ public class BirthDay {
             return statistics.getWeekStats();
         }
         return new TreeMap<>();
-    }
-
-    public ArrayList<Contact> getFailContactList() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getFailList();
-        }
-        return new ArrayList<>();
     }
 
     public void postNotification(Contact contact) {
@@ -275,8 +268,6 @@ public class BirthDay {
                     }
 
                     contactList.add(contact);
-                } else {
-                    statistics.getFailList().add(contact);
                 }
             } while (c.moveToNext());
 
