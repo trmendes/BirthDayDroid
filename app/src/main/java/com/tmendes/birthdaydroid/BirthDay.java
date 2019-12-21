@@ -56,7 +56,7 @@ public class BirthDay {
         this.ctx = ctx;
         this.permissions = permissions;
         contactList = new ArrayList<>();
-        statistics = new StatisticsProvider();
+        statistics = StatisticsProvider.getInstance();
     }
 
     public ArrayList<Contact> shallWeCelebrate() {
@@ -98,41 +98,6 @@ public class BirthDay {
     public ArrayList<Contact> getBirthDayList() {
         if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
             return contactList;
-        }
-        return new ArrayList<>();
-    }
-
-    public Map<Integer, Integer> getAgeStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getAgeStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public Map<String, Integer> getSignStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getSignStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public Map<Integer, Integer> getMonthStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getMonthStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public Map<Integer, Integer> getWeekStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getWeekStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public ArrayList<Contact> getFailContactList() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getFailList();
         }
         return new ArrayList<>();
     }
@@ -275,8 +240,6 @@ public class BirthDay {
                     }
 
                     contactList.add(contact);
-                } else {
-                    statistics.getFailList().add(contact);
                 }
             } while (c.moveToNext());
 

@@ -17,32 +17,22 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.tmendes.birthdaydroid.BirthDay;
-import com.tmendes.birthdaydroid.Contact;
-import com.tmendes.birthdaydroid.MainActivity;
+import com.tmendes.birthdaydroid.BarChartActivity;
+import com.tmendes.birthdaydroid.PieChartActivity;
 import com.tmendes.birthdaydroid.R;
 
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-
 public class StatisticsFragment extends Fragment {
-
-    private Context ctx;
-    private BirthDay birthDay;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,148 +40,49 @@ public class StatisticsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_statistics,
                 container, false);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(container.getContext());
         boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-
-        ctx = container.getContext();
-        birthDay = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
 
         Button buttonAges = v.findViewById(R.id.buttonAges);
         Button buttonZodiac = v.findViewById(R.id.buttonSign);
         Button buttonMonth = v.findViewById(R.id.buttonMonth);
         Button buttonWeek = v.findViewById(R.id.buttonWeek);
-        Button buttonFailLog = v.findViewById(R.id.buttonFailLog);
 
         if (hideZoadiac) {
             buttonZodiac.setVisibility(View.INVISIBLE);
         }
 
-        if (birthDay.getFailContactList().size() == 0) {
-            buttonFailLog.setVisibility(View.INVISIBLE);
-        }
-
         buttonAges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                int size = birthDay.getBirthDayList().size();
-                Map<Integer, Integer> ageStat = birthDay.getAgeStats();
-                StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getQuantityString(
-                                R.plurals.statistics_contacts_counter,
-                                size,
-                                size));
-
-                for (Object o : ageStat.entrySet()) {
-                    Map.Entry pair = (Map.Entry) o;
-                    int age = (int) pair.getKey();
-                    int number = (int) pair.getValue();
-                    dialogData.append(ctx.getResources()
-                            .getQuantityString(R.plurals.statistics_int_int, number, number, age));
-                }
-
-                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
-                alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_age_title));
-                alertDialog.setMessage(dialogData.toString());
-                alertDialog.show();
+                Intent barChart = new Intent(getActivity(), BarChartActivity.class);
+                barChart.putExtra("statistic_type", 0);
+                startActivity(barChart);
             }
 
         });
 
         buttonZodiac.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                int size = birthDay.getBirthDayList().size();
-                Map<String, Integer> signStat = birthDay.getSignStats();
-                StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getQuantityString(
-                                R.plurals.statistics_contacts_counter,
-                                size,
-                                size));
-
-                for (Object o : signStat.entrySet()) {
-                    Map.Entry pair = (Map.Entry) o;
-                    String sign = (String) pair.getKey();
-                    int number = (int) pair.getValue();
-                    dialogData.append(ctx.getResources()
-                            .getQuantityString(
-                                    R.plurals.statistics_int_string, number, number, sign));
-                }
-
-                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
-                alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_sign_title));
-                alertDialog.setMessage(dialogData.toString());
-                alertDialog.show();
+                Intent pieChart = new Intent(getActivity(), PieChartActivity.class);
+                pieChart.putExtra("statistic_type", 1);
+                startActivity(pieChart);
             }
-
         });
 
         buttonMonth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                int size = birthDay.getBirthDayList().size();
-                Map<Integer, Integer> monthStat = birthDay.getMonthStats();
-                DateFormatSymbols dfs = new DateFormatSymbols();
-                StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getQuantityString(
-                                R.plurals.statistics_contacts_counter,
-                                size,
-                                size));
-
-                for (Object o : monthStat.entrySet()) {
-                    Map.Entry pair = (Map.Entry) o;
-                    int month = (int) pair.getKey();
-                    int number = (int) pair.getValue();
-                    dialogData.append(ctx.getResources()
-                            .getQuantityString(R.plurals.statistics_int_string,
-                                    number, number, dfs.getMonths()[month]));
-                }
-
-                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
-                alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_month_title));
-                alertDialog.setMessage(dialogData.toString());
-                alertDialog.show();
+                Intent pieChart = new Intent(getActivity(), PieChartActivity.class);
+                pieChart.putExtra("statistic_type", 2);
+                startActivity(pieChart);
             }
 
         });
 
         buttonWeek.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                int size = birthDay.getBirthDayList().size();
-                Map<Integer, Integer> weekStat = birthDay.getWeekStats();
-                DateFormatSymbols dfs = new DateFormatSymbols();
-                StringBuilder dialogData = new StringBuilder(ctx.getResources()
-                        .getQuantityString(
-                                R.plurals.statistics_contacts_counter,
-                                size,
-                                size));
-
-                for (Object o : weekStat.entrySet()) {
-                    Map.Entry pair = (Map.Entry) o;
-                    int weekDay = (int) pair.getKey();
-                    int number = (int) pair.getValue();
-                    dialogData.append(ctx.getResources()
-                            .getQuantityString(R.plurals.statistics_int_string,
-                                    number, number, dfs.getWeekdays()[weekDay]));
-                }
-
-                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
-                alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_week_title));
-                alertDialog.setMessage(dialogData.toString());
-                alertDialog.show();
-            }
-
-        });
-
-        buttonFailLog.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ArrayList<Contact> failLog = birthDay.getFailContactList();
-                StringBuilder dialogData = new StringBuilder();
-
-                for (Contact contact : failLog) {
-                    dialogData.append(contact.getFailMsg());
-                }
-
-                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
-                alertDialog.setTitle(ctx.getResources().getString(R.string.statistics_fail_title));
-                alertDialog.setMessage(dialogData.toString());
-                alertDialog.show();
+                Intent pieChart = new Intent(getActivity(), PieChartActivity.class);
+                pieChart.putExtra("statistic_type", 3);
+                startActivity(pieChart);
             }
 
         });

@@ -58,11 +58,4 @@
         android:layout_margin="5dp"
         android:layout_width="match_parent" />
 
-    <Button
-        android:id="@+id/buttonFailLog"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_width="fill_parent"
-        android:text="@string/statistics_fail_title" />
-
 </LinearLayout>

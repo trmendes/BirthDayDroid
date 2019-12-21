@@ -1,3 +1,14 @@
+* V30
+- Fix Statistic
+- Statistics are moving from Text to Charts :)
+
+* V29
+- New settings option to hide zodiac
+- New settings option to have Notification with a timestamp on it
+- New languages
+- Work on the leap years issues
+- Clean up
+
 * V28
 - Remove Donate from the menu
 - Fix Birthday list Menu bug
