@@ -150,7 +150,7 @@ public class PieChartActivity extends AppCompatActivity implements OnChartValueS
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        String msg = Float.toString(e.getY());
+        String msg = Integer.toString(((int) e.getY()));
         Toast.makeText(this, msg , Toast.LENGTH_SHORT).show();
     }
 
