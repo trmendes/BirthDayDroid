@@ -1,10 +1,12 @@
 package com.tmendes.birthdaydroid;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -31,7 +33,14 @@ public class PieChartActivity extends AppCompatActivity implements OnChartValueS
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_piechart);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+
         this.chart = findViewById(R.id.piechart);
+
+        this.chart.setOnChartValueSelectedListener(this);
+
+        this.chart.setHighlightPerTapEnabled(true);
 
         this.chart.setUsePercentValues(true);
         this.chart.getDescription().setEnabled(false);
@@ -45,6 +54,11 @@ public class PieChartActivity extends AppCompatActivity implements OnChartValueS
 
         this.chart.setDrawCenterText(true);
 
+        if (useDarkTheme) {
+            this.chart.setBackgroundColor(Color.BLACK);
+            this.chart.setHoleColor(Color.BLACK);
+        }
+
         this.chart.animateXY(1400, 1400);
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
@@ -52,7 +66,6 @@ public class PieChartActivity extends AppCompatActivity implements OnChartValueS
         StatisticsProvider statisticsProvider = StatisticsProvider.getInstance();
 
         String label = "";
-        ArrayList<String> xVals = null;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -135,18 +148,13 @@ public class PieChartActivity extends AppCompatActivity implements OnChartValueS
 
     }
 
-
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        if (e == null)
-            return;
-        Log.i("VAL SELECTED",
-                "x: " + e.getX() + ", y: " + e.getY());
-
+        String msg = Float.toString(e.getY());
+        Toast.makeText(this, msg , Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNothingSelected() {
-        Log.i("PieChart", "nothing selected");
     }
 }
