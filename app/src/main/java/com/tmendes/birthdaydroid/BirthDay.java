@@ -102,34 +102,6 @@ public class BirthDay {
         return new ArrayList<>();
     }
 
-    public Map<Integer, Integer> getAgeStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getAgeStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public Map<String, Integer> getSignStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getSignStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public Map<Integer, Integer> getMonthStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getMonthStats();
-        }
-        return new TreeMap<>();
-    }
-
-    public Map<Integer, Integer> getWeekStats() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return statistics.getWeekStats();
-        }
-        return new TreeMap<>();
-    }
-
     public void postNotification(Contact contact) {
         if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
             try {
