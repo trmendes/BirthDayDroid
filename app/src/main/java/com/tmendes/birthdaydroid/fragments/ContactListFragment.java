@@ -39,6 +39,7 @@ import com.tmendes.birthdaydroid.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
+import com.tmendes.birthdaydroid.helpers.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -153,7 +154,7 @@ public class ContactListFragment extends Fragment {
                 Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
                         Toast.LENGTH_LONG).show();
                 for (Contact contact : notifications) {
-                    //birthDays.postNotification(contact);
+                    NotificationHelper.getInstance(ctx).postNotification(contact);
                 }
             }
         }
