@@ -46,6 +46,7 @@ import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

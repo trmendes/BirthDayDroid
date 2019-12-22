@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.providers;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -25,6 +25,8 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.R;;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.text.ParseException;
@@ -35,9 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 
 public class BirthdayDataProvider {
 

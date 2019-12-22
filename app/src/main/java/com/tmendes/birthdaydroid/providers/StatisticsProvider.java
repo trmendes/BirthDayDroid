@@ -15,13 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.providers;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-class StatisticsProvider {
+public class StatisticsProvider {
 
     private static StatisticsProvider instance;
 
