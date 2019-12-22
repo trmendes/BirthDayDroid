@@ -62,7 +62,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     private final boolean isNowLeapYear;
     private final boolean hideZoadiac, hideNoYearMsg;
 
-    private final int AFTERBIRTH_TRESHOLD;
+    private final int AFTER_BIRTH_DAYS_AGO_TRESHOLD;
 
     public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactList) {
         super(ctx, -1, contactList);
@@ -79,9 +79,9 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 Calendar.getInstance().get(Calendar.YEAR));
 
         if (this.isNowLeapYear) {
-            this.AFTERBIRTH_TRESHOLD = 359;
+            this.AFTER_BIRTH_DAYS_AGO_TRESHOLD = 366 - 7;
         } else {
-            this.AFTERBIRTH_TRESHOLD = 358;
+            this.AFTER_BIRTH_DAYS_AGO_TRESHOLD = 365 - 7;
         }
     }
 
@@ -166,19 +166,15 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
 
         viewHolder.name.setText(name);
-
         viewHolder.birthDayWeekName
                 .setText(ctx.getResources()
                         .getString(R.string.next_week_name, eventTypeStr, nextBddWeekName));
-
         viewHolder.zodiacElement.setText(
                 ctx.getResources().getString(R.string.dual_string,
                         zodiacSign, zodiacSignElement));
-
         viewHolder.bornOn.setText(
                 ctx.getResources().getString(
-                        R.string.birthday_string, bornOnMonthName, bornOnDay)
-        );
+                        R.string.birthday_string, bornOnMonthName, bornOnDay));
 
 
         if (photoUri != null) {
@@ -217,7 +213,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
                 viewHolder.emojiParty.setVisibility(View.INVISIBLE);
             } else {
-                if (daysUntilBirthday >= this.AFTERBIRTH_TRESHOLD) {
+                if (daysUntilBirthday >= this.AFTER_BIRTH_DAYS_AGO_TRESHOLD) {
                     long daysAgo;
 
                     if (this.isNowLeapYear) {
