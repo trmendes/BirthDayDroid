@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 
 import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
@@ -38,12 +39,14 @@ public class NotifierReceiver extends BroadcastReceiver {
                 == PackageManager.PERMISSION_GRANTED) {
             PermissionHelper permission = new PermissionHelper(context);
             permission.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
-            BirthDay birthDay = new BirthDay(context, permission);
-            birthDay.refresh();
-            ArrayList<Contact> todayBirthdayList = birthDay
-                    .shallWeCelebrate();
+            BirthdayDataProvider bddProvider = BirthdayDataProvider.getInstance();
+            bddProvider.setPermissionHelper(context, permission);
+            bddProvider.refreshData(true);
+
+            ArrayList<Contact> todayBirthdayList = bddProvider.getContactsToCelebrate();
             for (Contact contact : todayBirthdayList) {
-                birthDay.postNotification(contact);
+                //TODO NOTIFY
+                //birthDay.postNotification(contact);
             }
         }
     }

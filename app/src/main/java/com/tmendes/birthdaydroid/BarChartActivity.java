@@ -74,7 +74,7 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
-        StatisticsProvider statisticsProvider = StatisticsProvider.getInstance();
+        StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
         Map<Integer, Integer> ageStat = statisticsProvider.getAgeStats();
 

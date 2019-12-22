@@ -30,18 +30,11 @@ class StatisticsProvider {
     private final Map<Integer, Integer> monthStats;
     private final Map<Integer, Integer> weekStats;
 
-    private StatisticsProvider() {
+    public StatisticsProvider() {
         ageStats = new TreeMap<>();
         signStats = new TreeMap<>();
         monthStats = new TreeMap<>();
         weekStats = new TreeMap<>();
-    }
-
-    public static StatisticsProvider getInstance() {
-        if (instance == null) {
-            instance = new StatisticsProvider();
-        }
-        return instance;
     }
 
     public void reset() {

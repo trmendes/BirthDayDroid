@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     public static final int DEFAULT_ALARM_TIME = 8;
 
     // Birthdays
-    private BirthDay birthDays;
+    private BirthdayDataProvider bddDataProvider;
 
     // Permission Control
     private PermissionHelper permissionHelper;
@@ -76,9 +76,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         permissionHelper = new PermissionHelper(this);
+
         requestForPermissions();
 
-        birthDays = new BirthDay(getApplicationContext(), permissionHelper);
+        bddDataProvider = BirthdayDataProvider.getInstance();
+        bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -182,10 +184,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public BirthDay getBirthday() {
-         return birthDays;
-    }
-
     private void requestForPermissions() {
 
         String permissionString;
@@ -194,22 +192,15 @@ public class MainActivity extends AppCompatActivity
 
         if (ContextCompat.checkSelfPermission(this, permissionString)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     permissionString)) {
                 displayPermissionExplanation();
             } else {
-                // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_CONTACTS},
                         PERMISSION_CONTACT_READ);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
-            // Permission has already been granted
             permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
             openContactFragments();
         }

@@ -63,7 +63,7 @@ public class PieChartActivity extends AppCompatActivity implements OnChartValueS
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        StatisticsProvider statisticsProvider = StatisticsProvider.getInstance();
+        StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
         String label = "";
 

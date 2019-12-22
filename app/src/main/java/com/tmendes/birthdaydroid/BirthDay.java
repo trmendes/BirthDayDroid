@@ -46,9 +46,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_BIRTH
 
 public class BirthDay {
 
-    // Contact list
     private final ArrayList<Contact> contactList;
-    private final StatisticsProvider statistics;
     private final Context ctx;
     private final PermissionHelper permissions;
 
@@ -56,50 +54,6 @@ public class BirthDay {
         this.ctx = ctx;
         this.permissions = permissions;
         contactList = new ArrayList<>();
-        statistics = StatisticsProvider.getInstance();
-    }
-
-    public ArrayList<Contact> shallWeCelebrate() {
-        ArrayList<Contact> notifications = new ArrayList<>();
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-            boolean showTodayNotifications = prefs.getBoolean("scan_daily", false);
-            boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
-            boolean preciseAdvanceNotification = prefs.getBoolean("precise_notification", false);
-            int daysInAdvance = prefs.getInt("days_in_advance_interval", 1);
-
-
-            if (showTodayNotifications) {
-                for (Contact contact : this.contactList) {
-                    long daysUntilNextBirthday = contact.getDaysUntilNextBirthDay();
-                    if (contact.shallWeCelebrateToday()) {
-                        /* Today notifications */
-                        notifications.add(contact);
-                    } else if (showNotificationInAdvace &&
-                            daysUntilNextBirthday > 0 &&
-                            daysUntilNextBirthday <= daysInAdvance) {
-                        /* In advance notifications */
-                        if (preciseAdvanceNotification) {
-                            if (daysUntilNextBirthday == daysInAdvance) {
-                                notifications.add(contact);
-                            }
-                        } else {
-                            /* Notify the user every day until the contact birthday */
-                            notifications.add(contact);
-                        }
-                    }
-                }
-            }
-        }
-
-        return notifications;
-    }
-
-    public ArrayList<Contact> getBirthDayList() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            return contactList;
-        }
-        return new ArrayList<>();
     }
 
     public void postNotification(Contact contact) {
@@ -124,26 +78,26 @@ public class BirthDay {
 
                 eventTypeStr = eventTypeStr.toLowerCase();
 
-                if (contact.shallWeCelebrateToday()) {
-                    if (contact.getYearsAge() > 0) {
+                if (contact.shallWePartyToday()) {
+                    if (contact.getDaysOld() > 0) {
                         body.append(ctx.getString(
                                 R.string.message_notification_message, contact.getContactFirstName(),
-                                contact.getYearsAge()));
+                                contact.getAge()));
                     } else {
                         body.append(ctx.getString(R.string.party_message));
                     }
                 } else {
-                    if (contact.getYearsAge() > 0) {
+                    if (contact.getAge() > 0) {
                         body.append(ctx.getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
-                                contact.getDaysUntilNextBirthDay().intValue(),
-                                contact.getContactFirstName(), contact.getYearsAge() + 1,
-                                contact.getDaysUntilNextBirthDay().intValue()));
+                                contact.getDaysUntilNextBirthday(),
+                                contact.getContactFirstName(), contact.getAge() + 1,
+                                contact.getDaysUntilNextBirthday()));
                     } else {
                         body.append(ctx.getResources().getQuantityString(
                                 R.plurals.days_until,
-                                contact.getDaysUntilNextBirthDay().intValue(),
-                                contact.getDaysUntilNextBirthDay().intValue(),
+                                contact.getDaysUntilNextBirthday(),
+                                contact.getDaysUntilNextBirthday(),
                                 eventTypeStr));
                     }
 
@@ -179,122 +133,5 @@ public class BirthDay {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void refresh() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            Cursor c = getCursor();
-
-            if (!Objects.requireNonNull(c).moveToFirst()) {
-                c.close();
-                return;
-            }
-
-            final int keyColumn = c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
-            final int dateColumn = c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
-            final int nameColumn = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-            final int photoColumn = c.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
-            final int typeColumn = c.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE);
-
-            clearLists();
-
-            do {
-                Contact contact = new Contact(ctx,
-                        c.getString(keyColumn),
-                        c.getString(nameColumn),
-                        c.getString(dateColumn),
-                        c.getString(photoColumn),
-                        c.getInt(typeColumn));
-
-                if (!contact.failOnParseDateString()) {
-                    String sign = contact.getZodiac();
-                    int age = contact.getYearsAge();
-                    int month = contact.getMonth();
-                    int bWeek = contact.getBirthDayWeek();
-
-                    if (statistics.getAgeStats().get(age) != null) {
-                        statistics.getAgeStats().put(age, statistics.getAgeStats().get(age) + 1);
-                    } else {
-                        statistics.getAgeStats().put(age, 1);
-                    }
-
-                    if (statistics.getSignStats().get(sign) != null) {
-                        statistics.getSignStats().put(sign,
-                                statistics.getSignStats().get(sign) + 1);
-                    } else {
-                        statistics.getSignStats().put(sign, 1);
-                    }
-
-                    if (statistics.getMonthStats().get(month) != null) {
-                        statistics.getMonthStats().put(month,
-                                statistics.getMonthStats().get(month) + 1);
-                    } else {
-                        statistics.getMonthStats().put(month, 1);
-                    }
-
-                    if (statistics.getWeekStats().get(bWeek) != null) {
-                        statistics.getWeekStats().put(bWeek,
-                                statistics.getWeekStats().get(bWeek) + 1);
-                    } else {
-                        statistics.getWeekStats().put(bWeek, 1);
-                    }
-
-                    contactList.add(contact);
-                }
-            } while (c.moveToNext());
-
-            c.close();
-        }
-    }
-
-    private void clearLists() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            contactList.clear();
-            statistics.reset();
-        }
-    }
-
-    private Cursor getCursor() {
-        if (permissions.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            ContentResolver r = ctx.getContentResolver();
-
-            String[] projection = new String[]{
-                    ContactsContract.Contacts._ID,
-                    ContactsContract.Contacts.LOOKUP_KEY,
-                    ContactsContract.CommonDataKinds.Event.START_DATE,
-                    ContactsContract.Contacts.DISPLAY_NAME,
-                    ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-                    ContactsContract.CommonDataKinds.Event.TYPE
-            };
-
-           String selection = ContactsContract.Data.MIMETYPE
-                   + "=? AND ("
-                   + ContactsContract.CommonDataKinds.Event.TYPE // Birthday
-                   + "=? OR "
-                   + ContactsContract.CommonDataKinds.Event.TYPE // Annniversary
-                   + "=? OR "
-                   + ContactsContract.CommonDataKinds.Event.TYPE // Other
-                   + "=? OR "
-                   + ContactsContract.CommonDataKinds.Event.TYPE // Custom
-                   + "=?)";
-
-
-            String[] args = new String[]{
-                    ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY),
-                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY),
-                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_OTHER),
-                    Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM)
-            };
-
-            return r.query(
-                    ContactsContract.Data.CONTENT_URI,
-                    projection,
-                    selection,
-                    args,
-                    null
-            );
-        }
-        return null;
     }
 }

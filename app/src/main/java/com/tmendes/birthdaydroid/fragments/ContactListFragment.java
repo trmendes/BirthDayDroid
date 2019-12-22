@@ -35,9 +35,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.tmendes.birthdaydroid.BirthDay;
+import com.tmendes.birthdaydroid.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.Contact;
-import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 
@@ -50,6 +49,7 @@ public class ContactListFragment extends Fragment {
 
     // Adapter
     private BirthDayArrayAdapter adapter;
+    private BirthdayDataProvider bddDataProviver;
 
     // Context
     private Context ctx;
@@ -68,8 +68,9 @@ public class ContactListFragment extends Fragment {
 
         PreferenceManager.setDefaultValues(ctx, R.xml.preferences, false);
 
-        adapter = new BirthDayArrayAdapter(ctx,
-                ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().getBirthDayList());
+        bddDataProviver = BirthdayDataProvider.getInstance();
+
+        adapter = new BirthDayArrayAdapter(ctx,bddDataProviver.getAllContacts());
 
         ListView listView = v.findViewById(R.id.lvContacts);
         listView.setTextFilterEnabled(true);
@@ -130,7 +131,7 @@ public class ContactListFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         swipeDown = prefs.getBoolean("swipe_down_to_notify", false);
         refreshLayout.setEnabled( swipeDown );
-        ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday().refresh();
+        bddDataProviver.refreshData(false);
         updateSortSettings();
     }
 
@@ -143,8 +144,8 @@ public class ContactListFragment extends Fragment {
 
     private void isTodayADayToCelebrate() {
         if (swipeDown) {
-            BirthDay birthDays = ((MainActivity) Objects.requireNonNull(getActivity())).getBirthday();
-            ArrayList<Contact> notifications = birthDays.shallWeCelebrate();
+            ArrayList<Contact> notifications = bddDataProviver.getContactsToCelebrate();
+
             if (notifications.size() == 0) {
                 Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
                         Toast.LENGTH_LONG).show();
@@ -152,7 +153,7 @@ public class ContactListFragment extends Fragment {
                 Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
                         Toast.LENGTH_LONG).show();
                 for (Contact contact : notifications) {
-                    birthDays.postNotification(contact);
+                    //birthDays.postNotification(contact);
                 }
             }
         }
