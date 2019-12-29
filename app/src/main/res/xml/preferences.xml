@@ -69,6 +69,10 @@
             android:title="@string/settings_hide_no_year_msg" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="show_current_age"
+            android:title="Show Current Age" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="swipe_down_to_notify"
             android:title="@string/settings_swipe_down" />
     </PreferenceCategory>

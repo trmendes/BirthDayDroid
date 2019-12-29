@@ -28,6 +28,7 @@ public class Contact {
     private String photoURI;
     private String date;
     private int eventType;
+    private String eventTypeLabel;
 
     private String zodiac;
     private String zodiacElement;
@@ -50,12 +51,13 @@ public class Contact {
     private boolean shallWePartyToday;
 
     public Contact(String key, String name, String photoURI, String date,
-                   int eventType) {
+                   int eventType, String eventTypeLabel) {
         this.key = key;
         this.name = name;
         this.photoURI = photoURI;
         this.date = date;
         this.eventType = eventType;
+        this.eventTypeLabel = eventTypeLabel;
         this.yearSettled = false;
     }
 
@@ -191,6 +193,10 @@ public class Contact {
 
     public int getEventType() {
         return eventType;
+    }
+
+    public String getEventTypeLabel() {
+        return eventTypeLabel;
     }
 
     public String getDate() {

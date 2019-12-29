@@ -50,9 +50,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY;
-import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
-
 public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filterable {
 
     private final Context ctx;
@@ -60,9 +57,12 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     private ArrayList<Contact> contactList;
 
     private final boolean isNowLeapYear;
-    private final boolean hideZoadiac, hideNoYearMsg;
+    private final boolean hideZoadiac, hideNoYearMsg, showCurrentAge;
 
-    private final int AFTER_BIRTH_DAYS_AGO_TRESHOLD;
+    private final int LATE_BDD_LIST_TRESHOLD;
+    private final int WEEK_LEN = 7;
+    private final int YEAR_LEN = 365;
+    private final int LEAP_YEAR_LEN = 366;
 
     public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactList) {
         super(ctx, -1, contactList);
@@ -74,14 +74,16 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         hideZoadiac = prefs.getBoolean("hide_zodiac", false);
         hideNoYearMsg = prefs.getBoolean("hide_no_year_msg", false);
+        showCurrentAge = prefs.getBoolean("show_current_age", false);
+
 
         this.isNowLeapYear = new GregorianCalendar().isLeapYear(
                 Calendar.getInstance().get(Calendar.YEAR));
 
         if (this.isNowLeapYear) {
-            this.AFTER_BIRTH_DAYS_AGO_TRESHOLD = 366 - 7;
+            this.LATE_BDD_LIST_TRESHOLD = this.LEAP_YEAR_LEN- this.WEEK_LEN;
         } else {
-            this.AFTER_BIRTH_DAYS_AGO_TRESHOLD = 365 - 7;
+            this.LATE_BDD_LIST_TRESHOLD = this.YEAR_LEN - this.WEEK_LEN;
         }
     }
 
@@ -99,31 +101,21 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         int age = contact.getAge();
         int daysOld = contact.getDaysOld();
 
+        if (!showCurrentAge) {
+            ++age;
+        }
+
         String bornOnMonthName = contact.getBornOnMonthName();
 
         int bornOnDay = contact.getBornOnDay();
-        String nextBddWeekName = contact.getNextBirthDayWeekName();
 
-        int daysUntilBirthday = contact.getDaysUntilNextBirthday();
+        String nextBirthdayWeekName = contact.getNextBirthDayWeekName();
+        int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
 
         String zodiacSign = contact.getZodiac();
         String zodiacSignElement = contact.getZodiacElement();
 
-        int eventyType = contact.getEventType();
-
-        String eventTypeStr;
-
-        switch (eventyType) {
-            default:
-            case TYPE_BIRTHDAY:
-                eventTypeStr = ctx.getResources().getString(R.string.type_birthday);
-                break;
-            case TYPE_ANNIVERSARY:
-                eventTypeStr = ctx.getResources().getString(R.string.type_anniversary);
-                break;
-        }
-
-        eventTypeStr = eventTypeStr.toLowerCase();
+        String eventType = contact.getEventTypeLabel();
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx
@@ -168,7 +160,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         viewHolder.name.setText(name);
         viewHolder.birthDayWeekName
                 .setText(ctx.getResources()
-                        .getString(R.string.next_week_name, eventTypeStr, nextBddWeekName));
+                        .getString(R.string.next_week_name, eventType, nextBirthdayWeekName));
         viewHolder.zodiacElement.setText(
                 ctx.getResources().getString(R.string.dual_string,
                         zodiacSign, zodiacSignElement));
@@ -201,30 +193,33 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                             ctx, R.drawable.ic_account_circle_black_24dp));
         }
 
+        /* Party */
         if (contact.shallWePartyToday()) {
             viewHolder.daysToGo.setText(
                     ctx.getResources().getString(R.string.party_message));
             viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
             viewHolder.emojiParty.setVisibility(View.VISIBLE);
         } else {
-            if (daysUntilBirthday == 1) {
+            /* Next day */
+            if (daysUntilNextBirthday == 1) {
                 viewHolder.daysToGo.setText(
-                        ctx.getResources().getString(R.string.birthday_tomorrow, eventTypeStr));
+                        ctx.getResources().getString(R.string.birthday_tomorrow, eventType));
                 viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
                 viewHolder.emojiParty.setVisibility(View.INVISIBLE);
             } else {
-                if (daysUntilBirthday >= this.AFTER_BIRTH_DAYS_AGO_TRESHOLD) {
+                /* Days Ago */
+                if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD) {
                     long daysAgo;
 
                     if (this.isNowLeapYear) {
-                        daysAgo = 366 - contact.getDaysUntilNextBirthday() + 1;
+                        daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
                     } else {
-                        daysAgo = 365 - contact.getDaysUntilNextBirthday() + 1;
+                        daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
                     }
 
                     viewHolder.birthDayWeekName
                             .setText(ctx.getResources()
-                                    .getString(R.string.prev_week_name, eventTypeStr,
+                                    .getString(R.string.prev_week_name, eventType,
                                             contact.getPrevBirthDayWeekName()));
 
                     viewHolder.daysToGo
@@ -234,31 +229,31 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                                             (int) daysAgo,
                                             (int) daysAgo));
                 } else {
+                    /* All the rest */
                     viewHolder.daysToGo
                             .setText(
                                     ctx.getResources().getQuantityString(
                                             R.plurals.days_until,
-                                            daysUntilBirthday,
-                                            daysUntilBirthday,
-                                            eventTypeStr));
+                                            daysUntilNextBirthday,
+                                            daysUntilNextBirthday,
+                                            eventType));
                 }
                 viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
                 viewHolder.emojiParty.setVisibility(View.INVISIBLE);
             }
         }
 
-        if (contact.isHeSheNotEvenOneYearOld() || !contact.isYearSettled()) {
-            if (!contact.isYearSettled()) {
-                if (hideNoYearMsg) {
-                    viewHolder.age.setText("");
-                } else {
-                    viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
-                }
+        if (!contact.isYearSettled()) {
+            if (hideNoYearMsg) {
+                viewHolder.age.setText("");
             } else {
-                viewHolder.age.setText(ctx.getResources().getQuantityString(
-                        R.plurals.days_old, daysOld, daysOld));
+                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
             }
-        } else {
+        } else if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
+            viewHolder.age.setText(ctx.getResources().getQuantityString(
+                        R.plurals.days_old, daysOld, daysOld));
+        }
+        else {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.years_old, age, age));
         }
@@ -303,7 +298,6 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 if (constraint.length() == 0) {
                     contactList = bdListToRestoreAfterFiltering;
                 } else {
-                    //noinspection unchecked
                     contactList = (ArrayList<Contact>) results.values;
                 }
                 notifyDataSetChanged();
@@ -338,12 +332,13 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                                 zodiac.contains(constraintStr) ||
                                 zodiacElement.contains(constraintStr)) {
 
-                            Contact contact = BirthdayDataProvider.getInstance().getContact(
+                            Contact contact = BirthdayDataProvider.getInstance().parseNewContact(
                                     bdListToRestoreAfterFiltering.get(i).getKey(),
                                     bdListToRestoreAfterFiltering.get(i).getName(),
                                     bdListToRestoreAfterFiltering.get(i).getPhotoURI(),
                                     bdListToRestoreAfterFiltering.get(i).getDate(),
-                                    bdListToRestoreAfterFiltering.get(i).getEventType()
+                                    bdListToRestoreAfterFiltering.get(i).getEventType(),
+                                    bdListToRestoreAfterFiltering.get(i).getEventTypeLabel()
                             );
 
                             FilteredArrList.add(contact);

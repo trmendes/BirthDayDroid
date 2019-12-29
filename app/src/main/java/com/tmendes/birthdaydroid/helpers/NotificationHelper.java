@@ -119,6 +119,7 @@ public class NotificationHelper extends ContextWrapper {
             /* Title */
             String title = contact.getName();
             StringBuilder body = new StringBuilder();
+            long key = Long.valueOf(contact.getKey());
 
             String eventTypeStr;
 
@@ -181,7 +182,7 @@ public class NotificationHelper extends ContextWrapper {
             /* Notify */
             Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
                     openContactPI);
-            notify(System.currentTimeMillis(), nBuilder);
+            notify(key, nBuilder);
 
         } catch (IOException e) {
             e.printStackTrace();

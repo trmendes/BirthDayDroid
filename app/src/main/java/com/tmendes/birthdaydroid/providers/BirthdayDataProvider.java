@@ -45,6 +45,8 @@ public class BirthdayDataProvider {
     private PermissionHelper permissionHelper;
 
     private static final long DAY = 60 * 60 * 1000 * 24;
+    private final int YEAR_LEN = 365;
+    private final int LEAP_YEAR_LEN = 366;
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
     private static BirthdayDataProvider instance;
     private static StatisticsProvider statistics;
@@ -91,8 +93,9 @@ public class BirthdayDataProvider {
     }
 
 
-    public Contact getContact(String key, String name, String photoURI, String date, int type) {
-        Contact contact = new Contact(key, name, photoURI, date, type);
+    public Contact parseNewContact(String key, String name, String photoURI, String date,
+                                   int eventType, String eventTypeLabel) {
+        Contact contact = new Contact(key, name, photoURI, date, eventType, eventTypeLabel);
         setBasicContactBirthInfo(contact, date);
         setContactZodiac(contact);
         setContactPartyMode(contact);
@@ -130,12 +133,33 @@ public class BirthdayDataProvider {
             final int typeColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.TYPE);
 
-            do {
-                Contact contact = getContact(cursor.getString(keyColumn),
+            while (cursor.moveToNext()) {
+
+                int eventType = cursor.getInt(typeColumn);
+
+                String eventTypeLabel;
+
+                if(eventType == ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM)
+                {
+                    eventTypeLabel = cursor.getString(typeColumn);
+                }
+                else
+                {
+                    CharSequence seq = ContactsContract.CommonDataKinds.Event.
+                            getTypeLabel(ctx.getResources(), eventType, ctx.getResources().
+                                    getString(R.string.type_birthday));
+                    eventTypeLabel = seq.toString();
+                }
+
+                eventTypeLabel = eventTypeLabel.toLowerCase();
+
+
+                Contact contact = parseNewContact(cursor.getString(keyColumn),
                         cursor.getString(nameColumn),
                         cursor.getString(photoColumn),
                         cursor.getString(dateColumn),
-                        cursor.getInt(typeColumn));
+                        eventType,
+                        eventTypeLabel);
 
                 /* Birthday List */
                 if (contact.shallWePartyToday()) {
@@ -174,7 +198,7 @@ public class BirthdayDataProvider {
                         statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
                     }
                 }
-            } while (cursor.moveToNext());
+            }
 
             cursor.close();
         }
@@ -262,9 +286,9 @@ public class BirthdayDataProvider {
 
                 if (daysOld >= 0) {
                     if (isNowLeapYear) {
-                        lessThanAYearOld = daysOld < 366;
+                        lessThanAYearOld = daysOld < this.LEAP_YEAR_LEN;
                     } else {
-                        lessThanAYearOld = daysOld < 365;
+                        lessThanAYearOld = daysOld < this.YEAR_LEN;
                     }
 
                     double msUntilNextBirthDay = 0;
