@@ -28,9 +28,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.activities.BarChartActivity;
 import com.tmendes.birthdaydroid.activities.PieChartActivity;
-import com.tmendes.birthdaydroid.R;
 
 public class StatisticsFragment extends Fragment {
 

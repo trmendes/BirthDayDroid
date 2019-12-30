@@ -35,11 +35,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
 import com.tmendes.birthdaydroid.helpers.NotificationHelper;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.ArrayList;
 import java.util.Objects;

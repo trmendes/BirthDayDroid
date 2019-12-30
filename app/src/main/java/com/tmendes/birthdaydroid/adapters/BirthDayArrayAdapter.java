@@ -39,10 +39,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +115,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         String zodiacSign = contact.getZodiac();
         String zodiacSignElement = contact.getZodiacElement();
 
-        String eventType = contact.getEventTypeLabel();
+        String eventTypeLabel = contact.getEventTypeLabel();
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx
@@ -160,7 +160,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         viewHolder.name.setText(name);
         viewHolder.birthDayWeekName
                 .setText(ctx.getResources()
-                        .getString(R.string.next_week_name, eventType, nextBirthdayWeekName));
+                        .getString(R.string.next_week_name, eventTypeLabel, nextBirthdayWeekName));
         viewHolder.zodiacElement.setText(
                 ctx.getResources().getString(R.string.dual_string,
                         zodiacSign, zodiacSignElement));
@@ -194,53 +194,60 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         }
 
         /* Party */
-        if (contact.shallWePartyToday()) {
+        if (contact.getDaysUntilNextBirthday() == 0) {
             viewHolder.daysToGo.setText(
                     ctx.getResources().getString(R.string.party_message));
             viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
             viewHolder.emojiParty.setVisibility(View.VISIBLE);
+        } else if (contact.getDaysUntilNextBirthday() == 1) {
+            viewHolder.daysToGo.setText(
+                    ctx.getResources().getString(R.string.birthday_tomorrow, eventTypeLabel));
+            viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
+            viewHolder.emojiParty.setVisibility(View.INVISIBLE);
+        } else if (contact.shallWePartyToday() && contact.getDaysUntilNextBirthday() > 0) {
+            viewHolder.daysToGo
+                    .setText(
+                            ctx.getResources().getQuantityString(
+                                    R.plurals.days_until,
+                                    daysUntilNextBirthday,
+                                    daysUntilNextBirthday,
+                                    eventTypeLabel));
+            viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
+            viewHolder.emojiParty.setVisibility(View.INVISIBLE);
         } else {
-            /* Next day */
-            if (daysUntilNextBirthday == 1) {
-                viewHolder.daysToGo.setText(
-                        ctx.getResources().getString(R.string.birthday_tomorrow, eventType));
-                viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
-                viewHolder.emojiParty.setVisibility(View.INVISIBLE);
-            } else {
-                /* Days Ago */
-                if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD) {
-                    long daysAgo;
+            /* Days Ago */
+            if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD) {
+                long daysAgo;
 
-                    if (this.isNowLeapYear) {
-                        daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
-                    } else {
-                        daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
-                    }
-
-                    viewHolder.birthDayWeekName
-                            .setText(ctx.getResources()
-                                    .getString(R.string.prev_week_name, eventType,
-                                            contact.getPrevBirthDayWeekName()));
-
-                    viewHolder.daysToGo
-                            .setText(
-                                    ctx.getResources().getQuantityString(
-                                            R.plurals.days_ago,
-                                            (int) daysAgo,
-                                            (int) daysAgo));
+                if (this.isNowLeapYear) {
+                    daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
                 } else {
-                    /* All the rest */
-                    viewHolder.daysToGo
-                            .setText(
-                                    ctx.getResources().getQuantityString(
-                                            R.plurals.days_until,
-                                            daysUntilNextBirthday,
-                                            daysUntilNextBirthday,
-                                            eventType));
+                    daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
                 }
-                viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-                viewHolder.emojiParty.setVisibility(View.INVISIBLE);
+
+                viewHolder.birthDayWeekName
+                        .setText(ctx.getResources()
+                                .getString(R.string.prev_week_name, eventTypeLabel,
+                                        contact.getPrevBirthDayWeekName()));
+
+                viewHolder.daysToGo
+                        .setText(
+                                ctx.getResources().getQuantityString(
+                                        R.plurals.days_ago,
+                                        (int) daysAgo,
+                                        (int) daysAgo));
+            } else {
+                /* All the rest */
+                viewHolder.daysToGo
+                        .setText(
+                                ctx.getResources().getQuantityString(
+                                        R.plurals.days_until,
+                                        daysUntilNextBirthday,
+                                        daysUntilNextBirthday,
+                                        eventTypeLabel));
             }
+            viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
+            viewHolder.emojiParty.setVisibility(View.INVISIBLE);
         }
 
         if (!contact.isYearSettled()) {
@@ -254,8 +261,13 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                         R.plurals.days_old, daysOld, daysOld));
         }
         else {
+            if (showCurrentAge) {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.years_old, age, age));
+            } else {
+                viewHolder.age.setText(ctx.getResources().getQuantityString(
+                        R.plurals.turning_years_old, age, age));
+            }
         }
 
         convertView.setOnClickListener(new View.OnClickListener() {

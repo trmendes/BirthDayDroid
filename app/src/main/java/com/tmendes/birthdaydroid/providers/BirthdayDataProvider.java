@@ -26,7 +26,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.tmendes.birthdaydroid.Contact;
-import com.tmendes.birthdaydroid.R;;
+import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.text.ParseException;
@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
+
+;
 
 public class BirthdayDataProvider {
 
@@ -152,7 +154,6 @@ public class BirthdayDataProvider {
                 }
 
                 eventTypeLabel = eventTypeLabel.toLowerCase();
-
 
                 Contact contact = parseNewContact(cursor.getString(keyColumn),
                         cursor.getString(nameColumn),

@@ -208,7 +208,11 @@ public class Contact {
     }
 
     public void setDaysUntilNextBirthday(int daysUntilNextBirthday) {
-        this.daysUntilNextBirthday = daysUntilNextBirthday;
+        if (daysUntilNextBirthday == 365 || daysUntilNextBirthday == 366) {
+            this.daysUntilNextBirthday = 0;
+        } else {
+            this.daysUntilNextBirthday = daysUntilNextBirthday;
+        }
     }
 
     public boolean shallWePartyToday() {

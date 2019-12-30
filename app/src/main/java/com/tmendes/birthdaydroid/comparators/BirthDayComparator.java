@@ -52,9 +52,13 @@ public class BirthDayComparator implements Comparator<Contact> {
                 break;
             case ORDER_DAYS_UNTIL_BIRTHDAY:
                 if (sortType == SORT_ASC) {
-                    res = contactA.getDaysUntilNextBirthday() - contactB.getDaysUntilNextBirthday();
+                    if (contactA.getDaysUntilNextBirthday()
+                            - contactB.getDaysUntilNextBirthday() >= 0) res = 1;
+                    else res = -1;
                 } else {
-                    res = contactB.getDaysUntilNextBirthday() - contactA.getDaysUntilNextBirthday();
+                    if (contactB.getDaysUntilNextBirthday()
+                            - contactA.getDaysUntilNextBirthday() <= 0) res = -1;
+                    else res = 1;
                 }
                 break;
             case ORDER_SIGN:

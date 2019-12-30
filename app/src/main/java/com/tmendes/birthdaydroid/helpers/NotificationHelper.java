@@ -37,9 +37,6 @@ import com.tmendes.birthdaydroid.R;
 
 import java.io.IOException;
 
-import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY;
-import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
-
 public class NotificationHelper extends ContextWrapper {
     private static NotificationHelper instance;
 
@@ -115,49 +112,20 @@ public class NotificationHelper extends ContextWrapper {
 
     public void postNotification(Contact contact) {
         try {
-            /* Text to notify */
-            /* Title */
-            String title = contact.getName();
+            String title = contact.getName() + " " + contact.getEventTypeLabel();
             StringBuilder body = new StringBuilder();
-            long key = Long.valueOf(contact.getKey());
 
-            String eventTypeStr;
-
-            switch (contact.getEventType()) {
-                default:
-                case TYPE_BIRTHDAY:
-                    eventTypeStr = ctx.getResources().getString(R.string.type_birthday);
-                    break;
-                case TYPE_ANNIVERSARY:
-                    eventTypeStr = ctx.getResources().getString(R.string.type_anniversary);
-                    break;
-            }
-
-            eventTypeStr = eventTypeStr.toLowerCase();
 
             if (contact.shallWePartyToday()) {
-                if (contact.getDaysOld() > 0) {
-                    body.append(ctx.getString(
-                            R.string.message_notification_message, contact.getContactFirstName(),
-                            contact.getAge()));
-                } else {
+                if (contact.getDaysUntilNextBirthday() == 0) {
                     body.append(ctx.getString(R.string.party_message));
-                }
-            } else {
-                if (contact.getAge() > 0) {
+                } else {
                     body.append(ctx.getResources().getQuantityString(
                             R.plurals.message_notification_message_bt_to_come,
                             contact.getDaysUntilNextBirthday(),
                             contact.getContactFirstName(), contact.getAge() + 1,
                             contact.getDaysUntilNextBirthday()));
-                } else {
-                    body.append(ctx.getResources().getQuantityString(
-                            R.plurals.days_until,
-                            contact.getDaysUntilNextBirthday(),
-                            contact.getDaysUntilNextBirthday(),
-                            eventTypeStr));
                 }
-
             }
 
             /* Contact Picture */
@@ -182,7 +150,7 @@ public class NotificationHelper extends ContextWrapper {
             /* Notify */
             Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
                     openContactPI);
-            notify(key, nBuilder);
+            notify(System.currentTimeMillis(), nBuilder);
 
         } catch (IOException e) {
             e.printStackTrace();

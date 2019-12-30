@@ -24,10 +24,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.helpers.NotificationHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.ArrayList;
 
