@@ -35,6 +35,7 @@ public class Contact {
 
     private boolean yearSettled;
     private boolean isHeSheNotEvenOneYearOld;
+    private boolean notYetBorn;
     private int age;
     private int daysOld;
 
@@ -216,10 +217,18 @@ public class Contact {
     }
 
     public boolean shallWePartyToday() {
-        return shallWePartyToday;
+        return !notYetBorn && shallWePartyToday;
     }
 
     public void setshallWePartyToday(boolean shallWePartyToday) {
         this.shallWePartyToday = shallWePartyToday;
+    }
+
+    public boolean isNotYetBorn() {
+        return notYetBorn;
+    }
+
+    public void setNotYetBorn(boolean notYetBorn) {
+        this.notYetBorn = notYetBorn;
     }
 }

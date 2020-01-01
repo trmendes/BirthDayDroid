@@ -194,17 +194,22 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         }
 
         /* Party */
-        if (contact.getDaysUntilNextBirthday() == 0) {
-            viewHolder.daysToGo.setText(
-                    ctx.getResources().getString(R.string.party_message));
+        if (contact.getDaysUntilNextBirthday() >= 0 && contact.shallWePartyToday()) {
+            if (contact.getDaysUntilNextBirthday() == 0) {
+                viewHolder.daysToGo.setText(
+                        ctx.getResources().getString(R.string.party_message));
+            } else {
+                viewHolder.daysToGo
+                        .setText(
+                                ctx.getResources().getQuantityString(
+                                        R.plurals.days_until,
+                                        daysUntilNextBirthday,
+                                        daysUntilNextBirthday,
+                                        eventTypeLabel));
+            }
             viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
             viewHolder.emojiParty.setVisibility(View.VISIBLE);
         } else if (contact.getDaysUntilNextBirthday() == 1) {
-            viewHolder.daysToGo.setText(
-                    ctx.getResources().getString(R.string.birthday_tomorrow, eventTypeLabel));
-            viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
-            viewHolder.emojiParty.setVisibility(View.INVISIBLE);
-        } else if (contact.shallWePartyToday() && contact.getDaysUntilNextBirthday() > 0) {
             viewHolder.daysToGo
                     .setText(
                             ctx.getResources().getQuantityString(
@@ -216,7 +221,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             viewHolder.emojiParty.setVisibility(View.INVISIBLE);
         } else {
             /* Days Ago */
-            if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD) {
+            if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD && !contact.isNotYetBorn()) {
                 long daysAgo;
 
                 if (this.isNowLeapYear) {

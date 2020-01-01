@@ -263,7 +263,7 @@ public class BirthdayDataProvider {
 
             if (bornOnDate != null) {
                 boolean contactHasYearSet = pattern.contains("y");
-                boolean yetToBorn = false;
+                boolean notYetBorn = false;
 
                 Calendar now = Calendar.getInstance();
                 int nowYear = now.get(Calendar.YEAR);
@@ -316,15 +316,19 @@ public class BirthdayDataProvider {
 
                     daysUntilNextBirthDay = (int) (msUntilNextBirthDay / DAY) + 1;
                 } else {
-                    /* Born in the future */
-                    daysOld = 0;
+                    /* Born in the future */;
+                    notYetBorn = true;
+                    nextBirthDay.set(Calendar.YEAR, bornOn.get(Calendar.YEAR) + 1);
+                    long msUntilNextBirthDay = bornOn.getTimeInMillis() - now.getTimeInMillis();
+                    daysUntilNextBirthDay = (int) (msUntilNextBirthDay / DAY) + 1;
                 }
 
-                if ((!contactHasYearSet) || (yetToBorn)){
+                if ((!contactHasYearSet) || (notYetBorn)){
                     age = 0;
                     daysOld = 0;
                 }
 
+                contact.setNotYetBorn(notYetBorn);
                 contact.setYearSettled(contactHasYearSet);
                 contact.setBornOn(bornOn);
                 contact.setNextBirthday(nextBirthDay);
