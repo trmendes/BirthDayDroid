@@ -70,7 +70,14 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="show_current_age"
-            android:title="Show Current Age" />
+            android:title="@string/settings_show_current_age" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_application_preferences">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="settings_statistics_as_text"
+            android:title="@string/settings_statistics_as_text" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="swipe_down_to_notify"

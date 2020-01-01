@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = ContactListFragment.class;
                 break;
             case R.id.nav_statistics:
-
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_settings:

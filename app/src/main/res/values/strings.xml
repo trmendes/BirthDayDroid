@@ -65,11 +65,14 @@
     <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
     <string name="settings_list_hide_zodiac">Hide Zodiac</string>
     <string name="settings_hide_no_year_msg">Hide missing year message</string>
+    <string name="settings_show_current_age">Show Current Age</string>
+    <string name="settings_statistics_as_text">Show Statistics as text</string>
     <string name="settings_scan_adv_sum">How many days in advance shall we check your contacts for their birthdays, so you have time to prepare your friend a surprise</string>
     <string name="settings_scan_adv_title">Days in Advance</string>
     <string name="settings_scan_precise_title">Precise Notifications</string>
     <string name="settings_scan_precise">Only one notification in advance</string>
     <string name="settings_list_preferences">Birthday List Settings</string>
+    <string name="settings_application_preferences">Application Behavior Settings</string>
     <string name="settings_list_input_sum">Days Until Birthday/Age/Name/Sign</string>
     <string name="settings_list_input_title">Sort By</string>
     <string name="settings_list_order_sum">Ascending or Descending</string>
@@ -95,12 +98,12 @@
         <item quantity="other">From %1$d contacts:\n\n</item>
     </plurals>
     <plurals name="statistics_int_int">
-        <item quantity="one">\t %1$d \t contact \t - \t %2$d \t years old\n</item>
-        <item quantity="other">\t %1$d \t contacts \t - \t %2$d \t years old\n</item>
+        <item quantity="one">%03d contact \t\t- %03d years old\n</item>
+        <item quantity="other">%03d contacts \t- %03d years old\n</item>
     </plurals>
     <plurals name="statistics_int_string">
-        <item quantity="one">\t %1$d \tcontact \t - \t %2$s\n</item>
-        <item quantity="other">\t %1$d \tcontacts \t - \t %2$s\n</item>
+        <item quantity="one">%03d contact  - %2$s\n</item>
+        <item quantity="other">%03d contacts - %2$s\n</item>
     </plurals>
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
     <string name="image" translatable="false">Image</string>
