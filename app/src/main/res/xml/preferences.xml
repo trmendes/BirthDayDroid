@@ -8,7 +8,7 @@
             android:summary="@string/settings_scan_not_sum"
             android:title="@string/settings_scan_not_title" />
 
-        <com.tmendes.birthdaydroid.preferences.TimePreference
+        <com.tmendes.birthdaydroid.preferences.TimeDialogPreference
             android:key="scan_daily_interval"
             android:dependency="scan_daily"
             android:title="@string/settings_scan_title" />
