@@ -130,7 +130,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             viewHolder.birthDayWeekName =
                     convertView.findViewById(R.id.tvContactNextBirthDayWeekName);
 
-            viewHolder.age = convertView.findViewById(R.id.tvContactAge);
+            viewHolder.daysOld = convertView.findViewById(R.id.tvDaysOld);
+            viewHolder.ageBadge = convertView.findViewById(R.id.tvAgeBadge);
 
             viewHolder.daysToGo =
                     convertView.findViewById(R.id.tvContactDaysUntil);
@@ -257,23 +258,19 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
         if (!contact.isYearSettled()) {
             if (hideNoYearMsg) {
-                viewHolder.age.setText("");
+                viewHolder.daysOld.setVisibility(View.INVISIBLE);
             } else {
-                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+                viewHolder.daysOld.setText(ctx.getResources().getString(R.string.contact_has_no_year));
             }
         } else if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
-            viewHolder.age.setText(ctx.getResources().getQuantityString(
+            viewHolder.daysOld.setText(ctx.getResources().getQuantityString(
                         R.plurals.days_old, daysOld, daysOld));
+            viewHolder.daysOld.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.daysOld.setVisibility(View.INVISIBLE);
         }
-        else {
-            if (showCurrentAge) {
-                viewHolder.age.setText(ctx.getResources().getQuantityString(
-                        R.plurals.years_old, age, age));
-            } else {
-                viewHolder.age.setText(ctx.getResources().getQuantityString(
-                        R.plurals.turning_years_old, age, age));
-            }
-        }
+
+        viewHolder.ageBadge.setText(String.valueOf(age));
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,7 +375,8 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     static class ViewHolderItem {
         TextView name;
         TextView birthDayWeekName;
-        TextView age;
+        TextView daysOld;
+        TextView ageBadge;
         TextView daysToGo;
         TextView zodiacElement;
         TextView bornOn;

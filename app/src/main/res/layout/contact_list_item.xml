@@ -18,106 +18,119 @@
             android:layout_width="74dip"
             android:layout_height="80dp"
             android:contentDescription="@string/image" />
+
+        <TextView
+            android:id="@+id/tvAgeBadge"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="-25dip"
+            android:background="@drawable/badge_background"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:typeface="sans" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/data"
-        android:layout_marginLeft="5dip"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_marginStart="10dip"
+        android:layout_marginEnd="10dip"
         android:layout_toEndOf="@id/photo">
 
-        <RelativeLayout
-            android:id="@+id/left"
-            android:layout_marginRight="5dip"
+        <!-- Contact Name -->
+        <TextView
+            android:paddingBottom="2dip"
+            android:id="@+id/tvContactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentStart="true">
+            android:singleLine="true"
+            android:text="@string/string"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans" />
 
-            <!-- Contact Name -->
-            <TextView
-                android:id="@+id/tvContactName"
+        <LinearLayout
+            android:id="@+id/contactInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/left"
+                android:layout_marginRight="5dip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:layout_alignParentStart="true"
-                android:text="@string/string"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:typeface="sans" />
+                android:orientation="horizontal"
+                android:layout_alignParentStart="true">
 
-            <!-- next birthday week name -->
-            <TextView
-                android:id="@+id/tvContactNextBirthDayWeekName"
+                <!-- next birthday week name -->
+                <TextView
+                    android:id="@+id/tvContactNextBirthDayWeekName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:singleLine="true"
+                    android:text="@string/string"
+                    android:textSize="12sp" />
+
+                <!-- Days to go to her/his birthday -->
+                <TextView
+                    android:id="@+id/tvContactDaysUntil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvContactNextBirthDayWeekName"
+                    android:layout_alignParentStart="true"
+                    android:singleLine="true"
+                    android:text="@string/string"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/right"
+                android:layout_toEndOf="@id/left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvContactName"
-                android:layout_alignParentStart="true"
-                android:singleLine="true"
-                android:text="@string/string"
-                android:textSize="12sp" />
+                android:orientation="horizontal">
 
-            <!-- Days to go to her/his birthday -->
-            <TextView
-                android:id="@+id/tvContactDaysUntil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvContactNextBirthDayWeekName"
-                android:layout_alignParentStart="true"
-                android:singleLine="true"
-                android:text="@string/string"
-                android:textSize="12sp" />
+                <!-- BirthDay -->
+                <TextView
+                    android:id="@+id/tvBirthDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:text="@string/string"
+                    android:textSize="12sp" />
 
-        </RelativeLayout>
+                <!-- Sign/Element -->
+                <TextView
+                    android:id="@+id/tvZodiac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvBirthDay"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:text="@string/string"
+                    android:textSize="12sp" />
 
-        <RelativeLayout
-            android:id="@+id/right"
-            android:layout_toEndOf="@id/left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <!-- Days old -->
+                <TextView
+                    android:id="@+id/tvDaysOld"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvZodiac"
+                    android:layout_alignParentEnd="true"
+                    android:singleLine="true"
+                    android:text="@string/string"
+                    android:textSize="12sp" />
 
-            <!-- Contact Age -->
-            <TextView
-                android:id="@+id/tvContactAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:text="@string/string"
-                android:textColor="?android:attr/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <!-- BirthDay -->
-            <TextView
-                android:id="@+id/tvBirthDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvContactAge"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:text="@string/string"
-                android:textColor="?android:attr/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <!-- Sign/Element -->
-            <TextView
-                android:id="@+id/tvZodiac"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvBirthDay"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:text="@string/string"
-                android:textColor="?android:attr/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/emojs"
@@ -187,6 +200,6 @@
                     android:src="@drawable/ic_party_07" />
             </LinearLayout>
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
