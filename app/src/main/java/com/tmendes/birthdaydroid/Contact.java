@@ -17,309 +17,162 @@
 
 package com.tmendes.birthdaydroid;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-
 import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 public class Contact {
 
-    private final Context ctx;
 
-    private final int eventType;
+    private String key;
+    private String name;
+    private String photoURI;
+    private String date;
+    private int eventType;
+    private String eventTypeLabel;
 
-    private final String name;
     private String zodiac;
     private String zodiacElement;
-    private final String key;
-    private final String photoURI;
-    private final String date;
 
-    private int day;
-    private int month;
+    private boolean yearSettled;
+    private boolean isHeSheNotEvenOneYearOld;
+    private boolean notYetBorn;
     private int age;
-    private int daysAge;
+    private int daysOld;
 
-    private final String failMsg;
+    private int bornOnDay;
+    private int bornOnMonth;
+    private int bornOnYear;
+    private int bornOnDayWeek;
 
-    private boolean containsYearInfo = false;
-    private boolean failOnParseDateString = true;
-    private boolean letsCelebrate = false;
+    private int daysUntilNextBirthday;
 
     private Calendar bornOn;
     private Calendar nextBirthday;
 
-    private static final long DAY = 60 * 60 * 1000 * 24;
+    private boolean shallWePartyToday;
 
-    private final List<String> knownPatterns = Arrays.asList(
-            "yyyy-M-dd",
-            "yyyy-M-dd hh:mm:ss.SSS",
-            "dd-M-y",
-            "dd-M-y hh:mm:ss.SSS",
-            "--M-dd",
-            "--M-dd hh:mm:ss.SSS",
-            "dd-M-- hh:mm:ss.SSS",
-            "dd-M--"
-    );
-
-    public Contact(Context ctx, String key, String name, String date, String photoURI, int eventType) {
-        this.ctx = ctx;
+    public Contact(String key, String name, String photoURI, String date,
+                   int eventType, String eventTypeLabel) {
         this.key = key;
         this.name = name;
-        this.date = date;
         this.photoURI = photoURI;
+        this.date = date;
         this.eventType = eventType;
+        this.eventTypeLabel = eventTypeLabel;
+        this.yearSettled = false;
+    }
 
-        failMsg = "";
+    public String getZodiac() {
+        return zodiac;
+    }
 
-        parseContactBirthdayField(date);
+    public void setZodiac(String zodiac) {
+        this.zodiac = zodiac;
+    }
 
-        if (!failOnParseDateString) {
-            setContactBirthDayInfo();
-            setContactZodiac();
+    public String getZodiacElement() {
+        return zodiacElement;
+    }
+
+    public void setZodiacElement(String zodiacElement) {
+        this.zodiacElement = zodiacElement;
+    }
+
+    public boolean isYearSettled() {
+        return yearSettled;
+    }
+
+    public void setYearSettled(boolean yearSettled) {
+        if (!yearSettled) {
+            this.age = 0;
+            this.daysOld = 0;
+        }
+        this.yearSettled = yearSettled;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getDaysOld() {
+        return daysOld;
+    }
+
+    public void setDaysOld(int daysOld) {
+        this.daysOld = daysOld;
+    }
+
+    public Calendar getBornOn() {
+        return bornOn;
+    }
+
+    public void setBornOn(Calendar bornOn) {
+        if (bornOn != null) {
+            this.bornOn = bornOn;
+            this.bornOnDay = bornOn.get(Calendar.DAY_OF_MONTH);
+            this.bornOnMonth = bornOn.get(Calendar.MONTH);
+            this.bornOnYear = bornOn.get(Calendar.YEAR);
+            this.bornOnDayWeek = bornOn.get(Calendar.DAY_OF_WEEK);
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private void parseContactBirthdayField(String dateString) {
-        for (String pattern : knownPatterns) {
-            try {
-                bornOn = new GregorianCalendar();
-                Date bornOnDate = new SimpleDateFormat(pattern).parse(dateString);
-                if (bornOnDate != null) {
-                    bornOn.setTime(bornOnDate);
-                    failOnParseDateString = false;
-                    containsYearInfo = pattern.contains("y");
-                } else {
-                    containsYearInfo = false;
-                    failOnParseDateString = true;
-                }
-                break;
-            } catch (ParseException ignored) {
-                containsYearInfo = false;
-                failOnParseDateString = true;
-            }
-        }
-
-        if (failOnParseDateString) {
-            String dialogData = " " + name +
-                    "\n" +
-                    ctx.getResources().getString(R.string.log_cant_parse, dateString) +
-                    "\n";
-            failMsg.concat(dialogData);
+    public void setNextBirthday(Calendar nextBirthday) {
+        if (nextBirthday != null) {
+            this.nextBirthday = nextBirthday;
         }
     }
 
-    private void setContactBirthDayInfo() {
-        Calendar today = Calendar.getInstance();
-        final int todayYear = today.get(Calendar.YEAR);
-        final boolean isLeapYear = new GregorianCalendar().isLeapYear(todayYear);
-
-        Calendar thisYearBirthday = (Calendar) bornOn.clone();
-        thisYearBirthday.set(Calendar.YEAR, todayYear);
-
-        /* Set The Next Birthday Info */
-        this.nextBirthday = (Calendar) bornOn.clone();
-
-        boolean lateBirthday = thisYearBirthday.getTimeInMillis() < today.getTimeInMillis();
-        if (lateBirthday) {
-            this.nextBirthday.set(Calendar.YEAR, todayYear + 1);
-        } else {
-            this.nextBirthday.set(Calendar.YEAR, todayYear);
-
-        }
-        this.day = bornOn.get(Calendar.DAY_OF_MONTH);
-        this.month = bornOn.get(Calendar.MONTH);
-
-        /* Age */
-        if (containsYearInfo) {
-            long daysOld = (today.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY;
-            boolean lessThanAYear;
-
-            if (daysOld >= 0) {
-                if (isLeapYear) {
-                    lessThanAYear = daysOld < 366;
-                } else {
-                    lessThanAYear = daysOld < 365;
-                }
-
-                if (lessThanAYear) {
-                    this.age = 0;
-                    this.daysAge = (int) daysOld;
-                } else {
-                    age = todayYear - bornOn.get(Calendar.YEAR);
-                    if (!lateBirthday) {
-                        --age;
-                    }
-                }
-            } else {
-                /* Born in the Future */
-                this.age = 0;
-                this.daysAge = 0;
-            }
-        } else {
-            bornOn.set(Calendar.YEAR, todayYear);
-            age = -1;
-        }
-
-        /* Party Today \o/ */
-        if (!isLeapYear &&
-                (bornOn.get(Calendar.DAY_OF_MONTH) == 29
-                        && bornOn.get(Calendar.MONTH) == Calendar.FEBRUARY) &&
-                (today.get(Calendar.DAY_OF_MONTH) == 1
-                        && today.get(Calendar.MONTH) == Calendar.MARCH)) {
-            letsCelebrate = true;
-        } else {
-            if (today.get(Calendar.DAY_OF_MONTH) == bornOn.get(Calendar.DAY_OF_MONTH)
-                    && today.get(Calendar.MONTH) == bornOn.get(Calendar.MONTH)) {
-                letsCelebrate = true;
-            }
-        }
+    public boolean isHeSheNotEvenOneYearOld() {
+        return isHeSheNotEvenOneYearOld;
     }
 
-    private void setContactZodiac() {
-        if (ctx == null) {
-            return;
-        }
-
-        switch (month) {
-            case 0: // Jan
-                if ((day >= 21) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_aquarius);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_capricorn);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
-                }
-                break;
-            case 1: // Feb
-                if ((day >= 20) && (day <= 29)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_pisces);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_aquarius);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
-                }
-                break;
-            case 2: // Mar
-                if ((day >= 21) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_aries);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_pisces);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
-                }
-                break;
-            case 3: // Apr
-                if ((day >= 20) && (day <= 30)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_taurus);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_aries);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
-                }
-                break;
-            case 4: //May
-                if ((day >= 20) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_gemini);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_taurus);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
-                }
-                break;
-            case 5: // Jun
-                if ((day >= 21) && (day <= 30)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_cancer);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_gemini);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
-                }
-                break;
-            case 6: // Jul
-                if ((day >= 23) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_leo);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_cancer);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
-                }
-                break;
-            case 7: // Aug
-                if ((day >= 22) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_virgo);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_leo);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
-                }
-                break;
-            case 8: // Sep
-                if ((day >= 23) && (day <= 30)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_libra);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_virgo);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
-                }
-                break;
-            case 9: // Oct
-                if ((day >= 23) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_scorpio);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_libra);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
-                }
-                break;
-            case 10: // Nov
-                if ((day >= 22) && (day <= 30)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_sagittarius);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_scorpio);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
-                }
-                break;
-            case 11:
-                if ((day >= 22) && (day <= 31)) {
-                    zodiac = ctx.getResources().getString(R.string.sign_capricorn);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
-                } else {
-                    zodiac = ctx.getResources().getString(R.string.sign_sagittarius);
-                    zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
-                }
-                break;
-        }
+    public void setHeSheNotEvenOneYearOld(boolean heSheNotEvenOneYearOld) {
+        this.isHeSheNotEvenOneYearOld = heSheNotEvenOneYearOld;
     }
 
-    public String getMonthName() {
+    public int getBornOnDay() {
+        return bornOnDay;
+    }
+
+    public int getBornOnMonth() {
+        return bornOnMonth;
+    }
+
+    public String getBornOnMonthName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getMonths()[month];
+        return dfs.getMonths()[bornOnMonth];
     }
 
-    public int getBirthDayWeek() {
-        return bornOn.get(Calendar.DAY_OF_WEEK);
+    public int getBornOnYear() {
+        return bornOnYear;
     }
 
-    public String getNextBirthDayWeekName() {
-        DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getWeekdays()[this.nextBirthday.get(Calendar.DAY_OF_WEEK)];
+    public int getBornOnDayWeek() {
+        return bornOnDayWeek;
     }
 
     public String getPrevBirthDayWeekName() {
-        Calendar prevBirthDay = (Calendar) this.nextBirthday.clone();
-        prevBirthDay.set(Calendar.YEAR, prevBirthDay.get(Calendar.YEAR) - 1);
-        DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getWeekdays()[prevBirthDay.get(Calendar.DAY_OF_WEEK)];
+        String weekName = "";
+        if (nextBirthday != null) {
+            Calendar prevBirthDay = (Calendar) this.nextBirthday.clone();
+            prevBirthDay.set(Calendar.YEAR, prevBirthDay.get(Calendar.YEAR) - 1);
+            DateFormatSymbols dfs = new DateFormatSymbols();
+            weekName = dfs.getWeekdays()[prevBirthDay.get(Calendar.DAY_OF_WEEK)];
+        }
+        return weekName;
+    }
+
+    public String getNextBirthDayWeekName() {
+        String weekName = "";
+        if (nextBirthday != null) {
+            DateFormatSymbols dfs = new DateFormatSymbols();
+            weekName = dfs.getWeekdays()[this.nextBirthday.get(Calendar.DAY_OF_WEEK)];
+        }
+        return weekName;
     }
 
     public String getName() {
@@ -331,14 +184,6 @@ public class Contact {
         return firstName[0];
     }
 
-    public String getZodiac() {
-        return zodiac;
-    }
-
-    public String getZodiacElement() {
-        return zodiacElement;
-    }
-
     public String getKey() {
         return key;
     }
@@ -347,61 +192,43 @@ public class Contact {
         return photoURI;
     }
 
-    public String getDate() { return date; }
-
-    public int getDay() {
-        return day;
+    public int getEventType() {
+        return eventType;
     }
 
-    public int getMonth() {
-        return month;
+    public String getEventTypeLabel() {
+        return eventTypeLabel;
     }
 
-    public int getDaysAge() { return daysAge; }
-
-    public int getYearsAge() { return age; }
-
-    public Calendar getBirthday() {
-        return bornOn;
+    public String getDate() {
+        return date;
     }
 
-    public Long getDaysUntilNextBirthDay() {
-        if (shallWeCelebrateToday()) {
-            return 0L;
-        }
+    public int getDaysUntilNextBirthday() {
+        return daysUntilNextBirthday;
+    }
 
-        if (this.nextBirthday == null) {
-            return Long.MAX_VALUE;
-        }
-
-        long timeDiffMs;
-        long days;
-
-        Calendar now = Calendar.getInstance();
-
-        if (this.nextBirthday.getTimeInMillis() >= now.getTimeInMillis()) {
-            timeDiffMs = this.nextBirthday.getTimeInMillis() - now.getTimeInMillis();
+    public void setDaysUntilNextBirthday(int daysUntilNextBirthday) {
+        if (daysUntilNextBirthday == 365 || daysUntilNextBirthday == 366) {
+            this.daysUntilNextBirthday = 0;
         } else {
-            timeDiffMs = now.getTimeInMillis() - this.nextBirthday.getTimeInMillis();
+            this.daysUntilNextBirthday = daysUntilNextBirthday;
         }
-
-        /* Days */
-        days = (int) (timeDiffMs / DAY) + 1;
-
-        return days;
     }
 
-    public boolean shallWeCelebrateToday() {
-        return letsCelebrate;
+    public boolean shallWePartyToday() {
+        return !notYetBorn && shallWePartyToday;
     }
 
-    public boolean failOnParseDateString() {
-        return failOnParseDateString;
+    public void setshallWePartyToday(boolean shallWePartyToday) {
+        this.shallWePartyToday = shallWePartyToday;
     }
 
-    public String getFailMsg() {
-        return failMsg;
+    public boolean isNotYetBorn() {
+        return notYetBorn;
     }
 
-    public int getEventType() { return eventType; }
+    public void setNotYetBorn(boolean notYetBorn) {
+        this.notYetBorn = notYetBorn;
+    }
 }

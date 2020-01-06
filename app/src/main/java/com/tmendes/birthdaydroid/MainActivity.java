@@ -20,11 +20,16 @@ package com.tmendes.birthdaydroid;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -46,6 +51,7 @@ import com.tmendes.birthdaydroid.fragments.ContactListFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
 import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     public static final int DEFAULT_ALARM_TIME = 8;
 
     // Birthdays
-    private BirthDay birthDays;
+    private BirthdayDataProvider bddDataProvider;
 
     // Permission Control
     private PermissionHelper permissionHelper;
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
         } else {
@@ -76,9 +83,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         permissionHelper = new PermissionHelper(this);
+
+        checkIsEnableBatteryOptimizations();
         requestForPermissions();
 
-        birthDays = new BirthDay(getApplicationContext(), permissionHelper);
+        bddDataProvider = BirthdayDataProvider.getInstance();
+        bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -148,7 +158,6 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = ContactListFragment.class;
                 break;
             case R.id.nav_statistics:
-
                 fragmentClass = StatisticsFragment.class;
                 break;
             case R.id.nav_settings:
@@ -182,10 +191,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public BirthDay getBirthday() {
-         return birthDays;
-    }
-
     private void requestForPermissions() {
 
         String permissionString;
@@ -194,22 +199,15 @@ public class MainActivity extends AppCompatActivity
 
         if (ContextCompat.checkSelfPermission(this, permissionString)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     permissionString)) {
                 displayPermissionExplanation();
             } else {
-                // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_CONTACTS},
                         PERMISSION_CONTACT_READ);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
-            // Permission has already been granted
             permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
             openContactFragments();
         }
@@ -224,6 +222,21 @@ public class MainActivity extends AppCompatActivity
                 openContactFragments();
             } else {
                 permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
+            }
+        }
+    }
+
+    private void checkIsEnableBatteryOptimizations()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
             }
         }
     }

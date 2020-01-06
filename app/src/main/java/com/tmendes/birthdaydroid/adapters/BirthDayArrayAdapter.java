@@ -42,6 +42,7 @@ import android.widget.TextView;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,33 +50,40 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY;
-import static android.provider.ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
-
 public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filterable {
 
     private final Context ctx;
-
-    private ArrayList<Contact> birthDayList;
     private final ArrayList<Contact> bdListToRestoreAfterFiltering;
-    private final boolean hideZoadiac, hideNoYearMsg;
-    private final int AFTERBIRTH_TRESHOLD;
-    private final boolean isLeap;
+    private ArrayList<Contact> contactList;
 
-    public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactsBirthDays) {
-        super(ctx, -1, contactsBirthDays);
+    private final boolean isNowLeapYear;
+    private final boolean hideZoadiac, hideNoYearMsg, showCurrentAge;
+
+    private final int LATE_BDD_LIST_TRESHOLD;
+    private final int YEAR_LEN = 365;
+    private final int LEAP_YEAR_LEN = 366;
+
+    public BirthDayArrayAdapter(Context ctx, ArrayList<Contact> contactList) {
+        super(ctx, -1, contactList);
+
+        this.ctx = ctx;
+        this.contactList = contactList;
+        this.bdListToRestoreAfterFiltering = contactList;
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         hideZoadiac = prefs.getBoolean("hide_zodiac", false);
         hideNoYearMsg = prefs.getBoolean("hide_no_year_msg", false);
-        this.ctx = ctx;
-        this.birthDayList = contactsBirthDays;
-        this.bdListToRestoreAfterFiltering = this.birthDayList;
-        this.isLeap = new GregorianCalendar().isLeapYear(
+        showCurrentAge = prefs.getBoolean("show_current_age", false);
+
+
+        this.isNowLeapYear = new GregorianCalendar().isLeapYear(
                 Calendar.getInstance().get(Calendar.YEAR));
-        if (this.isLeap) {
-            this.AFTERBIRTH_TRESHOLD = 359;
+
+        int WEEK_LEN = 7;
+        if (this.isNowLeapYear) {
+            this.LATE_BDD_LIST_TRESHOLD = this.LEAP_YEAR_LEN- WEEK_LEN;
         } else {
-            this.AFTERBIRTH_TRESHOLD = 358;
+            this.LATE_BDD_LIST_TRESHOLD = this.YEAR_LEN - WEEK_LEN;
         }
     }
 
@@ -85,213 +93,211 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
         ViewHolderItem viewHolder;
 
-        final Contact contact = birthDayList.get(position);
+        final Contact contact = contactList.get(position);
 
-        if (!contact.failOnParseDateString()) {
+        String name = contact.getName();
+        String photoUri = contact.getPhotoURI();
 
-            String name = contact.getName();
-            String photoUri = contact.getPhotoURI();
-            int age = contact.getYearsAge();
-            int daysAge = contact.getDaysAge();
+        int age = contact.getAge();
+        int daysOld = contact.getDaysOld();
 
-            String dayWeek = contact.getNextBirthDayWeekName();
-            int day = contact.getDay();
-            String monthName = contact.getMonthName();
-            
-            int daysUntilBirthday = contact.getDaysUntilNextBirthDay().intValue();
-            String zodiacSign = contact.getZodiac();
-            String zodiacSignElement = contact.getZodiacElement();
+        if (!showCurrentAge) {
+            ++age;
+        }
 
-            int eventyType = contact.getEventType();
-            String eventTypeStr;
+        String bornOnMonthName = contact.getBornOnMonthName();
 
-            switch (eventyType) {
-                default:
-                case TYPE_BIRTHDAY:
-                    eventTypeStr = ctx.getResources().getString(R.string.type_birthday);
-                    break;
-                case TYPE_ANNIVERSARY:
-                    eventTypeStr = ctx.getResources().getString(R.string.type_anniversary);
-                    break;
+        int bornOnDay = contact.getBornOnDay();
+
+        String nextBirthdayWeekName = contact.getNextBirthDayWeekName();
+        int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
+
+        String zodiacSign = contact.getZodiac();
+        String zodiacSignElement = contact.getZodiacElement();
+
+        String eventTypeLabel = contact.getEventTypeLabel();
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) ctx
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = Objects.requireNonNull(inflater)
+                    .inflate(R.layout.contact_list_item, parent, false);
+
+            viewHolder = new ViewHolderItem();
+
+            viewHolder.name = convertView.findViewById(R.id.tvContactName);
+
+            viewHolder.birthDayWeekName =
+                    convertView.findViewById(R.id.tvContactNextBirthDayWeekName);
+
+            viewHolder.age = convertView.findViewById(R.id.tvContactAge);
+
+            viewHolder.daysToGo =
+                    convertView.findViewById(R.id.tvContactDaysUntil);
+
+            viewHolder.zodiacElement = convertView.findViewById(R.id.tvZodiac);
+            if (this.hideZoadiac) {
+                viewHolder.zodiacElement.setVisibility(View.INVISIBLE);
             }
 
-            eventTypeStr = eventTypeStr.toLowerCase();
+            viewHolder.bornOn = convertView.findViewById(R.id.tvBirthDay);
 
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) ctx
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = Objects.requireNonNull(inflater)
-                        .inflate(R.layout.contact_list_item, parent, false);
+            viewHolder.picture =
+                    convertView.findViewById(R.id.ivContactPicture);
 
-                viewHolder = new ViewHolderItem();
+            viewHolder.emojiParty = convertView.findViewById(R.id.emojiParty);
 
-                viewHolder.name = convertView.findViewById(R.id.tvContactName);
+            viewHolder.emojiPartyTomorrow =
+                    convertView.findViewById(R.id.emojiPartyTomorrow);
 
-                viewHolder.birthDayWeekName =
-                        convertView.findViewById(R.id.tvContactNextBirthDayWeekName);
+            convertView.setTag(viewHolder);
 
-                viewHolder.age = convertView.findViewById(R.id.tvContactAge);
-
-                viewHolder.daysToGo =
-                        convertView.findViewById(R.id.tvContactDaysUntil);
-
-                viewHolder.zodiacElement = convertView.findViewById(R.id.tvZodiac);
-                if (this.hideZoadiac) {
-                    viewHolder.zodiacElement.setVisibility(View.INVISIBLE);
-                }
-
-                viewHolder.bornOn = convertView.findViewById(R.id.tvBirthDay);
-
-                viewHolder.picture =
-                        convertView.findViewById(R.id.ivContactPicture);
-
-                viewHolder.emojiParty = convertView.findViewById(R.id.emojiParty);
-
-                viewHolder.emojiPartyTomorrow =
-                        convertView.findViewById(R.id.emojiPartyTomorrow);
-
-                convertView.setTag(viewHolder);
-
-            } else {
-                viewHolder = (ViewHolderItem) convertView.getTag();
-            }
+        } else {
+            viewHolder = (ViewHolderItem) convertView.getTag();
+        }
 
 
-            viewHolder.name.setText(name);
-
-            viewHolder.birthDayWeekName
-                    .setText(ctx.getResources()
-                            .getString(R.string.next_week_name, eventTypeStr, dayWeek));
-
-            viewHolder.zodiacElement.setText(
-                    ctx.getResources().getString(R.string.dual_string,
-                            zodiacSign, zodiacSignElement));
-
-            viewHolder.bornOn.setText(
-                    ctx.getResources().getString(
-                            R.string.birthday_string, monthName, day)
-            );
+        viewHolder.name.setText(name);
+        viewHolder.birthDayWeekName
+                .setText(ctx.getResources()
+                        .getString(R.string.next_week_name, eventTypeLabel, nextBirthdayWeekName));
+        viewHolder.zodiacElement.setText(
+                ctx.getResources().getString(R.string.dual_string,
+                        zodiacSign, zodiacSignElement));
+        viewHolder.bornOn.setText(
+                ctx.getResources().getString(
+                        R.string.birthday_string, bornOnMonthName, bornOnDay));
 
 
-            if (photoUri != null) {
-                try {
-                    Bitmap src = MediaStore
-                            .Images
-                            .Media
-                            .getBitmap(ctx.getContentResolver(), Uri.parse(photoUri));
+        if (photoUri != null) {
+            try {
+                Bitmap src = MediaStore
+                        .Images
+                        .Media
+                        .getBitmap(ctx.getContentResolver(), Uri.parse(photoUri));
 
-                    RoundedBitmapDrawable dr =
-                            RoundedBitmapDrawableFactory.create(ctx.getResources(), src);
-                    dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
+                RoundedBitmapDrawable dr =
+                        RoundedBitmapDrawableFactory.create(ctx.getResources(), src);
+                dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
 
-                    viewHolder.picture.setImageDrawable(dr);
-                } catch (IOException e) {
-                    viewHolder.picture.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                    ctx, R.drawable.ic_account_circle_black_24dp));
-                }
-
-            } else {
+                viewHolder.picture.setImageDrawable(dr);
+            } catch (IOException e) {
                 viewHolder.picture.setImageDrawable(
                         ContextCompat.getDrawable(
                                 ctx, R.drawable.ic_account_circle_black_24dp));
             }
 
-            if (contact.shallWeCelebrateToday()) {
+        } else {
+            viewHolder.picture.setImageDrawable(
+                    ContextCompat.getDrawable(
+                            ctx, R.drawable.ic_account_circle_black_24dp));
+        }
+
+        /* Party */
+        if (contact.getDaysUntilNextBirthday() >= 0 && contact.shallWePartyToday()) {
+            if (contact.getDaysUntilNextBirthday() == 0) {
                 viewHolder.daysToGo.setText(
                         ctx.getResources().getString(R.string.party_message));
-                viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-                viewHolder.emojiParty.setVisibility(View.VISIBLE);
             } else {
-                if (daysUntilBirthday == 1) {
-                    viewHolder.daysToGo.setText(
-                            ctx.getResources().getString(R.string.birthday_tomorrow, eventTypeStr));
-                    viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
-                    viewHolder.emojiParty.setVisibility(View.INVISIBLE);
-                } else {
-                    if (daysUntilBirthday >= this.AFTERBIRTH_TRESHOLD) {
-                        long days_ago;
-                        if (this.isLeap) {
-                            days_ago = 366 - contact.getDaysUntilNextBirthDay() + 1;
-                        } else {
-                            days_ago = 365 - contact.getDaysUntilNextBirthDay() + 1;
-                        }
-
-                        viewHolder.birthDayWeekName
-                                .setText(ctx.getResources()
-                                        .getString(R.string.prev_week_name, eventTypeStr,
-                                                contact.getPrevBirthDayWeekName()));
-
-                        viewHolder.daysToGo
-                                .setText(
-                                        ctx.getResources().getQuantityString(
-                                                R.plurals.days_ago,
-                                                (int) days_ago,
-                                                (int) days_ago));
-                    } else {
-                        viewHolder.daysToGo
-                                .setText(
-                                        ctx.getResources().getQuantityString(
-                                                R.plurals.days_until,
-                                                daysUntilBirthday,
-                                                daysUntilBirthday,
-                                                eventTypeStr));
-                    }
-                    viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-                    viewHolder.emojiParty.setVisibility(View.INVISIBLE);
-                }
+                viewHolder.daysToGo
+                        .setText(
+                                ctx.getResources().getQuantityString(
+                                        R.plurals.days_until,
+                                        daysUntilNextBirthday,
+                                        daysUntilNextBirthday,
+                                        eventTypeLabel));
             }
+            viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
+            viewHolder.emojiParty.setVisibility(View.VISIBLE);
+        } else if (contact.getDaysUntilNextBirthday() == 1) {
+            viewHolder.daysToGo
+                    .setText(
+                            ctx.getResources().getQuantityString(
+                                    R.plurals.days_until,
+                                    daysUntilNextBirthday,
+                                    daysUntilNextBirthday,
+                                    eventTypeLabel));
+            viewHolder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
+            viewHolder.emojiParty.setVisibility(View.INVISIBLE);
+        } else {
+            /* Days Ago */
+            if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD && !contact.isNotYetBorn()) {
+                long daysAgo;
 
-            if (age > 0) {
+                if (this.isNowLeapYear) {
+                    daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
+                } else {
+                    daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
+                }
+
+                viewHolder.birthDayWeekName
+                        .setText(ctx.getResources()
+                                .getString(R.string.prev_week_name, eventTypeLabel,
+                                        contact.getPrevBirthDayWeekName()));
+
+                viewHolder.daysToGo
+                        .setText(
+                                ctx.getResources().getQuantityString(
+                                        R.plurals.days_ago,
+                                        (int) daysAgo,
+                                        (int) daysAgo));
+            } else {
+                /* All the rest */
+                viewHolder.daysToGo
+                        .setText(
+                                ctx.getResources().getQuantityString(
+                                        R.plurals.days_until,
+                                        daysUntilNextBirthday,
+                                        daysUntilNextBirthday,
+                                        eventTypeLabel));
+            }
+            viewHolder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
+            viewHolder.emojiParty.setVisibility(View.INVISIBLE);
+        }
+
+        if (!contact.isYearSettled()) {
+            if (hideNoYearMsg) {
+                viewHolder.age.setText("");
+            } else {
+                viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
+            }
+        } else if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
+            viewHolder.age.setText(ctx.getResources().getQuantityString(
+                        R.plurals.days_old, daysOld, daysOld));
+        }
+        else {
+            if (showCurrentAge) {
                 viewHolder.age.setText(ctx.getResources().getQuantityString(
                         R.plurals.years_old, age, age));
-            } else if (age == 0) {
-                viewHolder.age.setText(ctx.getResources().getQuantityString(
-                        R.plurals.days_old, daysAge, daysAge));
             } else {
-                if (hideNoYearMsg) {
-                    viewHolder.age.setText("");
-                } else {
-                    viewHolder.age.setText(ctx.getResources().getString(R.string.contact_has_no_year));
-                }
+                viewHolder.age.setText(ctx.getResources().getQuantityString(
+                        R.plurals.turning_years_old, age, age));
             }
-
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i;
-                    i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(
-                            ContactsContract.Contacts.CONTENT_LOOKUP_URI
-                                    + "/" + contact.getKey()));
-                    ctx.startActivity(i);
-                }
-            });
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i;
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(
+                        ContactsContract.Contacts.CONTENT_LOOKUP_URI
+                                + "/" + contact.getKey()));
+                ctx.startActivity(i);
+            }
+        });
 
         return convertView;
     }
 
-    static class ViewHolderItem {
-        TextView name;
-        TextView birthDayWeekName;
-        TextView age;
-        TextView daysToGo;
-        TextView zodiacElement;
-        TextView bornOn;
-        ImageView picture;
-        LinearLayout emojiParty;
-        LinearLayout emojiPartyTomorrow;
-    }
-
     @Override
     public int getCount() {
-        return birthDayList.size();
+        return contactList.size();
     }
 
     @Override
     public Contact getItem(int position) {
-        return birthDayList.get(position);
+        return contactList.get(position);
     }
 
     @Override
@@ -307,10 +313,9 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             @Override
             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
                 if (constraint.length() == 0) {
-                    birthDayList = bdListToRestoreAfterFiltering;
+                    contactList = bdListToRestoreAfterFiltering;
                 } else {
-                    //noinspection unchecked
-                    birthDayList = (ArrayList<Contact>) results.values;
+                    contactList = (ArrayList<Contact>) results.values;
                 }
                 notifyDataSetChanged();
             }
@@ -324,31 +329,35 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                     results.count = bdListToRestoreAfterFiltering.size();
                     results.values = bdListToRestoreAfterFiltering;
                 } else {
-                    String name, age, daysAge, birthdayWeekName, monthName, zodiac, zodiacElement, constraintStr;
+                    String name, age, daysOld, birthdayWeekName, monthName, zodiac, zodiacElement, constraintStr;
                     constraintStr = constraint.toString().toLowerCase();
 
                     for (int i = 0; i < bdListToRestoreAfterFiltering.size(); i++) {
                         name = bdListToRestoreAfterFiltering.get(i).getName().toLowerCase();
-                        monthName = bdListToRestoreAfterFiltering.get(i).getMonthName().toLowerCase();
+                        monthName = bdListToRestoreAfterFiltering.get(i).getBornOnMonthName().toLowerCase();
                         birthdayWeekName = bdListToRestoreAfterFiltering.get(i).getNextBirthDayWeekName().toLowerCase();
                         zodiac = bdListToRestoreAfterFiltering.get(i).getZodiac().toLowerCase();
                         zodiacElement = bdListToRestoreAfterFiltering.get(i).getZodiacElement().toLowerCase();
-                        age = Integer.toString(bdListToRestoreAfterFiltering.get(i).getYearsAge());
-                        daysAge = Integer.toString(bdListToRestoreAfterFiltering.get(i).getDaysAge());
+                        age = Integer.toString(bdListToRestoreAfterFiltering.get(i).getAge());
+                        daysOld = Integer.toString(bdListToRestoreAfterFiltering.get(i).getDaysOld());
 
                         if (name.contains(constraintStr) ||
                                 age.startsWith(constraintStr) ||
-                                daysAge.startsWith(constraintStr) ||
+                                daysOld.startsWith(constraintStr) ||
                                 monthName.contains(constraintStr) ||
                                 birthdayWeekName.contains(constraint) ||
                                 zodiac.contains(constraintStr) ||
                                 zodiacElement.contains(constraintStr)) {
-                            Contact contact = new Contact(ctx,
+
+                            Contact contact = BirthdayDataProvider.getInstance().parseNewContact(
                                     bdListToRestoreAfterFiltering.get(i).getKey(),
                                     bdListToRestoreAfterFiltering.get(i).getName(),
-                                    bdListToRestoreAfterFiltering.get(i).getDate(),
                                     bdListToRestoreAfterFiltering.get(i).getPhotoURI(),
-                                    bdListToRestoreAfterFiltering.get(i).getEventType());
+                                    bdListToRestoreAfterFiltering.get(i).getDate(),
+                                    bdListToRestoreAfterFiltering.get(i).getEventType(),
+                                    bdListToRestoreAfterFiltering.get(i).getEventTypeLabel()
+                            );
+
                             FilteredArrList.add(contact);
                         }
                     }
@@ -364,5 +373,17 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     public void sort(int order, int sortType) {
         super.sort(new BirthDayComparator(order, sortType));
         notifyDataSetChanged();
+    }
+
+    static class ViewHolderItem {
+        TextView name;
+        TextView birthDayWeekName;
+        TextView age;
+        TextView daysToGo;
+        TextView zodiacElement;
+        TextView bornOn;
+        ImageView picture;
+        LinearLayout emojiParty;
+        LinearLayout emojiPartyTomorrow;
     }
 }

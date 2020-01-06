@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.activities;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,14 +18,14 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class BarChartActivity extends AppCompatActivity  implements OnChartValueSelectedListener {
-
-    private BarChart chart;
-    private final short MAX_AGE = 120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,33 +40,33 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
-        this.chart = findViewById(R.id.barchat);
-        this.chart.setHighlightPerTapEnabled(true);
+        BarChart chart = findViewById(R.id.barchat);
+        chart.setHighlightPerTapEnabled(true);
 
-        this.chart.setOnChartValueSelectedListener(this);
+        chart.setOnChartValueSelectedListener(this);
 
-        this.chart.setDrawBarShadow(false);
-        this.chart.setDrawValueAboveBar(false);
-        this.chart.setPinchZoom(false);
-        this.chart.setDrawGridBackground(true);
-        this.chart.getLegend().setEnabled(false);
-        this.chart.getDescription().setText(getResources().getString(R.string.statistics_age_title));
-        this.chart.setDrawBorders(false);
+        chart.setDrawBarShadow(false);
+        chart.setDrawValueAboveBar(false);
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(true);
+        chart.getLegend().setEnabled(false);
+        chart.getDescription().setText(getResources().getString(R.string.statistics_age_title));
+        chart.setDrawBorders(false);
 
-        XAxis xAxis = this.chart.getXAxis();
+        XAxis xAxis = chart.getXAxis();
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        YAxis leftAxis = this.chart.getAxisLeft();
-        YAxis rightAxis = this.chart.getAxisRight();
+        YAxis leftAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
 
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setAxisMinimum(0f);
 
         if (useDarkTheme) {
-            this.chart.setBackgroundColor(Color.BLACK);
-            this.chart.setDrawGridBackground(false);
+            chart.setBackgroundColor(Color.BLACK);
+            chart.setDrawGridBackground(false);
             leftAxis.setTextColor(Color.WHITE);
             rightAxis.setTextColor(Color.WHITE);
             xAxis.setTextColor(Color.WHITE);
@@ -74,7 +74,7 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
-        StatisticsProvider statisticsProvider = StatisticsProvider.getInstance();
+        StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
         Map<Integer, Integer> ageStat = statisticsProvider.getAgeStats();
 
@@ -83,6 +83,7 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
             int age = (int) pair.getKey();
             int number = (int) pair.getValue();
             barEntries.add(new BarEntry(age, number));
+            short MAX_AGE = 120;
             if ((age > max_age) && (age < MAX_AGE)) {
                 max_age = age;
             }
@@ -103,7 +104,7 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
         BarData barData = new BarData(barDataSet);
         barData.setBarWidth(0.9f);
 
-        this.chart.setData(barData);
+        chart.setData(barData);
     }
 
     @Override

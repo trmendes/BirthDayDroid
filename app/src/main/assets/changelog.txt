@@ -1,3 +1,10 @@
+* V31
+- Settings to go back to the old statistics view
+- Code refactoring (First part)
+- Auto run on background settings/warning
+- Settings for show current/next birthday age
+- Fix a few more bugs
+
 * V30
 - Fix Statistic
 - Statistics are moving from Text to Charts :)

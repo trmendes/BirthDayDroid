@@ -15,13 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.providers;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-class StatisticsProvider {
+public class StatisticsProvider {
 
     private static StatisticsProvider instance;
 
@@ -30,18 +29,11 @@ class StatisticsProvider {
     private final Map<Integer, Integer> monthStats;
     private final Map<Integer, Integer> weekStats;
 
-    private StatisticsProvider() {
+    public StatisticsProvider() {
         ageStats = new TreeMap<>();
         signStats = new TreeMap<>();
         monthStats = new TreeMap<>();
         weekStats = new TreeMap<>();
-    }
-
-    public static StatisticsProvider getInstance() {
-        if (instance == null) {
-            instance = new StatisticsProvider();
-        }
-        return instance;
     }
 
     public void reset() {

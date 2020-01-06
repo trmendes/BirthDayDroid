@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -26,22 +26,25 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
+import com.tmendes.birthdaydroid.MainActivity;
+import com.tmendes.birthdaydroid.R;
+
 import java.util.Calendar;
 import java.util.Date;
 
-public class TimePreference extends DialogPreference {
+public class TimeDialogPreference extends DialogPreference {
     private final Calendar calendar;
     private TimePicker picker = null;
 
-    public TimePreference(Context ctxt) {
+    public TimeDialogPreference(Context ctxt) {
         this(ctxt, null);
     }
 
-    public TimePreference(Context ctxt, AttributeSet attrs) {
+    public TimeDialogPreference(Context ctxt, AttributeSet attrs) {
         this(ctxt, attrs, android.R.attr.dialogPreferenceStyle);
     }
 
-    public TimePreference(Context ctxt, AttributeSet attrs, int defStyle) {
+    public TimeDialogPreference(Context ctxt, AttributeSet attrs, int defStyle) {
         super(ctxt, attrs, defStyle);
 
         setPositiveButtonText(ctxt.getResources().getString(R.string.settings_time_set));

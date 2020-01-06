@@ -23,21 +23,38 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 
+import java.io.IOException;
+
 public class NotificationHelper extends ContextWrapper {
+    private static NotificationHelper instance;
+
     private NotificationManager notifManager;
 
     private static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
     private static final String CHANNEL_ONE_NAME = "Channel One";
 
-    public NotificationHelper(Context ctx) {
+    private NotificationHelper(Context ctx) {
         super(ctx);
         createChannels();
+    }
+
+    public static NotificationHelper getInstance(Context ctx) {
+        if (instance == null) {
+            instance = new NotificationHelper(ctx);
+        }
+        return instance;
     }
 
     private void createChannels() {
@@ -52,10 +69,10 @@ public class NotificationHelper extends ContextWrapper {
         }
     }
 
-    public Notification.Builder getNotification(String title,
-                                                String body,
-                                                Bitmap notifyPicture,
-                                                PendingIntent pI) {
+    private Notification.Builder getNotification(String title,
+                                                 String body,
+                                                 Bitmap notifyPicture,
+                                                 PendingIntent pI) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
                     .setContentTitle(title)
@@ -80,7 +97,7 @@ public class NotificationHelper extends ContextWrapper {
         }
     }
 
-    public void notify(long id, Notification.Builder notification) {
+    private void notify(long id, Notification.Builder notification) {
         getManager().notify((int) id, notification.build());
     }
 
@@ -89,5 +106,52 @@ public class NotificationHelper extends ContextWrapper {
             notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return notifManager;
+    }
+
+    public void postNotification(Contact contact) {
+        try {
+            String title = contact.getName() + " " + contact.getEventTypeLabel();
+            StringBuilder body = new StringBuilder();
+
+
+            if (contact.shallWePartyToday()) {
+                if (contact.getDaysUntilNextBirthday() == 0) {
+                    body.append(getBaseContext().getString(R.string.party_message));
+                } else {
+                    body.append(getBaseContext().getResources().getQuantityString(
+                            R.plurals.message_notification_message_bt_to_come,
+                            contact.getDaysUntilNextBirthday(),
+                            contact.getContactFirstName(), contact.getAge() + 1,
+                            contact.getDaysUntilNextBirthday()));
+                }
+            }
+
+            /* Contact Picture */
+            Bitmap notifyPicture;
+            if (contact.getPhotoURI() != null) {
+                notifyPicture = MediaStore.Images.Media.getBitmap(
+                        getBaseContext().getContentResolver(),
+                        Uri.parse(contact.getPhotoURI()));
+            } else {
+                notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
+                        R.drawable.ic_account_circle_black_24dp);
+            }
+
+            /* To open contact when notification clicked */
+            Intent openContact = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
+                            + contact.getKey()));
+            PendingIntent openContactPI = PendingIntent.getActivity(getBaseContext(),
+                    0, openContact,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+            /* Notify */
+            Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
+                    openContactPI);
+            notify(System.currentTimeMillis(), nBuilder);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

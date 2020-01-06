@@ -31,56 +31,53 @@ public class BirthDayComparator implements Comparator<Contact> {
         this.sortType = sortType;
     }
 
-    public int compare(Contact a, Contact b) {
-
-        int res = 0;
+    public int compare(Contact contactA, Contact contactB) {
         final int ORDER_DAYS_UNTIL_BIRTHDAY = 0;
         final int ORDER_AGE = 1;
         final int ORDER_NAME = 2;
         final int ORDER_SIGN = 3;
         final int SORT_ASC = 0;
 
-        switch (orderType) {
-            case ORDER_AGE:
-            case ORDER_DAYS_UNTIL_BIRTHDAY:
-            case ORDER_SIGN:
-                if (a.failOnParseDateString() || b.failOnParseDateString()) {
-                    return 0;
-                }
-                break;
-        }
+        int res;
 
         switch (orderType) {
             case ORDER_AGE:
                 if (sortType == SORT_ASC) {
-                    if ( a.getBirthday().before(b) ) res = 1;
+                    if ( contactA.getBornOn().before(contactB.getBornOn()) ) res = 1;
                     else res = -1;
                 } else {
-                    if ( b.getBirthday().after(a) ) res = -1;
+                    if ( contactB.getBornOn().after(contactA.getBornOn()) ) res = -1;
                     else res = 1;
                 }
                 break;
             case ORDER_DAYS_UNTIL_BIRTHDAY:
                 if (sortType == SORT_ASC) {
-                    res = (a.getDaysUntilNextBirthDay()).compareTo(b.getDaysUntilNextBirthDay());
+                    if (contactA.getDaysUntilNextBirthday()
+                            - contactB.getDaysUntilNextBirthday() >= 0) res = 1;
+                    else res = -1;
                 } else {
-                    res = (b.getDaysUntilNextBirthDay()).compareTo(a.getDaysUntilNextBirthDay());
+                    if (contactB.getDaysUntilNextBirthday()
+                            - contactA.getDaysUntilNextBirthday() <= 0) res = -1;
+                    else res = 1;
                 }
                 break;
             case ORDER_SIGN:
                 if (sortType == SORT_ASC) {
-                    res = (a.getZodiac()).compareTo(b.getZodiac());
+                    res = (contactA.getZodiac()).compareTo(contactB.getZodiac());
                 } else {
-                    res = (b.getZodiac()).compareTo(a.getZodiac());
+                    res = (contactB.getZodiac()).compareTo(contactA.getZodiac());
                 }
                 break;
             case ORDER_NAME:
                 if (sortType == SORT_ASC) {
-                    res = (a.getName()).compareTo(b.getName());
+                    res = (contactA.getName()).compareTo(contactB.getName());
                 } else {
-                    res = (b.getName()).compareTo(a.getName());
+                    res = (contactB.getName()).compareTo(contactA.getName());
                 }
                 break;
+
+            default:
+                res = 0;
         }
 
         return res;
