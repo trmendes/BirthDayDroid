@@ -75,7 +75,6 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         hideNoYearMsg = prefs.getBoolean("hide_no_year_msg", false);
         showCurrentAge = prefs.getBoolean("show_current_age", false);
 
-
         this.isNowLeapYear = new GregorianCalendar().isLeapYear(
                 Calendar.getInstance().get(Calendar.YEAR));
 
@@ -270,7 +269,11 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             viewHolder.daysOld.setVisibility(View.INVISIBLE);
         }
 
-        viewHolder.ageBadge.setText(String.valueOf(age));
+        if (showCurrentAge) {
+            viewHolder.ageBadge.setText(String.valueOf(age));
+        } else {
+            viewHolder.ageBadge.setText("↑" + String.valueOf(age));
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
