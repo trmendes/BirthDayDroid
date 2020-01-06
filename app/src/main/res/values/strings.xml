@@ -58,7 +58,7 @@
     <string name="settings_favorites_only">Notify only about my favorite contacts</string>
     <string name="settings_favorites_list">Favorites Contacts</string>
     <string name="settings_ignore_list">Contacts to Ignore</string>
-    <string name="settings_ignore_show_in_main_list">Show ignored contacts in the main list</string>
+    <string name="settings_ignore_show_in_main_list">Show ignored contacts in main list</string>
     <string name="settings_not_sound_title">Notification Sound</string>
     <string name="settings_not_sound_sum">Set the birthday notifications\' sound</string>
     <string name="settings_scan_preferences">Birthday Notification Settings</string>
