@@ -1,3 +1,8 @@
+* V32
+- Better list layout
+- Badges for ages
+- Organizing preferences
+
 * V31
 - Settings to go back to the old statistics view
 - Code refactoring (First part)
