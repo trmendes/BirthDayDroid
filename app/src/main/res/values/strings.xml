@@ -81,6 +81,7 @@
     <string name="settings_time_cancel">Cancel</string>
     <string name="settings_layout_preferences">Layout</string>
     <string name="settings_theme_title">Theme</string>
+    <string name="settings_battery_status">Allow to run in the background</string>
     <string name="settings_theme">Dark</string>
     <string name="settings_swipe_down">Swipe down to generate notifications</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

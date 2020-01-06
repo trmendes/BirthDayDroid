@@ -40,7 +40,6 @@ import java.io.IOException;
 public class NotificationHelper extends ContextWrapper {
     private static NotificationHelper instance;
 
-    private Context ctx;
     private NotificationManager notifManager;
 
     private static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
@@ -49,7 +48,6 @@ public class NotificationHelper extends ContextWrapper {
     private NotificationHelper(Context ctx) {
         super(ctx);
         createChannels();
-        this.ctx = ctx;
     }
 
     public static NotificationHelper getInstance(Context ctx) {
@@ -118,9 +116,9 @@ public class NotificationHelper extends ContextWrapper {
 
             if (contact.shallWePartyToday()) {
                 if (contact.getDaysUntilNextBirthday() == 0) {
-                    body.append(ctx.getString(R.string.party_message));
+                    body.append(getBaseContext().getString(R.string.party_message));
                 } else {
-                    body.append(ctx.getResources().getQuantityString(
+                    body.append(getBaseContext().getResources().getQuantityString(
                             R.plurals.message_notification_message_bt_to_come,
                             contact.getDaysUntilNextBirthday(),
                             contact.getContactFirstName(), contact.getAge() + 1,
@@ -132,10 +130,10 @@ public class NotificationHelper extends ContextWrapper {
             Bitmap notifyPicture;
             if (contact.getPhotoURI() != null) {
                 notifyPicture = MediaStore.Images.Media.getBitmap(
-                        ctx.getContentResolver(),
+                        getBaseContext().getContentResolver(),
                         Uri.parse(contact.getPhotoURI()));
             } else {
-                notifyPicture = BitmapFactory.decodeResource(ctx.getResources(),
+                notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
                         R.drawable.ic_account_circle_black_24dp);
             }
 
@@ -143,7 +141,7 @@ public class NotificationHelper extends ContextWrapper {
             Intent openContact = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
                             + contact.getKey()));
-            PendingIntent openContactPI = PendingIntent.getActivity(ctx,
+            PendingIntent openContactPI = PendingIntent.getActivity(getBaseContext(),
                     0, openContact,
                     PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -60,7 +60,6 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     private final boolean hideZoadiac, hideNoYearMsg, showCurrentAge;
 
     private final int LATE_BDD_LIST_TRESHOLD;
-    private final int WEEK_LEN = 7;
     private final int YEAR_LEN = 365;
     private final int LEAP_YEAR_LEN = 366;
 
@@ -80,10 +79,11 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
         this.isNowLeapYear = new GregorianCalendar().isLeapYear(
                 Calendar.getInstance().get(Calendar.YEAR));
 
+        int WEEK_LEN = 7;
         if (this.isNowLeapYear) {
-            this.LATE_BDD_LIST_TRESHOLD = this.LEAP_YEAR_LEN- this.WEEK_LEN;
+            this.LATE_BDD_LIST_TRESHOLD = this.LEAP_YEAR_LEN- WEEK_LEN;
         } else {
-            this.LATE_BDD_LIST_TRESHOLD = this.YEAR_LEN - this.WEEK_LEN;
+            this.LATE_BDD_LIST_TRESHOLD = this.YEAR_LEN - WEEK_LEN;
         }
     }
 

@@ -19,12 +19,18 @@ package com.tmendes.birthdaydroid;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -67,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
         } else {
@@ -78,6 +85,7 @@ public class MainActivity extends AppCompatActivity
 
         permissionHelper = new PermissionHelper(this);
 
+        checkIsEnableBatteryOptimizations();
         requestForPermissions();
 
         bddDataProvider = BirthdayDataProvider.getInstance();
@@ -215,6 +223,21 @@ public class MainActivity extends AppCompatActivity
                 openContactFragments();
             } else {
                 permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
+            }
+        }
+    }
+
+    private void checkIsEnableBatteryOptimizations()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
             }
         }
     }
