@@ -8,7 +8,7 @@
             android:summary="@string/settings_scan_not_sum"
             android:title="@string/settings_scan_not_title" />
 
-        <com.tmendes.birthdaydroid.TimePreference
+        <com.tmendes.birthdaydroid.preferences.TimePreference
             android:key="scan_daily_interval"
             android:dependency="scan_daily"
             android:title="@string/settings_scan_title" />
@@ -29,7 +29,7 @@
             android:summary="@string/settings_scan_not_adv_sum"
             android:title="@string/settings_scan_not_adv_title" />
 
-        <com.tmendes.birthdaydroid.NumberPickerPreference
+        <com.tmendes.birthdaydroid.preferences.NumberPickerDialogPreference
             android:dependency="scan_in_advance"
             android:key="days_in_advance_interval"
             android:title="@string/settings_scan_adv_title"
@@ -41,7 +41,6 @@
             android:key="precise_notification"
             android:summary="@string/settings_scan_precise"
             android:title="@string/settings_scan_precise_title" />
-
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/settings_list_preferences">

@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,7 +17,7 @@ import android.widget.NumberPicker;
 /**
  * A {@link android.preference.Preference} that displays a number picker as a dialog.
  */
-public class NumberPickerPreference extends DialogPreference {
+public class NumberPickerDialogPreference extends DialogPreference {
 
     // allowed range
     private static final int MAX_VALUE = 364;
@@ -28,11 +28,11 @@ public class NumberPickerPreference extends DialogPreference {
     private NumberPicker picker;
     private int value = 1;
 
-    public NumberPickerPreference(Context context, AttributeSet attrs) {
+    public NumberPickerDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NumberPickerPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NumberPickerDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

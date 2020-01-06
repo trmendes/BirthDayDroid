@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -25,6 +25,9 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
+
+import com.tmendes.birthdaydroid.MainActivity;
+import com.tmendes.birthdaydroid.R;
 
 import java.util.Calendar;
 import java.util.Date;
