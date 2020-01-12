@@ -225,9 +225,9 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
                 long daysAgo;
 
                 if (this.isNowLeapYear) {
-                    daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
+                    daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday();
                 } else {
-                    daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday() + 1;
+                    daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday();
                 }
 
                 viewHolder.birthDayWeekName
@@ -265,8 +265,6 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             viewHolder.daysOld.setText(ctx.getResources().getQuantityString(
                         R.plurals.days_old, daysOld, daysOld));
             viewHolder.daysOld.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.daysOld.setVisibility(View.INVISIBLE);
         }
 
         if (showCurrentAge) {
