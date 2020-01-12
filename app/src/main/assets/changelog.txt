@@ -1,5 +1,6 @@
 * V33
 - Correct parsing when pattern is not recognized
+- Remove zeros from statistics
 
 * V32
 - Better list layout
