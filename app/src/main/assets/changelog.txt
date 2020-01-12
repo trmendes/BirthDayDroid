@@ -1,3 +1,6 @@
+* V33
+- Correct parsing when pattern is not recognized
+
 * V32
 - Better list layout
 - Badges for ages
