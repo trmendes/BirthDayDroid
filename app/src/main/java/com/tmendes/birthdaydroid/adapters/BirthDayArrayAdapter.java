@@ -57,9 +57,11 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
     private ArrayList<Contact> contactList;
 
     private final boolean isNowLeapYear;
-    private final boolean hideZoadiac, hideNoYearMsg, showCurrentAge;
+    private final boolean hideZoadiac, showCurrentAge;
 
-    private final int LATE_BDD_LIST_TRESHOLD;
+    private final int lateBDDListTreshold;
+
+    private final int WEEK_LEN = 7;
     private final int YEAR_LEN = 365;
     private final int LEAP_YEAR_LEN = 366;
 
@@ -72,17 +74,15 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-        hideNoYearMsg = prefs.getBoolean("hide_no_year_msg", false);
         showCurrentAge = prefs.getBoolean("show_current_age", false);
 
         this.isNowLeapYear = new GregorianCalendar().isLeapYear(
                 Calendar.getInstance().get(Calendar.YEAR));
 
-        int WEEK_LEN = 7;
         if (this.isNowLeapYear) {
-            this.LATE_BDD_LIST_TRESHOLD = this.LEAP_YEAR_LEN- WEEK_LEN;
+            this.lateBDDListTreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
         } else {
-            this.LATE_BDD_LIST_TRESHOLD = this.YEAR_LEN - WEEK_LEN;
+            this.lateBDDListTreshold = this.YEAR_LEN - WEEK_LEN;
         }
     }
 
@@ -221,7 +221,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             viewHolder.emojiParty.setVisibility(View.INVISIBLE);
         } else {
             /* Days Ago */
-            if (daysUntilNextBirthday >= this.LATE_BDD_LIST_TRESHOLD && !contact.isNotYetBorn()) {
+            if (daysUntilNextBirthday >= this.lateBDDListTreshold && !contact.isNotYetBorn()) {
                 long daysAgo;
 
                 if (this.isNowLeapYear) {
@@ -255,13 +255,7 @@ public class BirthDayArrayAdapter extends ArrayAdapter<Contact> implements Filte
             viewHolder.emojiParty.setVisibility(View.INVISIBLE);
         }
 
-        if (!contact.isYearSettled()) {
-            if (hideNoYearMsg) {
-                viewHolder.daysOld.setVisibility(View.INVISIBLE);
-            } else {
-                viewHolder.daysOld.setText(ctx.getResources().getString(R.string.contact_has_no_year));
-            }
-        } else if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
+        if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
             viewHolder.daysOld.setText(ctx.getResources().getQuantityString(
                         R.plurals.days_old, daysOld, daysOld));
             viewHolder.daysOld.setVisibility(View.VISIBLE);
