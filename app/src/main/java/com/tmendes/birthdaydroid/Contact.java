@@ -19,6 +19,7 @@ package com.tmendes.birthdaydroid;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Contact {
 
@@ -209,11 +210,19 @@ public class Contact {
     }
 
     public void setDaysUntilNextBirthday(int daysUntilNextBirthday) {
-        if (daysUntilNextBirthday == 365 || daysUntilNextBirthday == 366) {
-            this.daysUntilNextBirthday = 0;
+        Calendar now = Calendar.getInstance();
+        int nowYear = now.get(Calendar.YEAR);
+        boolean isNowLeapYear = new GregorianCalendar().isLeapYear(nowYear);
+        if (isNowLeapYear) {
+            if (daysUntilNextBirthday == 366) {
+                daysUntilNextBirthday = 0;
+            }
         } else {
-            this.daysUntilNextBirthday = daysUntilNextBirthday;
+            if (daysUntilNextBirthday == 365) {
+                daysUntilNextBirthday = 0;
+            }
         }
+        this.daysUntilNextBirthday = daysUntilNextBirthday;
     }
 
     public boolean shallWePartyToday() {
