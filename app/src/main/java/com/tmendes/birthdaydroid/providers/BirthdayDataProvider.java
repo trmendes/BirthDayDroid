@@ -139,18 +139,9 @@ public class BirthdayDataProvider {
 
                 int eventType = cursor.getInt(typeColumn);
 
-                String eventTypeLabel;
-
-                if (eventType == ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM) {
-                    eventTypeLabel = cursor.getString(typeColumn);
-                } else {
-                    CharSequence seq = ContactsContract.CommonDataKinds.Event.
-                            getTypeLabel(ctx.getResources(), eventType, ctx.getResources().
-                                    getString(R.string.type_birthday));
-                    eventTypeLabel = seq.toString();
-                }
-
-                eventTypeLabel = eventTypeLabel.toLowerCase();
+                String eventTypeLabel = ContactsContract.CommonDataKinds.Event
+                        .getTypeLabel(ctx.getResources(), eventType, "").toString()
+                        .toLowerCase();
 
                 Contact contact = parseNewContact(cursor.getString(keyColumn),
                         cursor.getString(nameColumn),

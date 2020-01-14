@@ -108,8 +108,6 @@
         <item quantity="other">%3d contacts - %2$s\n</item>
     </plurals>
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
-    <string name="image" translatable="false">Image</string>
-    <string name="string" translatable="false">String</string>
     <string name="array_order_next">Days until next birthday</string>
     <string name="array_order_age">Age</string>
     <string name="array_order_name">Name</string>
@@ -117,11 +115,11 @@
     <string name="array_order_asc">Ascending</string>
     <string name="array_order_desc">Descending</string>
     <string name="exit_warning_msg">Press back again to exit</string>
-    <string name="statistics_fail_title">Fail Log</string>
-    <string name="log_cant_parse">Can\'t parse %1$s</string>
     <string name="about_us_bt_changelog">Changelog</string>
     <string name="build" translatable="false">Build %1$d</string>
-    <string name="type_birthday">birthday</string>
-    <string name="type_anniversary">anniversary</string>
+    <string name="emoji_heart" translatable="false">❤</string>
+    <string name="emoji_block" translatable="false">⛔</string>
+    <string name="emoji_today_party" translatable="false">👏🏿👏🏻 🍰🧁🍬🍻🎁 🎉</string>
+    <string name="emoji_tomorrow_party" translatable="false">🕺🕺🏿💃💃🏿</string>
 </resources>
 

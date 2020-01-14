@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
         implements Filterable {
@@ -88,10 +87,10 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         if (contact.isIgnore()) {
-            holder.contactStatus.setText("⛔");
+            holder.contactStatus.setText(ctx.getResources().getString(R.string.emoji_block));
         }
         if (contact.isFavorite()) {
-            holder.contactStatus.setText("❤️");
+            holder.contactStatus.setText(ctx.getResources().getString(R.string.emoji_heart));
         }
 
         holder.name.setText(name);
@@ -137,10 +136,13 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         /* Party */
+        holder.emojis.setText("");
+
         if (contact.getDaysUntilNextBirthday() >= 0 && contact.shallWePartyToday()) {
             if (contact.getDaysUntilNextBirthday() == 0) {
                 holder.daysToGo.setText(
                         ctx.getResources().getString(R.string.party_message));
+                holder.emojis.setText(ctx.getResources().getString(R.string.emoji_today_party));
             } else {
                 holder.daysToGo
                         .setText(
@@ -149,9 +151,10 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                                         daysUntilNextBirthday,
                                         daysUntilNextBirthday,
                                         eventTypeLabel));
+                holder.emojis.setText(ctx.getResources().getString(R.string.emoji_tomorrow_party));
             }
-            holder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-            holder.emojiParty.setVisibility(View.VISIBLE);
+
+
         } else if (contact.getDaysUntilNextBirthday() == 1) {
             holder.daysToGo
                     .setText(
@@ -160,8 +163,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                                     daysUntilNextBirthday,
                                     daysUntilNextBirthday,
                                     eventTypeLabel));
-            holder.emojiPartyTomorrow.setVisibility(View.VISIBLE);
-            holder.emojiParty.setVisibility(View.INVISIBLE);
+            holder.emojis.setText(ctx.getResources().getString(R.string.emoji_tomorrow_party));
         } else {
             /* Days Ago */
             if (daysUntilNextBirthday >= this.lateBDDListTreshold && !contact.isNotYetBorn()) {
@@ -194,8 +196,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                                         daysUntilNextBirthday,
                                         eventTypeLabel));
             }
-            holder.emojiPartyTomorrow.setVisibility(View.INVISIBLE);
-            holder.emojiParty.setVisibility(View.INVISIBLE);
         }
 
         if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
@@ -282,9 +282,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
         private TextView name, birthDayWeekName, daysOld, ageBadge, daysToGo, zodiacElement,
-                bornOn, contactStatus;
+                bornOn, contactStatus, emojis;
         private ImageView picture;
-        private LinearLayout emojiParty, emojiPartyTomorrow;
 
         public ContactViewHolder(View view) {
             super(view);
@@ -310,8 +309,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             zodiacElement = view.findViewById(R.id.tvZodiac);
             bornOn = view.findViewById(R.id.tvBirthDay);
             picture = view.findViewById(R.id.ivContactPicture);
-            emojiParty = view.findViewById(R.id.emojiParty);
-            emojiPartyTomorrow = view.findViewById(R.id.emojiPartyTomorrow);
+            emojis = view.findViewById(R.id.tvEmojis);
         }
     }
 
