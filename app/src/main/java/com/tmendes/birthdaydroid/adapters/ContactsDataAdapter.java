@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tmendes.birthdaydroid.Contact;
@@ -86,6 +85,16 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             ++age;
         }
 
+        holder.name.setText("");
+        holder.contactStatus.setText("");
+        holder.birthDayWeekName.setText("");
+        holder.daysOld.setText("");
+        holder.ageBadge.setText("");
+        holder.daysToGo.setText("");
+        holder.zodiacElement.setText("");
+        holder.bornOn.setText("");
+        holder.emojis.setText("");
+
         if (contact.isIgnore()) {
             holder.contactStatus.setText(ctx.getResources().getString(R.string.emoji_block));
         }
@@ -136,8 +145,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         /* Party */
-        holder.emojis.setText("");
-
         if (contact.getDaysUntilNextBirthday() >= 0 && contact.shallWePartyToday()) {
             if (contact.getDaysUntilNextBirthday() == 0) {
                 holder.daysToGo.setText(
