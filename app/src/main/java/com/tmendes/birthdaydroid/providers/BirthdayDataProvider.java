@@ -39,8 +39,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
-;
-
 public class BirthdayDataProvider {
 
     private Context ctx;

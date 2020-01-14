@@ -51,6 +51,8 @@ public class Contact {
     private Calendar nextBirthday;
 
     private boolean shallWePartyToday;
+    private boolean favorite;
+    private boolean ignore;
 
     public Contact(String key, String name, String photoURI, String date,
                    int eventType, String eventTypeLabel) {
@@ -239,5 +241,23 @@ public class Contact {
 
     public void setNotYetBorn(boolean notYetBorn) {
         this.notYetBorn = notYetBorn;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite() {
+        this.ignore = false;
+        this.favorite = !this.favorite;
+    }
+
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    public void setIgnore() {
+        this.favorite = false;
+        this.ignore = !this.ignore;
     }
 }

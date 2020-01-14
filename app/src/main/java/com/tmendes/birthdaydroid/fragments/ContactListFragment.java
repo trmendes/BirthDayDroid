@@ -19,11 +19,14 @@ package com.tmendes.birthdaydroid.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -32,31 +35,23 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
-import com.tmendes.birthdaydroid.helpers.NotificationHelper;
+import com.tmendes.birthdaydroid.controllers.SwipeController;
+import com.tmendes.birthdaydroid.controllers.SwipeControllerActions;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
+
 public class ContactListFragment extends Fragment {
-    // Search EditText
-    private EditText inputSearch;
 
-    // Adapter
-    private BirthDayArrayAdapter adapter;
     private BirthdayDataProvider bddDataProviver;
-
-    // Context
-    private Context ctx;
-
-    private SwipeRefreshLayout refreshLayout;
-    private boolean swipeDown;
+    private EditText inputSearch;
+    public SwipeController swipeController;
+    public ContactsDataAdapter contactsDataAdapter;
+    private boolean hideIgnoredContacts;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -65,21 +60,51 @@ public class ContactListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_contact_list,
                 container, false);
 
-        ctx = container.getContext();
-
-        PreferenceManager.setDefaultValues(ctx, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
         bddDataProviver = BirthdayDataProvider.getInstance();
 
-        adapter = new BirthDayArrayAdapter(ctx,bddDataProviver.getAllContacts());
+        contactsDataAdapter = new ContactsDataAdapter(getContext(),
+                bddDataProviver.getAllContacts());
 
-        ListView listView = v.findViewById(R.id.lvContacts);
-        listView.setTextFilterEnabled(true);
-        listView.setDividerHeight(0);
-        listView.setDivider(null);
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(contactsDataAdapter);
+
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                bddDataProviver.getAllContacts().get(position).setIgnore();
+                if (hideIgnoredContacts) {
+                    bddDataProviver.getAllContacts().remove(position);
+                }
+                contactsDataAdapter.notifyItemRangeChanged(position,
+                        contactsDataAdapter.getItemCount());
+            }
+            @Override
+            public void onLeftClicked(int position) {
+                bddDataProviver.getAllContacts().get(position).setFavorite();
+                contactsDataAdapter.notifyItemRangeChanged(position,
+                        contactsDataAdapter.getItemCount());
+            }
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
 
         inputSearch = v.findViewById(R.id.inputSearch);
+
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -88,7 +113,7 @@ public class ContactListFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                adapter.getFilter().filter(cs.toString());
+                contactsDataAdapter.getFilter().filter(cs.toString());
             }
 
             @Override
@@ -99,7 +124,7 @@ public class ContactListFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable arg0) {
                 String text = inputSearch.getText().toString();
-                adapter.getFilter().filter(text);
+                contactsDataAdapter.getFilter().filter(text);
             }
         });
 
@@ -107,21 +132,13 @@ public class ContactListFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getView()).getWindowToken(), 0);
+                    InputMethodManager inputManager = (InputMethodManager) getContext().
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(
+                            Objects.requireNonNull(getView()).getWindowToken(), 0);
                 }
             }
         });
-
-        refreshLayout = v.findViewById(R.id.swiperefresh);
-        refreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        isTodayADayToCelebrate();
-                    }
-                }
-        );
 
         return v;
     }
@@ -129,36 +146,12 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        swipeDown = prefs.getBoolean("swipe_down_to_notify", false);
-        refreshLayout.setEnabled( swipeDown );
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int sortInput = Integer.valueOf(prefs.getString("sort_input", "0"));
+        int sortMethod = Integer.valueOf(prefs.getString("sort_method", "0"));
+
         bddDataProviver.refreshData(false);
-        updateSortSettings();
+        contactsDataAdapter.sort(sortInput, sortMethod);
     }
-
-    private void updateSortSettings() {
-        SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
-        int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
-        int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
-        adapter.sort(sortInput, sortMethod);
-    }
-
-    private void isTodayADayToCelebrate() {
-        if (swipeDown) {
-            ArrayList<Contact> notifications = bddDataProviver.getContactsToCelebrate();
-
-            if (notifications.size() == 0) {
-                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
-                        Toast.LENGTH_LONG).show();
-                for (Contact contact : notifications) {
-                    NotificationHelper.getInstance(ctx).postNotification(contact);
-                }
-            }
-        }
-        refreshLayout.setRefreshing(false);
-    }
-
 }

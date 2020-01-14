@@ -85,7 +85,6 @@
     <string name="settings_theme_title">Theme</string>
     <string name="settings_battery_status">Allow to run in the background</string>
     <string name="settings_theme">Dark</string>
-    <string name="settings_swipe_down">Swipe down to generate notifications</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="alert_contats_dialog_title">Permission to Read Contacts Nedded</string>
