@@ -1,11 +1,14 @@
-package com.tmendes.birthdaydroid.activities;
+package com.tmendes.birthdaydroid.fragments;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -25,22 +28,19 @@ import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class BarChartActivity extends AppCompatActivity  implements OnChartValueSelectedListener {
+public class BarChartAgeFragment extends Fragment implements OnChartValueSelectedListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_barchart);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_barchart, container, false);
 
         float max_age = 0;
         float min_age = Integer.MAX_VALUE;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
-        BarChart chart = findViewById(R.id.barchat);
+        BarChart chart = v.findViewById(R.id.barChart);
         chart.setHighlightPerTapEnabled(true);
 
         chart.setOnChartValueSelectedListener(this);
@@ -50,7 +50,7 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
         chart.setPinchZoom(false);
         chart.setDrawGridBackground(true);
         chart.getLegend().setEnabled(false);
-        chart.getDescription().setText(getResources().getString(R.string.statistics_age_title));
+        /*chart.getDescription().setText(getResources().getString(R.string.statistics_age_title));*/
         chart.setDrawBorders(false);
 
         XAxis xAxis = chart.getXAxis();
@@ -105,12 +105,14 @@ public class BarChartActivity extends AppCompatActivity  implements OnChartValue
         barData.setBarWidth(0.9f);
 
         chart.setData(barData);
+
+        return v;
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         String msg = Integer.toString(((int) e.getY()));
-        Toast.makeText(this, msg , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), msg , Toast.LENGTH_SHORT).show();
     }
 
     @Override

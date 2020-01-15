@@ -47,9 +47,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
+import com.tmendes.birthdaydroid.fragments.BarChartAgeFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
+import com.tmendes.birthdaydroid.fragments.PieChartMonthFragment;
+import com.tmendes.birthdaydroid.fragments.PieChartWeekFragment;
+import com.tmendes.birthdaydroid.fragments.PieChartZodiacFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
-import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
@@ -157,8 +160,17 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_birthday_list:
                 fragmentClass = ContactListFragment.class;
                 break;
-            case R.id.nav_statistics:
-                fragmentClass = StatisticsFragment.class;
+            case R.id.nav_statistics_age:
+                fragmentClass = BarChartAgeFragment.class;
+                break;
+            case R.id.nav_statistics_zodiac:
+                fragmentClass = PieChartZodiacFragment.class;
+                break;
+            case R.id.nav_statistics_week:
+                fragmentClass = PieChartWeekFragment.class;
+                break;
+            case R.id.nav_statistics_month:
+                fragmentClass = PieChartMonthFragment.class;
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
