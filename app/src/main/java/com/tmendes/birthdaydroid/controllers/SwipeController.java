@@ -5,7 +5,6 @@
 package com.tmendes.birthdaydroid.controllers;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.v7.widget.RecyclerView;
@@ -147,13 +146,12 @@ public class SwipeController extends Callback {
 
     private void drawButtons(Canvas c, RecyclerView.ViewHolder viewHolder) {
         float buttonWidthWithoutPadding = buttonWidth - 20;
-        float corners = 16;
 
         View itemView = viewHolder.itemView;
         Paint p = new Paint();
 
         RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        drawText("❤️", c, leftButton, p);
+        drawText("❤", c, leftButton, p);
 
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
         drawText("⛔", c, rightButton, p);

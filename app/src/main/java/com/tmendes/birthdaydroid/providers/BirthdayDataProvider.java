@@ -26,7 +26,9 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.DBContact;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.text.ParseException;
@@ -36,6 +38,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,6 +46,7 @@ public class BirthdayDataProvider {
 
     private Context ctx;
     private PermissionHelper permissionHelper;
+    private SharedPreferences prefs;
 
     private static final long DAY = 60 * 60 * 1000 * 24;
     private final int YEAR_LEN = 365;
@@ -83,6 +87,7 @@ public class BirthdayDataProvider {
     public void setPermissionHelper(Context ctx, PermissionHelper permissionHelper) {
         this.ctx = ctx;
         this.permissionHelper = permissionHelper;
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
     private void resetListsAndMaps() {
@@ -92,20 +97,27 @@ public class BirthdayDataProvider {
         statistics.reset();
     }
 
-
     public Contact parseNewContact(String key, String name, String photoURI, String date,
-                                   int eventType, String eventTypeLabel) {
+                                   int eventType, String eventTypeLabel,
+                                   boolean ignored, boolean favorite) {
         Contact contact = new Contact(key, name, photoURI, date, eventType, eventTypeLabel);
+
         if (setBasicContactBirthInfo(contact, date)) {
             setContactZodiac(contact);
             setContactPartyMode(contact);
+            if (favorite) {
+                contact.setFavorite();
+            }
+            if (ignored) {
+                contact.setIgnore();
+            }
             return contact;
         }
         return null;
     }
 
     public void refreshData(boolean notificationListOnly) {
-        if (permissionHelper == null) {
+        if (permissionHelper == null || prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
             return;
         }
@@ -124,6 +136,8 @@ public class BirthdayDataProvider {
 
             resetListsAndMaps();
 
+            boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+
             final int keyColumn = cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY);
             final int dateColumn = cursor.getColumnIndex(
@@ -135,20 +149,40 @@ public class BirthdayDataProvider {
             final int typeColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.TYPE);
 
+            DBHelper db = new DBHelper(ctx);
+            HashMap<String, DBContact> dbContacs = db.getAllCotacts();
+
             while (cursor.moveToNext()) {
 
                 int eventType = cursor.getInt(typeColumn);
+                String keyCID = cursor.getString(keyColumn);
 
                 String eventTypeLabel = ContactsContract.CommonDataKinds.Event
                         .getTypeLabel(ctx.getResources(), eventType, "").toString()
                         .toLowerCase();
 
-                Contact contact = parseNewContact(cursor.getString(keyColumn),
+                boolean ignoreContact = false;
+                boolean favoriteContact = false;
+
+                DBContact dbContact;
+
+                if ((dbContact = dbContacs.remove(keyCID)) != null) {
+                    ignoreContact = dbContact.isIgnore();
+                    favoriteContact = dbContact.isFavorite();
+                }
+
+                if (hideIgnoredContacts && ignoreContact) {
+                    continue;
+                }
+
+                Contact contact = parseNewContact(keyCID,
                         cursor.getString(nameColumn),
                         cursor.getString(photoColumn),
                         cursor.getString(dateColumn),
                         eventType,
-                        eventTypeLabel);
+                        eventTypeLabel,
+                        ignoreContact,
+                        favoriteContact);
 
                 if (contact != null) {
                     /* Birthday List */
@@ -191,6 +225,9 @@ public class BirthdayDataProvider {
                 }
             }
 
+            db.cleanDb(dbContacs);
+
+            db.close();
             cursor.close();
         }
     }

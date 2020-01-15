@@ -69,27 +69,27 @@ public class SettingsFragment extends Fragment {
             super.onResume();
             getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
             setPowerServiceStatus();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
-                        findPreference("battery_status");
-                mCheckBoxPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent();
-                        String packageName = getActivity().getPackageName();
-                        PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
 
-                        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                            intent.setData(Uri.parse("package:" + packageName));
-                            startActivity(intent);
-                        } else {
-                            intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                            startActivity(intent);
-                        }
-                        return true;
+            CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
+                    findPreference("battery_status");
+            mCheckBoxPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent();
+                    String packageName = getActivity().getPackageName();
+                    PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
+
+                    if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + packageName));
+                        startActivity(intent);
+                    } else {
+                        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                        startActivity(intent);
                     }
+                    return true;
+                }
                 });
-            }
+
         }
 
         @Override
@@ -128,13 +128,9 @@ public class SettingsFragment extends Fragment {
         }
 
         public boolean checkPowerServiceStatus() {
-            boolean status = false;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                String packageName = getActivity().getPackageName();
-                PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
-                status = pm.isIgnoringBatteryOptimizations(packageName);
-            }
-            return status;
+            String packageName = getActivity().getPackageName();
+            PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
+            return pm.isIgnoringBatteryOptimizations(packageName);
         }
     }
 }

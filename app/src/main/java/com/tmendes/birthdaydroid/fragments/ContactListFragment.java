@@ -36,10 +36,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.controllers.SwipeController;
 import com.tmendes.birthdaydroid.controllers.SwipeControllerActions;
+import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.Objects;
@@ -52,6 +54,7 @@ public class ContactListFragment extends Fragment {
     public SwipeController swipeController;
     public ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
+    DBHelper dbHelper;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -63,6 +66,8 @@ public class ContactListFragment extends Fragment {
         PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+
+        dbHelper = new DBHelper(getContext());
 
         bddDataProviver = BirthdayDataProvider.getInstance();
 
@@ -79,7 +84,9 @@ public class ContactListFragment extends Fragment {
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
-                bddDataProviver.getAllContacts().get(position).setIgnore();
+                Contact contact = bddDataProviver.getAllContacts().get(position);
+                contact.setIgnore();
+                dbHelper.insertContact(contact.getKey(), contact.isFavorite(), contact.isIgnore());
                 if (hideIgnoredContacts) {
                     bddDataProviver.getAllContacts().remove(position);
                 }
@@ -88,7 +95,9 @@ public class ContactListFragment extends Fragment {
             }
             @Override
             public void onLeftClicked(int position) {
-                bddDataProviver.getAllContacts().get(position).setFavorite();
+                Contact contact = bddDataProviver.getAllContacts().get(position);
+                contact.setFavorite();
+                dbHelper.insertContact(contact.getKey(), contact.isFavorite(), contact.isIgnore());
                 contactsDataAdapter.notifyItemRangeChanged(position,
                         contactsDataAdapter.getItemCount());
             }

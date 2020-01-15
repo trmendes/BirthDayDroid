@@ -307,6 +307,20 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                     ctx.startActivity(i);
                 }
             });
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int pos = getAdapterPosition();
+                    Contact contact = contacts.get(pos);
+                    Intent i;
+                    i = new Intent(Intent.ACTION_EDIT);
+                    i.setData(Uri.parse(
+                            ContactsContract.Contacts.CONTENT_LOOKUP_URI
+                                    + "/" + contact.getKey()));
+                    ctx.startActivity(i);
+                    return true;
+                }
+            });
             name = view.findViewById(R.id.tvContactName);
             contactStatus = view.findViewById(R.id.tvStatus);
             birthDayWeekName = view.findViewById(R.id.tvContactNextBirthDayWeekName);
