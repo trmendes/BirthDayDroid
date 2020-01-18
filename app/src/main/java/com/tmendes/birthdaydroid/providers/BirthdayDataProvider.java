@@ -343,7 +343,6 @@ public class BirthdayDataProvider {
                         daysUntilNextBirthDay = (int) (msUntilNextBirthDay / DAY) + 1;
                     } else {
                         /* Born in the future */
-                        ;
                         notYetBorn = true;
                         nextBirthDay.set(Calendar.YEAR, bornOn.get(Calendar.YEAR) + 1);
                         long msUntilNextBirthDay = bornOn.getTimeInMillis() - now.getTimeInMillis();

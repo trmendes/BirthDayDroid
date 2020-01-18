@@ -85,7 +85,7 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
 
     private String readTextFile(InputStream inputStream) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
+        byte[] buf = new byte[1024];
         int len;
         try {
             while ((len = inputStream.read(buf)) != -1) {

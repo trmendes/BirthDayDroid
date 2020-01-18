@@ -274,16 +274,13 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 String age = Integer.toString(contact.getAge());
                 String daysOld = Integer.toString(contact.getDaysOld());
 
-                if (name.contains(filter) ||
+                return name.contains(filter) ||
                         age.startsWith(filter) ||
                         daysOld.startsWith(filter) ||
                         monthName.contains(filter) ||
                         birthdayWeekName.contains(filter) ||
                         zodiac.contains(filter) ||
-                        zodiacElement.contains(filter)) {
-                    return true;
-                }
-                return false;
+                        zodiacElement.contains(filter);
             }
         };
     }
