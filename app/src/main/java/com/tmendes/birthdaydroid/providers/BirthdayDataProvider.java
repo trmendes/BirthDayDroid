@@ -194,32 +194,34 @@ public class BirthdayDataProvider {
                         /* All Contacts */
                         contacts.add(contact);
 
-                        if (statistics.getAgeStats().get(contact.getAge()) != null) {
-                            statistics.getAgeStats().put(contact.getAge(),
-                                    statistics.getAgeStats().get(contact.getAge()) + 1);
-                        } else {
-                            statistics.getAgeStats().put(contact.getAge(), 1);
-                        }
+                        if (!contact.isIgnore()) {
+                            if (statistics.getAgeStats().get(contact.getAge()) != null) {
+                                statistics.getAgeStats().put(contact.getAge(),
+                                        statistics.getAgeStats().get(contact.getAge()) + 1);
+                            } else {
+                                statistics.getAgeStats().put(contact.getAge(), 1);
+                            }
 
-                        if (statistics.getSignStats().get(contact.getZodiac()) != null) {
-                            statistics.getSignStats().put(contact.getZodiac(),
-                                    statistics.getSignStats().get(contact.getZodiac()) + 1);
-                        } else {
-                            statistics.getSignStats().put(contact.getZodiac(), 1);
-                        }
+                            if (statistics.getSignStats().get(contact.getZodiac()) != null) {
+                                statistics.getSignStats().put(contact.getZodiac(),
+                                        statistics.getSignStats().get(contact.getZodiac()) + 1);
+                            } else {
+                                statistics.getSignStats().put(contact.getZodiac(), 1);
+                            }
 
-                        if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
-                            statistics.getMonthStats().put(contact.getBornOnMonth(),
-                                    statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
-                        } else {
-                            statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
-                        }
+                            if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
+                                statistics.getMonthStats().put(contact.getBornOnMonth(),
+                                        statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
+                            } else {
+                                statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
+                            }
 
-                        if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
-                            statistics.getWeekStats().put(contact.getBornOnDayWeek(),
-                                    statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
-                        } else {
-                            statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                            if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
+                                statistics.getWeekStats().put(contact.getBornOnDayWeek(),
+                                        statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
+                            } else {
+                                statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                            }
                         }
                     }
                 }

@@ -122,5 +122,6 @@
     <string name="emoji_today_party" translatable="false">👏🏿👏🏻 🍰🧁🍬🍻🎁 🎉</string>
     <string name="emoji_tomorrow_party" translatable="false">🕺🕺🏿💃💃🏿</string>
     <string name="undo">Undo</string>
+    <string name="amount"># of contacts</string>
 </resources>
 

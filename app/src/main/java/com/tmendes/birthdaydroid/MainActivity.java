@@ -54,6 +54,10 @@ import com.tmendes.birthdaydroid.fragments.PieChartMonthFragment;
 import com.tmendes.birthdaydroid.fragments.PieChartWeekFragment;
 import com.tmendes.birthdaydroid.fragments.PieChartZodiacFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
+import com.tmendes.birthdaydroid.fragments.TextAgeFragment;
+import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
+import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
+import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity
 
     private boolean doubleBackToExitPressedOnce = false;
 
+    private boolean statisticsAsText = false;
+
     private Menu zodiacMenu;
     private SharedPreferences prefs;
 
@@ -79,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
 
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
@@ -174,16 +181,32 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = ContactListFragment.class;
                 break;
             case R.id.nav_statistics_age:
-                fragmentClass = BarChartAgeFragment.class;
+                if (this.statisticsAsText) {
+                    fragmentClass = TextAgeFragment.class;
+                } else {
+                    fragmentClass = BarChartAgeFragment.class;
+                }
                 break;
             case R.id.nav_statistics_zodiac:
-                fragmentClass = PieChartZodiacFragment.class;
+                if (this.statisticsAsText) {
+                    fragmentClass = TextZodiacFragment.class;
+                } else {
+                    fragmentClass = PieChartZodiacFragment.class;
+                }
                 break;
             case R.id.nav_statistics_week:
-                fragmentClass = PieChartWeekFragment.class;
+                if (this.statisticsAsText) {
+                    fragmentClass = TextWeekFragment.class;
+                } else {
+                    fragmentClass = PieChartWeekFragment.class;
+                }
                 break;
             case R.id.nav_statistics_month:
-                fragmentClass = PieChartMonthFragment.class;
+                if (this.statisticsAsText) {
+                    fragmentClass = TextMonthFragment.class;
+                } else {
+                    fragmentClass = PieChartMonthFragment.class;
+                }
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
