@@ -157,7 +157,9 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                dbHelper.insertContact(contact.getKey(), contact.isFavorite(), contact.isIgnore());
+                long dbID = dbHelper.insertContact(contact.getDbID(), contact.getKey(),
+                        contact.isFavorite(), contact.isIgnore());
+                contact.setDbID(dbID);
             }
 
 /*

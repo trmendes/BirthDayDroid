@@ -149,7 +149,9 @@ public class BirthdayDataProvider {
                     ContactsContract.CommonDataKinds.Event.TYPE);
 
             DBHelper db = new DBHelper(ctx);
+            Log.i("bla", "Number of rows: " + db.numberOfRows());
             HashMap<String, DBContact> dbContacs = db.getAllCotacts();
+            Log.i("bla", "getAllContacts(): "+ dbContacs.size());
 
             while (cursor.moveToNext()) {
 
@@ -162,12 +164,14 @@ public class BirthdayDataProvider {
 
                 boolean ignoreContact = false;
                 boolean favoriteContact = false;
+                int contactDBId = -1;
 
                 DBContact dbContact;
 
                 if ((dbContact = dbContacs.remove(keyCID)) != null) {
                     ignoreContact = dbContact.isIgnore();
                     favoriteContact = dbContact.isFavorite();
+                    contactDBId = dbContact.getId();
                 }
 
                 if (hideIgnoredContacts && ignoreContact) {
@@ -184,6 +188,8 @@ public class BirthdayDataProvider {
                         favoriteContact);
 
                 if (contact != null) {
+                    contact.setDbID(contactDBId);
+
                     /* Birthday List */
                     if (contact.shallWePartyToday()) {
                         contactsToCelebrate.add(contact);
@@ -360,7 +366,6 @@ public class BirthdayDataProvider {
                     }
 
                     contact.setNotYetBorn(notYetBorn);
-                    contact.setYearSettled(contactHasYearSet);
                     contact.setBornOn(bornOn);
                     contact.setNextBirthday(nextBirthDay);
                     contact.setDaysUntilNextBirthday(daysUntilNextBirthDay);

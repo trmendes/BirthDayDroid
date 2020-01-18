@@ -24,6 +24,8 @@ import java.util.GregorianCalendar;
 public class Contact {
 
 
+    private long dbID;
+
     private final String key;
     private final String name;
     private final String photoURI;
@@ -32,7 +34,6 @@ public class Contact {
     private String zodiac;
     private String zodiacElement;
 
-    private boolean yearSettled;
     private boolean isHeSheNotEvenOneYearOld;
     private boolean notYetBorn;
     private int age;
@@ -57,7 +58,7 @@ public class Contact {
         this.name = name;
         this.photoURI = photoURI;
         this.eventTypeLabel = eventTypeLabel;
-        this.yearSettled = false;
+        this.dbID = -1;
     }
 
     public String getZodiac() {
@@ -74,14 +75,6 @@ public class Contact {
 
     public void setZodiacElement(String zodiacElement) {
         this.zodiacElement = zodiacElement;
-    }
-
-    public void setYearSettled(boolean yearSettled) {
-        if (!yearSettled) {
-            this.age = 0;
-            this.daysOld = 0;
-        }
-        this.yearSettled = yearSettled;
     }
 
     public int getAge() {
@@ -237,5 +230,13 @@ public class Contact {
     public void setIgnore() {
         this.favorite = false;
         this.ignore = !this.ignore;
+    }
+
+    public long getDbID() {
+        return dbID;
+    }
+
+    public void setDbID(long dbID) {
+        this.dbID = dbID;
     }
 }

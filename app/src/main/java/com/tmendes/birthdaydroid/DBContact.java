@@ -5,7 +5,7 @@ public class DBContact {
     private final boolean favorite;
     private final boolean ignore;
 
-    public DBContact(int id, String cid, boolean favorite, boolean ignore) {
+    public DBContact(int id, boolean favorite, boolean ignore) {
         this.id = id;
         this.favorite = favorite;
         this.ignore = ignore;

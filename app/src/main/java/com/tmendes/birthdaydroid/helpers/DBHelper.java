@@ -20,7 +20,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CONTACTS_COLUMN_CONTACT_ID = "cid";
     private static final String CONTACTS_COLUMN_FAVORITE = "favorite";
     private static final String CONTACTS_COLUMN_IGNORE = "ignored";
-    private HashMap hp;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME , null, 1);
@@ -42,13 +41,23 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertContact(String cid, boolean favorite, boolean ignored) {
+    public long insertContact(long dbID, String cid, boolean favorite, boolean ignored) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("cid", cid);
         contentValues.put("favorite", favorite);
         contentValues.put("ignored", ignored);
-        db.insertOrThrow("contacts", null, contentValues);
+
+        long dbIDToReturn = dbID;
+
+        if (dbID != -1) {
+            db.update("contacts", contentValues, "id = ? ",
+                    new String[] { Long.toString(dbID) } );
+        } else {
+            dbIDToReturn = db.insertOrThrow("contacts", null, contentValues);
+        }
+
+        return dbIDToReturn;
     }
 
     public Cursor getData(String cid) {
@@ -59,16 +68,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         return (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
-    }
-
-    public boolean updateContact(Integer id, String cid, boolean favorite, boolean ignored) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("cid", cid);
-        contentValues.put("favorite", favorite);
-        contentValues.put("ignored", ignored);
-        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
     }
 
     private void deleteContact(Integer id) {
@@ -96,7 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String cid = res.getString(res.getColumnIndex(CONTACTS_COLUMN_CONTACT_ID));
             boolean favorite = res.getInt(res.getColumnIndex(CONTACTS_COLUMN_FAVORITE)) == 1;
             boolean ignore = res.getInt(res.getColumnIndex(CONTACTS_COLUMN_IGNORE)) == 1;
-            hashMap.put(cid, new DBContact(id, cid, favorite, ignore));
+            hashMap.put(cid, new DBContact(id, favorite, ignore));
             res.moveToNext();
         }
         return hashMap;
