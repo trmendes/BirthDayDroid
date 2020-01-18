@@ -70,8 +70,6 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
             this.chart.setHoleColor(Color.BLACK);
         }
 
-        this.chart.animateXY(1400, 1400);
-
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();

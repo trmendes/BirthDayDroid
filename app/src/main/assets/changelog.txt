@@ -5,6 +5,8 @@
 - Notify me only about my favoite contacts (preferences)
 - Hide ignored contacts (preferences)
 - Use Emoji fonts instead of images
+- Disable graph animations
+- Statistics are now on the main menu
 
 * V33
 - Correct parsing when pattern is not recognized
