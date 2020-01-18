@@ -19,7 +19,6 @@ package com.tmendes.birthdaydroid.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.preference.DialogPreference;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;

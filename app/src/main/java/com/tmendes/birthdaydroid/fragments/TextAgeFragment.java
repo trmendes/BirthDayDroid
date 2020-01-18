@@ -30,7 +30,8 @@ public class TextAgeFragment extends Fragment {
 
         Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getAgeStats();
 
-        TableRow header = newRow(getContext().getResources().getString(R.string.amount), "");
+        TableRow header = newRow(getContext().getResources().getString(R.string.array_order_age),
+                getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
         for (Object o : ageStat.entrySet()) {

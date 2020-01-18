@@ -376,7 +376,7 @@ public class BirthdayDataProvider {
 
                     break;
                 }
-            } catch (ParseException e) {
+            } catch (ParseException ignored) {
             }
         }
 

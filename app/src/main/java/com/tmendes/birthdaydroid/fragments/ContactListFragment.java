@@ -141,7 +141,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         if (viewHolder instanceof ContactsDataAdapter.ContactViewHolder) {
             final int index = viewHolder.getAdapterPosition();
 

@@ -55,7 +55,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+        listener.onSwiped(viewHolder, direction);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     public interface RecyclerItemTouchHelperListener {
-        void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position);
+        void onSwiped(RecyclerView.ViewHolder viewHolder, int direction);
         void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                          float dX, float dY, int actionState, boolean isCurrentlyActive);
     }

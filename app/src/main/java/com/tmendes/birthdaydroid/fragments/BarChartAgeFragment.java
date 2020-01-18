@@ -51,6 +51,7 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
 
         chart.setOnChartValueSelectedListener(this);
 
+
         chart.setDrawBarShadow(false);
         chart.setDrawValueAboveBar(false);
         chart.setPinchZoom(false);

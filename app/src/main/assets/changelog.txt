@@ -1,6 +1,6 @@
 * V34
 - Favorite and Ignore list (move contat row to the left and to the right)
-- Code clean up (move from listView to recycleView)
+- Code clean up (move from listView to recycleView) and MORE
 - Long press to edit contact
 - Notify me only about my favoite contacts (preferences)
 - Hide ignored contacts (preferences)
