@@ -7,6 +7,7 @@
 - Use Emoji fonts instead of images
 - Disable graph animations
 - Statistics are now on the main menu
+- Text Statistics aligment (fragment)
 
 * V33
 - Correct parsing when pattern is not recognized
