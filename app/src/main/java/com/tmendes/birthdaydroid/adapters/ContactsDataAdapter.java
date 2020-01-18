@@ -369,4 +369,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         notifyItemChanged(position);
     }
 
+    public Contact getContact(int position) {
+        return this.contacts.get(position);
+    }
+
 }

@@ -149,7 +149,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         if (viewHolder instanceof ContactsDataAdapter.ContactViewHolder) {
             final int index = viewHolder.getAdapterPosition();
 
-            Contact contact = bddDataProviver.getAllContacts().get(index);
+            Contact contact = contactsDataAdapter.getContact(index);
 
             if (direction == ItemTouchHelper.LEFT) {
                 contact.setIgnore();
