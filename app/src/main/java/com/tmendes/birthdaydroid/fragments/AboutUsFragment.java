@@ -46,23 +46,6 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_about_us,
                 container, false);
 
-        TextView appVersion = v.findViewById(R.id.tvVersion);
-        Button btChangelog = v.findViewById(R.id.about_us_bt_changelog);
-        WebView webViewCredits = v.findViewById(R.id.webViewCredits);
-
-        btChangelog.setOnClickListener(this);
-
-        webViewCredits.loadUrl("file:///android_asset/credits.html");
-
-        appVersion.setText(container.getContext().getResources()
-                .getString(R.string.build, BuildConfig.VERSION_CODE));
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
-        if (useDarkTheme) {
-            webViewCredits.setBackgroundColor(0);
-        }
-
         return v;
     }
 

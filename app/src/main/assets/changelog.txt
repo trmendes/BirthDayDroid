@@ -8,6 +8,8 @@
 - Disable graph animations
 - Statistics are now on the main menu
 - Text Statistics aligment (fragment)
+- UI changes to the about screen
+- Bug fixes
 
 * V33
 - Correct parsing when pattern is not recognized

@@ -91,22 +91,10 @@
     <string name="settings_theme">Dark</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="alert_contats_dialog_title">Permission to Read Contacts Nedded</string>
+    <string name="alert_contats_dialog_title">Permission to Read Contacts needed</string>
     <string name="alert_contacts_dialog_msg">We need access to your contact list in order to fetch their birthdays</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Deny</string>
-    <plurals name="statistics_contacts_counter">
-        <item quantity="one">From %1$d contact:\n\n</item>
-        <item quantity="other">From %1$d contacts:\n\n</item>
-    </plurals>
-    <plurals name="statistics_int_int">
-        <item quantity="one">%3d contact \t\t- %3d years old\n</item>
-        <item quantity="other">%3d contacts \t- %3d years old\n</item>
-    </plurals>
-    <plurals name="statistics_int_string">
-        <item quantity="one">%3d contact  - %2$s\n</item>
-        <item quantity="other">%3d contacts - %2$s\n</item>
-    </plurals>
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
     <string name="array_order_next">Days until next birthday</string>
     <string name="array_order_age">Age</string>
@@ -123,5 +111,19 @@
     <string name="emoji_tomorrow_party" translatable="false">🕺🕺🏿💃💃🏿</string>
     <string name="undo">Undo</string>
     <string name="amount"># of contacts</string>
+    <string name="about_help_title">You can help us :D</string>
+    <string name="about_help_developer">Developer/Designer?</string>
+    <string name="about_help_issues">Feature Requests and/or Bug Resports?</string>
+    <string name="about_help_languages">Support a new language?</string>
+    <string name="about_help_coffee">Buy us a coffee :)</string>
+    <string name="about_people_devel_code_title">Code</string>
+    <string name="about_people_devel_title">Developers</string>
+    <string name="about_people_devel_patches_title">Patches</string>
+    <string name="about_people_devel_contributors_title">Contributors</string>
+    <string name="about_people_devel_translators_title">Translation</string>
+    <string name="about_people_devel_translators_text">A bunch of nice people on Transifex</string>
+    <string name="about_special_thanks">Special Thanks</string>
+    <string name="about_libs">Libs (Thank you so much)</string>
+    <string name="about_icons">3th party icons (our special thanks)</string>
 </resources>
 
