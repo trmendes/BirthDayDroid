@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -41,6 +42,10 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
         BarChart chart = v.findViewById(R.id.barChart);
+        TextView title = v.findViewById(R.id.tvBarChartTitle);
+
+        title.setText(getResources().getString(R.string.menu_statistics_age));
+
         chart.setHighlightPerTapEnabled(true);
 
         chart.setOnChartValueSelectedListener(this);
@@ -50,7 +55,7 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         chart.setPinchZoom(false);
         chart.setDrawGridBackground(true);
         chart.getLegend().setEnabled(false);
-        /*chart.getDescription().setText(getResources().getString(R.string.statistics_age_title));*/
+        chart.getDescription().setText(getResources().getString(R.string.menu_statistics_age));
         chart.setDrawBorders(false);
 
         XAxis xAxis = chart.getXAxis();
@@ -83,8 +88,7 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
             int age = (int) pair.getKey();
             int number = (int) pair.getValue();
             barEntries.add(new BarEntry(age, number));
-            short MAX_AGE = 120;
-            if ((age > max_age) && (age < MAX_AGE)) {
+            if ((age > max_age)) {
                 max_age = age;
             }
             if (age < min_age) {
@@ -95,7 +99,8 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         xAxis.setAxisMaximum(max_age);
         xAxis.setAxisMinimum(min_age);
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Age");
+        BarDataSet barDataSet = new BarDataSet(barEntries, getActivity().getApplicationContext()
+                .getResources().getString(R.string.array_order_age));
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setDrawValues(false);
         barDataSet.setHighlightEnabled(true);

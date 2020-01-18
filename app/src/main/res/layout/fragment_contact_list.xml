@@ -23,9 +23,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clipToPadding="false"
-            android:overScrollMode="never" />
+            android:scrollbars="vertical"  />
 
     </LinearLayout>
 </FrameLayout>

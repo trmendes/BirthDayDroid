@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:keep="@layout/fragment_about_us">
+    tools:context=".MainActivity">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:keep="@layout/fragment_about_us">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:contentDescription=""
-        android:src="@mipmap/ic_launcher" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:contentDescription=""
+            android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/app_name"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="5dp"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:layout_margin="5dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            android:layout_margin="5dp" />
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="@string/about_us_bt_changelog"
-        android:id="@+id/about_us_bt_changelog"
-        android:layout_margin="5dp" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/about_us_bt_changelog"
+            android:id="@+id/about_us_bt_changelog"
+            android:layout_margin="5dp" />
 
-    <WebView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/webViewCredits"
-        android:layout_gravity="center_horizontal" />
+        <WebView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/webViewCredits"
+            android:layout_gravity="center_horizontal" />
 
-</LinearLayout>
+    </LinearLayout>
+</FrameLayout>

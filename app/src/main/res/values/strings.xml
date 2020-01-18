@@ -28,22 +28,23 @@
         <item quantity="one">turning %1$d year old</item>
         <item quantity="other">turning %1$d years old</item>
     </plurals>
+
     <plurals name="days_old">
         <item quantity="one">%1$d day old</item>
         <item quantity="other">%1$d days old</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+
     <string name="next_week_name">Next %1$s will be on %2$s</string>
     <string name="prev_week_name">%1$s was on %2$s</string>
     <plurals name="days_until">
         <item quantity="one">%1$d day until next %2$s</item>
         <item quantity="other">%1$d days until next %2$s</item>
     </plurals>
-    <plurals name="days_ago">
-        <item quantity="one">%1$d day ago</item>
-        <item quantity="other">%1$d days ago</item>
-    </plurals>
-    <string name="birthday_scan_found">Generating Birthday Notifications</string>
-    <string name="birthday_scan_not_found">No Birthdays Found</string>
+
     <string name="party_message">There is a party going on today :D</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s turning %2$d tomorrow</item>

@@ -43,6 +43,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -71,9 +72,12 @@ public class MainActivity extends AppCompatActivity
 
     private boolean doubleBackToExitPressedOnce = false;
 
+    private Menu zodiacMenu;
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
         if (useDarkTheme) {
@@ -109,6 +113,8 @@ public class MainActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
+        this.zodiacMenu = navigationView.getMenu();
+
         openContactFragments();
     }
 
@@ -121,6 +127,13 @@ public class MainActivity extends AppCompatActivity
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        this.zodiacMenu.findItem(R.id.nav_statistics_zodiac).setVisible(!hideZoadiac);
     }
 
     @Override

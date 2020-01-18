@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -39,6 +40,11 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
         this.chart = v.findViewById(R.id.pieChart);
+
+        TextView title = v.findViewById(R.id.tvPieChartTitle);
+        String label = getContext().getResources().getString(R.string.menu_statistics_zodiac);
+        title.setText(label);
+
         this.chart.getDescription().setEnabled(false);
 
         this.chart.setOnChartValueSelectedListener(this);
@@ -68,8 +74,6 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
-        String label = "Zodiac";
-
         Map<String, Integer> zodiacMap;
         zodiacMap = statisticsProvider.getSignStats();
         for (Object o : zodiacMap.entrySet()) {
@@ -80,10 +84,6 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
             entry.setLabel(zodiac);
             pieEntries.add(entry);
         }
-
-/*
-        this.chart.getDescription().setText(getResources().getString(R.string.statistics_sign_title));
-*/
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
         pieDataSet.setSliceSpace(1f);

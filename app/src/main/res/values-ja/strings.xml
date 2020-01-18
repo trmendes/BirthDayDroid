@@ -17,7 +17,6 @@
     <string name="sign_element_air">風</string>
     <string name="sign_element_water">水</string>
     <string name="search">連絡先を検索</string>
-    <string name="contact_has_no_year">年度情報がありません</string>
     <plurals name="years_old">
         <item quantity="other">%1$d 歳</item>
     </plurals>
@@ -30,7 +29,6 @@
     </plurals>
     <string name="menu_birthday_list">生年月日リスト</string>
     <string name="menu_settings">設定</string>
-    <string name="menu_statistics">詳細情報</string>
     <string name="menu_about">BirthDayDroid のこと</string>
     <string name="settings_not_sound_title">通知音</string>
     <string name="settings_not_sound_sum">あなたの誕生日の通知音を設定してください</string>
@@ -60,10 +58,6 @@
     <string name="alert_contacts_dialog_msg">この権限がないとアプリは動作しません。誕生日のデータを取得するために、あなたの連絡先リストにアクセスする必要があります。</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">否定する</string>
-    <string name="statistics_age_title">年齢別</string>
-    <string name="statistics_sign_title">星座別</string>
-    <string name="statistics_month_title">誕生月別</string>
-    <string name="statistics_week_title">曜日別</string>
     <plurals name="statistics_contacts_counter">
         <item quantity="other">%1$d 人から:\n\n</item>
     </plurals>
@@ -80,8 +74,6 @@
     <string name="array_order_sign">星座</string>
     <string name="array_order_asc">昇順</string>
     <string name="array_order_desc">降順</string>
-    <string name="statistics_fail_title">失敗ログ</string>
-    <string name="log_cant_parse">解析できません %1$s</string>
     <string name="about_us_bt_changelog">ログの変更</string>
     </resources>
 

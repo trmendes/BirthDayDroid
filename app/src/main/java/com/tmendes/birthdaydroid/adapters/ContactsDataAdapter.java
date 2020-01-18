@@ -18,11 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
+import com.tmendes.birthdaydroid.helpers.DBHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,6 +87,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             ++age;
         }
 
+        holder.ignoreContactLayout.setVisibility(View.INVISIBLE);
+        holder.favoriteContactLayout.setVisibility(View.INVISIBLE);
         holder.name.setText("");
         holder.contactStatus.setText("");
         holder.birthDayWeekName.setText("");
@@ -211,11 +215,15 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             holder.daysOld.setVisibility(View.VISIBLE);
         }
 
+        String ageText;
+
         if (showCurrentAge) {
-            holder.ageBadge.setText(String.valueOf(age));
+            ageText = String.valueOf(age);
         } else {
-            holder.ageBadge.setText("↑" + String.valueOf(age));
+            ageText = "↑" + age;
         }
+
+        holder.ageBadge.setText(ageText);
     }
 
     @Override
@@ -291,6 +299,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         private TextView name, birthDayWeekName, daysOld, ageBadge, daysToGo, zodiacElement,
                 bornOn, contactStatus, emojis;
         private ImageView picture;
+        public RelativeLayout ignoreContactLayout, favoriteContactLayout, itemLayout;
 
         public ContactViewHolder(View view) {
             super(view);
@@ -331,6 +340,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             bornOn = view.findViewById(R.id.tvBirthDay);
             picture = view.findViewById(R.id.ivContactPicture);
             emojis = view.findViewById(R.id.tvEmojis);
+            itemLayout = view.findViewById(R.id.view_item);
+            ignoreContactLayout = view.findViewById(R.id.view_background_ignore);
+            favoriteContactLayout = view.findViewById(R.id.view_background_favorite);
         }
     }
 
@@ -342,6 +354,19 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     public void sort(int order, int sortType) {
         contacts.sort(new BirthDayComparator(order, sortType));
         notifyDataSetChanged();
+    }
+
+    public void ignoreItem(int position, boolean hide) {
+        if (hide) {
+            this.contacts.remove(position);
+            notifyItemRemoved(position);
+        } else {
+            notifyItemChanged(position);
+        }
+    }
+
+    public void favoriteItem(int position) {
+        notifyItemChanged(position);
     }
 
 }

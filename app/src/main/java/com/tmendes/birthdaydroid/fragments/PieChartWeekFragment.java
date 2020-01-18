@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -41,6 +42,11 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
         this.chart = v.findViewById(R.id.pieChart);
+
+        TextView title = v.findViewById(R.id.tvPieChartTitle);
+        String label = getContext().getResources().getString(R.string.menu_statistics_week);
+        title.setText(label);
+
         this.chart.getDescription().setEnabled(false);
 
         this.chart.setOnChartValueSelectedListener(this);
@@ -70,8 +76,6 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
-        String label = "Week";
-
         Map<Integer, Integer> weekMap;
         weekMap = statisticsProvider.getWeekStats();
         for (Object o : weekMap.entrySet()) {
@@ -84,9 +88,6 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
             pieEntries.add(entry);
         }
 
-/*
-        this.chart.getDescription().setText(getResources().getString(R.string.statistics_week_title));
-*/
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
         pieDataSet.setSliceSpace(1f);

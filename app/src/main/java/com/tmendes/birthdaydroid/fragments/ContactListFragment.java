@@ -17,12 +17,16 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,26 +39,28 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.controllers.SwipeController;
-import com.tmendes.birthdaydroid.controllers.SwipeControllerActions;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
+import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.Objects;
 
+import static android.support.v7.widget.helper.ItemTouchHelper.Callback.getDefaultUIUtil;
 
-public class ContactListFragment extends Fragment {
+
+public class ContactListFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     private BirthdayDataProvider bddDataProviver;
     private EditText inputSearch;
-    public SwipeController swipeController;
     public ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
-    DBHelper dbHelper;
+    private CoordinatorLayout coordinatorLayout;
+    private DBHelper dbHelper;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -67,9 +73,8 @@ public class ContactListFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
-        dbHelper = new DBHelper(getContext());
-
         bddDataProviver = BirthdayDataProvider.getInstance();
+        dbHelper = new DBHelper(getContext());
 
         contactsDataAdapter = new ContactsDataAdapter(getContext(),
                 bddDataProviver.getAllContacts());
@@ -81,38 +86,13 @@ public class ContactListFragment extends Fragment {
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(contactsDataAdapter);
 
-        swipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                Contact contact = bddDataProviver.getAllContacts().get(position);
-                contact.setIgnore();
-                dbHelper.insertContact(contact.getKey(), contact.isFavorite(), contact.isIgnore());
-                if (hideIgnoredContacts) {
-                    bddDataProviver.getAllContacts().remove(position);
-                }
-                contactsDataAdapter.notifyItemRangeChanged(position,
-                        contactsDataAdapter.getItemCount());
-            }
-            @Override
-            public void onLeftClicked(int position) {
-                Contact contact = bddDataProviver.getAllContacts().get(position);
-                contact.setFavorite();
-                dbHelper.insertContact(contact.getKey(), contact.isFavorite(), contact.isIgnore());
-                contactsDataAdapter.notifyItemRangeChanged(position,
-                        contactsDataAdapter.getItemCount());
-            }
-        });
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-        itemTouchhelper.attachToRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         inputSearch = v.findViewById(R.id.inputSearch);
+        coordinatorLayout = v.findViewById(R.id.coordinator_layout);
 
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -162,5 +142,65 @@ public class ContactListFragment extends Fragment {
 
         bddDataProviver.refreshData(false);
         contactsDataAdapter.sort(sortInput, sortMethod);
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof ContactsDataAdapter.ContactViewHolder) {
+            final int index = viewHolder.getAdapterPosition();
+
+            Contact contact = bddDataProviver.getAllContacts().get(index);
+
+            if (direction == ItemTouchHelper.LEFT) {
+                contact.setIgnore();
+                contactsDataAdapter.ignoreItem(index, hideIgnoredContacts);
+            }
+            if (direction == ItemTouchHelper.RIGHT) {
+                contact.setFavorite();
+                contactsDataAdapter.favoriteItem(index);
+            }
+
+            if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
+                dbHelper.insertContact(contact.getKey(), contact.isFavorite(), contact.isIgnore());
+            }
+
+/*
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
+            snackbar.setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // do something
+                }
+            });
+            snackbar.show();*/
+        }
+    }
+
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                            int actionState, boolean isCurrentlyActive) {
+
+        final View foregroundView = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
+                .itemLayout;
+        final View ignoredLayout = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
+                .ignoreContactLayout;
+        final View favoriteLayout = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
+                .favoriteContactLayout;
+        
+        if (dX > 0) {
+            ignoredLayout.setVisibility(View.INVISIBLE);
+            favoriteLayout.setVisibility(View.VISIBLE);
+        } else if (dX < 0) {
+            ignoredLayout.setVisibility(View.VISIBLE);
+            favoriteLayout.setVisibility(View.INVISIBLE);
+        } else {
+            favoriteLayout.setVisibility(View.INVISIBLE);
+            ignoredLayout.setVisibility(View.INVISIBLE);
+        }
+
+        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,
+                isCurrentlyActive);
     }
 }

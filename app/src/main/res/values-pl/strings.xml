@@ -17,7 +17,6 @@
     <string name="sign_element_air">Powietrze</string>
     <string name="sign_element_water">Woda</string>
     <string name="search">Szukaj wieku, imienia, znaku itd.</string>
-    <string name="contact_has_no_year">Nie podano roku :(</string>
     <plurals name="years_old">
         <item quantity="one">%1$d rok</item>
         <item quantity="few">%1$d lata</item>
@@ -33,7 +32,6 @@
     <string name="birthday_tomorrow">Jutro ma %1$s</string>
     <string name="menu_birthday_list">Lista urodzin</string>
     <string name="menu_settings">Ustawienia</string>
-    <string name="menu_statistics">Więcej informacji</string>
     <string name="menu_about">O aplikacji</string>
     <string name="settings_not_sound_title">Dźwięk powiadomienia</string>
     <string name="settings_scan_preferences">Ustawienia powiadomień o urodzinach</string>
@@ -54,7 +52,5 @@
     <string name="array_order_desc">Malejąco</string>
     <string name="exit_warning_msg">Wciśnij wstecz jeszcze raz, aby wyjść</string>
     <string name="about_us_bt_changelog">Lista zmian</string>
-    <string name="type_birthday">urodziny</string>
-    <string name="type_anniversary">rocznicę</string>
 </resources>
 

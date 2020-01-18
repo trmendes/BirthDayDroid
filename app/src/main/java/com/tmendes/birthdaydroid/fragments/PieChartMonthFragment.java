@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -41,6 +42,11 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
         this.chart = v.findViewById(R.id.pieChart);
+
+        TextView title = v.findViewById(R.id.tvPieChartTitle);
+        String label = getContext().getResources().getString(R.string.menu_statistics_month);
+        title.setText(label);
+
         this.chart.getDescription().setEnabled(false);
 
         this.chart.setOnChartValueSelectedListener(this);
@@ -70,8 +76,6 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
-        String label = "Month";
-
         Map<Integer, Integer> monthMap;
         monthMap = statisticsProvider.getMonthStats();
         for (Object o : monthMap.entrySet()) {
@@ -83,10 +87,6 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
             entry.setLabel(monthString);
             pieEntries.add(entry);
         }
-
-/*
-        this.chart.getDescription().setText(getResources().getString(R.string.statistics_week_title));
-*/
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
         pieDataSet.setSliceSpace(1f);

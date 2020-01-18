@@ -16,7 +16,6 @@
     <string name="sign_element_air">Ar</string>
     <string name="sign_element_water">Água</string>
     <string name="search">Procurar por idade, nome, signo, etc</string>
-    <string name="contact_has_no_year">Não foi especificado o ano :(</string>
     <plurals name="years_old">
         <item quantity="one">%1$d ano</item>
         <item quantity="other">%1$d anos</item>
@@ -38,7 +37,6 @@
     <string name="birthday_tomorrow">Amanhã é o seu %1$s</string>
     <string name="menu_birthday_list">Lista de Aniversários</string>
     <string name="menu_settings">Definições</string>
-    <string name="menu_statistics">Mais informações</string>
     <string name="menu_about">Sobre</string>
     <string name="settings_not_sound_title">Som de notificação</string>
     <string name="settings_not_sound_sum">Definir o som de notificação de aniversário</string>
@@ -53,13 +51,10 @@
     <string name="settings_layout_preferences">Disposição</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Escuro</string>
-    <string name="settings_swipe_down">Arraste para baixo para gerar notificações</string>
     <string name="alert_contats_dialog_title">Necessária permissão de Leitura de Contactos</string>
     <string name="alert_contacts_dialog_msg">Necessitamos aceder aos contactos para procurar as suas datas de nascimento</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Negar</string>
-    <string name="statistics_age_title">Informação da Idade</string>
-    <string name="statistics_sign_title">Informação do Signo</string>
     <string name="array_order_next">Dias até o próximo aniversário</string>
     <string name="array_order_age">Idade</string>
     <string name="array_order_name">Nome</string>
@@ -67,8 +62,5 @@
     <string name="array_order_asc">Ascendente</string>
     <string name="array_order_desc">Descendente</string>
     <string name="exit_warning_msg">Pressione voltar uma vez mais para sair</string>
-    <string name="statistics_fail_title">Registo de falhas</string>
-    <string name="type_birthday">aniversário</string>
-    <string name="type_anniversary">aniversário</string>
 </resources>
 
