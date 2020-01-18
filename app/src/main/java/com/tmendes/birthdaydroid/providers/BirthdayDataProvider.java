@@ -49,8 +49,6 @@ public class BirthdayDataProvider {
     private SharedPreferences prefs;
 
     private static final long DAY = 60 * 60 * 1000 * 24;
-    private final int YEAR_LEN = 365;
-    private final int LEAP_YEAR_LEN = 366;
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
     private static BirthdayDataProvider instance;
     private static StatisticsProvider statistics;
@@ -66,9 +64,10 @@ public class BirthdayDataProvider {
             "dd-M--"
     );
 
-    private ArrayList<Contact> contacts;
-    private ArrayList<Contact> contactsToCelebrate;
-    private ArrayList<Contact> contactsFailureOnParser;
+    private final ArrayList<Contact> contacts;
+    private final ArrayList<Contact> contactsToCelebrate;
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private final ArrayList<Contact> contactsFailureOnParser;
 
     private BirthdayDataProvider() {
         contacts = new ArrayList<>();
@@ -97,9 +96,9 @@ public class BirthdayDataProvider {
         statistics.reset();
     }
 
-    public Contact parseNewContact(String key, String name, String photoURI, String date,
-                                   int eventType, String eventTypeLabel,
-                                   boolean ignored, boolean favorite) {
+    private Contact parseNewContact(String key, String name, String photoURI, String date,
+                                    int eventType, String eventTypeLabel,
+                                    boolean ignored, boolean favorite) {
         Contact contact = new Contact(key, name, photoURI, date, eventType, eventTypeLabel);
 
         if (setBasicContactBirthInfo(contact, date)) {
@@ -194,33 +193,37 @@ public class BirthdayDataProvider {
                         /* All Contacts */
                         contacts.add(contact);
 
+
                         if (!contact.isIgnore()) {
-                            if (statistics.getAgeStats().get(contact.getAge()) != null) {
-                                statistics.getAgeStats().put(contact.getAge(),
-                                        statistics.getAgeStats().get(contact.getAge()) + 1);
-                            } else {
-                                statistics.getAgeStats().put(contact.getAge(), 1);
-                            }
+                            try {
+                                if (statistics.getAgeStats().get(contact.getAge()) != null) {
+                                    statistics.getAgeStats().put(contact.getAge(),
+                                            statistics.getAgeStats().get(contact.getAge()) + 1);
+                                } else {
+                                    statistics.getAgeStats().put(contact.getAge(), 1);
+                                }
 
-                            if (statistics.getSignStats().get(contact.getZodiac()) != null) {
-                                statistics.getSignStats().put(contact.getZodiac(),
-                                        statistics.getSignStats().get(contact.getZodiac()) + 1);
-                            } else {
-                                statistics.getSignStats().put(contact.getZodiac(), 1);
-                            }
+                                if (statistics.getSignStats().get(contact.getZodiac()) != null) {
+                                    statistics.getSignStats().put(contact.getZodiac(),
+                                            statistics.getSignStats().get(contact.getZodiac()) + 1);
+                                } else {
+                                    statistics.getSignStats().put(contact.getZodiac(), 1);
+                                }
 
-                            if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
-                                statistics.getMonthStats().put(contact.getBornOnMonth(),
-                                        statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
-                            } else {
-                                statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
-                            }
+                                if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
+                                    statistics.getMonthStats().put(contact.getBornOnMonth(),
+                                            statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
+                                } else {
+                                    statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
+                                }
 
-                            if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
-                                statistics.getWeekStats().put(contact.getBornOnDayWeek(),
-                                        statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
-                            } else {
-                                statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                                if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
+                                    statistics.getWeekStats().put(contact.getBornOnDayWeek(),
+                                            statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
+                                } else {
+                                    statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                                }
+                            } catch(NullPointerException ignored) {
                             }
                         }
                     }
@@ -283,7 +286,7 @@ public class BirthdayDataProvider {
         boolean parseSuccess = false;
 
         for (String pattern : dataFormatKnownPatterns) {
-            Date bornOnDate = null;
+            Date bornOnDate;
             try {
                 bornOnDate = new SimpleDateFormat(pattern).parse(dateString);
 
@@ -308,17 +311,19 @@ public class BirthdayDataProvider {
                     long daysOld = (now.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY;
 
                     boolean lessThanAYearOld = false;
-                    int daysUntilNextBirthDay = 0;
+                    int daysUntilNextBirthDay;
                     int age = 0;
 
                     if (daysOld >= 0) {
                         if (isNowLeapYear) {
-                            lessThanAYearOld = daysOld < this.LEAP_YEAR_LEN;
+                            int LEAP_YEAR_LEN = 366;
+                            lessThanAYearOld = daysOld < LEAP_YEAR_LEN;
                         } else {
-                            lessThanAYearOld = daysOld < this.YEAR_LEN;
+                            int YEAR_LEN = 365;
+                            lessThanAYearOld = daysOld < YEAR_LEN;
                         }
 
-                        double msUntilNextBirthDay = 0;
+                        double msUntilNextBirthDay;
 
                         if (!lessThanAYearOld) {
                             age = nowYear - bornOn.get(Calendar.YEAR);
@@ -368,7 +373,6 @@ public class BirthdayDataProvider {
                     break;
                 }
             } catch (ParseException e) {
-                parseSuccess = false;
             }
         }
 
@@ -547,10 +551,6 @@ public class BirthdayDataProvider {
 
     public ArrayList<Contact> getContactsToCelebrate() {
         return contactsToCelebrate;
-    }
-
-    public ArrayList<Contact> getContactsMissingData() {
-        return contactsFailureOnParser;
     }
 
     public StatisticsProvider getStatistics() {

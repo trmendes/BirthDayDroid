@@ -27,6 +27,7 @@ import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class PieChartZodiacFragment extends Fragment implements OnChartValueSelectedListener {
     @SuppressWarnings("FieldCanBeLocal")
@@ -42,7 +43,8 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
         this.chart = v.findViewById(R.id.pieChart);
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
-        String label = getContext().getResources().getString(R.string.menu_statistics_zodiac);
+        String label = Objects.requireNonNull(getContext()).getResources()
+                .getString(R.string.menu_statistics_zodiac);
         title.setText(label);
 
         this.chart.getDescription().setEnabled(false);

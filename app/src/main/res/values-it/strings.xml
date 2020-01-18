@@ -17,10 +17,6 @@
     <string name="sign_element_air">Aria</string>
     <string name="sign_element_water">Acqua</string>
     <string name="search">Trova età, nome, segno…</string>
-    <plurals name="years_old">
-        <item quantity="one">%1$d anno</item>
-        <item quantity="other">%1$d anni</item>
-    </plurals>
     <plurals name="days_old">
         <item quantity="one">%1$d giorno di vita</item>
         <item quantity="other">%1$d giorni di vita</item>
@@ -30,12 +26,10 @@
         <item quantity="one">%1$d giorni rimanenti al suo %2$s</item>
         <item quantity="other">%1$d giorni rimanenti al suo %2$s</item>
     </plurals>
-    <string name="birthday_scan_found">Creazione notifiche di compleanno in corso</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s diventerà %2$d domani</item>
         <item quantity="other">%1$s diventerà %2$d tra %3$d giorni</item>
     </plurals>
-    <string name="birthday_tomorrow">Domani è il suo %1$s</string>
     <string name="menu_birthday_list">Lista dei compleanni</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="menu_about">A proposito</string>
@@ -67,18 +61,9 @@
     <string name="alert_contacts_dialog_msg">Abbiamo bisogno di accedere alla tua lista dei contatti per leggere i compleanni</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Nega</string>
-    <plurals name="statistics_contacts_counter">
-        <item quantity="one">Su %1$d contatto:\n\n</item>
-        <item quantity="other">Su %1$d contatti:\n\n</item>
-    </plurals>
-    <plurals name="statistics_int_int">
-        <item quantity="one">\t %1$d \t contatto \t - \t %2$d \t anno\n</item>
-        <item quantity="other">\t %1$d \t contatti \t - \t %2$d \t anni\n</item>
-    </plurals>
-    <plurals name="statistics_int_string">
-        <item quantity="one">\t %1$d \t contatto \t - \t %2$s\n</item>
-        <item quantity="other">\t %1$d \t contatti \t - \t %2$s\n</item>
-    </plurals>
+
+
+
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid è un progetto open-source con lo scopo di aiutarti a ricordarti i compleanni dei tuoi amici.</string>
     <string name="array_order_next">Giorni rimanenti al prossimo compleanno</string>
     <string name="array_order_age">Età</string>

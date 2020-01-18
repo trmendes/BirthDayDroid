@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -24,7 +25,6 @@ import android.widget.TextView;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
-import com.tmendes.birthdaydroid.helpers.DBHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import java.util.List;
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
         implements Filterable {
     private List<Contact> contacts;
-    private List<Contact> contactsOrignal;
+    private final List<Contact> contactsOrignal;
 
     private final Context ctx;
 
@@ -44,7 +44,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     private final int lateBDDListTreshold;
     private final boolean isNowLeapYear;
 
-    private final int WEEK_LEN = 7;
     private final int YEAR_LEN = 365;
     private final int LEAP_YEAR_LEN = 366;
 
@@ -57,6 +56,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         this.isNowLeapYear = new GregorianCalendar().isLeapYear(
                 Calendar.getInstance().get(Calendar.YEAR));
 
+        int WEEK_LEN = 7;
         if (isNowLeapYear) {
             this.lateBDDListTreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
         } else {
@@ -65,7 +65,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     }
 
     @Override
-    public void onBindViewHolder(ContactViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         Contact contact = contacts.get(position);
 
         boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
@@ -265,7 +265,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 return results;
             }
 
-            public boolean applyFilter(Contact contact, String filter) {
+            boolean applyFilter(Contact contact, String filter) {
                 String name = contact.getName().toLowerCase();
                 String monthName = contact.getBornOnMonthName().toLowerCase();
                 String birthdayWeekName = contact.getNextBirthDayWeekName().toLowerCase();
@@ -285,6 +285,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         };
     }
 
+        @NonNull
         @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -293,12 +294,21 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     }
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
-        private TextView name, birthDayWeekName, daysOld, ageBadge, daysToGo, zodiacElement,
-                bornOn, contactStatus, emojis;
-        private ImageView picture;
-        public RelativeLayout ignoreContactLayout, favoriteContactLayout, itemLayout;
+        private final TextView name;
+        private final TextView birthDayWeekName;
+        private final TextView daysOld;
+        private final TextView ageBadge;
+        private final TextView daysToGo;
+        private final TextView zodiacElement;
+        private final TextView bornOn;
+        private final TextView contactStatus;
+        private final TextView emojis;
+        private final ImageView picture;
+        public final RelativeLayout ignoreContactLayout;
+        public final RelativeLayout favoriteContactLayout;
+        public final RelativeLayout itemLayout;
 
-        public ContactViewHolder(View view) {
+        ContactViewHolder(View view) {
             super(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

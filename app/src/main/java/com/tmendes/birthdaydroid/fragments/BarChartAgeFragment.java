@@ -28,6 +28,7 @@ import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class BarChartAgeFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -99,7 +100,7 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         xAxis.setAxisMaximum(max_age);
         xAxis.setAxisMinimum(min_age);
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, getActivity().getApplicationContext()
+        BarDataSet barDataSet = new BarDataSet(barEntries, Objects.requireNonNull(getActivity()).getApplicationContext()
                 .getResources().getString(R.string.array_order_age));
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setDrawValues(false);

@@ -24,12 +24,10 @@ import java.util.GregorianCalendar;
 public class Contact {
 
 
-    private String key;
-    private String name;
-    private String photoURI;
-    private String date;
-    private int eventType;
-    private String eventTypeLabel;
+    private final String key;
+    private final String name;
+    private final String photoURI;
+    private final String eventTypeLabel;
 
     private String zodiac;
     private String zodiacElement;
@@ -42,7 +40,6 @@ public class Contact {
 
     private int bornOnDay;
     private int bornOnMonth;
-    private int bornOnYear;
     private int bornOnDayWeek;
 
     private int daysUntilNextBirthday;
@@ -59,8 +56,6 @@ public class Contact {
         this.key = key;
         this.name = name;
         this.photoURI = photoURI;
-        this.date = date;
-        this.eventType = eventType;
         this.eventTypeLabel = eventTypeLabel;
         this.yearSettled = false;
     }
@@ -79,10 +74,6 @@ public class Contact {
 
     public void setZodiacElement(String zodiacElement) {
         this.zodiacElement = zodiacElement;
-    }
-
-    public boolean isYearSettled() {
-        return yearSettled;
     }
 
     public void setYearSettled(boolean yearSettled) {
@@ -118,7 +109,6 @@ public class Contact {
             this.bornOn = bornOn;
             this.bornOnDay = bornOn.get(Calendar.DAY_OF_MONTH);
             this.bornOnMonth = bornOn.get(Calendar.MONTH);
-            this.bornOnYear = bornOn.get(Calendar.YEAR);
             this.bornOnDayWeek = bornOn.get(Calendar.DAY_OF_WEEK);
         }
     }
@@ -148,10 +138,6 @@ public class Contact {
     public String getBornOnMonthName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
         return dfs.getMonths()[bornOnMonth];
-    }
-
-    public int getBornOnYear() {
-        return bornOnYear;
     }
 
     public int getBornOnDayWeek() {
@@ -195,16 +181,8 @@ public class Contact {
         return photoURI;
     }
 
-    public int getEventType() {
-        return eventType;
-    }
-
     public String getEventTypeLabel() {
         return eventTypeLabel;
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public int getDaysUntilNextBirthday() {

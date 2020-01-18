@@ -17,16 +17,13 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +36,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
@@ -57,9 +53,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
     private BirthdayDataProvider bddDataProviver;
     private EditText inputSearch;
-    public ContactsDataAdapter contactsDataAdapter;
+    private ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
-    private CoordinatorLayout coordinatorLayout;
     private DBHelper dbHelper;
 
     @Override
@@ -92,9 +87,9 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         inputSearch = v.findViewById(R.id.inputSearch);
-        coordinatorLayout = v.findViewById(R.id.coordinator_layout);
+        CoordinatorLayout coordinatorLayout = v.findViewById(R.id.coordinator_layout);
 
-        getActivity().getWindow()
+        Objects.requireNonNull(getActivity()).getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -121,7 +116,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    InputMethodManager inputManager = (InputMethodManager) getContext().
+                    InputMethodManager inputManager = (InputMethodManager) Objects
+                            .requireNonNull(getContext()).
                             getSystemService(Context.INPUT_METHOD_SERVICE);
                     Objects.requireNonNull(inputManager).hideSoftInputFromWindow(
                             Objects.requireNonNull(getView()).getWindowToken(), 0);

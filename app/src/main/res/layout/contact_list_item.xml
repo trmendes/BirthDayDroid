@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/emoji_block"
             android:textSize="@dimen/ignore_favorite_text_size" />
 
@@ -39,13 +40,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:text="@string/emoji_heart"
             android:textSize="@dimen/ignore_favorite_text_size" />
 
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:id="@+id/view_item"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -64,8 +65,9 @@
                 android:id="@+id/ivContactPicture"
                 android:layout_width="74dip"
                 android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
-                android:contentDescription="" />
+                android:layout_marginStart="10dp"
+                android:contentDescription=""
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/tvAgeBadge"
@@ -83,7 +85,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/data"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -92,7 +93,7 @@
             android:layout_toEndOf="@id/photo">
 
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -121,16 +122,13 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/contactInfo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <RelativeLayout
-                    android:id="@+id/left"
                     android:layout_marginEnd="5dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentStart="true">
+                    android:orientation="horizontal">
 
                     <!-- next birthday week name -->
                     <TextView
@@ -157,8 +155,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/right"
-                    android:layout_toEndOf="@id/left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -199,29 +195,20 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/emojs"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/right"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/emojiPartyTomorrow"
+                <TextView
+                    android:id="@+id/tvEmojis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:gravity="end"
-                    android:orientation="horizontal">
+                    android:singleLine="true"
+                    android:text=""
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/tvEmojis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:singleLine="true"
-                        android:text=""
-                        android:textSize="12sp" />
-                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
 

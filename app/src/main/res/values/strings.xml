@@ -20,14 +20,6 @@
     <string name="search">Search for age, name, sign, etc</string>
     <string name="dual_string" translatable="false">%1$s/%2$s</string>
     <string name="birthday_string" translatable="false">%1$s/%2$d</string>
-    <plurals name="years_old">
-        <item quantity="one">%1$d year old</item>
-        <item quantity="other">%1$d years old</item>
-    </plurals>
-    <plurals name="turning_years_old">
-        <item quantity="one">turning %1$d year old</item>
-        <item quantity="other">turning %1$d years old</item>
-    </plurals>
 
     <plurals name="days_old">
         <item quantity="one">%1$d day old</item>
@@ -50,7 +42,6 @@
         <item quantity="one">%1$s turning %2$d tomorrow</item>
         <item quantity="other">%1$s turning %2$d in %3$d days</item>
     </plurals>
-    <string name="birthday_tomorrow">Tomorrow is her/his %1$s</string>
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_statistics_age">Age Statistics</string>
@@ -58,10 +49,6 @@
     <string name="menu_statistics_week">Week birth Statistics</string>
     <string name="menu_statistics_month">Month birth Statistics</string>
     <string name="menu_about">About</string>
-    <string name="settings_favorites_only">Notify only about my favorite contacts</string>
-    <string name="settings_favorites_list">Favorites Contacts</string>
-    <string name="settings_ignore_list">Contacts to Ignore</string>
-    <string name="settings_ignore_show_in_main_list">Show ignored contacts in main list</string>
     <string name="settings_not_sound_title">Notification Sound</string>
     <string name="settings_not_sound_sum">Set the birthday notifications\' sound</string>
     <string name="settings_scan_preferences">Birthday Notification Settings</string>
@@ -109,7 +96,6 @@
     <string name="emoji_block" translatable="false">⛔</string>
     <string name="emoji_today_party" translatable="false">👏🏿👏🏻 🍰🧁🍬🍻🎁 🎉</string>
     <string name="emoji_tomorrow_party" translatable="false">🕺🕺🏿💃💃🏿</string>
-    <string name="undo">Undo</string>
     <string name="amount"># of contacts</string>
     <string name="about_help_title">You can help us :D</string>
     <string name="about_help_developer">Developer/Designer?</string>

@@ -1,6 +1,5 @@
 package com.tmendes.birthdaydroid.helpers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +14,12 @@ import com.tmendes.birthdaydroid.DBContact;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "contacts.db";
-    public static final String CONTACTS_TABLE_NAME = "contacts";
-    public static final String CONTACTS_COLUMN_ID = "id";
-    public static final String CONTACTS_COLUMN_CONTACT_ID = "cid";
-    public static final String CONTACTS_COLUMN_FAVORITE = "favorite";
-    public static final String CONTACTS_COLUMN_IGNORE = "ignored";
+    private static final String DATABASE_NAME = "contacts.db";
+    private static final String CONTACTS_TABLE_NAME = "contacts";
+    private static final String CONTACTS_COLUMN_ID = "id";
+    private static final String CONTACTS_COLUMN_CONTACT_ID = "cid";
+    private static final String CONTACTS_COLUMN_FAVORITE = "favorite";
+    private static final String CONTACTS_COLUMN_IGNORE = "ignored";
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -43,26 +42,23 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertContact(String cid, boolean favorite, boolean ignored) {
+    public void insertContact(String cid, boolean favorite, boolean ignored) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("cid", cid);
         contentValues.put("favorite", favorite);
         contentValues.put("ignored", ignored);
         db.insertOrThrow("contacts", null, contentValues);
-        return true;
     }
 
     public Cursor getData(String cid) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where cid="+cid+"", null );
-        return res;
+        return db.rawQuery( "select * from contacts where cid="+cid+"", null );
     }
 
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
-        return numRows;
+        return (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
     }
 
     public boolean updateContact(Integer id, String cid, boolean favorite, boolean ignored) {
@@ -75,11 +71,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    private Integer deleteContact(Integer id) {
+    private void deleteContact(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("contacts",
+        db.delete("contacts",
                 "id = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Integer.toString(id)});
     }
 
     public void cleanDb(final HashMap<String, DBContact> contactList) {
@@ -89,13 +85,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public HashMap<String, DBContact> getAllCotacts() {
-        HashMap<String, DBContact> hashMap = new HashMap<String, DBContact>();
+        HashMap<String, DBContact> hashMap = new HashMap<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from contacts", null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             int id = res.getInt(res.getColumnIndex(CONTACTS_COLUMN_ID));
             String cid = res.getString(res.getColumnIndex(CONTACTS_COLUMN_CONTACT_ID));
             boolean favorite = res.getInt(res.getColumnIndex(CONTACTS_COLUMN_FAVORITE)) == 1;

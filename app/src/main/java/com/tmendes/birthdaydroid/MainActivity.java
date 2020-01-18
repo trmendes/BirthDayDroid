@@ -18,13 +18,13 @@
 package com.tmendes.birthdaydroid;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -43,7 +43,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -62,14 +61,13 @@ import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // the Default time to notify the user about a birthday
     public static final int DEFAULT_ALARM_TIME = 8;
-
-    // Birthdays
-    private BirthdayDataProvider bddDataProvider;
 
     // Permission Control
     private PermissionHelper permissionHelper;
@@ -79,7 +77,8 @@ public class MainActivity extends AppCompatActivity
 
     private boolean statisticsAsText = false;
 
-    private Menu zodiacMenu;
+    private MenuItem zodiacDrawerMenuItem;
+
     private DrawerLayout drawer;
 
     private SharedPreferences prefs;
@@ -104,7 +103,8 @@ public class MainActivity extends AppCompatActivity
         checkIsEnableBatteryOptimizations();
         requestForPermissions();
 
-        bddDataProvider = BirthdayDataProvider.getInstance();
+        // Birthdays
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
         bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        this.zodiacMenu = navigationView.getMenu();
+        zodiacDrawerMenuItem = Objects.requireNonNull(navigationView).getMenu()
+                .findItem(R.id.nav_statistics_zodiac);
 
         drawer = findViewById(R.id.drawer_layout);
 
@@ -146,7 +147,8 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onDrawerStateChanged(int i) {
                     boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-                    zodiacMenu.findItem(R.id.nav_statistics_zodiac).setVisible(!hideZoadiac);
+                    zodiacDrawerMenuItem.setVisible(!hideZoadiac);
+                    statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
                 }
             });
         }
@@ -163,12 +165,6 @@ public class MainActivity extends AppCompatActivity
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     @Override
@@ -303,18 +299,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("BatteryLife")
     private void checkIsEnableBatteryOptimizations()
     {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent intent = new Intent();
-            String packageName = getPackageName();
-            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        Intent intent = new Intent();
+        String packageName = getPackageName();
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
 
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + packageName));
-                startActivity(intent);
-            }
+        if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+            startActivity(intent);
         }
     }
 

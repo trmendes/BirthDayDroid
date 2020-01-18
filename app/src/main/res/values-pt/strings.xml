@@ -16,10 +16,6 @@
     <string name="sign_element_air">Ar</string>
     <string name="sign_element_water">Água</string>
     <string name="search">Procurar por idade, nome, signo, etc</string>
-    <plurals name="years_old">
-        <item quantity="one">%1$d ano</item>
-        <item quantity="other">%1$d anos</item>
-    </plurals>
     <plurals name="days_old">
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
@@ -29,12 +25,10 @@
         <item quantity="one">%1$d dias até ao próximo %2$s</item>
         <item quantity="other">%1$d dias ate o próximo %2$s</item>
     </plurals>
-    <string name="birthday_scan_found">A gerar notificações de Aniversários</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s faz %2$d amanhã</item>
         <item quantity="other">%1$s faz %2$d dentro de %3$d dias</item>
     </plurals>
-    <string name="birthday_tomorrow">Amanhã é o seu %1$s</string>
     <string name="menu_birthday_list">Lista de Aniversários</string>
     <string name="menu_settings">Definições</string>
     <string name="menu_about">Sobre</string>

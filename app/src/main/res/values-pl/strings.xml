@@ -17,19 +17,12 @@
     <string name="sign_element_air">Powietrze</string>
     <string name="sign_element_water">Woda</string>
     <string name="search">Szukaj wieku, imienia, znaku itd.</string>
-    <plurals name="years_old">
-        <item quantity="one">%1$d rok</item>
-        <item quantity="few">%1$d lata</item>
-        <item quantity="many">%1$d lat</item>
-        <item quantity="other">%1$d lat</item>
-    </plurals>
     <plurals name="days_old">
         <item quantity="one">%1$d dzień</item>
         <item quantity="few">%1$d dni</item>
         <item quantity="many">%1$d dni</item>
         <item quantity="other">%1$d dni</item>
     </plurals>
-    <string name="birthday_tomorrow">Jutro ma %1$s</string>
     <string name="menu_birthday_list">Lista urodzin</string>
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_about">O aplikacji</string>

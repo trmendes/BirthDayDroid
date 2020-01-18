@@ -17,10 +17,6 @@
     <string name="sign_element_air">Αέρας</string>
     <string name="sign_element_water">Νερό</string>
     <string name="search">Αναζήτηση για ηλικία, όνομα, ζωόδιο, κλπ.</string>
-    <plurals name="years_old">
-        <item quantity="one">%1$d έτους</item>
-        <item quantity="other">%1$d ετών</item>
-    </plurals>
     <plurals name="days_old">
         <item quantity="one">%1$d ημέρας</item>
         <item quantity="other">%1$d ημερών</item>
@@ -30,12 +26,10 @@
         <item quantity="one">%1$d ημέρα μέχρι το επόμενο %2$s</item>
         <item quantity="other">%1$d ημέρες μέχρι το επόμενο %2$s</item>
     </plurals>
-    <string name="birthday_scan_found">Δημιουργία ειδοποιήσεων γενεθλίων</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s κλείνει τα %2$d αύριο</item>
         <item quantity="other">%1$s κλείνει τα %2$d σε %3$d μέρες</item>
     </plurals>
-    <string name="birthday_tomorrow">Αύριο είναι του/της %1$s</string>
     <string name="menu_birthday_list">Λϊστα γενεθλίων</string>
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_about">Σχετικά</string>
@@ -68,18 +62,9 @@
     <string name="alert_contacts_dialog_msg">Χρειαζόμαστε πρόσβαση στην λίστα των επαφών σου, προκειμένου να φέρουμε τα γενέθλια τους</string>
     <string name="alert_permissions_allow">ΟΚ</string>
     <string name="alert_permissions_deny">Άρνηση</string>
-    <plurals name="statistics_contacts_counter">
-        <item quantity="one">Από %1$d επαφή:\n\n</item>
-        <item quantity="other">Από %1$d επαφές:\n\n</item>
-    </plurals>
-    <plurals name="statistics_int_int">
-        <item quantity="one">\t %1$d \t επαφή \t - \t %2$d \t ετών\n</item>
-        <item quantity="other">\t %1$d \t επαφές \t - \t %2$d \t ετών\n</item>
-    </plurals>
-    <plurals name="statistics_int_string">
-        <item quantity="one">\t %1$d \tεπαφή \t - \t %2$s\n</item>
-        <item quantity="other">\t %1$d \tεπαφές \t - \t %2$s\n</item>
-    </plurals>
+
+
+
     <string name="about_info" tools:keep="@string/about_info">Το BirthDayDroid είναι ένα έργο ανοιχτού λογισμικού που δημιουργήθηκε για να σας βοηθήσει να θυμάστε τα γενέθλια των φίλων σας.</string>
     <string name="array_order_next">Ημέρες μέχρι τα επόμενα γενέθλια</string>
     <string name="array_order_age">Ηλικία</string>

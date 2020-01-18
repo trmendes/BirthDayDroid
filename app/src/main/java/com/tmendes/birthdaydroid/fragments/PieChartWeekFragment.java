@@ -28,6 +28,7 @@ import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class PieChartWeekFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -44,7 +45,8 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
         this.chart = v.findViewById(R.id.pieChart);
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
-        String label = getContext().getResources().getString(R.string.menu_statistics_week);
+        String label = Objects.requireNonNull(getContext()).getResources()
+                .getString(R.string.menu_statistics_week);
         title.setText(label);
 
         this.chart.getDescription().setEnabled(false);

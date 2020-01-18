@@ -15,20 +15,20 @@ import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.text.DateFormatSymbols;
 import java.util.Map;
+import java.util.Objects;
 
 public class TextMonthFragment extends Fragment {
-
-    private BirthdayDataProvider bddDataProviver;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
-        bddDataProviver = BirthdayDataProvider.getInstance();
+        BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();
 
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
-        title.setText(getContext().getResources().getString(R.string.menu_statistics_month));
+        title.setText(Objects.requireNonNull(getContext()).getResources()
+                .getString(R.string.menu_statistics_month));
 
         Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getMonthStats();
 
@@ -51,7 +51,7 @@ public class TextMonthFragment extends Fragment {
         return v;
     }
 
-    public TableRow newRow(String left, String right) {
+    private TableRow newRow(String left, String right) {
         TableRow row = new TableRow(getContext());
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
         lp.setMargins(10, 10, 10, 10);

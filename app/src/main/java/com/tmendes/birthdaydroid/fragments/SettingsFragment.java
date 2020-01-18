@@ -17,10 +17,10 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.CheckBoxPreference;
@@ -73,12 +73,13 @@ public class SettingsFragment extends Fragment {
             CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
                     findPreference("battery_status");
             mCheckBoxPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @SuppressLint("BatteryLife")
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent();
                     String packageName = getActivity().getPackageName();
                     PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
 
-                    if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                    if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
                         intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                         intent.setData(Uri.parse("package:" + packageName));
                         startActivity(intent);
@@ -121,16 +122,16 @@ public class SettingsFragment extends Fragment {
             }
         }
 
-        public void setPowerServiceStatus() {
+        void setPowerServiceStatus() {
             CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
                     findPreference("battery_status");
             mCheckBoxPref.setChecked(checkPowerServiceStatus());
         }
 
-        public boolean checkPowerServiceStatus() {
+        boolean checkPowerServiceStatus() {
             String packageName = getActivity().getPackageName();
             PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
-            return pm.isIgnoringBatteryOptimizations(packageName);
+            return Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName);
         }
     }
 }

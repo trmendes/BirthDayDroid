@@ -17,13 +17,9 @@
     <string name="sign_element_air">風</string>
     <string name="sign_element_water">水</string>
     <string name="search">連絡先を検索</string>
-    <plurals name="years_old">
-        <item quantity="other">%1$d 歳</item>
-    </plurals>
     <plurals name="days_old">
         <item quantity="other">%1$d 日</item>
     </plurals>
-    <string name="birthday_scan_found">誕生日の通知を設定</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="other">%1$sターン%2$dに%3$d日々</item>
     </plurals>
@@ -58,15 +54,9 @@
     <string name="alert_contacts_dialog_msg">この権限がないとアプリは動作しません。誕生日のデータを取得するために、あなたの連絡先リストにアクセスする必要があります。</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">否定する</string>
-    <plurals name="statistics_contacts_counter">
-        <item quantity="other">%1$d 人から:\n\n</item>
-    </plurals>
-    <plurals name="statistics_int_int">
-        <item quantity="other">\t %1$d \t 名 \t - \t %2$d \t 歳\n</item>
-    </plurals>
-    <plurals name="statistics_int_string">
-        <item quantity="other">\t %1$d \t 人 \t - \t %2$s\n</item>
-    </plurals>
+
+
+
     <string name="about_info" tools:keep="@string/about_info">The BirthDayDroid Project は、あなたがお友達の誕生日を忘れないようお手伝いするために作られたオープンソースのプロジェクトです。</string>
     <string name="array_order_next">次の誕生日までの日数</string>
     <string name="array_order_age">年齢</string>
