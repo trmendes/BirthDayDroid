@@ -45,6 +45,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity
     private boolean statisticsAsText = false;
 
     private Menu zodiacMenu;
+    private DrawerLayout drawer;
+
     private SharedPreferences prefs;
 
     @Override
@@ -107,20 +110,46 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        if (drawer != null) {
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-        }
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
 
         this.zodiacMenu = navigationView.getMenu();
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        if (drawer != null) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+            drawer.closeDrawer(GravityCompat.START);
+
+            drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+
+                @Override
+                public void onDrawerSlide(@NonNull View view, float v) {
+
+                }
+
+                @Override
+                public void onDrawerOpened(@NonNull View view) {
+
+                }
+
+                @Override
+                public void onDrawerClosed(@NonNull View view) {
+
+                }
+
+                @Override
+                public void onDrawerStateChanged(int i) {
+                    boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+                    zodiacMenu.findItem(R.id.nav_statistics_zodiac).setVisible(!hideZoadiac);
+                }
+            });
+        }
 
         openContactFragments();
     }
@@ -139,8 +168,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-        this.zodiacMenu.findItem(R.id.nav_statistics_zodiac).setVisible(!hideZoadiac);
+
     }
 
     @Override
@@ -165,6 +193,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
+
     }
 
     @Override
@@ -220,10 +249,13 @@ public class MainActivity extends AppCompatActivity
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction().replace(R.id.content_frame, fragment);
+                FragmentTransaction transaction = fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment);
+
                 if (fragmentClass != ContactListFragment.class) {
                     transaction.addToBackStack(null);
                 }
+
                 transaction.commit();
 
             } catch (InstantiationException | IllegalAccessException e) {
@@ -231,10 +263,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer != null) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
+        drawer.closeDrawers();
 
         return true;
     }
