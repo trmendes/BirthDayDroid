@@ -47,6 +47,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     private final int YEAR_LEN = 365;
     private final int LEAP_YEAR_LEN = 366;
 
+    private int sortOrder;
+    private int sortType;
+
     public ContactsDataAdapter(Context ctx, List<Contact> contacts) {
         this.contacts = contacts;
         this.contactsOrignal = contacts;
@@ -360,6 +363,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     public void sort(int order, int sortType) {
         contacts.sort(new BirthDayComparator(order, sortType));
+        this.sortType = sortType;
+        this.sortOrder = order;
         notifyDataSetChanged();
     }
 
@@ -378,6 +383,11 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     public Contact getContact(int position) {
         return this.contacts.get(position);
+    }
+
+    public void restoreContact(Contact contact) {
+        this.contacts.add(contact);
+        this.sort(this.sortOrder, this.sortType);
     }
 
 }

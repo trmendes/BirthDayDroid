@@ -96,6 +96,7 @@
     <string name="emoji_block" translatable="false">⛔</string>
     <string name="emoji_today_party" translatable="false">👏🏿👏🏻 🍰🧁🍬🍻🎁 🎉</string>
     <string name="emoji_tomorrow_party" translatable="false">🕺🕺🏿💃💃🏿</string>
+    <string name="undo">Undo</string>
     <string name="amount"># of contacts</string>
     <string name="about_help_title">You can help us :D</string>
     <string name="about_help_developer">Developer/Designer?</string>

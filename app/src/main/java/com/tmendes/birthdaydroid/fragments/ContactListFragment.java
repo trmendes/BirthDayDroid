@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     private ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
     private DBHelper dbHelper;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -77,6 +79,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(contactsDataAdapter);
@@ -87,7 +90,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         inputSearch = v.findViewById(R.id.inputSearch);
-        CoordinatorLayout coordinatorLayout = v.findViewById(R.id.coordinator_layout);
+        coordinatorLayout = v.findViewById(R.id.coordinator_layout);
 
         Objects.requireNonNull(getActivity()).getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -144,8 +147,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         if (viewHolder instanceof ContactsDataAdapter.ContactViewHolder) {
             final int index = viewHolder.getAdapterPosition();
-
-            Contact contact = contactsDataAdapter.getContact(index);
+            final int dir = direction;
+            final Contact contact = contactsDataAdapter.getContact(index);
 
             if (direction == ItemTouchHelper.LEFT) {
                 contact.setIgnore();
@@ -162,16 +165,33 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                 contact.setDbID(dbID);
             }
 
-/*
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
-            snackbar.setAction("UNDO", new View.OnClickListener() {
+            snackbar.setAction(getContext().getResources().getString(R.string.undo),
+                    new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // do something
+                    if (dir == ItemTouchHelper.LEFT) {
+                        contact.setIgnore();
+                        if (hideIgnoredContacts) {
+                            contactsDataAdapter.restoreContact(contact);
+                        } else {
+                            contactsDataAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    if (dir == ItemTouchHelper.RIGHT) {
+                        contact.setFavorite();
+                        contactsDataAdapter.favoriteItem(index);
+                    }
+
+                    if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
+                        long dbID = dbHelper.insertContact(contact.getDbID(), contact.getKey(),
+                                contact.isFavorite(), contact.isIgnore());
+                        contact.setDbID(dbID);
+                    }
                 }
             });
-            snackbar.show();*/
+            snackbar.show();
         }
     }
 
