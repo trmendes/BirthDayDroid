@@ -60,11 +60,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return dbIDToReturn;
     }
 
-    public Cursor getData(String cid) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery( "select * from contacts where cid="+cid+"", null );
-    }
-
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         return (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
@@ -98,6 +93,10 @@ public class DBHelper extends SQLiteOpenHelper {
             hashMap.put(cid, new DBContact(id, favorite, ignore));
             res.moveToNext();
         }
+
+        res.close();
+        db.close();
+
         return hashMap;
     }
 }

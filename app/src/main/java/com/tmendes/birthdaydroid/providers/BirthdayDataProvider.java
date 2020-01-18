@@ -97,9 +97,8 @@ public class BirthdayDataProvider {
     }
 
     private Contact parseNewContact(String key, String name, String photoURI, String date,
-                                    int eventType, String eventTypeLabel,
-                                    boolean ignored, boolean favorite) {
-        Contact contact = new Contact(key, name, photoURI, date, eventType, eventTypeLabel);
+                                    String eventTypeLabel, boolean ignored, boolean favorite) {
+        Contact contact = new Contact(key, name, photoURI, eventTypeLabel);
 
         if (setBasicContactBirthInfo(contact, date)) {
             setContactZodiac(contact);
@@ -115,6 +114,7 @@ public class BirthdayDataProvider {
         return null;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void refreshData(boolean notificationListOnly) {
         if (permissionHelper == null || prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
@@ -182,7 +182,6 @@ public class BirthdayDataProvider {
                         cursor.getString(nameColumn),
                         cursor.getString(photoColumn),
                         cursor.getString(dateColumn),
-                        eventType,
                         eventTypeLabel,
                         ignoreContact,
                         favoriteContact);

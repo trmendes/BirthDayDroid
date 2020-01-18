@@ -66,15 +66,8 @@ public class TimeDialogPreference extends DialogPreference {
     @Override
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            picker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-            picker.setMinute(calendar.get(Calendar.MINUTE));
-        } else {
-            //noinspection deprecation
-            picker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-            //noinspection deprecation
-            picker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-        }
+        picker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        picker.setMinute(calendar.get(Calendar.MINUTE));
     }
 
     @Override
@@ -82,15 +75,8 @@ public class TimeDialogPreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                calendar.set(Calendar.HOUR_OF_DAY, picker.getHour());
-                calendar.set(Calendar.MINUTE, picker.getMinute());
-            } else {
-                //noinspection deprecation
-                calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
-                //noinspection deprecation
-                calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-            }
+            calendar.set(Calendar.HOUR_OF_DAY, picker.getHour());
+            calendar.set(Calendar.MINUTE, picker.getMinute());
 
             setSummary(getSummary());
 

@@ -52,8 +52,8 @@ public class Contact {
     private boolean favorite;
     private boolean ignore;
 
-    public Contact(String key, String name, String photoURI, String date,
-                   int eventType, String eventTypeLabel) {
+    public Contact(String key, String name, String photoURI,
+                   String eventTypeLabel) {
         this.key = key;
         this.name = name;
         this.photoURI = photoURI;

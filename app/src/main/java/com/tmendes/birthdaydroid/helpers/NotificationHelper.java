@@ -58,43 +58,29 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     private void createChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
-                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.setShowBadge(true);
-            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            getManager().createNotificationChannel(notificationChannel);
-        }
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
+                CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.setShowBadge(true);
+        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        getManager().createNotificationChannel(notificationChannel);
     }
 
     private Notification.Builder getNotification(String title,
                                                  String body,
                                                  Bitmap notifyPicture,
                                                  PendingIntent pI) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setColorized(true)
-                    .setShowWhen(true)
-                    .setContentIntent(pI)
-                    .setLargeIcon(notifyPicture)
-                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                    .setAutoCancel(true);
+        return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setColorized(true)
+                .setShowWhen(true)
+                .setContentIntent(pI)
+                .setLargeIcon(notifyPicture)
+                .setSmallIcon(R.drawable.ic_cake_white_24dp)
+                .setAutoCancel(true);
 
-        } else {
-            //noinspection deprecation
-            return new Notification.Builder(getApplicationContext())
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setContentIntent(pI)
-                    .setLargeIcon(notifyPicture)
-                    .setShowWhen(true)
-                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                    .setAutoCancel(true);
-        }
     }
 
     private void notify(long id, Notification.Builder notification) {
