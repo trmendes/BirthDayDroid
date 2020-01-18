@@ -24,10 +24,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 
@@ -95,50 +97,61 @@ public class NotificationHelper extends ContextWrapper {
 
     public void postNotification(Contact contact) {
         try {
+            boolean notify;
+
             if (contact.isIgnore()) {
-                return;
-            }
-
-            String title = contact.getName() + " " + contact.getEventTypeLabel();
-            StringBuilder body = new StringBuilder();
-
-
-            if (contact.shallWePartyToday()) {
-                if (contact.getDaysUntilNextBirthday() == 0) {
-                    body.append(getBaseContext().getString(R.string.party_message));
+                notify = false;
+            } else {
+                SharedPreferences prefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+                boolean favoritesOnly = prefs.getBoolean("notify_favorites_only", false);
+                if (!favoritesOnly) {
+                    notify = true;
                 } else {
-                    body.append(getBaseContext().getResources().getQuantityString(
-                            R.plurals.message_notification_message_bt_to_come,
-                            contact.getDaysUntilNextBirthday(),
-                            contact.getContactFirstName(), contact.getAge() + 1,
-                            contact.getDaysUntilNextBirthday()));
+                    notify = favoritesOnly && contact.isFavorite();
                 }
             }
 
-            /* Contact Picture */
-            Bitmap notifyPicture;
-            if (contact.getPhotoURI() != null) {
-                notifyPicture = MediaStore.Images.Media.getBitmap(
-                        getBaseContext().getContentResolver(),
-                        Uri.parse(contact.getPhotoURI()));
-            } else {
-                notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
-                        R.drawable.ic_account_circle_black_24dp);
+            if (notify) {
+                String title = contact.getName() + " " + contact.getEventTypeLabel();
+                StringBuilder body = new StringBuilder();
+
+                if (contact.shallWePartyToday()) {
+                    if (contact.getDaysUntilNextBirthday() == 0) {
+                        body.append(getBaseContext().getString(R.string.party_message));
+                    } else {
+                        body.append(getBaseContext().getResources().getQuantityString(
+                                R.plurals.message_notification_message_bt_to_come,
+                                contact.getDaysUntilNextBirthday(),
+                                contact.getContactFirstName(), contact.getAge() + 1,
+                                contact.getDaysUntilNextBirthday()));
+                    }
+                }
+
+                /* Contact Picture */
+                Bitmap notifyPicture;
+                if (contact.getPhotoURI() != null) {
+                    notifyPicture = MediaStore.Images.Media.getBitmap(
+                            getBaseContext().getContentResolver(),
+                            Uri.parse(contact.getPhotoURI()));
+                } else {
+                    notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
+                            R.drawable.ic_account_circle_black_24dp);
+                }
+
+                /* To open contact when notification clicked */
+                Intent openContact = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
+                                + contact.getKey()));
+                PendingIntent openContactPI = PendingIntent.getActivity(getBaseContext(),
+                        0, openContact,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                /* Notify */
+                Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
+                        openContactPI);
+                notify(System.currentTimeMillis(), nBuilder);
             }
-
-            /* To open contact when notification clicked */
-            Intent openContact = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
-                            + contact.getKey()));
-            PendingIntent openContactPI = PendingIntent.getActivity(getBaseContext(),
-                    0, openContact,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-            /* Notify */
-            Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
-                    openContactPI);
-            notify(System.currentTimeMillis(), nBuilder);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
