@@ -25,16 +25,24 @@
         <item quantity="one">%1$d day old</item>
         <item quantity="other">%1$d days old</item>
     </plurals>
+    <plurals name="years_old">
+        <item quantity="one">year old</item>
+        <item quantity="other">years old</item>
+    </plurals>
     <plurals name="days_ago">
         <item quantity="one">%1$d day ago</item>
         <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <plurals name="contact">
+        <item quantity="one">contact</item>
+        <item quantity="other">contacts</item>
     </plurals>
 
     <string name="next_week_name">Next %1$s will be on %2$s</string>
     <string name="prev_week_name">%1$s was on %2$s</string>
     <plurals name="days_until">
         <item quantity="one">%1$d day until next %2$s</item>
-        <item quantity="other">%1$d days until next %2$s</item>
+        <item quantity="other">%1$d days next until %2$s</item>
     </plurals>
 
     <string name="party_message">There is a party going on today :D</string>
@@ -100,7 +108,7 @@
     <string name="amount"># of contacts</string>
     <string name="about_help_title">You can help us :D</string>
     <string name="about_help_developer">Developer/Designer?</string>
-    <string name="about_help_issues">Feature Requests and/or Bug Resports?</string>
+    <string name="about_help_issues">Feature requests and/or bug reports?</string>
     <string name="about_help_languages">Support a new language?</string>
     <string name="about_help_coffee">Buy us a coffee :)</string>
     <string name="about_people_devel_code_title">Code</string>

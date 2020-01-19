@@ -149,9 +149,7 @@ public class BirthdayDataProvider {
                     ContactsContract.CommonDataKinds.Event.TYPE);
 
             DBHelper db = new DBHelper(ctx);
-            Log.i("bla", "Number of rows: " + db.numberOfRows());
             HashMap<String, DBContact> dbContacs = db.getAllCotacts();
-            Log.i("bla", "getAllContacts(): "+ dbContacs.size());
 
             while (cursor.moveToNext()) {
 

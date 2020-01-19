@@ -171,6 +171,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                     new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     if (dir == ItemTouchHelper.LEFT) {
                         contact.setIgnore();
                         if (hideIgnoredContacts) {
