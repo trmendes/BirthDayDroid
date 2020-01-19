@@ -31,7 +31,9 @@ public class Contact {
     private final String photoURI;
     private final String eventTypeLabel;
 
+    private String zodiacSymbol;
     private String zodiac;
+    private String zodiacElementSymbol;
     private String zodiacElement;
 
     private boolean isHeSheNotEvenOneYearOld;
@@ -65,12 +67,20 @@ public class Contact {
         return zodiac;
     }
 
+    public void setZodiacSymbol(String zodiacSymbol) {
+        this.zodiacSymbol = zodiacSymbol;
+    }
+
     public void setZodiac(String zodiac) {
         this.zodiac = zodiac;
     }
 
     public String getZodiacElement() {
         return zodiacElement;
+    }
+
+    public void setZodiacElementSymbol(String zodiacElementSymbol) {
+        this.zodiacElementSymbol = zodiacElementSymbol;
     }
 
     public void setZodiacElement(String zodiacElement) {
@@ -238,5 +248,13 @@ public class Contact {
 
     public void setDbID(long dbID) {
         this.dbID = dbID;
+    }
+
+    public String getZodiacSymbol() {
+        return this.zodiacSymbol;
+    }
+
+    public String getZodiacElementSymbol() {
+        return this.zodiacElementSymbol;
     }
 }

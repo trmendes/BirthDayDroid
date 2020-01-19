@@ -10,6 +10,7 @@
 - Statistics are now on the main menu
 - Text Statistics aligment (fragment)
 - UI changes to the about screen
+- Zodiac are now icons to save space on the screen but you can still search by it's name
 - Bug fixes
 
 * V33

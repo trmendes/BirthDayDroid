@@ -17,8 +17,26 @@
     <string name="sign_element_earth">Earth</string>
     <string name="sign_element_air">Air</string>
     <string name="sign_element_water">Water</string>
+
+    <string name="sign_aquarius_symbol" translatable="false">♒</string>
+    <string name="sign_capricorn_symbol" translatable="false">♑</string>
+    <string name="sign_pisces_symbol" translatable="false">♓</string>
+    <string name="sign_aries_symbol" translatable="false">♈</string>
+    <string name="sign_taurus_symbol" translatable="false">♉</string>
+    <string name="sign_gemini_symbol" translatable="false">♊</string>
+    <string name="sign_cancer_symbol" translatable="false">♋</string>
+    <string name="sign_leo_symbol" translatable="false">♌</string>
+    <string name="sign_virgo_symbol" translatable="false">♍</string>
+    <string name="sign_libra_symbol" translatable="false">♎</string>
+    <string name="sign_scorpio_symbol" translatable="false">♏</string>
+    <string name="sign_sagittarius_symbol" translatable="false">♐</string>
+    <string name="sign_element_fire_symbol" translatable="false">🔥</string>
+    <string name="sign_element_earth_symbol" translatable="false">🌎</string>
+    <string name="sign_element_air_symbol" translatable="false">🌬</string>
+    <string name="sign_element_water_symbol" translatable="false">💧</string>
+
     <string name="search">Search for age, name, sign, etc</string>
-    <string name="dual_string" translatable="false">%1$s/%2$s</string>
+    <string name="zodiac" translatable="false">%1$s|%2$s</string>
     <string name="birthday_string" translatable="false">%1$s/%2$d</string>
 
     <plurals name="days_old">

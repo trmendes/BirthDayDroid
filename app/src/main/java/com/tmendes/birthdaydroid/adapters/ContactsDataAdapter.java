@@ -82,8 +82,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         String name = contact.getName();
         String photoUri = contact.getPhotoURI();
         String nextBirthdayWeekName = contact.getNextBirthDayWeekName();
-        String zodiacSign = contact.getZodiac();
-        String zodiacSignElement = contact.getZodiacElement();
+        String zodiacSign = contact.getZodiacSymbol();
+        String zodiacSignElement = contact.getZodiacElementSymbol();
         String eventTypeLabel = contact.getEventTypeLabel();
 
         if (!showCurrentAge) {
@@ -119,7 +119,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             holder.zodiacElement.setVisibility(View.INVISIBLE);
         } else {
             holder.zodiacElement.setText(
-                    ctx.getResources().getString(R.string.dual_string,
+                    ctx.getResources().getString(R.string.zodiac,
                             zodiacSign, zodiacSignElement));
         }
 

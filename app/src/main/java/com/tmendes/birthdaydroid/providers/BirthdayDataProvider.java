@@ -387,8 +387,10 @@ public class BirthdayDataProvider {
     }
 
     private void setContactZodiac(Contact contact) {
+        String zodiacSymbol = "";
+        String zodiacElementSymbol =  "";
         String zodiac = "";
-        String zodiacElement =  "";
+        String zodiacElement = "";
 
         if (ctx != null) {
             int day = contact.getBornOnDay();
@@ -396,108 +398,156 @@ public class BirthdayDataProvider {
             switch (contact.getBornOnMonth()) {
                 case Calendar.JANUARY:
                     if ((day >= 21) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aquarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aquarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_capricorn_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_capricorn);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     }
                     break;
                 case Calendar.FEBRUARY:
                     if ((day >= 20) && (day <= 29)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_pisces_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_pisces);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aquarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aquarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     }
                     break;
                 case Calendar.MARCH:
                     if ((day >= 21) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aries_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aries);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_pisces_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_pisces);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     }
                     break;
                 case Calendar.APRIL:
                     if ((day >= 20) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_taurus_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_taurus);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aries_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aries);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     }
                     break;
                 case Calendar.MAY:
                     if ((day >= 20) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_gemini_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_gemini);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_taurus_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_taurus);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     }
                     break;
                 case Calendar.JUNE:
                     if ((day >= 21) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_cancer_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_cancer);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_gemini_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_gemini);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     }
                     break;
                 case Calendar.JULY:
                     if ((day >= 23) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_leo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_leo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_cancer_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_cancer);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     }
                     break;
                 case Calendar.AUGUST:
                     if ((day >= 22) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_virgo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_virgo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_leo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_leo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     }
                     break;
                 case Calendar.SEPTEMBER:
                     if ((day >= 23) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_libra_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_libra);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_virgo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_virgo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     }
                     break;
                 case Calendar.OCTOBER:
                     if ((day >= 23) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_scorpio_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_scorpio);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_libra_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_libra);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     }
                     break;
                 case Calendar.NOVEMBER:
                     if ((day >= 22) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_sagittarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_sagittarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_scorpio_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_scorpio);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     }
                     break;
                 case Calendar.DECEMBER:
                     if ((day >= 22) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_capricorn_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_capricorn);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_sagittarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_sagittarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     }
@@ -505,6 +555,8 @@ public class BirthdayDataProvider {
             }
         }
 
+        contact.setZodiacSymbol(zodiacSymbol);
+        contact.setZodiacElementSymbol(zodiacElementSymbol);
         contact.setZodiac(zodiac);
         contact.setZodiacElement(zodiacElement);
     }
