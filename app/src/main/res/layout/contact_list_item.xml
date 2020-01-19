@@ -122,13 +122,15 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <RelativeLayout
-                    android:layout_marginEnd="5dip"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="2"
+                    android:filterTouchesWhenObscured="false"
+                    android:fitsSystemWindows="false">
 
                     <!-- next birthday week name -->
                     <TextView
@@ -136,8 +138,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:singleLine="true"
                         android:ellipsize="end"
+                        android:singleLine="true"
                         android:text=""
                         android:textSize="12sp" />
 
@@ -155,8 +157,9 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <!-- BirthDay -->
