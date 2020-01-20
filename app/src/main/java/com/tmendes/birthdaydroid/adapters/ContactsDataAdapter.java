@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -98,16 +99,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.daysOld.setText("");
         holder.ageBadge.setText("");
         holder.daysToGo.setText("");
-        holder.zodiacElement.setText("");
         holder.bornOn.setText("");
-        holder.emojis.setText("");
 
-        if (contact.isIgnore()) {
-            holder.contactStatus.setText(ctx.getResources().getString(R.string.emoji_block));
-        }
-        if (contact.isFavorite()) {
-            holder.contactStatus.setText(ctx.getResources().getString(R.string.emoji_heart));
-        }
+        String status = "";
 
         holder.name.setText(name);
 
@@ -115,12 +109,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 .setText(ctx.getResources()
                         .getString(R.string.next_week_name, eventTypeLabel, nextBirthdayWeekName));
 
-        if (hideZoadiac) {
-            holder.zodiacElement.setVisibility(View.INVISIBLE);
-        } else {
-            holder.zodiacElement.setText(
-                    ctx.getResources().getString(R.string.zodiac,
-                            zodiacSign, zodiacSignElement));
+        if (!hideZoadiac) {
+            status = status + " " + zodiacSign + " " + zodiacSignElement;
         }
 
         holder.bornOn.setText(
@@ -156,7 +146,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             if (contact.getDaysUntilNextBirthday() == 0) {
                 holder.daysToGo.setText(
                         ctx.getResources().getString(R.string.party_message));
-                holder.emojis.setText(ctx.getResources().getString(R.string.emoji_today_party));
+                status = status + " " + ctx.getResources()
+                        .getString(R.string.emoji_today_party);
             } else {
                 holder.daysToGo
                         .setText(
@@ -165,10 +156,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                                         daysUntilNextBirthday,
                                         daysUntilNextBirthday,
                                         eventTypeLabel));
-                holder.emojis.setText(ctx.getResources().getString(R.string.emoji_tomorrow_party));
             }
-
-
         } else if (contact.getDaysUntilNextBirthday() == 1) {
             holder.daysToGo
                     .setText(
@@ -177,7 +165,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                                     daysUntilNextBirthday,
                                     daysUntilNextBirthday,
                                     eventTypeLabel));
-            holder.emojis.setText(ctx.getResources().getString(R.string.emoji_tomorrow_party));
+            holder.ageBadge.setBackgroundColor(Color.YELLOW);
         } else {
             /* Days Ago */
             if (daysUntilNextBirthday >= this.lateBDDListTreshold && !contact.isNotYetBorn()) {
@@ -226,6 +214,14 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             ageText = "↑" + age;
         }
 
+        if (contact.isIgnore()) {
+            status = status + " " + ctx.getResources().getString(R.string.emoji_block);
+        }
+        if (contact.isFavorite()) {
+            status = status + " " + ctx.getResources().getString(R.string.emoji_heart);
+        }
+
+        holder.contactStatus.setText(status);
         holder.ageBadge.setText(ageText);
     }
 
@@ -302,10 +298,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         private final TextView daysOld;
         private final TextView ageBadge;
         private final TextView daysToGo;
-        private final TextView zodiacElement;
         private final TextView bornOn;
         private final TextView contactStatus;
-        private final TextView emojis;
         private final ImageView picture;
         public final RelativeLayout ignoreContactLayout;
         public final RelativeLayout favoriteContactLayout;
@@ -346,10 +340,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             daysOld = view.findViewById(R.id.tvDaysOld);
             ageBadge = view.findViewById(R.id.tvAgeBadge);
             daysToGo = view.findViewById(R.id.tvContactDaysUntil);
-            zodiacElement = view.findViewById(R.id.tvZodiac);
             bornOn = view.findViewById(R.id.tvBirthDay);
             picture = view.findViewById(R.id.ivContactPicture);
-            emojis = view.findViewById(R.id.tvEmojis);
             itemLayout = view.findViewById(R.id.view_item);
             ignoreContactLayout = view.findViewById(R.id.view_background_ignore);
             favoriteContactLayout = view.findViewById(R.id.view_background_favorite);

@@ -20,6 +20,7 @@ package com.tmendes.birthdaydroid.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -167,6 +168,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
+            snackbar.setActionTextColor(Color.RED);
             snackbar.setAction(getContext().getResources().getString(R.string.undo),
                     new View.OnClickListener() {
                 @Override

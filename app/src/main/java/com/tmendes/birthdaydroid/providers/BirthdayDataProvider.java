@@ -258,22 +258,10 @@ public class BirthdayDataProvider {
         };
 
         String selection = ContactsContract.Data.MIMETYPE
-                + "=? AND ("
-                + ContactsContract.CommonDataKinds.Event.TYPE // Birthday
-                + "=? OR "
-                + ContactsContract.CommonDataKinds.Event.TYPE // Annniversary
-                + "=? OR "
-                + ContactsContract.CommonDataKinds.Event.TYPE // Other
-                + "=? OR "
-                + ContactsContract.CommonDataKinds.Event.TYPE // Custom
-                + "=?)";
+                + "=?";
 
-        String[] args = new String[]{
-                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY),
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY),
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_OTHER),
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM)
+        String[] args = new String[] {
+                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
         };
 
         return contentResolver.query(
