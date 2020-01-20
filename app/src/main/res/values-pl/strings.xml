@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_desc">Twój przypominacz o urodzinach</string>
     <string name="sign_aquarius">Wodnik</string>
     <string name="sign_capricorn">Koziorożec</string>
@@ -16,6 +16,7 @@
     <string name="sign_element_earth">Ziemia</string>
     <string name="sign_element_air">Powietrze</string>
     <string name="sign_element_water">Woda</string>
+
     <string name="search">Szukaj wieku, imienia, znaku itd.</string>
     <plurals name="days_old">
         <item quantity="one">%1$d dzień</item>
@@ -45,5 +46,5 @@
     <string name="array_order_desc">Malejąco</string>
     <string name="exit_warning_msg">Wciśnij wstecz jeszcze raz, aby wyjść</string>
     <string name="about_us_bt_changelog">Lista zmian</string>
-</resources>
+    </resources>
 

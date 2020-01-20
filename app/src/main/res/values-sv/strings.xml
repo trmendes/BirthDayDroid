@@ -16,19 +16,11 @@
     <string name="sign_element_earth">Jord</string>
     <string name="sign_element_air">Luft</string>
     <string name="sign_element_water">Vatten</string>
+
     <string name="search">Sök efter ålder, namn, stjärntecken, etc</string>
     <plurals name="days_old">
         <item quantity="one">%1$d dag gammal</item>
         <item quantity="other">%1$d dagar gammal</item>
-    </plurals>
-    <string name="next_week_name">Nästa %1$s kommer att vara på en %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d dag till nästa %2$s</item>
-        <item quantity="other">%1$d dagar till nästa %2$s</item>
-    </plurals>
-    <plurals name="message_notification_message_bt_to_come">
-        <item quantity="one">%1$s fyller %2$d i morgon</item>
-        <item quantity="other">%1$s fyller %2$d om %3$d dagar</item>
     </plurals>
     <string name="menu_birthday_list">Födelsedagslista</string>
     <string name="menu_settings">Inställningar</string>
@@ -41,6 +33,7 @@
     <string name="settings_scan_title">Tid för dagliga aviseringar</string>
     <string name="settings_scan_not_adv_sum">Visa födelsedagsaviseringar i förväg</string>
     <string name="settings_scan_not_adv_title">Födelsedagsaviseringar i förväg</string>
+    <string name="settings_list_hide_zodiac">Dölj stjärntecken</string>
     <string name="settings_scan_adv_sum">Hur många dagar i förväg ska vi meddela dig om dina kontakters födelsedag, så du hinner förbereda en överraskning för dem</string>
     <string name="settings_scan_adv_title">Dagar i förväg</string>
     <string name="settings_scan_precise_title">Exakta aviseringar</string>
@@ -57,13 +50,9 @@
     <string name="settings_theme">Mörk</string>
     <string name="navigation_drawer_open">Öppna navigeringsmappen</string>
     <string name="navigation_drawer_close">Stäng navigeringsmappen</string>
-    <string name="alert_contats_dialog_title">Tillstånd krävs för att läsa kontakterna</string>
     <string name="alert_contacts_dialog_msg">Vi måste kunna komma åt dina kontakter för att kunna hämta deras födelsedagar</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Förneka</string>
-
-
-
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid är ett öppet källkodsprojekt skapad för dig så du blir påmind om dina vänners födelsedag.</string>
     <string name="array_order_next">Dagar till nästa födelsedag</string>
     <string name="array_order_age">Ålder</string>
@@ -73,5 +62,5 @@
     <string name="array_order_desc">Fallande</string>
     <string name="exit_warning_msg">Tryck bakåt en gång till för att avsluta</string>
     <string name="about_us_bt_changelog">Ändringslogg</string>
-</resources>
+    </resources>
 

@@ -6,11 +6,13 @@
 - Notify me only about my favoite contacts (preferences)
 - Hide ignored contacts (preferences)
 - Use Emoji fonts instead of images
-- Disable graph animations
+- Disable statistics graph animations
 - Statistics are now on the main menu
 - Text Statistics aligment (fragment)
 - UI changes to the about screen
+- UI changes to each item
 - Zodiac are now icons to save space on the screen but you can still search by it's name
+- New option to show Birthday type only if you want to hide other types
 - Bug fixes
 
 * V33

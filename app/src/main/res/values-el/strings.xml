@@ -16,20 +16,17 @@
     <string name="sign_element_earth">Γη</string>
     <string name="sign_element_air">Αέρας</string>
     <string name="sign_element_water">Νερό</string>
+
     <string name="search">Αναζήτηση για ηλικία, όνομα, ζωόδιο, κλπ.</string>
     <plurals name="days_old">
         <item quantity="one">%1$d ημέρας</item>
         <item quantity="other">%1$d ημερών</item>
     </plurals>
-    <string name="next_week_name">Επόμενο %1$s θα είναι σε %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d ημέρα μέχρι το επόμενο %2$s</item>
-        <item quantity="other">%1$d ημέρες μέχρι το επόμενο %2$s</item>
+    <plurals name="days_ago">
+        <item quantity="one">%1$d ημέρα πριν</item>
+        <item quantity="other">%1$d ημέρες πριν</item>
     </plurals>
-    <plurals name="message_notification_message_bt_to_come">
-        <item quantity="one">%1$s κλείνει τα %2$d αύριο</item>
-        <item quantity="other">%1$s κλείνει τα %2$d σε %3$d μέρες</item>
-    </plurals>
+    <string name="prev_week_name">%1$s ήταν στις %2$s</string>
     <string name="menu_birthday_list">Λϊστα γενεθλίων</string>
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_about">Σχετικά</string>
@@ -58,13 +55,9 @@
     <string name="settings_theme">Σκούρο</string>
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
-    <string name="alert_contats_dialog_title">Χρειάζεται άδεια για ανάγνωση των επαφών</string>
     <string name="alert_contacts_dialog_msg">Χρειαζόμαστε πρόσβαση στην λίστα των επαφών σου, προκειμένου να φέρουμε τα γενέθλια τους</string>
     <string name="alert_permissions_allow">ΟΚ</string>
     <string name="alert_permissions_deny">Άρνηση</string>
-
-
-
     <string name="about_info" tools:keep="@string/about_info">Το BirthDayDroid είναι ένα έργο ανοιχτού λογισμικού που δημιουργήθηκε για να σας βοηθήσει να θυμάστε τα γενέθλια των φίλων σας.</string>
     <string name="array_order_next">Ημέρες μέχρι τα επόμενα γενέθλια</string>
     <string name="array_order_age">Ηλικία</string>
@@ -74,5 +67,6 @@
     <string name="array_order_desc">Φθίνουσα</string>
     <string name="exit_warning_msg">Πατήστε πάλι για έξοδο</string>
     <string name="about_us_bt_changelog">Καταγραφή αλλαγών</string>
-</resources>
+    <string name="about_people_devel_translators_title">Μετάφραση</string>
+    </resources>
 

@@ -16,6 +16,7 @@
     <string name="sign_element_earth">Знак земли</string>
     <string name="sign_element_air">Знак воздуха</string>
     <string name="sign_element_water">Знак воды</string>
+
     <string name="search">Поиск по возрасту, имени, знаку и т.д.</string>
     <plurals name="days_old">
         <item quantity="one">%1$d день от роду</item>
@@ -23,21 +24,26 @@
         <item quantity="many">%1$d дней от роду</item>
         <item quantity="other">%1$d дней от роду</item>
     </plurals>
-    <string name="next_week_name">Следующий %1$s будет на %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d день до следующего %2$s</item>
-        <item quantity="few">%1$d дня до следующего %2$s</item>
-        <item quantity="many">%1$d дней до следующего %2$s</item>
-        <item quantity="other">%1$d дней до следующего %2$s</item>
+    <plurals name="days_ago">
+        <item quantity="one">%1$d день назад</item>
+        <item quantity="few">%1$d дней назад</item>
+        <item quantity="many">%1$d дней назад</item>
+        <item quantity="other">%1$d дней назад</item>
     </plurals>
+    <string name="prev_week_name">Событие%1$s было в %2$s</string>
+    <string name="party_message">Вечеринка сегодня! :D</string>
     <plurals name="message_notification_message_bt_to_come">
-        <item quantity="one">%1$s исполняется %2$d лет завтра</item>
-        <item quantity="few">%1$s исполняется %2$d лет через %3$d дней</item>
-        <item quantity="many">%1$s исполняется %2$d лет через %3$d дней</item>
-        <item quantity="other">%1$s исполняется %2$d лет через %3$d дней</item>
+        <item quantity="one">%1$s исполняется %2$d завтра</item>
+        <item quantity="few">%1$s исполняется%2$d через %3$d дней</item>
+        <item quantity="many">%1$s исполняется %2$d через %3$d дней</item>
+        <item quantity="other">%1$s исполняется %2$d через %3$d дней</item>
     </plurals>
     <string name="menu_birthday_list">Список дней рождения</string>
     <string name="menu_settings">Настройки</string>
+    <string name="menu_statistics_age">Статистика по возрастам</string>
+    <string name="menu_statistics_zodiac">Статистика по знакам зодиака</string>
+    <string name="menu_statistics_week">Статистика по неделям рождения</string>
+    <string name="menu_statistics_month">Статистика по месяцам рождения</string>
     <string name="menu_about">О программе</string>
     <string name="settings_not_sound_title">Звук уведомления</string>
     <string name="settings_not_sound_sum">Установить звук уведомления о дне рождения</string>
@@ -47,11 +53,15 @@
     <string name="settings_scan_title">Время показа уведомлений</string>
     <string name="settings_scan_not_adv_sum">Заранее показывать уведомления о днях рождения</string>
     <string name="settings_scan_not_adv_title">Уведомления о днях рождения заранее</string>
+    <string name="settings_list_hide_zodiac">Скрыть Знак Зодиака</string>
+    <string name="settings_show_current_age">Показывать Текущий Возраст</string>
+    <string name="settings_statistics_as_text">Показывать Статистику как текст</string>
     <string name="settings_scan_adv_sum">За сколько дней до дня рождения показывать уведомление о дне рождения контакта, чтобы было время подготовить подарок</string>
     <string name="settings_scan_adv_title">Сколько дней заранее</string>
     <string name="settings_scan_precise_title">Точные уведомления</string>
     <string name="settings_scan_precise">Только одно уведомление заранее</string>
     <string name="settings_list_preferences">Настройки списка дней рождения</string>
+    <string name="settings_application_preferences">Настройки Приложения</string>
     <string name="settings_list_input_sum">Дней до ДР / Возраст / Имя / Знак</string>
     <string name="settings_list_input_title">Сортировка</string>
     <string name="settings_list_order_sum">По возрастанию или по убыванию</string>
@@ -60,6 +70,7 @@
     <string name="settings_time_cancel">Отмена</string>
     <string name="settings_layout_preferences">Вид</string>
     <string name="settings_theme_title">Тема</string>
+    <string name="settings_battery_status">Разрешить работу в фоновом режиме</string>
     <string name="settings_theme">Тёмная</string>
     <string name="navigation_drawer_open">Открыть панель уведомлений</string>
     <string name="navigation_drawer_close">Закрыть панель уведомлений</string>
@@ -67,9 +78,6 @@
     <string name="alert_contacts_dialog_msg">Нужно разрешение на доступ к контактам, чтобы видеть их дни рождения</string>
     <string name="alert_permissions_allow">ОК</string>
     <string name="alert_permissions_deny">Отклонить</string>
-
-
-
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid - проект с открытым исходным кодом для напоминания о днях рождения ваших друзей.</string>
     <string name="array_order_next">Дней до дня рождения</string>
     <string name="array_order_age">Возраст</string>
@@ -79,5 +87,18 @@
     <string name="array_order_desc">По убыванию</string>
     <string name="exit_warning_msg">Нажмите еще раз, чтобы выйти</string>
     <string name="about_us_bt_changelog">Что нового</string>
+    <string name="undo">Отменить</string>
+    <string name="about_help_title">Вы можете нам помочь :D</string>
+    <string name="about_help_developer">Разработчик/Дизайнер?</string>
+    <string name="about_help_issues">Придумали новую функциональность или нашли баг?</string>
+    <string name="about_help_languages">Можете помочь с переводами?</string>
+    <string name="about_help_coffee">Купить нам кофе :)</string>
+    <string name="about_people_devel_code_title">Код</string>
+    <string name="about_people_devel_title">Разработчики</string>
+    <string name="about_people_devel_contributors_title">Соавторы</string>
+    <string name="about_people_devel_translators_title">Перевод</string>
+    <string name="about_people_devel_translators_text">Замечательные люди из Transifex</string>
+    <string name="about_special_thanks">Особая благодарность</string>
+    <string name="about_icons">Иконки (Отдельное спасибо)</string>
 </resources>
 

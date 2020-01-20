@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sign_aquarius">Aquário</string>
     <string name="sign_capricorn">Capricórnio</string>
     <string name="sign_pisces">Peixes</string>
@@ -15,19 +15,11 @@
     <string name="sign_element_earth">Terra</string>
     <string name="sign_element_air">Ar</string>
     <string name="sign_element_water">Água</string>
+
     <string name="search">Procurar por idade, nome, signo, etc</string>
     <plurals name="days_old">
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
-    </plurals>
-    <string name="next_week_name">O próximo %1$s será %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d dias até ao próximo %2$s</item>
-        <item quantity="other">%1$d dias ate o próximo %2$s</item>
-    </plurals>
-    <plurals name="message_notification_message_bt_to_come">
-        <item quantity="one">%1$s faz %2$d amanhã</item>
-        <item quantity="other">%1$s faz %2$d dentro de %3$d dias</item>
     </plurals>
     <string name="menu_birthday_list">Lista de Aniversários</string>
     <string name="menu_settings">Definições</string>
@@ -45,7 +37,6 @@
     <string name="settings_layout_preferences">Disposição</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Escuro</string>
-    <string name="alert_contats_dialog_title">Necessária permissão de Leitura de Contactos</string>
     <string name="alert_contacts_dialog_msg">Necessitamos aceder aos contactos para procurar as suas datas de nascimento</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Negar</string>
@@ -56,5 +47,5 @@
     <string name="array_order_asc">Ascendente</string>
     <string name="array_order_desc">Descendente</string>
     <string name="exit_warning_msg">Pressione voltar uma vez mais para sair</string>
-</resources>
+    </resources>
 

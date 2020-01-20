@@ -16,22 +16,43 @@
     <string name="sign_element_earth">Terra</string>
     <string name="sign_element_air">Aria</string>
     <string name="sign_element_water">Acqua</string>
-    <string name="search">Trova età, nome, segno…</string>
+
+    <string name="search">Trova età, nome, segno...</string>
     <plurals name="days_old">
         <item quantity="one">%1$d giorno di vita</item>
         <item quantity="other">%1$d giorni di vita</item>
     </plurals>
+    <plurals name="years_old">
+        <item quantity="one">%1$d anno di età</item>
+        <item quantity="other">%1$d anni</item>
+    </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">%1$d giorno fa</item>
+        <item quantity="other">%1$d giorni fa</item>
+    </plurals>
+    <plurals name="contact">
+        <item quantity="one">%1$d contatto</item>
+        <item quantity="other">%1$d contatti</item>
+    </plurals>
+
     <string name="next_week_name">Il prossimo %1$s sarà di %2$s</string>
+    <string name="prev_week_name">%1$s era %2$s</string>
     <plurals name="days_until">
         <item quantity="one">%1$d giorni rimanenti al suo %2$s</item>
         <item quantity="other">%1$d giorni rimanenti al suo %2$s</item>
     </plurals>
+
+    <string name="party_message">Oggi si festeggia :D</string>
     <plurals name="message_notification_message_bt_to_come">
-        <item quantity="one">%1$s diventerà %2$d domani</item>
+        <item quantity="one">%1$sdiventerà %2$d domani</item>
         <item quantity="other">%1$s diventerà %2$d tra %3$d giorni</item>
     </plurals>
     <string name="menu_birthday_list">Lista dei compleanni</string>
     <string name="menu_settings">Impostazioni</string>
+    <string name="menu_statistics_age">Statistica sull\'età</string>
+    <string name="menu_statistics_zodiac">Statistiche sul segno zodiacale</string>
+    <string name="menu_statistics_week">Statistiche sul giorno di nascita</string>
+    <string name="menu_statistics_month">Statistiche sul mese di nascita</string>
     <string name="menu_about">A proposito</string>
     <string name="settings_not_sound_title">Suono di notifica</string>
     <string name="settings_not_sound_sum">Imposta il suono per le notifiche di compleanno</string>
@@ -41,11 +62,15 @@
     <string name="settings_scan_title">Orario delle notifiche giornaliere</string>
     <string name="settings_scan_not_adv_sum">Notifica i compleanni in anticipo</string>
     <string name="settings_scan_not_adv_title">Notifiche anticipate dei compleanni</string>
+    <string name="settings_list_hide_zodiac">Nascondi il segno zodiacale</string>
+    <string name="settings_show_current_age">Mostra età corrente</string>
+    <string name="settings_statistics_as_text">Mostra statistiche come testo</string>
     <string name="settings_scan_adv_sum">Con quanti giorni d\'anticipo dovremmo notificarti i compleanni, cosicché tu abbia tempo sufficiente a preparare una sorpresa agli interessati?</string>
     <string name="settings_scan_adv_title">Giorni d\'anticipo</string>
     <string name="settings_scan_precise_title">Notifiche precise</string>
     <string name="settings_scan_precise">Solo una notifica in anticipo</string>
     <string name="settings_list_preferences">Impostazioni riguardo la lista dei compleanni</string>
+    <string name="settings_application_preferences">Impostazioni sul comportamento dell\'applicazione</string>
     <string name="settings_list_input_sum">Giorni rimanenti al compleanno/Età/Nome/Segno</string>
     <string name="settings_list_input_title">Ordina per</string>
     <string name="settings_list_order_sum">Crescente o decrescente</string>
@@ -54,16 +79,14 @@
     <string name="settings_time_cancel">Annulla</string>
     <string name="settings_layout_preferences">Aspetto</string>
     <string name="settings_theme_title">Tema</string>
+    <string name="settings_battery_status">Permetti esecuzione in background</string>
     <string name="settings_theme">Scuro</string>
     <string name="navigation_drawer_open">Apri il menù di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il menù di navigazione</string>
-    <string name="alert_contats_dialog_title">Permesso per leggere i contatti</string>
+    <string name="alert_contats_dialog_title">Permesso di Lettura dei Contatti</string>
     <string name="alert_contacts_dialog_msg">Abbiamo bisogno di accedere alla tua lista dei contatti per leggere i compleanni</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Nega</string>
-
-
-
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid è un progetto open-source con lo scopo di aiutarti a ricordarti i compleanni dei tuoi amici.</string>
     <string name="array_order_next">Giorni rimanenti al prossimo compleanno</string>
     <string name="array_order_age">Età</string>
@@ -73,5 +96,20 @@
     <string name="array_order_desc">Decrescente</string>
     <string name="exit_warning_msg">Premere nuovamente per uscire</string>
     <string name="about_us_bt_changelog">Log delle modifiche</string>
+    <string name="undo">Annulla</string>
+    <string name="amount"># di contatti</string>
+    <string name="about_help_title">Puoi contribuire :D</string>
+    <string name="about_help_developer">Sviluppatore/disegnatore?</string>
+    <string name="about_help_issues">Richiesta di funzionalità e/o segnalazione di errori?</string>
+    <string name="about_help_languages">Supporta una nuova lingua?</string>
+    <string name="about_help_coffee">Pagaci un caffè :)</string>
+    <string name="about_people_devel_code_title">Codice</string>
+    <string name="about_people_devel_title">Sviluppatori</string>
+    <string name="about_people_devel_contributors_title">Collaboratori</string>
+    <string name="about_people_devel_translators_title">Traduzione</string>
+    <string name="about_people_devel_translators_text">Un gruppo di persone gentili su Transifex</string>
+    <string name="about_special_thanks">Ringraziamento speciale</string>
+    <string name="about_libs">Librerie (grazie tante)</string>
+    <string name="about_icons">Icone (ringraziamento speciale)</string>
 </resources>
 

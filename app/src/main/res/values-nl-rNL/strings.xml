@@ -16,22 +16,43 @@
     <string name="sign_element_earth">Aarde</string>
     <string name="sign_element_air">Lucht</string>
     <string name="sign_element_water">Water</string>
+
     <string name="search">Zoek op leeftijd, naam, sterrenbeeld, etc</string>
     <plurals name="days_old">
         <item quantity="one">%1$d dag oud</item>
         <item quantity="other">%1$d dagen oud</item>
     </plurals>
-    <string name="next_week_name">Volgende %1$s is op een %2$s</string>
+    <plurals name="years_old">
+        <item quantity="one">%1$d jaar oud</item>
+        <item quantity="other">%1$d jaar oud</item>
+    </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">%1$d dag geleden</item>
+        <item quantity="other">%1$d dagen geleden</item>
+    </plurals>
+    <plurals name="contact">
+        <item quantity="one">%1$d contact</item>
+        <item quantity="other">%1$d contacten</item>
+    </plurals>
+
+    <string name="next_week_name">Volgende %1$s is op %2$s</string>
+    <string name="prev_week_name">%1$s is op %2$s</string>
     <plurals name="days_until">
-        <item quantity="one">Over %1$d dag is de volgende %2$s</item>
+        <item quantity="one">Over %1$d dagen is de volgende %2$s</item>
         <item quantity="other">Over %1$d dagen is de volgende %2$s</item>
     </plurals>
+
+    <string name="party_message">Vandaag is er een feestje :D</string>
     <plurals name="message_notification_message_bt_to_come">
-        <item quantity="one">%1$s wordt morgen %2$d jaar</item>
+        <item quantity="one">%1$s wordt morgen %2$d</item>
         <item quantity="other">%1$s wordt %2$d over %3$d dagen</item>
     </plurals>
     <string name="menu_birthday_list">Verjaardagslijst</string>
     <string name="menu_settings">Instellingen</string>
+    <string name="menu_statistics_age">Leeftijd statistieken</string>
+    <string name="menu_statistics_zodiac">Sterrenbeeld statistieken</string>
+    <string name="menu_statistics_week">Geboortedag statistieken</string>
+    <string name="menu_statistics_month">Geboortemaand statistieken</string>
     <string name="menu_about">Over</string>
     <string name="settings_not_sound_title">Notificatie geluid</string>
     <string name="settings_not_sound_sum">Stel het verjaardagsnotificatie geluid in</string>
@@ -42,11 +63,14 @@
     <string name="settings_scan_not_adv_sum">Toon verjaardagsnotificaties van tevoren</string>
     <string name="settings_scan_not_adv_title">Verjaardagsnotificaties van tevoren</string>
     <string name="settings_list_hide_zodiac">Verberg Zodiac</string>
+    <string name="settings_show_current_age">Toon huidige leeftijd</string>
+    <string name="settings_statistics_as_text">Toon statistieken als tekst</string>
     <string name="settings_scan_adv_sum">Hoeveel dagen van tevoren wil je een notificatie krijgen, zodat je nog een verrassing kan voorbereiden</string>
     <string name="settings_scan_adv_title">Dagen van tevoren</string>
     <string name="settings_scan_precise_title">Eenmalige notificaties</string>
     <string name="settings_scan_precise">Enkel 1 notificatie van tevoren</string>
     <string name="settings_list_preferences">Verjaardagslijst instellingen</string>
+    <string name="settings_application_preferences">Applicatiegedrag instellingen</string>
     <string name="settings_list_input_sum">Dagen tot verjaardag/leeftijd/naam/sterrenbeeld</string>
     <string name="settings_list_input_title">Sorteren op</string>
     <string name="settings_list_order_sum">Oplopend of aflopend</string>
@@ -55,6 +79,7 @@
     <string name="settings_time_cancel">Annuleer</string>
     <string name="settings_layout_preferences">Ontwerp</string>
     <string name="settings_theme_title">Thema</string>
+    <string name="settings_battery_status">Toestaan om op de achtergrond te draaien</string>
     <string name="settings_theme">Donker</string>
     <string name="navigation_drawer_open">Open navigatielade</string>
     <string name="navigation_drawer_close">Sluit navigatielade</string>
@@ -62,9 +87,6 @@
     <string name="alert_contacts_dialog_msg">We hebben toegang tot je contactenlijst nodig om hun verjaardagen op te halen</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Weigeren</string>
-
-
-
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is een open bron project, welke je te helpt de verjaardagen van je vrienden te onthouden.</string>
     <string name="array_order_next">Dagen tot volgende verjaardag</string>
     <string name="array_order_age">Leeftijd</string>
@@ -74,5 +96,20 @@
     <string name="array_order_desc">Aflopend</string>
     <string name="exit_warning_msg">Klik nogmaals op terug om af te sluiten</string>
     <string name="about_us_bt_changelog">Veranderingenlijst</string>
+    <string name="undo">Ongedaan maken</string>
+    <string name="amount">aantal contacten</string>
+    <string name="about_help_title">Je kan ons helpen :D</string>
+    <string name="about_help_developer">Ontwikkelaar of designer?</string>
+    <string name="about_help_issues">Een idee voor nieuwe functionaliteit of een fout gevonden?</string>
+    <string name="about_help_languages">Een nieuwe taal toevoegen?</string>
+    <string name="about_help_coffee">Betaal een kop koffie :)</string>
+    <string name="about_people_devel_code_title">Broncode</string>
+    <string name="about_people_devel_title">ontwikkelaars</string>
+    <string name="about_people_devel_contributors_title">Bijdragers</string>
+    <string name="about_people_devel_translators_title">Vertalingen</string>
+    <string name="about_people_devel_translators_text">Een aantal leuker mensen op Transifex</string>
+    <string name="about_special_thanks">Met dank aan</string>
+    <string name="about_libs">Bibliotheken (hartelijk bedankt)</string>
+    <string name="about_icons">Iconen (dank je wel)</string>
 </resources>
 
