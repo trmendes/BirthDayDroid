@@ -72,13 +72,18 @@
             android:title="Hide ignored contacts" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="notify_favorites_only"
-            android:title="Notify Favorites Only" />
+            android:key="show_birthday_type_only"
+            android:title="@string/settings_show_birthday_type_only" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="app_preferences"
         android:title="@string/settings_application_preferences">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notify_favorites_only"
+            android:title="Notify Favorites Only" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="settings_statistics_as_text"

@@ -136,6 +136,9 @@ public class BirthdayDataProvider {
             resetListsAndMaps();
 
             boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+            boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
+
+            boolean parseContacts;
 
             final int keyColumn = cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY);
@@ -154,88 +157,99 @@ public class BirthdayDataProvider {
             while (cursor.moveToNext()) {
 
                 int eventType = cursor.getInt(typeColumn);
-                String keyCID = cursor.getString(keyColumn);
 
-                String eventTypeLabel = ContactsContract.CommonDataKinds.Event
-                        .getTypeLabel(ctx.getResources(), eventType, "").toString()
-                        .toLowerCase();
-
-                boolean ignoreContact = false;
-                boolean favoriteContact = false;
-                int contactDBId = -1;
-
-                DBContact dbContact;
-
-                if ((dbContact = dbContacs.remove(keyCID)) != null) {
-                    ignoreContact = dbContact.isIgnore();
-                    favoriteContact = dbContact.isFavorite();
-                    contactDBId = dbContact.getId();
+                if (showBirthdayTypeOnly) {
+                    parseContacts = (eventType ==
+                            ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
+                } else {
+                    parseContacts = true;
                 }
 
-                if (hideIgnoredContacts && ignoreContact) {
-                    continue;
-                }
+                if (parseContacts) {
 
-                Contact contact = parseNewContact(keyCID,
-                        cursor.getString(nameColumn),
-                        cursor.getString(photoColumn),
-                        cursor.getString(dateColumn),
-                        eventTypeLabel,
-                        ignoreContact,
-                        favoriteContact);
+                    String keyCID = cursor.getString(keyColumn);
 
-                if (contact != null) {
-                    contact.setDbID(contactDBId);
+                    String eventTypeLabel = ContactsContract.CommonDataKinds.Event
+                            .getTypeLabel(ctx.getResources(), eventType, "").toString()
+                            .toLowerCase();
 
-                    /* Birthday List */
-                    if (contact.shallWePartyToday()) {
-                        contactsToCelebrate.add(contact);
+                    boolean ignoreContact = false;
+                    boolean favoriteContact = false;
+                    int contactDBId = -1;
+
+                    DBContact dbContact;
+
+                    if ((dbContact = dbContacs.remove(keyCID)) != null) {
+                        ignoreContact = dbContact.isIgnore();
+                        favoriteContact = dbContact.isFavorite();
+                        contactDBId = dbContact.getId();
                     }
 
-                    if (!notificationListOnly) {
-                        /* All Contacts */
-                        contacts.add(contact);
+                    if (hideIgnoredContacts && ignoreContact) {
+                        continue;
+                    }
+
+                    Contact contact = parseNewContact(keyCID,
+                            cursor.getString(nameColumn),
+                            cursor.getString(photoColumn),
+                            cursor.getString(dateColumn),
+                            eventTypeLabel,
+                            ignoreContact,
+                            favoriteContact);
+
+                    if (contact != null) {
+                        contact.setDbID(contactDBId);
+
+                        /* Birthday List */
+                        if (contact.shallWePartyToday()) {
+                            contactsToCelebrate.add(contact);
+                        }
+
+                        if (!notificationListOnly) {
+                            /* All Contacts */
+                            contacts.add(contact);
 
 
-                        if (!contact.isIgnore()) {
-                            try {
-                                if (statistics.getAgeStats().get(contact.getAge()) != null) {
-                                    statistics.getAgeStats().put(contact.getAge(),
-                                            statistics.getAgeStats().get(contact.getAge()) + 1);
-                                } else {
-                                    statistics.getAgeStats().put(contact.getAge(), 1);
+                            if (!contact.isIgnore()) {
+                                try {
+                                    if (statistics.getAgeStats().get(contact.getAge()) != null) {
+                                        statistics.getAgeStats().put(contact.getAge(),
+                                                statistics.getAgeStats().get(contact.getAge()) + 1);
+                                    } else {
+                                        statistics.getAgeStats().put(contact.getAge(), 1);
+                                    }
+
+                                    if (statistics.getSignStats().get(contact.getZodiac()) != null) {
+                                        statistics.getSignStats().put(contact.getZodiac(),
+                                                statistics.getSignStats().get(contact.getZodiac()) + 1);
+                                    } else {
+                                        statistics.getSignStats().put(contact.getZodiac(), 1);
+                                    }
+
+                                    if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
+                                        statistics.getMonthStats().put(contact.getBornOnMonth(),
+                                                statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
+                                    } else {
+                                        statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
+                                    }
+
+                                    if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
+                                        statistics.getWeekStats().put(contact.getBornOnDayWeek(),
+                                                statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
+                                    } else {
+                                        statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                                    }
+                                } catch (NullPointerException ignored) {
                                 }
-
-                                if (statistics.getSignStats().get(contact.getZodiac()) != null) {
-                                    statistics.getSignStats().put(contact.getZodiac(),
-                                            statistics.getSignStats().get(contact.getZodiac()) + 1);
-                                } else {
-                                    statistics.getSignStats().put(contact.getZodiac(), 1);
-                                }
-
-                                if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
-                                    statistics.getMonthStats().put(contact.getBornOnMonth(),
-                                            statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
-                                } else {
-                                    statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
-                                }
-
-                                if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
-                                    statistics.getWeekStats().put(contact.getBornOnDayWeek(),
-                                            statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
-                                } else {
-                                    statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
-                                }
-                            } catch(NullPointerException ignored) {
                             }
                         }
                     }
                 }
+
+                db.cleanDb(dbContacs);
+
+                db.close();
             }
-
-            db.cleanDb(dbContacs);
-
-            db.close();
             cursor.close();
         }
     }
