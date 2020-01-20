@@ -132,13 +132,13 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             } catch (IOException e) {
                 holder.picture.setImageDrawable(
                         ContextCompat.getDrawable(
-                                ctx, R.drawable.ic_account_circle_black_24dp));
+                                ctx, R.drawable.ic_account_circle_black_48dp));
             }
 
         } else {
             holder.picture.setImageDrawable(
                     ContextCompat.getDrawable(
-                            ctx, R.drawable.ic_account_circle_black_24dp));
+                            ctx, R.drawable.ic_account_circle_black_48dp));
         }
 
         /* Party */

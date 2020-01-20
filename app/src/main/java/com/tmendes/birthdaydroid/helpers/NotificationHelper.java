@@ -136,7 +136,7 @@ public class NotificationHelper extends ContextWrapper {
                             Uri.parse(contact.getPhotoURI()));
                 } else {
                     notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
-                            R.drawable.ic_account_circle_black_24dp);
+                            R.drawable.ic_account_circle_black_48dp);
                 }
 
                 /* To open contact when notification clicked */

@@ -79,7 +79,6 @@
     <PreferenceCategory
         android:key="app_preferences"
         android:title="@string/settings_application_preferences">
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="notify_favorites_only"
@@ -95,6 +94,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_layout_preferences">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_add_contact_fab"
+            android:title="@string/settings_hide_add_contact_fab" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="dark_theme"

@@ -18,6 +18,7 @@
 package com.tmendes.birthdaydroid.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,11 +26,15 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -59,6 +64,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     private boolean hideIgnoredContacts;
     private DBHelper dbHelper;
     private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences prefs;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -68,7 +75,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                 container, false);
 
         PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
         bddDataProviver = BirthdayDataProvider.getInstance();
@@ -95,6 +102,19 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         Objects.requireNonNull(getActivity()).getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+        fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_INSERT,
+                        ContactsContract.Contacts.CONTENT_URI);
+                startActivity(intent);
+            }
+        });
+
+        showHideAddNewBirthday();
 
         inputSearch.addTextChangedListener(new TextWatcher() {
 
@@ -132,13 +152,23 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         return v;
     }
 
+    private void showHideAddNewBirthday() {
+        boolean hideAddNewBirthday = prefs.getBoolean("show_add_contact_fab", false);
+        if (hideAddNewBirthday) {
+            fab.hide();
+        } else {
+            fab.show();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         int sortInput = Integer.valueOf(prefs.getString("sort_input", "0"));
         int sortMethod = Integer.valueOf(prefs.getString("sort_method", "0"));
+
+        showHideAddNewBirthday();
 
         bddDataProviver.refreshData(false);
         contactsDataAdapter.sort(sortInput, sortMethod);

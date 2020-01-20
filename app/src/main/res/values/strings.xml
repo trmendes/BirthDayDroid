@@ -103,6 +103,7 @@
     <string name="settings_battery_status">Allow to run in the background</string>
     <string name="settings_theme">Dark</string>
     <string name="settings_show_birthday_type_only">Display Birthday event type only</string>
+    <string name="settings_hide_add_contact_fab">Hide button to add new birthday</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="alert_contats_dialog_title">Permission to Read Contacts needed</string>

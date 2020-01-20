@@ -1,5 +1,6 @@
 * V34
 - Reduce the App Size \o/ \o/ \o/
+- Add a button which is a shortcut to add a new contact (and birthday) to the contact list
 - Favorite and Ignore list (move contat row to the left and to the right)
 - Code clean up (move from listView to recycleView) and MORE
 - Long press to edit contact
