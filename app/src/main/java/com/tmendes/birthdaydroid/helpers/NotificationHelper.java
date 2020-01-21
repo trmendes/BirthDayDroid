@@ -24,11 +24,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 
@@ -58,43 +59,29 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     private void createChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
-                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.setShowBadge(true);
-            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            getManager().createNotificationChannel(notificationChannel);
-        }
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
+                CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.setShowBadge(true);
+        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        getManager().createNotificationChannel(notificationChannel);
     }
 
     private Notification.Builder getNotification(String title,
                                                  String body,
                                                  Bitmap notifyPicture,
                                                  PendingIntent pI) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setColorized(true)
-                    .setShowWhen(true)
-                    .setContentIntent(pI)
-                    .setLargeIcon(notifyPicture)
-                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                    .setAutoCancel(true);
+        return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setColorized(true)
+                .setShowWhen(true)
+                .setContentIntent(pI)
+                .setLargeIcon(notifyPicture)
+                .setSmallIcon(R.drawable.ic_cake_white_24dp)
+                .setAutoCancel(true);
 
-        } else {
-            //noinspection deprecation
-            return new Notification.Builder(getApplicationContext())
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setContentIntent(pI)
-                    .setLargeIcon(notifyPicture)
-                    .setShowWhen(true)
-                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                    .setAutoCancel(true);
-        }
     }
 
     private void notify(long id, Notification.Builder notification) {
@@ -110,46 +97,61 @@ public class NotificationHelper extends ContextWrapper {
 
     public void postNotification(Contact contact) {
         try {
-            String title = contact.getName() + " " + contact.getEventTypeLabel();
-            StringBuilder body = new StringBuilder();
+            boolean notify;
 
-
-            if (contact.shallWePartyToday()) {
-                if (contact.getDaysUntilNextBirthday() == 0) {
-                    body.append(getBaseContext().getString(R.string.party_message));
+            if (contact.isIgnore()) {
+                notify = false;
+            } else {
+                SharedPreferences prefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+                boolean favoritesOnly = prefs.getBoolean("notify_favorites_only", false);
+                if (!favoritesOnly) {
+                    notify = true;
                 } else {
-                    body.append(getBaseContext().getResources().getQuantityString(
-                            R.plurals.message_notification_message_bt_to_come,
-                            contact.getDaysUntilNextBirthday(),
-                            contact.getContactFirstName(), contact.getAge() + 1,
-                            contact.getDaysUntilNextBirthday()));
+                    notify = favoritesOnly && contact.isFavorite();
                 }
             }
 
-            /* Contact Picture */
-            Bitmap notifyPicture;
-            if (contact.getPhotoURI() != null) {
-                notifyPicture = MediaStore.Images.Media.getBitmap(
-                        getBaseContext().getContentResolver(),
-                        Uri.parse(contact.getPhotoURI()));
-            } else {
-                notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
-                        R.drawable.ic_account_circle_black_24dp);
+            if (notify) {
+                String title = contact.getName() + " " + contact.getEventTypeLabel();
+                StringBuilder body = new StringBuilder();
+
+                if (contact.shallWePartyToday()) {
+                    if (contact.getDaysUntilNextBirthday() == 0) {
+                        body.append(getBaseContext().getString(R.string.party_message));
+                    } else {
+                        body.append(getBaseContext().getResources().getQuantityString(
+                                R.plurals.message_notification_message_bt_to_come,
+                                contact.getDaysUntilNextBirthday(),
+                                contact.getContactFirstName(), contact.getAge() + 1,
+                                contact.getDaysUntilNextBirthday()));
+                    }
+                }
+
+                /* Contact Picture */
+                Bitmap notifyPicture;
+                if (contact.getPhotoURI() != null) {
+                    notifyPicture = MediaStore.Images.Media.getBitmap(
+                            getBaseContext().getContentResolver(),
+                            Uri.parse(contact.getPhotoURI()));
+                } else {
+                    notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
+                            R.drawable.ic_account_circle_black_48dp);
+                }
+
+                /* To open contact when notification clicked */
+                Intent openContact = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
+                                + contact.getKey()));
+                PendingIntent openContactPI = PendingIntent.getActivity(getBaseContext(),
+                        0, openContact,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                /* Notify */
+                Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
+                        openContactPI);
+                notify(System.currentTimeMillis(), nBuilder);
             }
-
-            /* To open contact when notification clicked */
-            Intent openContact = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/"
-                            + contact.getKey()));
-            PendingIntent openContactPI = PendingIntent.getActivity(getBaseContext(),
-                    0, openContact,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-            /* Notify */
-            Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
-                    openContactPI);
-            notify(System.currentTimeMillis(), nBuilder);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

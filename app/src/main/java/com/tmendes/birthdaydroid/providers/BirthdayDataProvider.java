@@ -26,7 +26,9 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.DBContact;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
 import java.text.ParseException;
@@ -36,19 +38,17 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
-;
 
 public class BirthdayDataProvider {
 
     private Context ctx;
     private PermissionHelper permissionHelper;
+    private SharedPreferences prefs;
 
     private static final long DAY = 60 * 60 * 1000 * 24;
-    private final int YEAR_LEN = 365;
-    private final int LEAP_YEAR_LEN = 366;
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
     private static BirthdayDataProvider instance;
     private static StatisticsProvider statistics;
@@ -64,9 +64,10 @@ public class BirthdayDataProvider {
             "dd-M--"
     );
 
-    private ArrayList<Contact> contacts;
-    private ArrayList<Contact> contactsToCelebrate;
-    private ArrayList<Contact> contactsFailureOnParser;
+    private final ArrayList<Contact> contacts;
+    private final ArrayList<Contact> contactsToCelebrate;
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private final ArrayList<Contact> contactsFailureOnParser;
 
     private BirthdayDataProvider() {
         contacts = new ArrayList<>();
@@ -85,6 +86,7 @@ public class BirthdayDataProvider {
     public void setPermissionHelper(Context ctx, PermissionHelper permissionHelper) {
         this.ctx = ctx;
         this.permissionHelper = permissionHelper;
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
     private void resetListsAndMaps() {
@@ -94,20 +96,27 @@ public class BirthdayDataProvider {
         statistics.reset();
     }
 
+    private Contact parseNewContact(String key, String name, String photoURI, String date,
+                                    String eventTypeLabel, boolean ignored, boolean favorite) {
+        Contact contact = new Contact(key, name, photoURI, eventTypeLabel);
 
-    public Contact parseNewContact(String key, String name, String photoURI, String date,
-                                   int eventType, String eventTypeLabel) {
-        Contact contact = new Contact(key, name, photoURI, date, eventType, eventTypeLabel);
         if (setBasicContactBirthInfo(contact, date)) {
             setContactZodiac(contact);
             setContactPartyMode(contact);
+            if (favorite) {
+                contact.setFavorite();
+            }
+            if (ignored) {
+                contact.setIgnore();
+            }
             return contact;
         }
         return null;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void refreshData(boolean notificationListOnly) {
-        if (permissionHelper == null) {
+        if (permissionHelper == null || prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
             return;
         }
@@ -126,6 +135,11 @@ public class BirthdayDataProvider {
 
             resetListsAndMaps();
 
+            boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+            boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
+
+            boolean parseContacts;
+
             final int keyColumn = cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY);
             final int dateColumn = cursor.getColumnIndex(
@@ -137,71 +151,105 @@ public class BirthdayDataProvider {
             final int typeColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.TYPE);
 
+            DBHelper db = new DBHelper(ctx);
+            HashMap<String, DBContact> dbContacs = db.getAllCotacts();
+
             while (cursor.moveToNext()) {
 
                 int eventType = cursor.getInt(typeColumn);
 
-                String eventTypeLabel;
-
-                if (eventType == ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM) {
-                    eventTypeLabel = cursor.getString(typeColumn);
+                if (showBirthdayTypeOnly) {
+                    parseContacts = (eventType ==
+                            ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
                 } else {
-                    CharSequence seq = ContactsContract.CommonDataKinds.Event.
-                            getTypeLabel(ctx.getResources(), eventType, ctx.getResources().
-                                    getString(R.string.type_birthday));
-                    eventTypeLabel = seq.toString();
+                    parseContacts = true;
                 }
 
-                eventTypeLabel = eventTypeLabel.toLowerCase();
+                if (parseContacts) {
 
-                Contact contact = parseNewContact(cursor.getString(keyColumn),
-                        cursor.getString(nameColumn),
-                        cursor.getString(photoColumn),
-                        cursor.getString(dateColumn),
-                        eventType,
-                        eventTypeLabel);
+                    String keyCID = cursor.getString(keyColumn);
 
-                if (contact != null) {
-                    /* Birthday List */
-                    if (contact.shallWePartyToday()) {
-                        contactsToCelebrate.add(contact);
+                    String eventTypeLabel = ContactsContract.CommonDataKinds.Event
+                            .getTypeLabel(ctx.getResources(), eventType, "").toString()
+                            .toLowerCase();
+
+                    boolean ignoreContact = false;
+                    boolean favoriteContact = false;
+                    int contactDBId = -1;
+
+                    DBContact dbContact;
+
+                    if ((dbContact = dbContacs.remove(keyCID)) != null) {
+                        ignoreContact = dbContact.isIgnore();
+                        favoriteContact = dbContact.isFavorite();
+                        contactDBId = dbContact.getId();
                     }
 
-                    if (!notificationListOnly) {
-                        /* All Contacts */
-                        contacts.add(contact);
+                    if (hideIgnoredContacts && ignoreContact) {
+                        continue;
+                    }
 
-                        if (statistics.getAgeStats().get(contact.getAge()) != null) {
-                            statistics.getAgeStats().put(contact.getAge(),
-                                    statistics.getAgeStats().get(contact.getAge()) + 1);
-                        } else {
-                            statistics.getAgeStats().put(contact.getAge(), 1);
+                    Contact contact = parseNewContact(keyCID,
+                            cursor.getString(nameColumn),
+                            cursor.getString(photoColumn),
+                            cursor.getString(dateColumn),
+                            eventTypeLabel,
+                            ignoreContact,
+                            favoriteContact);
+
+                    if (contact != null) {
+                        contact.setDbID(contactDBId);
+
+                        /* Birthday List */
+                        if (contact.shallWePartyToday()) {
+                            contactsToCelebrate.add(contact);
                         }
 
-                        if (statistics.getSignStats().get(contact.getZodiac()) != null) {
-                            statistics.getSignStats().put(contact.getZodiac(),
-                                    statistics.getSignStats().get(contact.getZodiac()) + 1);
-                        } else {
-                            statistics.getSignStats().put(contact.getZodiac(), 1);
-                        }
+                        if (!notificationListOnly) {
+                            /* All Contacts */
+                            contacts.add(contact);
 
-                        if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
-                            statistics.getMonthStats().put(contact.getBornOnMonth(),
-                                    statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
-                        } else {
-                            statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
-                        }
 
-                        if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
-                            statistics.getWeekStats().put(contact.getBornOnDayWeek(),
-                                    statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
-                        } else {
-                            statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                            if (!contact.isIgnore()) {
+                                try {
+                                    if (statistics.getAgeStats().get(contact.getAge()) != null) {
+                                        statistics.getAgeStats().put(contact.getAge(),
+                                                statistics.getAgeStats().get(contact.getAge()) + 1);
+                                    } else {
+                                        statistics.getAgeStats().put(contact.getAge(), 1);
+                                    }
+
+                                    if (statistics.getSignStats().get(contact.getZodiac()) != null) {
+                                        statistics.getSignStats().put(contact.getZodiac(),
+                                                statistics.getSignStats().get(contact.getZodiac()) + 1);
+                                    } else {
+                                        statistics.getSignStats().put(contact.getZodiac(), 1);
+                                    }
+
+                                    if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
+                                        statistics.getMonthStats().put(contact.getBornOnMonth(),
+                                                statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
+                                    } else {
+                                        statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
+                                    }
+
+                                    if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
+                                        statistics.getWeekStats().put(contact.getBornOnDayWeek(),
+                                                statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
+                                    } else {
+                                        statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                                    }
+                                } catch (NullPointerException ignored) {
+                                }
+                            }
                         }
                     }
                 }
+
+                db.cleanDb(dbContacs);
+
+                db.close();
             }
-
             cursor.close();
         }
     }
@@ -224,22 +272,10 @@ public class BirthdayDataProvider {
         };
 
         String selection = ContactsContract.Data.MIMETYPE
-                + "=? AND ("
-                + ContactsContract.CommonDataKinds.Event.TYPE // Birthday
-                + "=? OR "
-                + ContactsContract.CommonDataKinds.Event.TYPE // Annniversary
-                + "=? OR "
-                + ContactsContract.CommonDataKinds.Event.TYPE // Other
-                + "=? OR "
-                + ContactsContract.CommonDataKinds.Event.TYPE // Custom
-                + "=?)";
+                + "=?";
 
-        String[] args = new String[]{
-                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY),
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY),
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_OTHER),
-                Integer.toString(ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM)
+        String[] args = new String[] {
+                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
         };
 
         return contentResolver.query(
@@ -255,7 +291,7 @@ public class BirthdayDataProvider {
         boolean parseSuccess = false;
 
         for (String pattern : dataFormatKnownPatterns) {
-            Date bornOnDate = null;
+            Date bornOnDate;
             try {
                 bornOnDate = new SimpleDateFormat(pattern).parse(dateString);
 
@@ -280,17 +316,19 @@ public class BirthdayDataProvider {
                     long daysOld = (now.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY;
 
                     boolean lessThanAYearOld = false;
-                    int daysUntilNextBirthDay = 0;
+                    int daysUntilNextBirthDay;
                     int age = 0;
 
                     if (daysOld >= 0) {
                         if (isNowLeapYear) {
-                            lessThanAYearOld = daysOld < this.LEAP_YEAR_LEN;
+                            int LEAP_YEAR_LEN = 366;
+                            lessThanAYearOld = daysOld < LEAP_YEAR_LEN;
                         } else {
-                            lessThanAYearOld = daysOld < this.YEAR_LEN;
+                            int YEAR_LEN = 365;
+                            lessThanAYearOld = daysOld < YEAR_LEN;
                         }
 
-                        double msUntilNextBirthDay = 0;
+                        double msUntilNextBirthDay;
 
                         if (!lessThanAYearOld) {
                             age = nowYear - bornOn.get(Calendar.YEAR);
@@ -315,7 +353,6 @@ public class BirthdayDataProvider {
                         daysUntilNextBirthDay = (int) (msUntilNextBirthDay / DAY) + 1;
                     } else {
                         /* Born in the future */
-                        ;
                         notYetBorn = true;
                         nextBirthDay.set(Calendar.YEAR, bornOn.get(Calendar.YEAR) + 1);
                         long msUntilNextBirthDay = bornOn.getTimeInMillis() - now.getTimeInMillis();
@@ -328,7 +365,6 @@ public class BirthdayDataProvider {
                     }
 
                     contact.setNotYetBorn(notYetBorn);
-                    contact.setYearSettled(contactHasYearSet);
                     contact.setBornOn(bornOn);
                     contact.setNextBirthday(nextBirthDay);
                     contact.setDaysUntilNextBirthday(daysUntilNextBirthDay);
@@ -340,8 +376,7 @@ public class BirthdayDataProvider {
 
                     break;
                 }
-            } catch (ParseException e) {
-                parseSuccess = false;
+            } catch (ParseException ignored) {
             }
         }
 
@@ -354,8 +389,10 @@ public class BirthdayDataProvider {
     }
 
     private void setContactZodiac(Contact contact) {
+        String zodiacSymbol = "";
+        String zodiacElementSymbol =  "";
         String zodiac = "";
-        String zodiacElement =  "";
+        String zodiacElement = "";
 
         if (ctx != null) {
             int day = contact.getBornOnDay();
@@ -363,108 +400,156 @@ public class BirthdayDataProvider {
             switch (contact.getBornOnMonth()) {
                 case Calendar.JANUARY:
                     if ((day >= 21) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aquarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aquarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_capricorn_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_capricorn);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     }
                     break;
                 case Calendar.FEBRUARY:
                     if ((day >= 20) && (day <= 29)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_pisces_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_pisces);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aquarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aquarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     }
                     break;
                 case Calendar.MARCH:
                     if ((day >= 21) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aries_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aries);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_pisces_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_pisces);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     }
                     break;
                 case Calendar.APRIL:
                     if ((day >= 20) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_taurus_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_taurus);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_aries_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_aries);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     }
                     break;
                 case Calendar.MAY:
                     if ((day >= 20) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_gemini_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_gemini);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_taurus_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_taurus);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     }
                     break;
                 case Calendar.JUNE:
                     if ((day >= 21) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_cancer_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_cancer);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_gemini_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_gemini);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     }
                     break;
                 case Calendar.JULY:
                     if ((day >= 23) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_leo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_leo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_cancer_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_cancer);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     }
                     break;
                 case Calendar.AUGUST:
                     if ((day >= 22) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_virgo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_virgo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_leo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_leo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     }
                     break;
                 case Calendar.SEPTEMBER:
                     if ((day >= 23) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_libra_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_libra);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_virgo_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_virgo);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     }
                     break;
                 case Calendar.OCTOBER:
                     if ((day >= 23) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_scorpio_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_scorpio);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_libra_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_air_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_libra);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_air);
                     }
                     break;
                 case Calendar.NOVEMBER:
                     if ((day >= 22) && (day <= 30)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_sagittarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_sagittarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_scorpio_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_water_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_scorpio);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_water);
                     }
                     break;
                 case Calendar.DECEMBER:
                     if ((day >= 22) && (day <= 31)) {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_capricorn_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_earth_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_capricorn);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_earth);
                     } else {
+                        zodiacSymbol = ctx.getResources().getString(R.string.sign_sagittarius_symbol);
+                        zodiacElementSymbol = ctx.getResources().getString(R.string.sign_element_fire_symbol);
                         zodiac = ctx.getResources().getString(R.string.sign_sagittarius);
                         zodiacElement = ctx.getResources().getString(R.string.sign_element_fire);
                     }
@@ -472,6 +557,8 @@ public class BirthdayDataProvider {
             }
         }
 
+        contact.setZodiacSymbol(zodiacSymbol);
+        contact.setZodiacElementSymbol(zodiacElementSymbol);
         contact.setZodiac(zodiac);
         contact.setZodiacElement(zodiacElement);
     }
@@ -520,10 +607,6 @@ public class BirthdayDataProvider {
 
     public ArrayList<Contact> getContactsToCelebrate() {
         return contactsToCelebrate;
-    }
-
-    public ArrayList<Contact> getContactsMissingData() {
-        return contactsFailureOnParser;
     }
 
     public StatisticsProvider getStatistics() {

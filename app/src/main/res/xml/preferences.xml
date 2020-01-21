@@ -68,8 +68,12 @@
             android:title="@string/settings_list_hide_zodiac" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="hide_no_year_msg"
-            android:title="@string/settings_hide_no_year_msg" />
+            android:key="hide_ignored_contacts"
+            android:title="Hide ignored contacts" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_birthday_type_only"
+            android:title="@string/settings_show_birthday_type_only" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -77,12 +81,12 @@
         android:title="@string/settings_application_preferences">
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="settings_statistics_as_text"
-            android:title="@string/settings_statistics_as_text" />
+            android:key="notify_favorites_only"
+            android:title="Notify Favorites Only" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="swipe_down_to_notify"
-            android:title="@string/settings_swipe_down" />
+            android:key="settings_statistics_as_text"
+            android:title="@string/settings_statistics_as_text" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="battery_status"
@@ -90,6 +94,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_layout_preferences">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_add_contact_fab"
+            android:title="@string/settings_hide_add_contact_fab" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="dark_theme"

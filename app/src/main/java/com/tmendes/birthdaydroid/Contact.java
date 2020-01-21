@@ -24,17 +24,18 @@ import java.util.GregorianCalendar;
 public class Contact {
 
 
-    private String key;
-    private String name;
-    private String photoURI;
-    private String date;
-    private int eventType;
-    private String eventTypeLabel;
+    private long dbID;
 
+    private final String key;
+    private final String name;
+    private final String photoURI;
+    private final String eventTypeLabel;
+
+    private String zodiacSymbol;
     private String zodiac;
+    private String zodiacElementSymbol;
     private String zodiacElement;
 
-    private boolean yearSettled;
     private boolean isHeSheNotEvenOneYearOld;
     private boolean notYetBorn;
     private int age;
@@ -42,7 +43,6 @@ public class Contact {
 
     private int bornOnDay;
     private int bornOnMonth;
-    private int bornOnYear;
     private int bornOnDayWeek;
 
     private int daysUntilNextBirthday;
@@ -51,20 +51,24 @@ public class Contact {
     private Calendar nextBirthday;
 
     private boolean shallWePartyToday;
+    private boolean favorite;
+    private boolean ignore;
 
-    public Contact(String key, String name, String photoURI, String date,
-                   int eventType, String eventTypeLabel) {
+    public Contact(String key, String name, String photoURI,
+                   String eventTypeLabel) {
         this.key = key;
         this.name = name;
         this.photoURI = photoURI;
-        this.date = date;
-        this.eventType = eventType;
         this.eventTypeLabel = eventTypeLabel;
-        this.yearSettled = false;
+        this.dbID = -1;
     }
 
     public String getZodiac() {
         return zodiac;
+    }
+
+    public void setZodiacSymbol(String zodiacSymbol) {
+        this.zodiacSymbol = zodiacSymbol;
     }
 
     public void setZodiac(String zodiac) {
@@ -75,20 +79,12 @@ public class Contact {
         return zodiacElement;
     }
 
+    public void setZodiacElementSymbol(String zodiacElementSymbol) {
+        this.zodiacElementSymbol = zodiacElementSymbol;
+    }
+
     public void setZodiacElement(String zodiacElement) {
         this.zodiacElement = zodiacElement;
-    }
-
-    public boolean isYearSettled() {
-        return yearSettled;
-    }
-
-    public void setYearSettled(boolean yearSettled) {
-        if (!yearSettled) {
-            this.age = 0;
-            this.daysOld = 0;
-        }
-        this.yearSettled = yearSettled;
     }
 
     public int getAge() {
@@ -116,7 +112,6 @@ public class Contact {
             this.bornOn = bornOn;
             this.bornOnDay = bornOn.get(Calendar.DAY_OF_MONTH);
             this.bornOnMonth = bornOn.get(Calendar.MONTH);
-            this.bornOnYear = bornOn.get(Calendar.YEAR);
             this.bornOnDayWeek = bornOn.get(Calendar.DAY_OF_WEEK);
         }
     }
@@ -146,10 +141,6 @@ public class Contact {
     public String getBornOnMonthName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
         return dfs.getMonths()[bornOnMonth];
-    }
-
-    public int getBornOnYear() {
-        return bornOnYear;
     }
 
     public int getBornOnDayWeek() {
@@ -193,16 +184,8 @@ public class Contact {
         return photoURI;
     }
 
-    public int getEventType() {
-        return eventType;
-    }
-
     public String getEventTypeLabel() {
         return eventTypeLabel;
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public int getDaysUntilNextBirthday() {
@@ -239,5 +222,39 @@ public class Contact {
 
     public void setNotYetBorn(boolean notYetBorn) {
         this.notYetBorn = notYetBorn;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite() {
+        this.ignore = false;
+        this.favorite = !this.favorite;
+    }
+
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    public void setIgnore() {
+        this.favorite = false;
+        this.ignore = !this.ignore;
+    }
+
+    public long getDbID() {
+        return dbID;
+    }
+
+    public void setDbID(long dbID) {
+        this.dbID = dbID;
+    }
+
+    public String getZodiacSymbol() {
+        return this.zodiacSymbol;
+    }
+
+    public String getZodiacElementSymbol() {
+        return this.zodiacElementSymbol;
     }
 }

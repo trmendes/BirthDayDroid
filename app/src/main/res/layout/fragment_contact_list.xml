@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <!-- Editext for Search -->
-    <EditText android:id="@+id/inputSearch"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/search"
-        android:inputType="textVisiblePassword"
-        android:importantForAutofill="no" />
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lvContacts"
+        <!-- Editext for Search -->
+        <EditText android:id="@+id/inputSearch"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:divider="#b5b5b5"
-            android:dividerHeight="1dp" />
+            android:hint="@string/search"
+            android:inputType="textVisiblePassword"
+            android:importantForAutofill="no" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"  />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:textSize="12dp"
+        app:srcCompat="@drawable/ic_account_plus_outline_black_48dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

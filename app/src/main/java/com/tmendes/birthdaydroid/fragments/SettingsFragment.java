@@ -17,18 +17,18 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,27 +69,28 @@ public class SettingsFragment extends Fragment {
             super.onResume();
             getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
             setPowerServiceStatus();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
-                        findPreference("battery_status");
-                mCheckBoxPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent();
-                        String packageName = getActivity().getPackageName();
-                        PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
 
-                        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                            intent.setData(Uri.parse("package:" + packageName));
-                            startActivity(intent);
-                        } else {
-                            intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                            startActivity(intent);
-                        }
-                        return true;
+            CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
+                    findPreference("battery_status");
+            mCheckBoxPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @SuppressLint("BatteryLife")
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent();
+                    String packageName = getActivity().getPackageName();
+                    PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
+
+                    if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + packageName));
+                        startActivity(intent);
+                    } else {
+                        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                        startActivity(intent);
                     }
+                    return true;
+                }
                 });
-            }
+
         }
 
         @Override
@@ -121,20 +122,16 @@ public class SettingsFragment extends Fragment {
             }
         }
 
-        public void setPowerServiceStatus() {
+        void setPowerServiceStatus() {
             CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
                     findPreference("battery_status");
             mCheckBoxPref.setChecked(checkPowerServiceStatus());
         }
 
-        public boolean checkPowerServiceStatus() {
-            boolean status = false;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                String packageName = getActivity().getPackageName();
-                PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
-                status = pm.isIgnoringBatteryOptimizations(packageName);
-            }
-            return status;
+        boolean checkPowerServiceStatus() {
+            String packageName = getActivity().getPackageName();
+            PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
+            return Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName);
         }
     }
 }

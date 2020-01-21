@@ -17,11 +17,6 @@
     <string name="sign_element_air">Luft</string>
     <string name="sign_element_water">Wasser</string>
     <string name="search">Suche nach Alter, Name, Sternzeichen, etc.</string>
-    <string name="contact_has_no_year">Kein Jahr angegeben :(</string>
-    <plurals name="years_old">
-        <item quantity="one">%1$d Jahr alt</item>
-        <item quantity="other">%1$d Jahre alt</item>
-    </plurals>
     <plurals name="days_old">
         <item quantity="one">%1$d Tag alt</item>
         <item quantity="other">%1$d Tage alt</item>
@@ -31,15 +26,12 @@
         <item quantity="one">%1$d Tage bis zum nächsten %2$s</item>
         <item quantity="other">%1$d Tage bis zum nächsten %2$s</item>
     </plurals>
-    <string name="birthday_scan_found">Geburtstagsbenachrichtigung erzeugen</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s wird morgen %2$d</item>
         <item quantity="other">%1$s wird in %3$d Tagen %2$d</item>
     </plurals>
-    <string name="birthday_tomorrow">Morgen ist ihr/sein %1$s</string>
     <string name="menu_birthday_list">Geburtstagsliste</string>
     <string name="menu_settings">Einstellungen</string>
-    <string name="menu_statistics">Weitere Informationen</string>
     <string name="menu_about">Über</string>
     <string name="settings_not_sound_title">Benachrichtigungston</string>
     <string name="settings_not_sound_sum">Den Benachrichtigungston festlegen</string>
@@ -50,7 +42,6 @@
     <string name="settings_scan_not_adv_sum">Zeige Benachrichtigungen im Voraus</string>
     <string name="settings_scan_not_adv_title">Benachrichtigungen im Voraus</string>
     <string name="settings_list_hide_zodiac">Sternzeichen verstecken</string>
-    <string name="settings_hide_no_year_msg">Fehlende Jahresmeldung ausblenden</string>
     <string name="settings_scan_adv_sum">Wie viele Tage im Voraus sollen wir Deine Kontakte nach deren Geburtstage durchsuchen, damit Du Zeit hast, um ein Geschenk vorzubereiten</string>
     <string name="settings_scan_adv_title">Tage im Voraus</string>
     <string name="settings_scan_precise_title">Genaue Benachrichtigungen</string>
@@ -65,29 +56,15 @@
     <string name="settings_layout_preferences">Erscheinungsbild</string>
     <string name="settings_theme_title">Theme</string>
     <string name="settings_theme">Dunkel</string>
-    <string name="settings_swipe_down">Herunterwischen, um Benachrichtigungen zu erstellen</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="alert_contats_dialog_title">Berechtigung zum Lesen von Kontakten erforderlich</string>
     <string name="alert_contacts_dialog_msg">Wir benötigen Zugriff auf Deine Kontakte, um deren Geburtstage einzulesen</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Verweigern</string>
-    <string name="statistics_age_title">Altersinformation</string>
-    <string name="statistics_sign_title">Sternzeicheninformation</string>
-    <string name="statistics_month_title">Geburtstagsinformationen Monate</string>
-    <string name="statistics_week_title">Geburtstagsinformationen Wochentag</string>
-    <plurals name="statistics_contacts_counter">
-        <item quantity="one">Von %1$d Kontakt:\n\n</item>
-        <item quantity="other">Von %1$d Kontakten:\n\n</item>
-    </plurals>
-    <plurals name="statistics_int_int">
-        <item quantity="one">\t %1$d \t Kontakt \t - \t %2$d \t Jahre alt\n</item>
-        <item quantity="other">\t %1$d \t Kontakte \t - \t %2$d \t Jahre alt\n</item>
-    </plurals>
-    <plurals name="statistics_int_string">
-        <item quantity="one">\t %1$d \tKontakt \t - \t %2$s\n</item>
-        <item quantity="other">\t %1$d\t Kontakte \t - \t %2$s\n</item>
-    </plurals>
+
+
+
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid ist ein quelloffenes Projekt, dass Dir hilft, Dich an die Geburtstage Deiner Freunde zu erinnern.</string>
     <string name="array_order_next">Tage bis zum nächsten Geburtstag</string>
     <string name="array_order_age">Alter</string>
@@ -96,10 +73,6 @@
     <string name="array_order_asc">Aufsteigend</string>
     <string name="array_order_desc">Absteigend</string>
     <string name="exit_warning_msg">Drücke erneut, um zu beenden</string>
-    <string name="statistics_fail_title">Fehlerprotokoll</string>
-    <string name="log_cant_parse">Kann %1$s nicht interpretieren</string>
     <string name="about_us_bt_changelog">Änderungen</string>
-    <string name="type_birthday">Geburtstag</string>
-    <string name="type_anniversary">Jahrestag</string>
 </resources>
 

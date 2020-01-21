@@ -18,40 +18,56 @@
 package com.tmendes.birthdaydroid;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
+import com.tmendes.birthdaydroid.fragments.BarChartAgeFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
+import com.tmendes.birthdaydroid.fragments.PieChartMonthFragment;
+import com.tmendes.birthdaydroid.fragments.PieChartWeekFragment;
+import com.tmendes.birthdaydroid.fragments.PieChartZodiacFragment;
 import com.tmendes.birthdaydroid.fragments.SettingsFragment;
-import com.tmendes.birthdaydroid.fragments.StatisticsFragment;
+import com.tmendes.birthdaydroid.fragments.TextAgeFragment;
+import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
+import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
+import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,19 +75,25 @@ public class MainActivity extends AppCompatActivity
     // the Default time to notify the user about a birthday
     public static final int DEFAULT_ALARM_TIME = 8;
 
-    // Birthdays
-    private BirthdayDataProvider bddDataProvider;
-
     // Permission Control
     private PermissionHelper permissionHelper;
     private static final int PERMISSION_CONTACT_READ = 100;
 
     private boolean doubleBackToExitPressedOnce = false;
 
+    private boolean statisticsAsText = false;
+
+    private MenuItem zodiacDrawerMenuItem;
+
+    private DrawerLayout drawer;
+
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
 
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
@@ -87,23 +109,58 @@ public class MainActivity extends AppCompatActivity
         checkIsEnableBatteryOptimizations();
         requestForPermissions();
 
-        bddDataProvider = BirthdayDataProvider.getInstance();
+        // Birthdays
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
         bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        if (drawer != null) {
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-        }
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
+        }
+
+        zodiacDrawerMenuItem = Objects.requireNonNull(navigationView).getMenu()
+                .findItem(R.id.nav_statistics_zodiac);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        if (drawer != null) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+            drawer.closeDrawer(GravityCompat.START);
+
+            drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+
+                @Override
+                public void onDrawerSlide(@NonNull View view, float v) {
+                    if (view != null) {
+                        InputMethodManager inputManager = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+
+                @Override
+                public void onDrawerOpened(@NonNull View view) {
+                }
+
+                @Override
+                public void onDrawerClosed(@NonNull View view) {
+
+                }
+
+                @Override
+                public void onDrawerStateChanged(int i) {
+                    boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+                    zodiacDrawerMenuItem.setVisible(!hideZoadiac);
+                    statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
+                }
+            });
         }
 
         openContactFragments();
@@ -122,25 +179,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        if (backStackEntryCount == 0) {
-            Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
-            this.doubleBackToExitPressedOnce = true;
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce=false;
-                }
-            }, 2000);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            if (backStackEntryCount == 0) {
+                Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
+                this.doubleBackToExitPressedOnce = true;
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+            } else {
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
         }
     }
 
@@ -157,8 +218,33 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_birthday_list:
                 fragmentClass = ContactListFragment.class;
                 break;
-            case R.id.nav_statistics:
-                fragmentClass = StatisticsFragment.class;
+            case R.id.nav_statistics_age:
+                if (this.statisticsAsText) {
+                    fragmentClass = TextAgeFragment.class;
+                } else {
+                    fragmentClass = BarChartAgeFragment.class;
+                }
+                break;
+            case R.id.nav_statistics_zodiac:
+                if (this.statisticsAsText) {
+                    fragmentClass = TextZodiacFragment.class;
+                } else {
+                    fragmentClass = PieChartZodiacFragment.class;
+                }
+                break;
+            case R.id.nav_statistics_week:
+                if (this.statisticsAsText) {
+                    fragmentClass = TextWeekFragment.class;
+                } else {
+                    fragmentClass = PieChartWeekFragment.class;
+                }
+                break;
+            case R.id.nav_statistics_month:
+                if (this.statisticsAsText) {
+                    fragmentClass = TextMonthFragment.class;
+                } else {
+                    fragmentClass = PieChartMonthFragment.class;
+                }
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsFragment.class;
@@ -172,10 +258,13 @@ public class MainActivity extends AppCompatActivity
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction().replace(R.id.content_frame, fragment);
+                FragmentTransaction transaction = fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment);
+
                 if (fragmentClass != ContactListFragment.class) {
                     transaction.addToBackStack(null);
                 }
+
                 transaction.commit();
 
             } catch (InstantiationException | IllegalAccessException e) {
@@ -183,10 +272,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer != null) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
@@ -214,7 +300,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_CONTACT_READ) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -226,18 +312,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("BatteryLife")
     private void checkIsEnableBatteryOptimizations()
     {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent intent = new Intent();
-            String packageName = getPackageName();
-            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        Intent intent = new Intent();
+        String packageName = getPackageName();
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
 
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + packageName));
-                startActivity(intent);
-            }
+        if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+            startActivity(intent);
         }
     }
 

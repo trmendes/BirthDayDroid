@@ -22,8 +22,6 @@ import java.util.TreeMap;
 
 public class StatisticsProvider {
 
-    private static StatisticsProvider instance;
-
     private final Map<Integer, Integer> ageStats;
     private final Map<String, Integer> signStats;
     private final Map<Integer, Integer> monthStats;

@@ -18,12 +18,23 @@
 package com.tmendes.birthdaydroid.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
+
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -32,31 +43,29 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.adapters.BirthDayArrayAdapter;
-import com.tmendes.birthdaydroid.helpers.NotificationHelper;
+import com.tmendes.birthdaydroid.helpers.DBHelper;
+import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class ContactListFragment extends Fragment {
-    // Search EditText
-    private EditText inputSearch;
+import static androidx.recyclerview.widget.ItemTouchHelper.Callback.getDefaultUIUtil;
 
-    // Adapter
-    private BirthDayArrayAdapter adapter;
+
+public class ContactListFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+
     private BirthdayDataProvider bddDataProviver;
-
-    // Context
-    private Context ctx;
-
-    private SwipeRefreshLayout refreshLayout;
-    private boolean swipeDown;
+    private EditText inputSearch;
+    private ContactsDataAdapter contactsDataAdapter;
+    private boolean hideIgnoredContacts;
+    private DBHelper dbHelper;
+    private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences prefs;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -65,30 +74,54 @@ public class ContactListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_contact_list,
                 container, false);
 
-        ctx = container.getContext();
-
-        PreferenceManager.setDefaultValues(ctx, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
         bddDataProviver = BirthdayDataProvider.getInstance();
+        dbHelper = new DBHelper(getContext());
 
-        adapter = new BirthDayArrayAdapter(ctx,bddDataProviver.getAllContacts());
+        contactsDataAdapter = new ContactsDataAdapter(getContext(),
+                bddDataProviver.getAllContacts());
 
-        ListView listView = v.findViewById(R.id.lvContacts);
-        listView.setTextFilterEnabled(true);
-        listView.setDividerHeight(0);
-        listView.setDivider(null);
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(contactsDataAdapter);
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         inputSearch = v.findViewById(R.id.inputSearch);
-        getActivity().getWindow()
+        coordinatorLayout = v.findViewById(R.id.coordinator_layout);
+
+        Objects.requireNonNull(getActivity()).getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+        fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_INSERT,
+                        ContactsContract.Contacts.CONTENT_URI);
+                startActivity(intent);
+            }
+        });
+
+        showHideAddNewBirthday();
 
         inputSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                adapter.getFilter().filter(cs.toString());
+                contactsDataAdapter.getFilter().filter(cs.toString());
             }
 
             @Override
@@ -99,7 +132,7 @@ public class ContactListFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable arg0) {
                 String text = inputSearch.getText().toString();
-                adapter.getFilter().filter(text);
+                contactsDataAdapter.getFilter().filter(text);
             }
         });
 
@@ -107,58 +140,123 @@ public class ContactListFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getView()).getWindowToken(), 0);
+                    InputMethodManager inputManager = (InputMethodManager) Objects
+                            .requireNonNull(getContext()).
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(
+                            Objects.requireNonNull(getView()).getWindowToken(), 0);
                 }
             }
         });
 
-        refreshLayout = v.findViewById(R.id.swiperefresh);
-        refreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        isTodayADayToCelebrate();
-                    }
-                }
-        );
-
         return v;
+    }
+
+    private void showHideAddNewBirthday() {
+        boolean hideAddNewBirthday = prefs.getBoolean("show_add_contact_fab", false);
+        if (hideAddNewBirthday) {
+            fab.hide();
+        } else {
+            fab.show();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        swipeDown = prefs.getBoolean("swipe_down_to_notify", false);
-        refreshLayout.setEnabled( swipeDown );
+
+        int sortInput = Integer.valueOf(prefs.getString("sort_input", "0"));
+        int sortMethod = Integer.valueOf(prefs.getString("sort_method", "0"));
+
+        showHideAddNewBirthday();
+
         bddDataProviver.refreshData(false);
-        updateSortSettings();
+        contactsDataAdapter.sort(sortInput, sortMethod);
     }
 
-    private void updateSortSettings() {
-        SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this.ctx);
-        int sortInput = Integer.valueOf(s.getString("sort_input", "0"));
-        int sortMethod = Integer.valueOf(s.getString("sort_method", "0"));
-        adapter.sort(sortInput, sortMethod);
-    }
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        if (viewHolder instanceof ContactsDataAdapter.ContactViewHolder) {
+            final int index = viewHolder.getAdapterPosition();
+            final int dir = direction;
+            final Contact contact = contactsDataAdapter.getContact(index);
 
-    private void isTodayADayToCelebrate() {
-        if (swipeDown) {
-            ArrayList<Contact> notifications = bddDataProviver.getContactsToCelebrate();
-
-            if (notifications.size() == 0) {
-                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_not_found),
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(ctx, getResources().getString(R.string.birthday_scan_found),
-                        Toast.LENGTH_LONG).show();
-                for (Contact contact : notifications) {
-                    NotificationHelper.getInstance(ctx).postNotification(contact);
-                }
+            if (direction == ItemTouchHelper.LEFT) {
+                contact.setIgnore();
+                contactsDataAdapter.ignoreItem(index, hideIgnoredContacts);
             }
+            if (direction == ItemTouchHelper.RIGHT) {
+                contact.setFavorite();
+                contactsDataAdapter.favoriteItem(index);
+            }
+
+            if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
+                long dbID = dbHelper.insertContact(contact.getDbID(), contact.getKey(),
+                        contact.isFavorite(), contact.isIgnore());
+                contact.setDbID(dbID);
+            }
+
+            InputMethodManager inputManager = (InputMethodManager)
+                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
+            snackbar.setActionTextColor(Color.RED);
+
+            snackbar.setAction(getContext().getResources().getString(R.string.undo),
+                    new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (dir == ItemTouchHelper.LEFT) {
+                        contact.setIgnore();
+                        if (hideIgnoredContacts) {
+                            contactsDataAdapter.restoreContact(contact);
+                        } else {
+                            contactsDataAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    if (dir == ItemTouchHelper.RIGHT) {
+                        contact.setFavorite();
+                        contactsDataAdapter.favoriteItem(index);
+                    }
+
+                    if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
+                        long dbID = dbHelper.insertContact(contact.getDbID(), contact.getKey(),
+                                contact.isFavorite(), contact.isIgnore());
+                        contact.setDbID(dbID);
+                    }
+                }
+            });
+            snackbar.show();
         }
-        refreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                            int actionState, boolean isCurrentlyActive) {
+
+        final View foregroundView = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
+                .itemLayout;
+        final View ignoredLayout = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
+                .ignoreContactLayout;
+        final View favoriteLayout = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
+                .favoriteContactLayout;
+        
+        if (dX > 0) {
+            ignoredLayout.setVisibility(View.INVISIBLE);
+            favoriteLayout.setVisibility(View.VISIBLE);
+        } else if (dX < 0) {
+            ignoredLayout.setVisibility(View.VISIBLE);
+            favoriteLayout.setVisibility(View.INVISIBLE);
+        } else {
+            favoriteLayout.setVisibility(View.INVISIBLE);
+            ignoredLayout.setVisibility(View.INVISIBLE);
+        }
+
+        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,
+                isCurrentlyActive);
+    }
 }
