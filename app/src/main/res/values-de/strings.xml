@@ -32,7 +32,7 @@
     </plurals>
     <plurals name="contact">
         <item quantity="one">%1$dkontakt</item>
-        <item quantity="other">%1$d kontakte</item>
+        <item quantity="other">%1$d Kontakte</item>
     </plurals>
 
     <string name="next_week_name">Der nächste %1$s wird am %2$s sein</string>
@@ -81,20 +81,22 @@
     <string name="settings_theme_title">Thema</string>
     <string name="settings_battery_status">Ausführung im Hintergrund erlauben</string>
     <string name="settings_theme">Dunkel</string>
+    <string name="settings_show_birthday_type_only">Zeige nur Geburtstage</string>
+    <string name="settings_hide_add_contact_fab">Verstecke Geburtstag-hinzufügen-Schaltfläche</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="alert_contats_dialog_title">Erlaubnis zum Auslesen der Kontakte wird benötigt</string>
     <string name="alert_contacts_dialog_msg">Wir benötigen Zugriff auf Deine Kontakte, um deren Geburtstage einzulesen</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Verweigern</string>
-    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid ist ein quelloffenes Projekt, dass Dir hilft, Dich an die Geburtstage Deiner Freunde zu erinnern.</string>
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid ist ein quelloffenes Projekt, das Dir hilft, Dich an die Geburtstage Deiner Freunde zu erinnern.</string>
     <string name="array_order_next">Tage bis zum nächsten Geburtstag</string>
     <string name="array_order_age">Alter</string>
     <string name="array_order_name">Name</string>
     <string name="array_order_sign">Sternzeichen</string>
     <string name="array_order_asc">Aufsteigend</string>
     <string name="array_order_desc">Absteigend</string>
-    <string name="exit_warning_msg">Drücke erneut, um zu beenden</string>
+    <string name="exit_warning_msg">Drücke erneut Zurück, um zu beenden</string>
     <string name="about_us_bt_changelog">Änderungsprotokoll</string>
     <string name="undo">Rückgängig</string>
     <string name="amount">Anzahl der Kontakte</string>

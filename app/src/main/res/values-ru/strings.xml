@@ -24,13 +24,34 @@
         <item quantity="many">%1$d дней от роду</item>
         <item quantity="other">%1$d дней от роду</item>
     </plurals>
+    <plurals name="years_old">
+        <item quantity="one">%1$d год</item>
+        <item quantity="few">%1$d лет</item>
+        <item quantity="many">%1$d лет</item>
+        <item quantity="other"> %1$dлет</item>
+    </plurals>
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
         <item quantity="few">%1$d дней назад</item>
         <item quantity="many">%1$d дней назад</item>
         <item quantity="other">%1$d дней назад</item>
     </plurals>
+    <plurals name="contact">
+        <item quantity="one">%1$d контакт</item>
+        <item quantity="few">%1$d контактов</item>
+        <item quantity="many">%1$d контактов</item>
+        <item quantity="other">%1$d контактов</item>
+    </plurals>
+
+    <string name="next_week_name">Событие%1$s будет в %2$s</string>
     <string name="prev_week_name">Событие%1$s было в %2$s</string>
+    <plurals name="days_until">
+        <item quantity="one">%1$d день до %2$s</item>
+        <item quantity="few">%1$d дней до %2$s</item>
+        <item quantity="many">%1$d дней до%2$s</item>
+        <item quantity="other">%1$d дней до %2$s</item>
+    </plurals>
+
     <string name="party_message">Вечеринка сегодня! :D</string>
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s исполняется %2$d завтра</item>
@@ -72,6 +93,7 @@
     <string name="settings_theme_title">Тема</string>
     <string name="settings_battery_status">Разрешить работу в фоновом режиме</string>
     <string name="settings_theme">Тёмная</string>
+    <string name="settings_show_birthday_type_only">Отображать только дни рождения</string>
     <string name="navigation_drawer_open">Открыть панель уведомлений</string>
     <string name="navigation_drawer_close">Закрыть панель уведомлений</string>
     <string name="alert_contats_dialog_title">Требуется разрешение на доступ к контактам</string>
@@ -99,6 +121,7 @@
     <string name="about_people_devel_translators_title">Перевод</string>
     <string name="about_people_devel_translators_text">Замечательные люди из Transifex</string>
     <string name="about_special_thanks">Особая благодарность</string>
+    <string name="about_libs">Библиотеки (спасибо большое!)</string>
     <string name="about_icons">Иконки (Отдельное спасибо)</string>
 </resources>
 

@@ -196,14 +196,19 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                 contact.setDbID(dbID);
             }
 
+            InputMethodManager inputManager = (InputMethodManager)
+                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
             snackbar.setActionTextColor(Color.RED);
+
             snackbar.setAction(getContext().getResources().getString(R.string.undo),
                     new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if (dir == ItemTouchHelper.LEFT) {
                         contact.setIgnore();
                         if (hideIgnoredContacts) {

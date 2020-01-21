@@ -82,6 +82,7 @@
     <string name="settings_battery_status">Autorizar aplicativo para executar em segundo plano</string>
     <string name="settings_theme">Escuro</string>
     <string name="settings_show_birthday_type_only">Exibir somente evento Aniversário</string>
+    <string name="settings_hide_add_contact_fab">Esconder botão para adicionar novo aniversário</string>
     <string name="navigation_drawer_open">Abrir a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
     <string name="alert_contats_dialog_title">É necessário permissão para ler os contatos</string>
