@@ -60,11 +60,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return dbIDToReturn;
     }
 
-    public int numberOfRows(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
-    }
-
     private void deleteContact(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("contacts",

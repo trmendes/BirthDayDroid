@@ -197,15 +197,15 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             InputMethodManager inputManager = (InputMethodManager)
-                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+            Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getActivity().getCurrentFocus()).getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
 
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
             snackbar.setActionTextColor(Color.RED);
 
-            snackbar.setAction(getContext().getResources().getString(R.string.undo),
+            snackbar.setAction(Objects.requireNonNull(getContext()).getResources().getString(R.string.undo),
                     new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

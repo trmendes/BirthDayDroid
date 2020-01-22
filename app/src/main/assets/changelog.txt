@@ -1,4 +1,7 @@
-* V34
+* V37
+- Bring support for API26 back
+
+* V36
 - Reduce the App Size \o/ \o/ \o/
 - Add a button which is a shortcut to add a new contact (and birthday) to the contact list
 - Favorite and Ignore list (move contat row to the left and to the right)
