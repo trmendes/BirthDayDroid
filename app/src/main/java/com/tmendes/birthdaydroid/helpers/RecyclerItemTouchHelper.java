@@ -1,10 +1,11 @@
 package com.tmendes.birthdaydroid.helpers;
 
 import android.graphics.Canvas;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 

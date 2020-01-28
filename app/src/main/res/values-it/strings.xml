@@ -17,7 +17,7 @@
     <string name="sign_element_air">Aria</string>
     <string name="sign_element_water">Acqua</string>
 
-    <string name="search">Trova età, nome, segno…</string>
+    <string name="search">Trova età, nome, segno...</string>
     <plurals name="days_old">
         <item quantity="one">%1$d giorno di vita</item>
         <item quantity="other">%1$d giorni di vita</item>
