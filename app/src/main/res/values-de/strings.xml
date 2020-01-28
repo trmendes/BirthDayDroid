@@ -49,10 +49,10 @@
     </plurals>
     <string name="menu_birthday_list">Geburtstagsliste</string>
     <string name="menu_settings">Einstellungen</string>
-    <string name="menu_statistics_age">Statistiken zum Alter</string>
-    <string name="menu_statistics_zodiac">Statistiken zum Tierkreis</string>
-    <string name="menu_statistics_week">Statistiken zur Geburtswoche</string>
-    <string name="menu_statistics_month">Statistiken zum Geburtsmonat</string>
+    <string name="menu_statistics_age">Statistik zum Alter</string>
+    <string name="menu_statistics_zodiac">Statistik zum Tierkreis</string>
+    <string name="menu_statistics_week">Statistik zur Geburtswoche</string>
+    <string name="menu_statistics_month">Statistik zum Geburtsmonat</string>
     <string name="menu_about">Über</string>
     <string name="settings_not_sound_title">Benachrichtigungston</string>
     <string name="settings_not_sound_sum">Den Benachrichtigungston festlegen</string>
@@ -82,7 +82,9 @@
     <string name="settings_battery_status">Ausführung im Hintergrund erlauben</string>
     <string name="settings_theme">Dunkel</string>
     <string name="settings_show_birthday_type_only">Zeige nur Geburtstage</string>
-    <string name="settings_hide_add_contact_fab">Verstecke Geburtstag-hinzufügen-Schaltfläche</string>
+    <string name="settings_hide_add_contact_fab">Verstecke Geb.-hinzufügen-Button</string>
+    <string name="settings_notify_favorites_only">Nur bevorzugte Kontakte melden</string>
+    <string name="settings_hide_contacts">Verstecke ignorierte Kontakte</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="alert_contats_dialog_title">Erlaubnis zum Auslesen der Kontakte wird benötigt</string>

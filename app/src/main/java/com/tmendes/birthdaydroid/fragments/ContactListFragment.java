@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -196,9 +197,14 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             InputMethodManager inputManager = (InputMethodManager)
-                    Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
-            Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getActivity().getCurrentFocus()).getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            View currentFocus = getActivity().getCurrentFocus();
+
+            if (currentFocus != null) {
+                inputManager.hideSoftInputFromWindow(currentFocus.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
 
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sign_aquarius">Aquário</string>
     <string name="sign_capricorn">Capricórnio</string>
     <string name="sign_pisces">Peixes</string>
