@@ -33,9 +33,9 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:srcCompat="@drawable/ic_account_plus_outline_black_48dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

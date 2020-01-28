@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -59,29 +60,42 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     private void createChannels() {
-        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
-                CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
-        notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(Color.RED);
-        notificationChannel.setShowBadge(true);
-        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        getManager().createNotificationChannel(notificationChannel);
+        NotificationChannel notificationChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
+                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(true);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            getManager().createNotificationChannel(notificationChannel);
+        }
     }
 
     private Notification.Builder getNotification(String title,
                                                  String body,
                                                  Bitmap notifyPicture,
                                                  PendingIntent pI) {
-        return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setColorized(true)
-                .setShowWhen(true)
-                .setContentIntent(pI)
-                .setLargeIcon(notifyPicture)
-                .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                .setAutoCancel(true);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setColorized(true)
+                    .setShowWhen(true)
+                    .setContentIntent(pI)
+                    .setLargeIcon(notifyPicture)
+                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
+                    .setAutoCancel(true);
+        } else {
+            return new Notification.Builder(getApplicationContext())
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setContentIntent(pI)
+                    .setShowWhen(true)
+                    .setLargeIcon(notifyPicture)
+                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
+                    .setAutoCancel(true);
+        }
     }
 
     private void notify(long id, Notification.Builder notification) {
@@ -108,7 +122,7 @@ public class NotificationHelper extends ContextWrapper {
                 if (!favoritesOnly) {
                     notify = true;
                 } else {
-                    notify = favoritesOnly && contact.isFavorite();
+                    notify = contact.isFavorite();
                 }
             }
 

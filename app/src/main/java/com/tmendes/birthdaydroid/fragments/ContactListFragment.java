@@ -24,16 +24,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,9 +34,18 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.tmendes.birthdaydroid.Contact;
-import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
@@ -197,15 +196,15 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             InputMethodManager inputManager = (InputMethodManager)
-                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+            Objects.requireNonNull(inputManager).hideSoftInputFromWindow(Objects.requireNonNull(getActivity().getCurrentFocus()).getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
 
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
             snackbar.setActionTextColor(Color.RED);
 
-            snackbar.setAction(getContext().getResources().getString(R.string.undo),
+            snackbar.setAction(Objects.requireNonNull(getContext()).getResources().getString(R.string.undo),
                     new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

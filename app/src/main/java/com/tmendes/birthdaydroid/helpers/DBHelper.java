@@ -1,16 +1,15 @@
 package com.tmendes.birthdaydroid.helpers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tmendes.birthdaydroid.DBContact;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -58,11 +57,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return dbIDToReturn;
-    }
-
-    public int numberOfRows(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
     }
 
     private void deleteContact(Integer id) {

@@ -6,14 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +19,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
@@ -30,6 +32,7 @@ import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -354,7 +357,11 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     }
 
     public void sort(int order, int sortType) {
-        contacts.sort(new BirthDayComparator(order, sortType));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            contacts.sort(new BirthDayComparator(order, sortType));
+        } else {
+            Collections.sort(contacts, new BirthDayComparator(order, sortType));
+        }
         this.sortType = sortType;
         this.sortOrder = order;
         notifyDataSetChanged();
