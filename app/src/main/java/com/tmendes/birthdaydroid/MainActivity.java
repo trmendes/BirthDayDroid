@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                 public void onDrawerSlide(@NonNull View view, float v) {
                     InputMethodManager inputManager = (InputMethodManager)
                             getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(view.getWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
                 }
 
