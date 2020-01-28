@@ -69,7 +69,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="hide_ignored_contacts"
-            android:title="Hide ignored contacts" />
+            android:title="@string/settings_hide_contacts" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="show_birthday_type_only"
@@ -82,7 +82,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="notify_favorites_only"
-            android:title="Notify Favorites Only" />
+            android:title="@string/settings_notify_favorites_only" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="settings_statistics_as_text"
