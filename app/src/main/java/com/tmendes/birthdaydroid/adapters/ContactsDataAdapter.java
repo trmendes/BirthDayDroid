@@ -88,7 +88,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         String status = "";
         String ageText = "";
         String partyMsg = "";
-        String eventTypeMsg = "";
         String birthdayMsg = "";
 
         String photoUri = contact.getPhotoURI();
@@ -196,9 +195,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             birthdayMsg = contact.getNextBirthDayInfo();
         }
 
-        /* Event Type message */
-        eventTypeMsg = ctx.getResources().getString(R.string.event_type, eventTypeLabel);
-
         if (picture == null) {
             holder.picture.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -213,7 +209,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.ageBadge.setText(ageText);
 
         holder.lineOne.setText(birthdayMsg);
-        holder.lineTwo.setText(eventTypeMsg);
+        holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 
         if (contact.isHeSheNotEvenOneYearOld()) {

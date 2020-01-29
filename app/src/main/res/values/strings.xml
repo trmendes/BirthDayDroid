@@ -62,7 +62,6 @@
         <item quantity="other">%1$d days to go</item>
     </plurals>
 
-    <string name="event_type">Event type: %1$s</string>
     <string name="party_message">There is a party going on today :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
