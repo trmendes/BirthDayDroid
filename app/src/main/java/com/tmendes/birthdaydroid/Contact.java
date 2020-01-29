@@ -17,8 +17,11 @@
 
 package com.tmendes.birthdaydroid;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Contact {
@@ -138,6 +141,12 @@ public class Contact {
         return bornOnMonth;
     }
 
+    public String getNextBirthDayInfo() {
+        DateFormat dateFormat = new SimpleDateFormat("MMM/dd - E");
+        Date date = this.nextBirthday.getTime();
+        return dateFormat.format(date);
+    }
+
     public String getBornOnMonthName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
         return dfs.getMonths()[bornOnMonth];
@@ -147,15 +156,12 @@ public class Contact {
         return bornOnDayWeek;
     }
 
-    public String getPrevBirthDayWeekName() {
-        String weekName = "";
-        if (nextBirthday != null) {
-            Calendar prevBirthDay = (Calendar) this.nextBirthday.clone();
-            prevBirthDay.set(Calendar.YEAR, prevBirthDay.get(Calendar.YEAR) - 1);
-            DateFormatSymbols dfs = new DateFormatSymbols();
-            weekName = dfs.getWeekdays()[prevBirthDay.get(Calendar.DAY_OF_WEEK)];
-        }
-        return weekName;
+    public String getPrevBirthDayInfo() {
+        Calendar prevBirthDay = (Calendar) this.nextBirthday.clone();
+        prevBirthDay.set(Calendar.YEAR, prevBirthDay.get(Calendar.YEAR) - 1);
+        DateFormat dateFormat = new SimpleDateFormat("MMM/dd - E");
+        Date date = prevBirthDay.getTime();
+        return dateFormat.format(date);
     }
 
     public String getNextBirthDayWeekName() {

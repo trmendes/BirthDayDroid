@@ -39,35 +39,37 @@
     <string name="zodiac" translatable="false">%1$s|%2$s</string>
     <string name="birthday_string" translatable="false">%1$s/%2$d</string>
 
-    <plurals name="days_old">
-        <item quantity="one">%1$d day old</item>
-        <item quantity="other">%1$d days old</item>
+    <plurals name="contact">
+        <item quantity="one">%1$d contact</item>
+        <item quantity="other">%1$d contacts</item>
     </plurals>
     <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
         <item quantity="other">%1$d years old</item>
     </plurals>
+
+    <plurals name="days_old">
+        <item quantity="one">%1$d day old</item>
+        <item quantity="other">%1$d days old</item>
+    </plurals>
     <plurals name="days_ago">
         <item quantity="one">%1$d day ago</item>
         <item quantity="other">%1$d days ago</item>
     </plurals>
-    <plurals name="contact">
-        <item quantity="one">%1$d contact</item>
-        <item quantity="other">%1$d contacts</item>
+
+    <plurals name="days_to_go">
+        <item quantity="one">%1$d day to go</item>
+        <item quantity="other">%1$d days to go</item>
     </plurals>
 
-    <string name="next_week_name">Next %1$s will be on %2$s</string>
-    <string name="prev_week_name">%1$s was on %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d day until next %2$s</item>
-        <item quantity="other">%1$d days until next %2$s</item>
-    </plurals>
-
+    <string name="event_type">Event type: %1$s</string>
     <string name="party_message">There is a party going on today :D</string>
+
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s turning %2$d tomorrow</item>
         <item quantity="other">%1$s turning %2$d in %3$d days</item>
     </plurals>
+
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_statistics_age">Age Statistics</string>
@@ -112,7 +114,7 @@
     <string name="alert_contacts_dialog_msg">We need access to your contact list in order to fetch their birthdays</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Deny</string>
-    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
+
     <string name="array_order_next">Days until next birthday</string>
     <string name="array_order_age">Age</string>
     <string name="array_order_name">Name</string>
@@ -127,6 +129,8 @@
     <string name="emoji_today_party" translatable="false">🎉</string>
     <string name="undo">Undo</string>
     <string name="amount"># of contacts</string>
+
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>
     <string name="about_help_title">You can help us :D</string>
     <string name="about_help_developer">Developer/Designer?</string>
     <string name="about_help_issues">Feature requests and/or bug reports?</string>
