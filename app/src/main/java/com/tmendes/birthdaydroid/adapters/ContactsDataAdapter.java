@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -86,9 +85,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
 
         String status = "";
-        String ageText = "";
-        String partyMsg = "";
-        String birthdayMsg = "";
+        String ageText;
+        String partyMsg;
+        String birthdayMsg;
 
         String photoUri = contact.getPhotoURI();
         String name = contact.getName();
@@ -187,6 +186,12 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                        daysUntilNextBirthday);
             }
         }
+
+
+        /* Capitalize it */
+        eventTypeLabel = eventTypeLabel.toLowerCase();
+        eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
+                + eventTypeLabel.substring(1);
 
         /* Prev/Next Birthday Info */
         if (showDaysAgoMsg) {

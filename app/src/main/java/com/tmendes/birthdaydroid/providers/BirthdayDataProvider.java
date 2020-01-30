@@ -209,7 +209,6 @@ public class BirthdayDataProvider {
                             /* All Contacts */
                             contacts.add(contact);
 
-
                             if (!contact.isIgnore()) {
                                 try {
                                     if (statistics.getAgeStats().get(contact.getAge()) != null) {
