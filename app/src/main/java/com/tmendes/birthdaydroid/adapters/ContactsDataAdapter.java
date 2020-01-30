@@ -44,7 +44,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     private final SharedPreferences prefs;
 
-    private final int lateBDDListTreshold;
+    private final int prevBirthDayThreshold;
     private final boolean isNowLeapYear;
 
     private final int YEAR_LEN = 365;
@@ -64,9 +64,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         int WEEK_LEN = 7;
         if (isNowLeapYear) {
-            this.lateBDDListTreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
+            this.prevBirthDayThreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
         } else {
-            this.lateBDDListTreshold = this.YEAR_LEN - WEEK_LEN;
+            this.prevBirthDayThreshold = this.YEAR_LEN - WEEK_LEN;
         }
     }
 
@@ -78,7 +78,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
         boolean showCurrentAge = prefs.getBoolean("show_current_age", false);
-        boolean showDaysAgoMsg = false;
 
         int age = contact.getAge();
         int daysOld = contact.getDaysOld();
@@ -122,11 +121,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             }
         }
 
-        /* Zodiac Icons */
-        if (!hideZoadiac) {
-            status = status + " " + zodiacSign + " " + zodiacSignElement;
-        }
-
         /* Age badge */
         if (showCurrentAge) {
             if (contact.isHeSheNotEvenOneYearOld()) {
@@ -139,66 +133,43 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             ageText = "↑" + age;
         }
 
-        /* Favorite/Ignore Icons */
-        if (contact.isIgnore()) {
-            status = status + " " + ctx.getResources().getString(R.string.emoji_block);
-        }
-        if (contact.isFavorite()) {
-            status = status + " " + ctx.getResources().getString(R.string.emoji_heart);
-        }
+        birthdayMsg = contact.getNextBirthDayInfo();
 
         /* Party */
-        if (contact.getDaysUntilNextBirthday() >= 0 && contact.shallWePartyToday()) {
-            if (contact.getDaysUntilNextBirthday() == 0) {
+        switch (daysUntilNextBirthday) {
+            case 0:
                 partyMsg = ctx.getResources().getString(R.string.party_message);
                 status = status + " " + ctx.getResources()
                         .getString(R.string.emoji_today_party);
-            } else {
-                partyMsg =  ctx.getResources().getQuantityString(R.plurals.days_to_go,
-                        daysUntilNextBirthday,
-                        daysUntilNextBirthday);
-            }
-        } else if (contact.getDaysUntilNextBirthday() == 1) {
-            partyMsg =  ctx.getResources().getQuantityString(R.plurals.days_to_go,
-                    daysUntilNextBirthday,
-                    daysUntilNextBirthday);
-        } else {
-            /* Days Ago */
-            if (daysUntilNextBirthday >= this.lateBDDListTreshold && !contact.isNotYetBorn()) {
-                long daysAgo;
-
-                if (this.isNowLeapYear) {
-                    daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday();
+                break;
+            case 1:
+                status = status + " " + ctx.getResources()
+                        .getString(R.string.emoji_tomorrow_party);
+            default:
+                if (daysUntilNextBirthday >= this.prevBirthDayThreshold && !contact.isNotYetBorn()) {
+                    if (this.isNowLeapYear) {
+                        daysUntilNextBirthday = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday();
+                    } else {
+                        daysUntilNextBirthday = this.YEAR_LEN - contact.getDaysUntilNextBirthday();
+                    }
+                    birthdayMsg = contact.getPrevBirthDayInfo();
+                    partyMsg = ctx.getResources().getQuantityString(R.plurals.days_ago,
+                            daysUntilNextBirthday,
+                            daysUntilNextBirthday);
                 } else {
-                    daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday();
+                    partyMsg =  ctx.getResources().getQuantityString(R.plurals.days_to_go,
+                            daysUntilNextBirthday,
+                            daysUntilNextBirthday);
                 }
 
-                partyMsg = ctx.getResources().getQuantityString(R.plurals.days_ago,
-                        (int) daysAgo,
-                        (int) daysAgo);
-
-                showDaysAgoMsg = true;
-
-            } else {
-                /* All the rest */
-               partyMsg =  ctx.getResources().getQuantityString(R.plurals.days_to_go,
-                       daysUntilNextBirthday,
-                       daysUntilNextBirthday);
-            }
+                break;
         }
-
 
         /* Capitalize it */
         eventTypeLabel = eventTypeLabel.toLowerCase();
         eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
                 + eventTypeLabel.substring(1);
 
-        /* Prev/Next Birthday Info */
-        if (showDaysAgoMsg) {
-            birthdayMsg = contact.getPrevBirthDayInfo();
-        } else {
-            birthdayMsg = contact.getNextBirthDayInfo();
-        }
 
         if (picture == null) {
             holder.picture.setImageDrawable(
@@ -209,7 +180,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         holder.name.setText(name);
-        holder.contactStatus.setText(status);
 
         holder.ageBadge.setText(ageText);
 
@@ -221,6 +191,21 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             holder.lineFour.setText(ctx.getResources().getQuantityString(
                     R.plurals.days_old, daysOld, daysOld));
         }
+
+        /* Zodiac Icons */
+        if (!hideZoadiac) {
+            status = status + " " + zodiacSign + " " + zodiacSignElement;
+        }
+
+        /* Favorite/Ignore Icons */
+        if (contact.isIgnore()) {
+            status = status + " " + ctx.getResources().getString(R.string.emoji_block);
+        }
+        if (contact.isFavorite()) {
+            status = status + " " + ctx.getResources().getString(R.string.emoji_heart);
+        }
+
+        holder.contactStatus.setText(status);
     }
 
     @Override

@@ -10,7 +10,8 @@
     android:layout_gravity="center"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
-    android:layout_margin="1dp">
+    android:layout_margin="1dp"
+    style="?attr/cardStyle">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -110,6 +111,7 @@
                         android:gravity="start"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -136,6 +138,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <!-- next birthday week name -->
@@ -148,6 +151,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <!-- Days to go to her/his birthday -->
@@ -160,6 +164,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <TextView
@@ -171,6 +176,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                 </RelativeLayout>
