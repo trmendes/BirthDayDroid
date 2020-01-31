@@ -196,12 +196,12 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             InputMethodManager inputManager = (InputMethodManager)
-                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
 
             View currentFocus = getActivity().getCurrentFocus();
 
             if (currentFocus != null) {
-                inputManager.hideSoftInputFromWindow(currentFocus.getWindowToken(),
+                Objects.requireNonNull(inputManager).hideSoftInputFromWindow(currentFocus.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
 
