@@ -1,3 +1,7 @@
+* V41
+- Layout fix
+- Some languages are updated
+
 * V39
 - Reduce the App Size \o/ \o/ \o/
 - Add a button which is a shortcut to add a new contact (and birthday) to the contact list
