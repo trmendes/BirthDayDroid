@@ -22,11 +22,6 @@
         <item quantity="one">%1$d ημέρας</item>
         <item quantity="other">%1$d ημερών</item>
     </plurals>
-    <plurals name="days_ago">
-        <item quantity="one">%1$d ημέρα πριν</item>
-        <item quantity="other">%1$d ημέρες πριν</item>
-    </plurals>
-    <string name="prev_week_name">%1$s ήταν στις %2$s</string>
     <string name="menu_birthday_list">Λϊστα γενεθλίων</string>
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_about">Σχετικά</string>
@@ -44,7 +39,6 @@
     <string name="settings_scan_precise_title">Ακριβείς ειδοποιήσεις</string>
     <string name="settings_scan_precise">Μόνο μία ειδοποίηση νωρίτερα</string>
     <string name="settings_list_preferences">Ρυθμίσεις λίστας γενεθλίων</string>
-    <string name="settings_list_input_sum">Ημέρες μέχρι Γενέθλια/Ηλικία/Όνομα/Ζωόδιο</string>
     <string name="settings_list_input_title">Ταξινόμηση ανά</string>
     <string name="settings_list_order_sum">Αύξουσα ή φθίνουσα</string>
     <string name="settings_list_order_title">Σειρά ταξινόμησης</string>
@@ -58,7 +52,7 @@
     <string name="alert_contacts_dialog_msg">Χρειαζόμαστε πρόσβαση στην λίστα των επαφών σου, προκειμένου να φέρουμε τα γενέθλια τους</string>
     <string name="alert_permissions_allow">ΟΚ</string>
     <string name="alert_permissions_deny">Άρνηση</string>
-    <string name="about_info" tools:keep="@string/about_info">Το BirthDayDroid είναι ένα έργο ανοιχτού λογισμικού που δημιουργήθηκε για να σας βοηθήσει να θυμάστε τα γενέθλια των φίλων σας.</string>
+
     <string name="array_order_next">Ημέρες μέχρι τα επόμενα γενέθλια</string>
     <string name="array_order_age">Ηλικία</string>
     <string name="array_order_name">Όνομα</string>
@@ -67,6 +61,7 @@
     <string name="array_order_desc">Φθίνουσα</string>
     <string name="exit_warning_msg">Πατήστε πάλι για έξοδο</string>
     <string name="about_us_bt_changelog">Καταγραφή αλλαγών</string>
+    <string name="about_info" tools:keep="@string/about_info">Το BirthDayDroid είναι ένα έργο ανοιχτού λογισμικού που δημιουργήθηκε για να σας βοηθήσει να θυμάστε τα γενέθλια των φίλων σας.</string>
     <string name="about_people_devel_translators_title">Μετάφραση</string>
     </resources>
 

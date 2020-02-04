@@ -18,35 +18,26 @@
     <string name="sign_element_water">Water</string>
 
     <string name="search">Zoek op leeftijd, naam, sterrenbeeld, etc</string>
-    <plurals name="days_old">
-        <item quantity="one">%1$d dag oud</item>
-        <item quantity="other">%1$d dagen oud</item>
+    <plurals name="contact">
+        <item quantity="one">%1$d contact</item>
+        <item quantity="other">%1$d contacten</item>
     </plurals>
     <plurals name="years_old">
         <item quantity="one">%1$d jaar oud</item>
         <item quantity="other">%1$d jaar oud</item>
     </plurals>
-    <plurals name="days_ago">
-        <item quantity="one">%1$d dag geleden</item>
-        <item quantity="other">%1$d dagen geleden</item>
-    </plurals>
-    <plurals name="contact">
-        <item quantity="one">%1$d contact</item>
-        <item quantity="other">%1$d contacten</item>
-    </plurals>
 
-    <string name="next_week_name">Volgende %1$s is op %2$s</string>
-    <string name="prev_week_name">%1$s is op %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">Over %1$d dagen is de volgende %2$s</item>
-        <item quantity="other">Over %1$d dagen is de volgende %2$s</item>
+    <plurals name="days_old">
+        <item quantity="one">%1$d dag oud</item>
+        <item quantity="other">%1$d dagen oud</item>
     </plurals>
-
     <string name="party_message">Vandaag is er een feestje :D</string>
+
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s wordt morgen %2$d</item>
         <item quantity="other">%1$s wordt %2$d over %3$d dagen</item>
     </plurals>
+
     <string name="menu_birthday_list">Verjaardagslijst</string>
     <string name="menu_settings">Instellingen</string>
     <string name="menu_statistics_age">Leeftijd statistieken</string>
@@ -71,7 +62,6 @@
     <string name="settings_scan_precise">Enkel 1 notificatie van tevoren</string>
     <string name="settings_list_preferences">Verjaardagslijst instellingen</string>
     <string name="settings_application_preferences">Applicatiegedrag instellingen</string>
-    <string name="settings_list_input_sum">Dagen tot verjaardag/leeftijd/naam/sterrenbeeld</string>
     <string name="settings_list_input_title">Sorteren op</string>
     <string name="settings_list_order_sum">Oplopend of aflopend</string>
     <string name="settings_list_order_title">Sorteer volgorde</string>
@@ -87,7 +77,7 @@
     <string name="alert_contacts_dialog_msg">We hebben toegang tot je contactenlijst nodig om hun verjaardagen op te halen</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Weigeren</string>
-    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is een open bron project, welke je te helpt de verjaardagen van je vrienden te onthouden.</string>
+
     <string name="array_order_next">Dagen tot volgende verjaardag</string>
     <string name="array_order_age">Leeftijd</string>
     <string name="array_order_name">Naam</string>
@@ -98,6 +88,8 @@
     <string name="about_us_bt_changelog">Veranderingenlijst</string>
     <string name="undo">Ongedaan maken</string>
     <string name="amount">aantal contacten</string>
+
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is een open bron project, welke je te helpt de verjaardagen van je vrienden te onthouden.</string>
     <string name="about_help_title">Je kan ons helpen :D</string>
     <string name="about_help_developer">Ontwikkelaar of designer?</string>
     <string name="about_help_issues">Een idee voor nieuwe functionaliteit of een fout gevonden?</string>

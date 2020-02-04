@@ -38,6 +38,7 @@
     <string name="alert_contacts_dialog_msg">Wymagany jest dostęp do twojej listy kontaktów, aby pobrać ich urodziny</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Odrzuć</string>
+
     <string name="array_order_next">Dni do następnych urodzin</string>
     <string name="array_order_age">Wiek</string>
     <string name="array_order_name">Imię</string>

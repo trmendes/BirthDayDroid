@@ -27,6 +27,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 tools:context=".MainActivity">
 
                 <ImageView
@@ -86,6 +87,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 tools:context=".MainActivity">
                 <TextView
                     android:layout_width="wrap_content"
@@ -187,6 +189,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 tools:context=".MainActivity">
 
                 <TextView
@@ -320,6 +323,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 tools:context=".MainActivity">
 
                 <TextView

@@ -18,35 +18,36 @@
     <string name="sign_element_water">Água</string>
 
     <string name="search">Procurar por idade, nome, signo, etc</string>
-    <plurals name="days_old">
-        <item quantity="one">%1$d dia</item>
-        <item quantity="other">%1$d dias</item>
+    <plurals name="contact">
+        <item quantity="one">%1$d contato</item>
+        <item quantity="other">%1$d contatos</item>
     </plurals>
     <plurals name="years_old">
         <item quantity="one">%1$d ano</item>
         <item quantity="other">%1$d anos</item>
     </plurals>
-    <plurals name="days_ago">
-        <item quantity="one">%1$ddia atrás</item>
-        <item quantity="other">%1$ddias atrás</item>
+
+    <plurals name="days_old">
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dias</item>
     </plurals>
-    <plurals name="contact">
-        <item quantity="one">%1$d contato</item>
-        <item quantity="other">%1$d contatos</item>
+    <plurals name="days_ago" tools:ignore="ImpliedQuantity">
+        <item quantity="one">Foi ontém</item>
+        <item quantity="other">%1$d atrás</item>
     </plurals>
 
-    <string name="next_week_name">%1$sserá %2$s</string>
-    <string name="prev_week_name">%1$sfoi %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$ddias até %2$s</item>
-        <item quantity="other">%1$ddias até %2$s</item>
+    <plurals name="days_to_go">
+        <item quantity="one">É amanhã!</item>
+        <item quantity="other">Faltam %1$d dias</item>
     </plurals>
 
     <string name="party_message">Tem uma festa rolando hoje</string>
+
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$scompletando %2$damanhã</item>
         <item quantity="other">%1$scompletando %2$dem %3$ddias</item>
     </plurals>
+
     <string name="menu_birthday_list">Aniversários</string>
     <string name="menu_settings">Configurações</string>
     <string name="menu_statistics_age">Estatísticas Idade</string>
@@ -71,7 +72,7 @@
     <string name="settings_scan_precise">Somente uma notificação com antecedência</string>
     <string name="settings_list_preferences">Preferências da lista de aniversário</string>
     <string name="settings_application_preferences">Comportamento do aplicativo</string>
-    <string name="settings_list_input_sum">Dias antes do aniversário/Idade/Nome/Signo</string>
+    <string name="settings_list_input_sum">Dias antes do Aniversário/Idade/Nome/Zodiaco</string>
     <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Ascendente ou descendente</string>
     <string name="settings_list_order_title">Order de listagem</string>
@@ -91,7 +92,7 @@
     <string name="alert_contacts_dialog_msg">Precisamos de acesso aos seus contatos para poder encontrar as datas de aniversário</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Negar</string>
-    <string name="about_info" tools:keep="@string/about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
+
     <string name="array_order_next">Dias para o próximo aniversário</string>
     <string name="array_order_age">Idade</string>
     <string name="array_order_name">Nome</string>
@@ -102,6 +103,8 @@
     <string name="about_us_bt_changelog">Changelog</string>
     <string name="undo">Desfazer</string>
     <string name="amount"># de contatos</string>
+
+    <string name="about_info" tools:keep="@string/about_info">O BirthDayDroid é um projeto opensource criado para lhe ajudar a lembrar do aniversário de seus amigos e amigas.</string>
     <string name="about_help_title">Você pode nos ajudar :D</string>
     <string name="about_help_developer">Desenvolvedor/Designer?</string>
     <string name="about_help_issues">Requisitar novas funcionalidades/Reportar problemas?</string>

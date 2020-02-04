@@ -5,7 +5,7 @@ mv stringsxml_de.xml $BASE_DIR/values-de/strings.xml
 mv stringsxml_el.xml $BASE_DIR/values-el/strings.xml
 mv stringsxml_es.xml $BASE_DIR/values-es/strings.xml
 mv stringsxml_fr.xml $BASE_DIR/values-fr/strings.xml
-#mv stringsxml_id.xml $BASE_DIR/values-id/strings.xml
+mv stringsxml_id.xml $BASE_DIR/values-in/strings.xml
 mv stringsxml_it.xml $BASE_DIR/values-it/strings.xml
 mv stringsxml_ja_JP.xml $BASE_DIR/values-ja/strings.xml
 mv stringsxml_nl_NL.xml $BASE_DIR/values-nl-rNL/strings.xml

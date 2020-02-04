@@ -18,35 +18,26 @@
     <string name="sign_element_water">Eau</string>
 
     <string name="search">Rechercher l\'âge, le nom, le signe, etc</string>
-    <plurals name="days_old">
-        <item quantity="one">%1$d jours</item>
-        <item quantity="other">%1$d jours</item>
+    <plurals name="contact">
+        <item quantity="one">%1$d contact</item>
+        <item quantity="other">%1$d contacts</item>
     </plurals>
     <plurals name="years_old">
         <item quantity="one">%1$d an</item>
         <item quantity="other">%1$d ans</item>
     </plurals>
-    <plurals name="days_ago">
+
+    <plurals name="days_old">
         <item quantity="one">%1$d jours</item>
         <item quantity="other">%1$d jours</item>
     </plurals>
-    <plurals name="contact">
-        <item quantity="one">%1$d contact</item>
-        <item quantity="other">%1$d contacts</item>
-    </plurals>
-
-    <string name="next_week_name">Son prochain %1$s sera un %2$s</string>
-    <string name="prev_week_name">%1$s était en %2$s   </string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d jours avant %2$s</item>
-        <item quantity="other">%1$d jours avant %2$s</item>
-    </plurals>
-
     <string name="party_message">C\'est la fête! :D</string>
+
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s aura %2$d ans demain</item>
         <item quantity="other">%1$s aura %2$d ans dans %3$d jours</item>
     </plurals>
+
     <string name="menu_birthday_list">Liste des anniversaires</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_statistics_age">Stats : âge</string>
@@ -71,7 +62,6 @@
     <string name="settings_scan_precise">Seulement une notification en avance</string>
     <string name="settings_list_preferences">Paramètres de la liste des anniversaires</string>
     <string name="settings_application_preferences">Paramètres du comportement de l\'application</string>
-    <string name="settings_list_input_sum">Jours avant anniversaire/âge/nom/signe</string>
     <string name="settings_list_input_title">Trier par</string>
     <string name="settings_list_order_sum">Croissant ou décroissant</string>
     <string name="settings_list_order_title">Ordre du tri</string>
@@ -87,7 +77,7 @@
     <string name="alert_contacts_dialog_msg">Nous devons accéder à vos contacts afin de pouvoir trouver leur date d\'anniversaire</string>
     <string name="alert_permissions_allow">Valider</string>
     <string name="alert_permissions_deny">Refuser</string>
-    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid est une application open-source créée pour vous aider à vous rappeler des anniversaires de vos amis.</string>
+
     <string name="array_order_next">Jours avant le prochain anniversaire</string>
     <string name="array_order_age">Âge</string>
     <string name="array_order_name">Nom</string>
@@ -98,6 +88,8 @@
     <string name="about_us_bt_changelog">Journal des modifications</string>
     <string name="undo">Annuler</string>
     <string name="amount"># de contacts</string>
+
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid est une application open-source créée pour vous aider à vous rappeler des anniversaires de vos amis.</string>
     <string name="about_help_title">Vous pouvez contribuer! :D</string>
     <string name="about_help_developer">Developpeur/designer?</string>
     <string name="about_help_issues">Conseiller une nouvelle fonctionnalité/reporter un bug?</string>
