@@ -58,7 +58,7 @@
     </plurals>
 
     <plurals name="days_to_go">
-        <item quantity="one">It's tomorrow!</item>
+        <item quantity="one">It is tomorrow!</item>
         <item quantity="other">%1$d days to go</item>
     </plurals>
 
