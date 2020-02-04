@@ -10,179 +10,178 @@
     android:layout_gravity="center"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
-    android:layout_margin="0dp">
+    android:layout_margin="1dp"
+    style="?attr/cardStyle">
 
-    <RelativeLayout
-        android:id="@+id/view_background_ignore"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="@color/bg_row_background_ignore">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:text="@string/emoji_block"
-            android:textSize="@dimen/ignore_favorite_text_size" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/view_background_favorite"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="@color/bg_row_background_favorite">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:text="@string/emoji_heart"
-            android:textSize="@dimen/ignore_favorite_text_size" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/view_item"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="0dip">
-
-        <!--  ListRow Left side Contact Picture -->
-        <LinearLayout
-            android:id="@+id/photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/image_bg">
-
-            <ImageView
-                android:id="@+id/ivContactPicture"
-                android:layout_width="74dip"
-                android:layout_height="80dp"
-                android:layout_marginStart="10dp"
-                android:contentDescription=""
-                tools:ignore="ContentDescription" />
+        <RelativeLayout
+            android:id="@+id/view_background_ignore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_row_background_ignore"
+            android:visibility="invisible">
 
             <TextView
-                android:id="@+id/tvAgeBadge"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="-25dip"
-                android:background="@drawable/badge_background"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:text=""
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:typeface="sans" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="10dip"
-            android:layout_marginEnd="10dip"
-            android:layout_toEndOf="@id/photo">
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp">
-
-                <!-- Contact Name -->
-                <TextView
-                    android:id="@+id/tvContactName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:gravity="start"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="end"
-                    android:text=""
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:baselineAligned="false">
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:text="@string/emoji_block"
+                android:textSize="@dimen/ignore_favorite_text_size" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_background_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_row_background_favorite"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:text="@string/emoji_heart"
+                android:textSize="@dimen/ignore_favorite_text_size" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_item"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+            <!--  ListRow Left side Contact Picture -->
+            <LinearLayout
+                android:id="@+id/photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/image_bg">
+
+                <ImageView
+                    android:id="@+id/ivContactPicture"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription=""
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tvAgeBadge"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="-25dip"
+                    android:background="@drawable/badge_background"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dip"
+                android:layout_toEndOf="@id/photo"
+                android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:fitsSystemWindows="false">
+                    android:id="@+id/title"
+                    android:layout_width="fill_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_height="wrap_content">
+
+                    <!-- Contact Name -->
+                    <TextView
+                        android:id="@+id/tvContactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:gravity="start"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="?attr/cardTitle"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="end"
+                        android:text=""
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
                     <!-- BirthDay -->
                     <TextView
-                        android:id="@+id/tvBirthDay"
+                        android:id="@+id/tvLineOne"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="?attr/cardTitle"
+                        android:textSize="12sp" />
 
                     <!-- next birthday week name -->
                     <TextView
-                        android:id="@+id/tvContactNextBirthDayWeekName"
+                        android:id="@+id/tvLineTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvBirthDay"
+                        android:layout_below="@id/tvLineOne"
                         android:layout_alignParentStart="true"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <!-- Days to go to her/his birthday -->
                     <TextView
-                        android:id="@+id/tvContactDaysUntil"
+                        android:id="@+id/tvLineThree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvContactNextBirthDayWeekName"
+                        android:layout_below="@id/tvLineTwo"
                         android:layout_alignParentStart="true"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tvDaysOld"
+                        android:id="@+id/tvLineFour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvContactDaysUntil"
+                        android:layout_below="@id/tvLineThree"
                         android:layout_alignParentStart="true"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
+                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                 </RelativeLayout>
 
             </LinearLayout>
-        </LinearLayout>
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

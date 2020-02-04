@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_desc">Su recordatorio de cumpleaños</string>
+    <string name="app_desc">Sus recordatorios de cumpleaños</string>
     <string name="sign_aquarius">Acuario</string>
     <string name="sign_capricorn">Capricornio</string>
     <string name="sign_pisces">Piscis</string>
@@ -18,35 +18,26 @@
     <string name="sign_element_water">Agua</string>
 
     <string name="search">Búsqueda por edad, nombre, signo, etc</string>
-    <plurals name="days_old">
-        <item quantity="one">%1$d día</item>
-        <item quantity="other">%1$d días</item>
+    <plurals name="contact">
+        <item quantity="one">%1$d contacto</item>
+        <item quantity="other">%1$d contactos</item>
     </plurals>
     <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
         <item quantity="other">%1$d años</item>
     </plurals>
-    <plurals name="days_ago">
-        <item quantity="one">hace %1$d días</item>
-        <item quantity="other">hace %1$d días</item>
-    </plurals>
-    <plurals name="contact">
-        <item quantity="one">%1$d contacto</item>
-        <item quantity="other">%1$d contactos</item>
-    </plurals>
 
-    <string name="next_week_name">El próximo %1$s será en %2$s</string>
-    <string name="prev_week_name">%1$s fue el %2$s</string>
-    <plurals name="days_until">
-        <item quantity="one">%1$d día hasta el próximo %2$s</item>
-        <item quantity="other">%1$d días hasta el próximo %2$s</item>
+    <plurals name="days_old">
+        <item quantity="one">%1$d día</item>
+        <item quantity="other">%1$d días</item>
     </plurals>
-
     <string name="party_message">Hoy hay una fiesta :D</string>
+
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s cumpliendo %2$d mañana</item>
         <item quantity="other">%1$s cumpliendo %2$d en %3$d días</item>
     </plurals>
+
     <string name="menu_birthday_list">Lista de cumpleaños</string>
     <string name="menu_settings">Opciones</string>
     <string name="menu_statistics_age">Estadísticas de edad</string>
@@ -57,24 +48,23 @@
     <string name="settings_not_sound_title">Sonido de notificación</string>
     <string name="settings_not_sound_sum">Establecer el sonido de notificación de cumpleaños</string>
     <string name="settings_scan_preferences">Opciones de notificaciones de cumpleaños</string>
-    <string name="settings_scan_not_sum">Mostrar notificaciones de cumpleaños diarias</string>
+    <string name="settings_scan_not_sum">Mostrar diariamente notificaciones de cumpleaños</string>
     <string name="settings_scan_not_title">Notificaciones diarias</string>
-    <string name="settings_scan_title">Tiempo para notificaciones diarias</string>
+    <string name="settings_scan_title">Hora de las notificaciones diarias</string>
     <string name="settings_scan_not_adv_sum">Mostrar notificaciones de cumpleaños con anticipación</string>
-    <string name="settings_scan_not_adv_title">Notificaciones de cumpleaños con anticipación</string>
-    <string name="settings_list_hide_zodiac">Ocultar Zodiaco</string>
+    <string name="settings_scan_not_adv_title">Notificar cumpleaños con anticipación</string>
+    <string name="settings_list_hide_zodiac">Ocultar información zodiacal</string>
     <string name="settings_show_current_age">Mostrar Edad Actual</string>
     <string name="settings_statistics_as_text">Mostrar estadísticas como texto</string>
-    <string name="settings_scan_adv_sum">Cúantos días con anticipación deberíamos comprobar sus contactos para sus cumpleaños, así tendrá tiempo para prepararle una sorpresa a su amigo</string>
-    <string name="settings_scan_adv_title">Días con anticipación</string>
+    <string name="settings_scan_adv_sum">Indique con cuantos días de anticipación comprobaremos los cumpleaños de sus contactos. Así tendrá tiempo para prepararle una sorpresa a su amigo</string>
+    <string name="settings_scan_adv_title">Días por anticipado</string>
     <string name="settings_scan_precise_title">Notificaciones precisas</string>
-    <string name="settings_scan_precise">Sólo una notificación con anticipación</string>
+    <string name="settings_scan_precise">Sólo una notificación por anticipado.</string>
     <string name="settings_list_preferences">Opciones de la lista de cumpleaños</string>
     <string name="settings_application_preferences">Configuración del comportamiento de la app</string>
-    <string name="settings_list_input_sum">Días hasta cumpleaños/Edad/Nombre/Signo</string>
     <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Ascendente o descendente</string>
-    <string name="settings_list_order_title">Orden de aparición</string>
+    <string name="settings_list_order_title">Forma de ordenar</string>
     <string name="settings_time_set">Establecer</string>
     <string name="settings_time_cancel">Cancelar</string>
     <string name="settings_layout_preferences">Diseño</string>
@@ -83,23 +73,27 @@
     <string name="settings_theme">Oscuro</string>
     <string name="settings_show_birthday_type_only">Mostrar solo el tipo de evento CUMPLEAÑOS</string>
     <string name="settings_hide_add_contact_fab">Ocultar botón para agregar nuevo cumpleaños</string>
+    <string name="settings_notify_favorites_only">Solo notificar favoritos</string>
+    <string name="settings_hide_contacts">Ocultar contactos ignorados</string>
     <string name="navigation_drawer_open">Abrir cajón de navegación</string>
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
     <string name="alert_contats_dialog_title">Se requiere permiso para Leer tus Contactos</string>
     <string name="alert_contacts_dialog_msg">Necesitamos acceder a su lista de contactos para extraer sus cumpleaños</string>
     <string name="alert_permissions_allow">Aceptar</string>
     <string name="alert_permissions_deny">Rechazar</string>
-    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid es un proyecto de código abierto creado para ayudarle a recordar los cumpleaños de sus amigos.</string>
-    <string name="array_order_next">Días hasta el siguiente cumpleaños</string>
+
+    <string name="array_order_next">días hasta el siguiente cumpleaños</string>
     <string name="array_order_age">Edad</string>
     <string name="array_order_name">Nombre</string>
     <string name="array_order_sign">Signo</string>
     <string name="array_order_asc">Ascendente</string>
     <string name="array_order_desc">Descendiente</string>
-    <string name="exit_warning_msg">Pulse volver de nuevo para salir</string>
+    <string name="exit_warning_msg">Pulse nuevamente para salir de la aplicación</string>
     <string name="about_us_bt_changelog">Historial de cambios</string>
     <string name="undo">Deshacer</string>
     <string name="amount"># de contactos</string>
+
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid es un proyecto de código abierto creado para ayudarle a recordar los cumpleaños de sus amigos.</string>
     <string name="about_help_title">Tú puedes ayudarnos! :D</string>
     <string name="about_help_developer">Desarrollador/Diseñador?</string>
     <string name="about_help_issues">Solicitar características / reportar fallos?</string>

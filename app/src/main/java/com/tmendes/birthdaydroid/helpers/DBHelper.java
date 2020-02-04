@@ -14,7 +14,6 @@ import java.util.Map;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "contacts.db";
-    private static final String CONTACTS_TABLE_NAME = "contacts";
     private static final String CONTACTS_COLUMN_ID = "id";
     private static final String CONTACTS_COLUMN_CONTACT_ID = "cid";
     private static final String CONTACTS_COLUMN_FAVORITE = "favorite";

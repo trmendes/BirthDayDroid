@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -45,7 +44,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     private final SharedPreferences prefs;
 
-    private final int lateBDDListTreshold;
+    private final int prevBirthDayThreshold;
     private final boolean isNowLeapYear;
 
     private final int YEAR_LEN = 365;
@@ -65,9 +64,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         int WEEK_LEN = 7;
         if (isNowLeapYear) {
-            this.lateBDDListTreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
+            this.prevBirthDayThreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
         } else {
-            this.lateBDDListTreshold = this.YEAR_LEN - WEEK_LEN;
+            this.prevBirthDayThreshold = this.YEAR_LEN - WEEK_LEN;
         }
     }
 
@@ -75,51 +74,39 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         Contact contact = contacts.get(position);
 
+        RoundedBitmapDrawable picture = null;
+
         boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
         boolean showCurrentAge = prefs.getBoolean("show_current_age", false);
 
         int age = contact.getAge();
         int daysOld = contact.getDaysOld();
-        int bornOnDay = contact.getBornOnDay();
         int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
-        String bornOnMonthName = contact.getBornOnMonthName();
-        String name = contact.getName();
+
+        String status = "";
+        String ageText;
+        String partyMsg;
+        String birthdayMsg;
+
         String photoUri = contact.getPhotoURI();
-        String nextBirthdayWeekName = contact.getNextBirthDayWeekName();
+        String name = contact.getName();
         String zodiacSign = contact.getZodiacSymbol();
         String zodiacSignElement = contact.getZodiacElementSymbol();
         String eventTypeLabel = contact.getEventTypeLabel();
 
-        if (!showCurrentAge) {
-            ++age;
-        }
-
         holder.ignoreContactLayout.setVisibility(View.INVISIBLE);
         holder.favoriteContactLayout.setVisibility(View.INVISIBLE);
+
         holder.name.setText("");
         holder.contactStatus.setText("");
-        holder.birthDayWeekName.setText("");
-        holder.daysOld.setText("");
         holder.ageBadge.setText("");
-        holder.daysToGo.setText("");
-        holder.bornOn.setText("");
 
-        String status = "";
+        holder.lineOne.setText("");
+        holder.lineTwo.setText("");
+        holder.lineThree.setText("");
+        holder.lineFour.setText("");
 
-        holder.name.setText(name);
-
-        holder.birthDayWeekName
-                .setText(ctx.getResources()
-                        .getString(R.string.next_week_name, eventTypeLabel, nextBirthdayWeekName));
-
-        if (!hideZoadiac) {
-            status = status + " " + zodiacSign + " " + zodiacSignElement;
-        }
-
-        holder.bornOn.setText(
-                ctx.getResources().getString(
-                        R.string.birthday_string, bornOnMonthName, bornOnDay));
-
+        /* Contact Picture */
         if (photoUri != null) {
             try {
                 Bitmap src = MediaStore
@@ -127,96 +114,90 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                         .Media
                         .getBitmap(ctx.getContentResolver(), Uri.parse(photoUri));
 
-                RoundedBitmapDrawable dr =
-                        RoundedBitmapDrawableFactory.create(ctx.getResources(), src);
-                dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
-
-                holder.picture.setImageDrawable(dr);
-            } catch (IOException e) {
-                holder.picture.setImageDrawable(
-                        ContextCompat.getDrawable(
-                                ctx, R.drawable.ic_account_circle_black_48dp));
-            }
-
-        } else {
-            holder.picture.setImageDrawable(
-                    ContextCompat.getDrawable(
-                            ctx, R.drawable.ic_account_circle_black_48dp));
-        }
-
-        /* Party */
-        if (contact.getDaysUntilNextBirthday() >= 0 && contact.shallWePartyToday()) {
-            if (contact.getDaysUntilNextBirthday() == 0) {
-                holder.daysToGo.setText(
-                        ctx.getResources().getString(R.string.party_message));
-                status = status + " " + ctx.getResources()
-                        .getString(R.string.emoji_today_party);
-            } else {
-                holder.daysToGo
-                        .setText(
-                                ctx.getResources().getQuantityString(
-                                        R.plurals.days_until,
-                                        daysUntilNextBirthday,
-                                        daysUntilNextBirthday,
-                                        eventTypeLabel));
-            }
-        } else if (contact.getDaysUntilNextBirthday() == 1) {
-            holder.daysToGo
-                    .setText(
-                            ctx.getResources().getQuantityString(
-                                    R.plurals.days_until,
-                                    daysUntilNextBirthday,
-                                    daysUntilNextBirthday,
-                                    eventTypeLabel));
-            holder.ageBadge.setBackgroundColor(Color.YELLOW);
-        } else {
-            /* Days Ago */
-            if (daysUntilNextBirthday >= this.lateBDDListTreshold && !contact.isNotYetBorn()) {
-                long daysAgo;
-
-                if (this.isNowLeapYear) {
-                    daysAgo = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday();
-                } else {
-                    daysAgo = this.YEAR_LEN - contact.getDaysUntilNextBirthday();
-                }
-
-                holder.birthDayWeekName
-                        .setText(ctx.getResources()
-                                .getString(R.string.prev_week_name, eventTypeLabel,
-                                        contact.getPrevBirthDayWeekName()));
-
-                holder.daysToGo
-                        .setText(
-                                ctx.getResources().getQuantityString(
-                                        R.plurals.days_ago,
-                                        (int) daysAgo,
-                                        (int) daysAgo));
-            } else {
-                /* All the rest */
-                holder.daysToGo
-                        .setText(
-                                ctx.getResources().getQuantityString(
-                                        R.plurals.days_until,
-                                        daysUntilNextBirthday,
-                                        daysUntilNextBirthday,
-                                        eventTypeLabel));
+                picture = RoundedBitmapDrawableFactory.create(ctx.getResources(), src);
+                picture.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
+            } catch (IOException _ignored) {
+                /* Do nothing */
             }
         }
 
-        if (contact.isHeSheNotEvenOneYearOld() && showCurrentAge) {
-            holder.daysOld.setText(ctx.getResources().getQuantityString(
-                    R.plurals.days_old, daysOld, daysOld));
-            holder.daysOld.setVisibility(View.VISIBLE);
-        }
-
-        String ageText;
-
+        /* Age badge */
         if (showCurrentAge) {
-            ageText = String.valueOf(age);
+            if (contact.isHeSheNotEvenOneYearOld()) {
+                ageText = String.valueOf(0);
+            } else {
+                ageText = String.valueOf(age);
+            }
         } else {
+            ++age;
             ageText = "↑" + age;
         }
 
+        birthdayMsg = contact.getNextBirthDayInfo();
+
+        /* Party */
+        switch (daysUntilNextBirthday) {
+            case 0:
+                partyMsg = ctx.getResources().getString(R.string.party_message);
+                status = status + " " + ctx.getResources()
+                        .getString(R.string.emoji_today_party);
+                break;
+            case 1:
+                status = status + " " + ctx.getResources()
+                        .getString(R.string.emoji_tomorrow_party);
+            default:
+                if (daysUntilNextBirthday >= this.prevBirthDayThreshold && !contact.isNotYetBorn()) {
+                    if (this.isNowLeapYear) {
+                        daysUntilNextBirthday = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday();
+                    } else {
+                        daysUntilNextBirthday = this.YEAR_LEN - contact.getDaysUntilNextBirthday();
+                    }
+                    birthdayMsg = contact.getPrevBirthDayInfo();
+                    partyMsg = ctx.getResources().getQuantityString(R.plurals.days_ago,
+                            daysUntilNextBirthday,
+                            daysUntilNextBirthday);
+                } else {
+                    partyMsg =  ctx.getResources().getQuantityString(R.plurals.days_to_go,
+                            daysUntilNextBirthday,
+                            daysUntilNextBirthday);
+                }
+
+                break;
+        }
+
+        /* Capitalize it */
+        eventTypeLabel = eventTypeLabel.toLowerCase();
+        eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
+                + eventTypeLabel.substring(1);
+
+
+        if (picture == null) {
+            holder.picture.setImageDrawable(
+                    ContextCompat.getDrawable(
+                            ctx, R.drawable.ic_account_circle_black_48dp));
+        } else {
+            holder.picture.setImageDrawable(picture);
+        }
+
+        holder.name.setText(name);
+
+        holder.ageBadge.setText(ageText);
+
+        holder.lineOne.setText(birthdayMsg);
+        holder.lineTwo.setText(eventTypeLabel);
+        holder.lineThree.setText(partyMsg);
+
+        if (contact.isHeSheNotEvenOneYearOld()) {
+            holder.lineFour.setText(ctx.getResources().getQuantityString(
+                    R.plurals.days_old, daysOld, daysOld));
+        }
+
+        /* Zodiac Icons */
+        if (!hideZoadiac) {
+            status = status + " " + zodiacSign + " " + zodiacSignElement;
+        }
+
+        /* Favorite/Ignore Icons */
         if (contact.isIgnore()) {
             status = status + " " + ctx.getResources().getString(R.string.emoji_block);
         }
@@ -225,7 +206,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         holder.contactStatus.setText(status);
-        holder.ageBadge.setText(ageText);
     }
 
     @Override
@@ -297,11 +277,11 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
-        private final TextView birthDayWeekName;
-        private final TextView daysOld;
+        private final TextView lineTwo;
+        private final TextView lineFour;
         private final TextView ageBadge;
-        private final TextView daysToGo;
-        private final TextView bornOn;
+        private final TextView lineThree;
+        private final TextView lineOne;
         private final TextView contactStatus;
         private final ImageView picture;
         public final RelativeLayout ignoreContactLayout;
@@ -337,14 +317,18 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                     return true;
                 }
             });
+
             name = view.findViewById(R.id.tvContactName);
             contactStatus = view.findViewById(R.id.tvStatus);
-            birthDayWeekName = view.findViewById(R.id.tvContactNextBirthDayWeekName);
-            daysOld = view.findViewById(R.id.tvDaysOld);
-            ageBadge = view.findViewById(R.id.tvAgeBadge);
-            daysToGo = view.findViewById(R.id.tvContactDaysUntil);
-            bornOn = view.findViewById(R.id.tvBirthDay);
+
+            lineOne = view.findViewById(R.id.tvLineOne);
+            lineTwo = view.findViewById(R.id.tvLineTwo);
+            lineThree = view.findViewById(R.id.tvLineThree);
+            lineFour = view.findViewById(R.id.tvLineFour);
+
             picture = view.findViewById(R.id.ivContactPicture);
+            ageBadge = view.findViewById(R.id.tvAgeBadge);
+
             itemLayout = view.findViewById(R.id.view_item);
             ignoreContactLayout = view.findViewById(R.id.view_background_ignore);
             favoriteContactLayout = view.findViewById(R.id.view_background_favorite);

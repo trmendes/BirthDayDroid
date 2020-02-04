@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_desc">O seu lembrete de aniversários</string>
     <string name="sign_aquarius">Aquário</string>
     <string name="sign_capricorn">Capricórnio</string>
     <string name="sign_pisces">Peixes</string>
@@ -17,29 +18,70 @@
     <string name="sign_element_water">Água</string>
 
     <string name="search">Procurar por idade, nome, signo, etc</string>
+    <plurals name="contact">
+        <item quantity="one">%1$d contacto</item>
+        <item quantity="other">%1$d contactos</item>
+    </plurals>
+    <plurals name="years_old">
+        <item quantity="one">%1$d ano</item>
+        <item quantity="other">%1$d anos</item>
+    </plurals>
+
     <plurals name="days_old">
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
     </plurals>
+    <string name="party_message">Há uma festa a acontecer hoje :D</string>
+
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="one">%1$s faz %2$d ano amanhã</item>
+        <item quantity="other">%1$s faz %2$d anos daqui a %3$d dias</item>
+    </plurals>
+
     <string name="menu_birthday_list">Lista de Aniversários</string>
     <string name="menu_settings">Definições</string>
+    <string name="menu_statistics_age">Estatísticas por Idades</string>
+    <string name="menu_statistics_zodiac">Estatísticas por Signos</string>
+    <string name="menu_statistics_week">Estatísticas por Dia da Semana</string>
+    <string name="menu_statistics_month">Estatísticas por Mês</string>
     <string name="menu_about">Sobre</string>
     <string name="settings_not_sound_title">Som de notificação</string>
     <string name="settings_not_sound_sum">Definir o som de notificação de aniversário</string>
+    <string name="settings_scan_preferences">Definições das Notificações de Aniversários</string>
+    <string name="settings_scan_not_sum">Mostrar notificações de aniversários diariamente</string>
     <string name="settings_scan_not_title">Notificações diárias</string>
+    <string name="settings_scan_title">Hora para as notificações diárias</string>
+    <string name="settings_scan_not_adv_sum">Mostrar notificações de aniversários com antecedência</string>
+    <string name="settings_scan_not_adv_title">Notificações de Aniversários com antecedência</string>
+    <string name="settings_list_hide_zodiac">Esconder os Signos</string>
+    <string name="settings_show_current_age">Mostrar idade actual</string>
+    <string name="settings_statistics_as_text">Mostrar as Estatísticas como texto</string>
+    <string name="settings_scan_adv_sum">Com quantos dias de antecedência devemos verificar os seus contactos em busca de aniversários para ter tempo para preparar uma surpresa a um(a) amig@ </string>
+    <string name="settings_scan_adv_title">Dias de antecedência</string>
     <string name="settings_scan_precise_title">Notificação precisa</string>
+    <string name="settings_scan_precise">Apenas uma notificação com antecedência</string>
     <string name="settings_list_preferences">Definições da lista de Aniversários</string>
-    <string name="settings_list_input_title">Organizar por</string>
+    <string name="settings_application_preferences">Definições do comportamento da aplicação</string>
+    <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Crescente ou Decrescente</string>
     <string name="settings_list_order_title">Ordenação</string>
     <string name="settings_time_set">Definir</string>
     <string name="settings_time_cancel">Cancelar</string>
     <string name="settings_layout_preferences">Disposição</string>
     <string name="settings_theme_title">Tema</string>
+    <string name="settings_battery_status">Permitir que a aplicação corra em segundo plano</string>
     <string name="settings_theme">Escuro</string>
+    <string name="settings_show_birthday_type_only">Mostrar apenas Aniversários de nascimento</string>
+    <string name="settings_hide_add_contact_fab">Esconder o botão para adicionar novos aniversários</string>
+    <string name="settings_notify_favorites_only">Notificar apenas dos Favoritos</string>
+    <string name="settings_hide_contacts">Esconder os contactos ignorados</string>
+    <string name="navigation_drawer_open">Abrir gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar gaveta de navegação</string>
+    <string name="alert_contats_dialog_title">É necessária permissão para ler os Contactos </string>
     <string name="alert_contacts_dialog_msg">Necessitamos aceder aos contactos para procurar as suas datas de nascimento</string>
-    <string name="alert_permissions_allow">OK</string>
+    <string name="alert_permissions_allow">Aceitar</string>
     <string name="alert_permissions_deny">Negar</string>
+
     <string name="array_order_next">Dias até o próximo aniversário</string>
     <string name="array_order_age">Idade</string>
     <string name="array_order_name">Nome</string>
@@ -47,5 +89,23 @@
     <string name="array_order_asc">Ascendente</string>
     <string name="array_order_desc">Descendente</string>
     <string name="exit_warning_msg">Pressione voltar uma vez mais para sair</string>
-    </resources>
+    <string name="about_us_bt_changelog">Histórico</string>
+    <string name="undo">Desfazer</string>
+    <string name="amount"># de contactos</string>
+
+    <string name="about_info" tools:keep="@string/about_info">O BirthDayDroid é um projecto com o Código Aberto criado para o ajudar a lembrar do aniversário d@s amig@s.</string>
+    <string name="about_help_title">Você pode ajudar-nos :D</string>
+    <string name="about_help_developer">Programador/Designer?</string>
+    <string name="about_help_issues">Pedir novas funcionalidades e/ou reportar erros?</string>
+    <string name="about_help_languages">Suportar um novo idioma?</string>
+    <string name="about_help_coffee">Pague-nos um café :)</string>
+    <string name="about_people_devel_code_title">Código</string>
+    <string name="about_people_devel_title">Programadores</string>
+    <string name="about_people_devel_contributors_title">Contribuidores</string>
+    <string name="about_people_devel_translators_title">Tradução</string>
+    <string name="about_people_devel_translators_text">Um grupo de pessoas fantásticas no Transifex</string>
+    <string name="about_special_thanks">Agradecimentos especiais</string>
+    <string name="about_libs">Bibliotecas (Muito obrigado)</string>
+    <string name="about_icons">Ícones (Obrigado especial)</string>
+</resources>
 

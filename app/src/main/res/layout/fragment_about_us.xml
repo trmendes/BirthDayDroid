@@ -4,358 +4,429 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".MainActivity">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="10dp"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:contentDescription=""
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:ignore="ContentDescription" />
+            style="?attr/cardStyle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/tvVersion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:contentDescription=""
+                    app:srcCompat="@mipmap/ic_launcher"
+                    tools:ignore="ContentDescription" />
 
-        <View
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?android:attr/listDivider"
+                    android:padding="5dp" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="@string/about_us_bt_changelog"
+                    android:id="@+id/about_us_bt_changelog" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardCornerRadius="0dp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            android:padding="5dp" />
-
-        <Button
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="@string/about_us_bt_changelog"
-            android:id="@+id/about_us_bt_changelog" />
+            card_view:cardElevation="10dp"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            style="?attr/cardStyle">
 
-        <View
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                tools:context=".MainActivity">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="@string/about_help_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_help_developer"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://gitlab.com/tmendes/BirthDayDroid/"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_help_issues"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://gitlab.com/tmendes/BirthDayDroid/issues"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_help_languages"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://transifex.com/wlnomads/birthdaydroid"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_help_coffee"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://tmendes.gitlab.io/BirthDayDroid/#donate"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="10dp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            android:padding="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:text="@string/about_help_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            style="?attr/cardStyle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_help_developer"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                tools:context=".MainActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://gitlab.com/tmendes/BirthDayDroid/"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="@string/about_people_devel_code_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_help_issues"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_people_devel_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://gitlab.com/tmendes/BirthDayDroid/issues"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Thiago Ribeiro Mendes"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_help_languages"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_people_devel_patches_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://transifex.com/wlnomads/birthdaydroid"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Moritz Bandemer (Testing, new ideas and patches)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_help_coffee"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_people_devel_contributors_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://tmendes.gitlab.io/BirthDayDroid/#donate"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Shane Synan (Testing)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/listDivider"
-            android:padding="5dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Evan Goode (Grammar and spelling fixes)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:text="@string/about_people_devel_code_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Florian Angermeier (Grammar and spelling fixes)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_people_devel_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Moritz Bandemer (Testing, new ideas)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Thiago Ribeiro Mendes"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Sopor (Testing, Grammar and spelling fixes, new ideas)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_people_devel_patches_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_people_devel_translators_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Moritz Bandemer (Testing, new ideas and patches)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_people_devel_translators_text"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_people_devel_contributors_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Shane Synan (Testing)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Evan Goode (Grammar and spelling fixes)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Florian Angermeier (Grammar and spelling fixes)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Moritz Bandemer (Testing, new ideas)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Sopor (Testing, Grammar and spelling fixes, new ideas)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_people_devel_translators_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_people_devel_translators_text"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <View
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardCornerRadius="0dp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            android:padding="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:text="@string/about_special_thanks"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            card_view:cardElevation="10dp"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            style="?attr/cardStyle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_libs"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                tools:context=".MainActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- MPAndroidChart"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="@string/about_special_thanks"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://github.com/PhilJay/MPAndroidChart"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_libs"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="@string/about_icons"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- MPAndroidChart"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- App Icon: Firefox OS Emojis"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://github.com/PhilJay/MPAndroidChart"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://mozilla.github.io/fxemoji/"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/about_icons"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Navigation bar icons: Google Team"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- App Icon: Firefox OS Emojis"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://material.io/tools/icons/"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://mozilla.github.io/fxemoji/"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="5dp"
-            android:text="- Emojis: Free emojis provided by Emoji One"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Navigation bar icons: Google Team"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:text="https://www.emojione.com/"
-            android:autoLink="web"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://material.io/tools/icons/"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="5dp"
+                    android:text="- Emojis: Free emojis provided by Emoji One"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:text="https://www.emojione.com/"
+                    android:autoLink="web"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
 </ScrollView>
