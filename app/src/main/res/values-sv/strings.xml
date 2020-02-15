@@ -31,6 +31,16 @@
         <item quantity="one">%1$d dag gammal</item>
         <item quantity="other">%1$d dagar gammal</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Det var i går!</item>
+        <item quantity="other">%1$d dagar sedan</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Det är i morgon!</item>
+        <item quantity="other">%1$d dagar kvar</item>
+    </plurals>
+
     <string name="party_message">I dag festas det minsann :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Endast en avisering i förväg</string>
     <string name="settings_list_preferences">Inställningar för födelsedagslistan</string>
     <string name="settings_application_preferences">Inställningar för applikationsbeteende</string>
+    <string name="settings_list_input_sum">Dagar till Födelsedag/Ålder/Namn/Stjärntecken</string>
     <string name="settings_list_input_title">Sortera efter</string>
     <string name="settings_list_order_sum">Stigande eller fallande</string>
     <string name="settings_list_order_title">Sorteringsordning</string>
@@ -73,6 +84,8 @@
     <string name="settings_theme">Mörk</string>
     <string name="settings_show_birthday_type_only">Visa endast födelsedagar</string>
     <string name="settings_hide_add_contact_fab">Dölj knappen nya födelsedagar</string>
+    <string name="settings_notify_favorites_only">Avisera endast favoriter</string>
+    <string name="settings_hide_contacts">Dölj ignorerade kontakter</string>
     <string name="navigation_drawer_open">Öppna navigeringsmappen</string>
     <string name="navigation_drawer_close">Stäng navigeringsmappen</string>
     <string name="alert_contats_dialog_title">Behörighet behövs för att läsa kontakterna</string>

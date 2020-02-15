@@ -31,6 +31,16 @@
         <item quantity="one">%1$d jours</item>
         <item quantity="other">%1$d jours</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">C\'était hier!</item>
+        <item quantity="other">Il y a %1$d jours</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">C\'est demain!</item>
+        <item quantity="other">%1$d jours restants</item>
+    </plurals>
+
     <string name="party_message">C\'est la fête! :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Seulement une notification en avance</string>
     <string name="settings_list_preferences">Paramètres de la liste des anniversaires</string>
     <string name="settings_application_preferences">Paramètres du comportement de l\'application</string>
+    <string name="settings_list_input_sum">Jours avant anniversaire /âge/nom/zodiaque</string>
     <string name="settings_list_input_title">Trier par</string>
     <string name="settings_list_order_sum">Croissant ou décroissant</string>
     <string name="settings_list_order_title">Ordre du tri</string>
@@ -71,6 +82,10 @@
     <string name="settings_theme_title">Thème</string>
     <string name="settings_battery_status">Autoriser le fonctionnement en tâche de fond</string>
     <string name="settings_theme">Sombre</string>
+    <string name="settings_show_birthday_type_only">Afficher uniquement le type d\'événement anniversaire</string>
+    <string name="settings_hide_add_contact_fab">Masquer le bouton pour ajouter un nouvel anniversaire</string>
+    <string name="settings_notify_favorites_only">Avertir uniquement les favoris</string>
+    <string name="settings_hide_contacts">Masquer les contacts ignorés</string>
     <string name="navigation_drawer_open">Ouvrir le panneau de navigation</string>
     <string name="navigation_drawer_close">Fermer le panneau de navigation</string>
     <string name="alert_contats_dialog_title">Permission de lire les contacts nécessaire</string>

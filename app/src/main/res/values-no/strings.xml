@@ -31,6 +31,16 @@
         <item quantity="one">%1$d dager gammel</item>
         <item quantity="other">%1$d dager gammel</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Det var i går!</item>
+        <item quantity="other">%1$d dager siden</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Det er i morgen!</item>
+        <item quantity="other">%1$d dager igjen</item>
+    </plurals>
+
     <string name="party_message">Det blir arrangert en fest idag :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Kun en notifikasjon på forhånd</string>
     <string name="settings_list_preferences">Fødselsdags liste innstillinger</string>
     <string name="settings_application_preferences">App bruksinstillinger</string>
+    <string name="settings_list_input_sum">Dager inntil Fødselsdag/Alder/Navn/Dyrekretsen</string>
     <string name="settings_list_input_title">Sorter etter</string>
     <string name="settings_list_order_sum">Stigende eller synkende</string>
     <string name="settings_list_order_title">Sorterings rekkefølge</string>
@@ -71,6 +82,10 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_battery_status">Tillat at appen kjører i bakgrunnen</string>
     <string name="settings_theme">Mørk</string>
+    <string name="settings_show_birthday_type_only">Vis bare bursdagsarrangementtype</string>
+    <string name="settings_hide_add_contact_fab">Skjul knappen for å legge til ny bursdag</string>
+    <string name="settings_notify_favorites_only">Varsle bare favoritter</string>
+    <string name="settings_hide_contacts">Skjul ignorerte kontakter</string>
     <string name="navigation_drawer_open">Åpne navigasjons område</string>
     <string name="navigation_drawer_close">Lukk navigasjons område</string>
     <string name="alert_contats_dialog_title">Trenger tillatelse til lese kontaktlisten</string>

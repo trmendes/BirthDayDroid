@@ -1,3 +1,6 @@
+* V42
+- Localization updated
+
 * V41
 - Layout fix
 - Some languages are updated

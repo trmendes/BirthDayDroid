@@ -31,6 +31,16 @@
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Foi ontem!</item>
+        <item quantity="other">Há %1$d dias</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">É amanhã!</item>
+        <item quantity="other">Faltam %1$d dias</item>
+    </plurals>
+
     <string name="party_message">Há uma festa a acontecer hoje :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Apenas uma notificação com antecedência</string>
     <string name="settings_list_preferences">Definições da lista de Aniversários</string>
     <string name="settings_application_preferences">Definições do comportamento da aplicação</string>
+    <string name="settings_list_input_sum">Dias até Aniversário/Idade/Nome/Signo</string>
     <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Crescente ou Decrescente</string>
     <string name="settings_list_order_title">Ordenação</string>

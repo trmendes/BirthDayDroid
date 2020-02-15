@@ -31,6 +31,16 @@
         <item quantity="one">%1$d dag oud</item>
         <item quantity="other">%1$d dagen oud</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Het was gisteren!</item>
+        <item quantity="other">%1$d dagen geleden</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Het is morgen!</item>
+        <item quantity="other">Nog %1$d dagen te gaan</item>
+    </plurals>
+
     <string name="party_message">Vandaag is er een feestje :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Enkel 1 notificatie van tevoren</string>
     <string name="settings_list_preferences">Verjaardagslijst instellingen</string>
     <string name="settings_application_preferences">Applicatiegedrag instellingen</string>
+    <string name="settings_list_input_sum">Dagen tot verjaardag/leeftijd/naam/dierenriem</string>
     <string name="settings_list_input_title">Sorteren op</string>
     <string name="settings_list_order_sum">Oplopend of aflopend</string>
     <string name="settings_list_order_title">Sorteer volgorde</string>
@@ -71,6 +82,10 @@
     <string name="settings_theme_title">Thema</string>
     <string name="settings_battery_status">Toestaan om op de achtergrond te draaien</string>
     <string name="settings_theme">Donker</string>
+    <string name="settings_show_birthday_type_only">Alleen verjaardagstype evenement weergeven</string>
+    <string name="settings_hide_add_contact_fab">Verberg knop om nieuwe verjaardag toe te voegen</string>
+    <string name="settings_notify_favorites_only">Alleen favorieten op de hoogte brengen</string>
+    <string name="settings_hide_contacts">Genegeerde contacten verbergen</string>
     <string name="navigation_drawer_open">Open navigatielade</string>
     <string name="navigation_drawer_close">Sluit navigatielade</string>
     <string name="alert_contats_dialog_title">Toestemming nodig om contacten te lezen</string>

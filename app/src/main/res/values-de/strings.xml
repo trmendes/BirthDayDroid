@@ -31,6 +31,16 @@
         <item quantity="one">%1$d Tag alt</item>
         <item quantity="other">%1$d Tage alt</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Er war gestern!</item>
+        <item quantity="other">vor %1$dTagen</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Er ist morgen!</item>
+        <item quantity="other">noch %1$d Tage</item>
+    </plurals>
+
     <string name="party_message">Heute wird eine Party gefeiert :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Nur eine Benachrichtigung im Voraus</string>
     <string name="settings_list_preferences">Einstellungen zur Geburtstagsliste</string>
     <string name="settings_application_preferences">Einstellungen des Anwendungsverhaltens</string>
+    <string name="settings_list_input_sum">Tage bis Geburtstag/Alter/Name/Sternzeichen</string>
     <string name="settings_list_input_title">Sortieren nach</string>
     <string name="settings_list_order_sum">Aufsteigend oder absteigend</string>
     <string name="settings_list_order_title">Sortierung</string>

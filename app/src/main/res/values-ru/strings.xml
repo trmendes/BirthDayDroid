@@ -37,6 +37,20 @@
         <item quantity="many">%1$d дней от роду</item>
         <item quantity="other">%1$d дней от роду</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Было вчера!</item>
+        <item quantity="few">%1$d дня назад</item>
+        <item quantity="many">%1$d дней назад</item>
+        <item quantity="other">%1$d дней назад</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Это завтра!</item>
+        <item quantity="few">%1$d дней до события</item>
+        <item quantity="many">%1$d дня до события</item>
+        <item quantity="other">%1$d дней осталось</item>
+    </plurals>
+
     <string name="party_message">Вечеринка сегодня! :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -70,6 +84,7 @@
     <string name="settings_scan_precise">Только одно уведомление заранее</string>
     <string name="settings_list_preferences">Настройки списка дней рождения</string>
     <string name="settings_application_preferences">Настройки Приложения</string>
+    <string name="settings_list_input_sum">Дней до ДР / Возраст / Имя / Знак зодиака</string>
     <string name="settings_list_input_title">Сортировка</string>
     <string name="settings_list_order_sum">По возрастанию или по убыванию</string>
     <string name="settings_list_order_title">Порядок сортировки</string>
@@ -80,6 +95,9 @@
     <string name="settings_battery_status">Разрешить работу в фоновом режиме</string>
     <string name="settings_theme">Тёмная</string>
     <string name="settings_show_birthday_type_only">Отображать только дни рождения</string>
+    <string name="settings_hide_add_contact_fab">Скрыть кнопку добавления дня рождения</string>
+    <string name="settings_notify_favorites_only">Уведомлять только избранные</string>
+    <string name="settings_hide_contacts">Скрыть игнорируемые контакты</string>
     <string name="navigation_drawer_open">Открыть панель уведомлений</string>
     <string name="navigation_drawer_close">Закрыть панель уведомлений</string>
     <string name="alert_contats_dialog_title">Требуется разрешение на доступ к контактам</string>
@@ -96,6 +114,8 @@
     <string name="exit_warning_msg">Нажмите еще раз, чтобы выйти</string>
     <string name="about_us_bt_changelog">Что нового</string>
     <string name="undo">Отменить</string>
+    <string name="amount"># контактов</string>
+
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid - проект с открытым исходным кодом для напоминания о днях рождения ваших друзей.</string>
     <string name="about_help_title">Вы можете нам помочь :D</string>
     <string name="about_help_developer">Разработчик/Дизайнер?</string>
@@ -109,6 +129,6 @@
     <string name="about_people_devel_translators_text">Замечательные люди из Transifex</string>
     <string name="about_special_thanks">Особая благодарность</string>
     <string name="about_libs">Библиотеки (спасибо большое!)</string>
-    <string name="about_icons">Иконки (Отдельное спасибо)</string>
+    <string name="about_icons">Значки (Отдельное спасибо)</string>
 </resources>
 

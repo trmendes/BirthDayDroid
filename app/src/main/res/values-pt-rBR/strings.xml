@@ -31,7 +31,7 @@
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
     </plurals>
-    <plurals name="days_ago" tools:ignore="ImpliedQuantity">
+    <plurals name="days_ago">
         <item quantity="one">Foi ontém</item>
         <item quantity="other">%1$d atrás</item>
     </plurals>

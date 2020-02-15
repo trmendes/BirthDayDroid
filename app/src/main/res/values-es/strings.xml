@@ -31,6 +31,16 @@
         <item quantity="one">%1$d día</item>
         <item quantity="other">%1$d días</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Fue ayer!</item>
+        <item quantity="other">Hace %1$d dias </item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Es mañana!</item>
+        <item quantity="other">Quedan %1$d dias</item>
+    </plurals>
+
     <string name="party_message">Hoy hay una fiesta :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -42,7 +52,7 @@
     <string name="menu_settings">Opciones</string>
     <string name="menu_statistics_age">Estadísticas de edad</string>
     <string name="menu_statistics_zodiac">Estadísticas de signo zodiacal</string>
-    <string name="menu_statistics_week">Estadísticas de la semana de nacimiento</string>
+    <string name="menu_statistics_week">Estadísticas del día de nacimiento</string>
     <string name="menu_statistics_month">Estadísticas del mes de nacimiento</string>
     <string name="menu_about">Acerca de</string>
     <string name="settings_not_sound_title">Sonido de notificación</string>
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Sólo una notificación por anticipado.</string>
     <string name="settings_list_preferences">Opciones de la lista de cumpleaños</string>
     <string name="settings_application_preferences">Configuración del comportamiento de la app</string>
+    <string name="settings_list_input_sum">Días hasta Cumpleaños/Edad/Nombre/Zodiaco</string>
     <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Ascendente o descendente</string>
     <string name="settings_list_order_title">Forma de ordenar</string>

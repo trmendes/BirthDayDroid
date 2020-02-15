@@ -17,7 +17,7 @@
     <string name="sign_element_air">Aria</string>
     <string name="sign_element_water">Acqua</string>
 
-    <string name="search">Trova età, nome, segno...</string>
+    <string name="search">Trova età, nome, segno…</string>
     <plurals name="contact">
         <item quantity="one">%1$d contatto</item>
         <item quantity="other">%1$d contatti</item>
@@ -31,6 +31,16 @@
         <item quantity="one">%1$d giorno di vita</item>
         <item quantity="other">%1$d giorni di vita</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Era ieri!</item>
+        <item quantity="other">%1$d giorni fa</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">È domani!</item>
+        <item quantity="other">%1$d giorni alla fine</item>
+    </plurals>
+
     <string name="party_message">Oggi si festeggia :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
@@ -62,6 +72,7 @@
     <string name="settings_scan_precise">Solo una notifica in anticipo</string>
     <string name="settings_list_preferences">Impostazioni riguardo la lista dei compleanni</string>
     <string name="settings_application_preferences">Impostazioni sul comportamento dell\'applicazione</string>
+    <string name="settings_list_input_sum">Giorni fino al compleanno/Età/Nome/Zodiaco</string>
     <string name="settings_list_input_title">Ordina per</string>
     <string name="settings_list_order_sum">Crescente o decrescente</string>
     <string name="settings_list_order_title">Metodo di ordinamento</string>
@@ -71,6 +82,10 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_battery_status">Permetti esecuzione in background</string>
     <string name="settings_theme">Scuro</string>
+    <string name="settings_show_birthday_type_only">Visualizza solo il tipo di evento di compleanno</string>
+    <string name="settings_hide_add_contact_fab">Pulsante Nascondi per aggiungere un nuovo compleanno</string>
+    <string name="settings_notify_favorites_only">Notifica solo i preferiti</string>
+    <string name="settings_hide_contacts">Nascondi i contatti ignorati</string>
     <string name="navigation_drawer_open">Apri il menù di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il menù di navigazione</string>
     <string name="alert_contats_dialog_title">Permesso di Lettura dei Contatti</string>
