@@ -22,11 +22,10 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
+
 
 public class Contact {
-
-
     private long dbID;
 
     private final String key;
@@ -39,8 +38,6 @@ public class Contact {
     private String zodiacElementSymbol;
     private String zodiacElement;
 
-    private boolean isHeSheNotEvenOneYearOld;
-    private boolean notYetBorn;
     private int age;
     private int daysOld;
 
@@ -53,9 +50,10 @@ public class Contact {
     private Calendar bornOn;
     private Calendar nextBirthday;
 
-    private boolean shallWePartyToday;
     private boolean favorite;
     private boolean ignore;
+
+    private boolean bornInFuture;
 
     public Contact(String key, String name, String photoURI,
                    String eventTypeLabel) {
@@ -102,35 +100,61 @@ public class Contact {
         return daysOld;
     }
 
-    public void setDaysOld(int daysOld) {
-        this.daysOld = daysOld;
-    }
-
     public Calendar getBornOn() {
         return bornOn;
     }
 
     public void setBornOn(Calendar bornOn) {
         if (bornOn != null) {
+            boolean lateBDD = false;
+
             this.bornOn = bornOn;
+            this.bornOn.set(Calendar.HOUR_OF_DAY, 0);
+            this.bornOn.set(Calendar.MINUTE, 0);
+            this.bornOn.set(Calendar.SECOND, 0);
+            this.bornOn.set(Calendar.MILLISECOND, 0);
+
             this.bornOnDay = bornOn.get(Calendar.DAY_OF_MONTH);
             this.bornOnMonth = bornOn.get(Calendar.MONTH);
             this.bornOnDayWeek = bornOn.get(Calendar.DAY_OF_WEEK);
+
+            Calendar now = Calendar.getInstance();
+            now.set(Calendar.HOUR_OF_DAY, 0);
+            now.set(Calendar.MINUTE, 0);
+            now.set(Calendar.SECOND, 0);
+            now.set(Calendar.MILLISECOND, 0);
+
+            this.age = now.get(Calendar.YEAR) - this.bornOn.get(Calendar.YEAR);
+
+            this.nextBirthday = (Calendar) this.bornOn.clone();
+            this.nextBirthday.set(Calendar.YEAR, now.get(Calendar.YEAR));
+
+            long diffInMillies = nextBirthday.getTimeInMillis() - now.getTimeInMillis();
+            this.daysUntilNextBirthday = (int) TimeUnit.DAYS.convert(diffInMillies,
+                    TimeUnit.MILLISECONDS);
+
+            if (this.daysUntilNextBirthday < 0){
+                /* Late birthday */
+                ++this.age;
+                this.nextBirthday.set(Calendar.YEAR, now.get(Calendar.YEAR) + 1);
+            }
+
+            this.bornInFuture = this.bornOn.compareTo(now) >= 1;
+
+            diffInMillies = bornOn.getTimeInMillis() - now.getTimeInMillis();
+            this.daysOld = Math.abs((int) TimeUnit.DAYS.convert(diffInMillies,
+                    TimeUnit.MILLISECONDS));
+
+            if (this.bornInFuture) {
+                this.age = 0;
+                this.daysOld = 0;
+                this.daysUntilNextBirthday = 0;
+            }
         }
     }
 
-    public void setNextBirthday(Calendar nextBirthday) {
-        if (nextBirthday != null) {
-            this.nextBirthday = nextBirthday;
-        }
-    }
-
-    public boolean isHeSheNotEvenOneYearOld() {
-        return isHeSheNotEvenOneYearOld;
-    }
-
-    public void setHeSheNotEvenOneYearOld(boolean heSheNotEvenOneYearOld) {
-        this.isHeSheNotEvenOneYearOld = heSheNotEvenOneYearOld;
+    public boolean isBornInFuture() {
+        return bornInFuture;
     }
 
     public int getBornOnDay() {
@@ -154,14 +178,6 @@ public class Contact {
 
     public int getBornOnDayWeek() {
         return bornOnDayWeek;
-    }
-
-    public String getPrevBirthDayInfo() {
-        Calendar prevBirthDay = (Calendar) this.nextBirthday.clone();
-        prevBirthDay.set(Calendar.YEAR, prevBirthDay.get(Calendar.YEAR) - 1);
-        DateFormat dateFormat = new SimpleDateFormat("MMM/dd - E");
-        Date date = prevBirthDay.getTime();
-        return dateFormat.format(date);
     }
 
     public String getNextBirthDayWeekName() {
@@ -195,39 +211,11 @@ public class Contact {
     }
 
     public int getDaysUntilNextBirthday() {
-        return daysUntilNextBirthday;
-    }
-
-    public void setDaysUntilNextBirthday(int daysUntilNextBirthday) {
-        Calendar now = Calendar.getInstance();
-        int nowYear = now.get(Calendar.YEAR);
-        boolean isNowLeapYear = new GregorianCalendar().isLeapYear(nowYear);
-        if (isNowLeapYear) {
-            if (daysUntilNextBirthday == 366) {
-                daysUntilNextBirthday = 0;
-            }
-        } else {
-            if (daysUntilNextBirthday == 365) {
-                daysUntilNextBirthday = 0;
-            }
-        }
-        this.daysUntilNextBirthday = daysUntilNextBirthday;
+        return this.daysUntilNextBirthday;
     }
 
     public boolean shallWePartyToday() {
-        return !notYetBorn && shallWePartyToday;
-    }
-
-    public void setshallWePartyToday(boolean shallWePartyToday) {
-        this.shallWePartyToday = shallWePartyToday;
-    }
-
-    public boolean isNotYetBorn() {
-        return notYetBorn;
-    }
-
-    public void setNotYetBorn(boolean notYetBorn) {
-        this.notYetBorn = notYetBorn;
+        return this.daysUntilNextBirthday == 0 && !this.bornInFuture;
     }
 
     public boolean isFavorite() {

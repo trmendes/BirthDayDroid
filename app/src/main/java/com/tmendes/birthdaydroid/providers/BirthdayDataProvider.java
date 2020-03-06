@@ -48,7 +48,6 @@ public class BirthdayDataProvider {
     private PermissionHelper permissionHelper;
     private SharedPreferences prefs;
 
-    private static final long DAY = 60 * 60 * 1000 * 24;
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
     private static BirthdayDataProvider instance;
     private static StatisticsProvider statistics;
@@ -102,7 +101,6 @@ public class BirthdayDataProvider {
 
         if (setBasicContactBirthInfo(contact, date)) {
             setContactZodiac(contact);
-            setContactPartyMode(contact);
             if (favorite) {
                 contact.setFavorite();
             }
@@ -296,7 +294,6 @@ public class BirthdayDataProvider {
 
                 if (bornOnDate != null) {
                     boolean contactHasYearSet = pattern.contains("y");
-                    boolean notYetBorn = false;
 
                     Calendar now = Calendar.getInstance();
                     int nowYear = now.get(Calendar.YEAR);
@@ -309,68 +306,7 @@ public class BirthdayDataProvider {
                         bornOn.set(Calendar.YEAR, nowYear);
                     }
 
-                    Calendar nextBirthDay = (Calendar) bornOn.clone();
-                    nextBirthDay.set(Calendar.YEAR, nowYear);
-
-                    long daysOld = (now.getTimeInMillis() - bornOn.getTimeInMillis()) / DAY;
-
-                    boolean lessThanAYearOld = false;
-                    int daysUntilNextBirthDay;
-                    int age = 0;
-
-                    if (daysOld >= 0) {
-                        if (isNowLeapYear) {
-                            int LEAP_YEAR_LEN = 366;
-                            lessThanAYearOld = daysOld < LEAP_YEAR_LEN;
-                        } else {
-                            int YEAR_LEN = 365;
-                            lessThanAYearOld = daysOld < YEAR_LEN;
-                        }
-
-                        double msUntilNextBirthDay;
-
-                        if (!lessThanAYearOld) {
-                            age = nowYear - bornOn.get(Calendar.YEAR);
-                        }
-
-                        /* Next birthday will be next year only */
-                        boolean lateBirthday = nextBirthDay.getTimeInMillis()
-                                <= now.getTimeInMillis();
-
-                        if (lateBirthday) {
-                            nextBirthDay.set(Calendar.YEAR, ++nowYear);
-                        } else {
-                            if (!lessThanAYearOld) {
-                                --age;
-                            }
-                        }
-
-                        msUntilNextBirthDay = nextBirthDay.getTimeInMillis()
-                                - now.getTimeInMillis();
-
-
-                        daysUntilNextBirthDay = (int) (msUntilNextBirthDay / DAY) + 1;
-                    } else {
-                        /* Born in the future */
-                        notYetBorn = true;
-                        nextBirthDay.set(Calendar.YEAR, bornOn.get(Calendar.YEAR) + 1);
-                        long msUntilNextBirthDay = bornOn.getTimeInMillis() - now.getTimeInMillis();
-                        daysUntilNextBirthDay = (int) (msUntilNextBirthDay / DAY) + 1;
-                    }
-
-                    if ((!contactHasYearSet) || (notYetBorn)) {
-                        age = 0;
-                        daysOld = 0;
-                    }
-
-                    contact.setNotYetBorn(notYetBorn);
                     contact.setBornOn(bornOn);
-                    contact.setNextBirthday(nextBirthDay);
-                    contact.setDaysUntilNextBirthday(daysUntilNextBirthDay);
-                    contact.setAge(age);
-                    contact.setDaysOld(((int) daysOld));
-                    contact.setHeSheNotEvenOneYearOld(lessThanAYearOld);
-
                     parseSuccess = true;
 
                     break;
@@ -560,44 +496,6 @@ public class BirthdayDataProvider {
         contact.setZodiacElementSymbol(zodiacElementSymbol);
         contact.setZodiac(zodiac);
         contact.setZodiacElement(zodiacElement);
-    }
-
-    private void setContactPartyMode(Contact contact) {
-
-        Calendar now = Calendar.getInstance();
-        int nowDay = now.get(Calendar.DAY_OF_MONTH);
-        int nowMonth = now.get(Calendar.MONTH);
-        int nowYear = now.get(Calendar.YEAR);
-        int bornOnDay = contact.getBornOnDay();
-        int bornOnMonth = contact.getBornOnMonth();
-        int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        boolean showNotificationInAdvace = prefs.getBoolean("scan_in_advance", false);
-        int daysInAdvance = prefs.getInt("days_in_advance_interval", 1);
-
-        boolean isLeapYear = new GregorianCalendar().isLeapYear(nowYear);
-        boolean letsCelebrate = false;
-
-        if (showNotificationInAdvace &&
-                daysUntilNextBirthday > 0 &&
-                daysUntilNextBirthday <= daysInAdvance) {
-            letsCelebrate = true;
-        }
-
-        if (!letsCelebrate) {
-            if (!isLeapYear &&
-                    (bornOnDay == 29 && bornOnMonth == Calendar.FEBRUARY)
-                    && (nowDay == 1 && nowMonth == Calendar.MARCH)) {
-                letsCelebrate = true;
-            } else {
-                if (nowDay == bornOnDay && nowMonth == bornOnMonth) {
-                    letsCelebrate = true;
-                }
-            }
-        }
-
-        contact.setshallWePartyToday(letsCelebrate);
     }
 
     public ArrayList<Contact> getAllContacts() {
