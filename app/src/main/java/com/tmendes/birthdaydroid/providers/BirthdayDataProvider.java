@@ -135,6 +135,11 @@ public class BirthdayDataProvider {
 
             boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
             boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
+            boolean notificationInAdvance = prefs.getBoolean("scan_in_advance", false);
+            int daysInAdvance = 0;
+            if (notificationInAdvance) {
+                daysInAdvance = prefs.getInt("days_in_advance_interval", 0);
+            }
 
             boolean parseContacts;
 
@@ -199,7 +204,8 @@ public class BirthdayDataProvider {
                         contact.setDbID(contactDBId);
 
                         /* Birthday List */
-                        if (contact.shallWePartyToday()) {
+                        if (contact.shallWePartyToday() ||
+                                contact.getDaysUntilNextBirthday() == daysInAdvance) {
                             contactsToCelebrate.add(contact);
                         }
 

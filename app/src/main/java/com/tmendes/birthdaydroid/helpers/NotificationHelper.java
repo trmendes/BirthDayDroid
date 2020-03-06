@@ -132,15 +132,13 @@ public class NotificationHelper extends ContextWrapper {
                 StringBuilder body = new StringBuilder();
 
                 if (contact.shallWePartyToday()) {
-                    if (contact.getDaysUntilNextBirthday() == 0) {
                         body.append(getBaseContext().getString(R.string.party_message));
-                    } else {
-                        body.append(getBaseContext().getResources().getQuantityString(
-                                R.plurals.message_notification_message_bt_to_come,
-                                contact.getDaysUntilNextBirthday(),
-                                contact.getContactFirstName(), contact.getAge() + 1,
-                                contact.getDaysUntilNextBirthday()));
-                    }
+                } else {
+                    body.append(getBaseContext().getResources().getQuantityString(
+                            R.plurals.message_notification_message_bt_to_come,
+                            contact.getDaysUntilNextBirthday(),
+                            contact.getContactFirstName(), contact.getAge(),
+                            contact.getDaysUntilNextBirthday()));
                 }
 
                 /* Contact Picture */
