@@ -1,3 +1,7 @@
+* V43
+- Fix Birthday List Order and Notification Messages
+- Fix Notification in Advance
+
 * V42
 - Localization updated
 

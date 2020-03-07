@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
@@ -43,12 +42,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     private final Context ctx;
 
     private final SharedPreferences prefs;
-
-    private final int prevBirthDayThreshold;
-    private final boolean isNowLeapYear;
-
-    private final int YEAR_LEN = 365;
-    private final int LEAP_YEAR_LEN = 366;
+    private final int MAX_DAYS_AGO = -7;
 
     private int sortOrder;
     private int sortType;
@@ -58,16 +52,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         this.contactsOrignal = contacts;
         this.ctx = ctx;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-
-        this.isNowLeapYear = new GregorianCalendar().isLeapYear(
-                Calendar.getInstance().get(Calendar.YEAR));
-
-        int WEEK_LEN = 7;
-        if (isNowLeapYear) {
-            this.prevBirthDayThreshold = this.LEAP_YEAR_LEN- WEEK_LEN;
-        } else {
-            this.prevBirthDayThreshold = this.YEAR_LEN - WEEK_LEN;
-        }
     }
 
     @Override
@@ -81,11 +65,12 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         int age = contact.getAge();
         int daysOld = contact.getDaysOld();
+
         int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
 
         String status = "";
         String ageText;
-        String partyMsg;
+        String partyMsg = "";
         String birthdayMsg;
 
         String photoUri = contact.getPhotoURI();
@@ -123,46 +108,35 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         /* Age badge */
         if (showCurrentAge) {
-            if (contact.isHeSheNotEvenOneYearOld()) {
-                ageText = String.valueOf(0);
-            } else {
-                ageText = String.valueOf(age);
+            if (!contact.shallWePartyToday()) {
+                --age;
             }
+            ageText = String.valueOf(age);
         } else {
-            ++age;
             ageText = "↑" + age;
         }
 
         birthdayMsg = contact.getNextBirthDayInfo();
 
         /* Party */
-        switch (daysUntilNextBirthday) {
-            case 0:
-                partyMsg = ctx.getResources().getString(R.string.party_message);
-                status = status + " " + ctx.getResources()
-                        .getString(R.string.emoji_today_party);
-                break;
-            case 1:
-                status = status + " " + ctx.getResources()
-                        .getString(R.string.emoji_tomorrow_party);
-            default:
-                if (daysUntilNextBirthday >= this.prevBirthDayThreshold && !contact.isNotYetBorn()) {
-                    if (this.isNowLeapYear) {
-                        daysUntilNextBirthday = this.LEAP_YEAR_LEN - contact.getDaysUntilNextBirthday();
-                    } else {
-                        daysUntilNextBirthday = this.YEAR_LEN - contact.getDaysUntilNextBirthday();
-                    }
-                    birthdayMsg = contact.getPrevBirthDayInfo();
-                    partyMsg = ctx.getResources().getQuantityString(R.plurals.days_ago,
-                            daysUntilNextBirthday,
-                            daysUntilNextBirthday);
-                } else {
-                    partyMsg =  ctx.getResources().getQuantityString(R.plurals.days_to_go,
-                            daysUntilNextBirthday,
-                            daysUntilNextBirthday);
-                }
+        if (daysUntilNextBirthday == 0 && contact.shallWePartyToday()) {
+            partyMsg = ctx.getResources().getString(R.string.party_message);
+            status = status + " " + ctx.getResources()
+                    .getString(R.string.emoji_today_party);
 
-                break;
+        } else if (daysUntilNextBirthday < 0 && daysUntilNextBirthday >= MAX_DAYS_AGO) {
+            daysUntilNextBirthday = Math.abs(daysUntilNextBirthday);
+            partyMsg = ctx.getResources().getQuantityString(R.plurals.days_ago,
+                    daysUntilNextBirthday,
+                    daysUntilNextBirthday);
+        } else {
+            if (daysUntilNextBirthday < 0) {
+                daysUntilNextBirthday = daysUntilNextBirthday + Calendar.getInstance()
+                        .getMaximum(Calendar.DAY_OF_YEAR);
+            }
+            partyMsg = ctx.getResources().getQuantityString(R.plurals.days_to_go,
+                    daysUntilNextBirthday,
+                    daysUntilNextBirthday);
         }
 
         /* Capitalize it */
@@ -187,7 +161,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 
-        if (contact.isHeSheNotEvenOneYearOld()) {
+        if (contact.getAge() == 0 && !contact.shallWePartyToday()) {
             holder.lineFour.setText(ctx.getResources().getQuantityString(
                     R.plurals.days_old, daysOld, daysOld));
         }

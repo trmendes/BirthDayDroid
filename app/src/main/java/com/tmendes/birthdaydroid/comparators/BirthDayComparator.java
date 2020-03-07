@@ -19,6 +19,7 @@ package com.tmendes.birthdaydroid.comparators;
 
 import com.tmendes.birthdaydroid.Contact;
 
+import java.util.Calendar;
 import java.util.Comparator;
 
 public class BirthDayComparator implements Comparator<Contact> {
@@ -51,13 +52,19 @@ public class BirthDayComparator implements Comparator<Contact> {
                 }
                 break;
             case ORDER_DAYS_UNTIL_BIRTHDAY:
+                int cADaysToGo = contactA.getDaysUntilNextBirthday();
+                int cBDaysToGo = contactB.getDaysUntilNextBirthday();
+                if (cADaysToGo < 0) {
+                    cADaysToGo = cADaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
+                }
+                if (cBDaysToGo < 0) {
+                    cBDaysToGo = cBDaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
+                }
                 if (sortType == SORT_ASC) {
-                    if (contactA.getDaysUntilNextBirthday()
-                            - contactB.getDaysUntilNextBirthday() >= 0) res = 1;
+                    if (cADaysToGo - cBDaysToGo >= 0) res = 1;
                     else res = -1;
                 } else {
-                    if (contactB.getDaysUntilNextBirthday()
-                            - contactA.getDaysUntilNextBirthday() <= 0) res = -1;
+                    if (cBDaysToGo - cADaysToGo <= 0) res = -1;
                     else res = 1;
                 }
                 break;
