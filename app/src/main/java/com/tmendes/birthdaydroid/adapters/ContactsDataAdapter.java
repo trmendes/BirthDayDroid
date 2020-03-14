@@ -162,7 +162,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 
-        if (contact.getAge() == 0 && !contact.shallWePartyToday()) {
+        if (age == 0 && !contact.shallWePartyToday()) {
             holder.lineFour.setText(ctx.getResources().getQuantityString(
                     R.plurals.days_old, daysOld, daysOld));
         }
@@ -181,6 +181,11 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         holder.contactStatus.setText(status);
+
+        if (contact.isMissingYearInfo()) {
+            holder.ageBadge.setVisibility(View.INVISIBLE);
+            holder.lineFour.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

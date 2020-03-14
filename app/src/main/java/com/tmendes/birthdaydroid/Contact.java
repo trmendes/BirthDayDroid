@@ -54,6 +54,7 @@ public class Contact {
     private boolean ignore;
 
     private boolean bornInFuture;
+    private boolean missingYearInfo;
 
     public Contact(String key, String name, String photoURI,
                    String eventTypeLabel) {
@@ -62,6 +63,7 @@ public class Contact {
         this.photoURI = photoURI;
         this.eventTypeLabel = eventTypeLabel;
         this.dbID = -1;
+        this.missingYearInfo = false;
     }
 
     public String getZodiac() {
@@ -139,7 +141,7 @@ public class Contact {
                 this.nextBirthday.set(Calendar.YEAR, now.get(Calendar.YEAR) + 1);
             }
 
-            this.bornInFuture = this.bornOn.compareTo(now) >= 1;
+            this.bornInFuture = this.bornOn.compareTo(now) >= 1 && !this.missingYearInfo;
 
             diffInMillies = bornOn.getTimeInMillis() - now.getTimeInMillis();
             this.daysOld = Math.abs((int) TimeUnit.DAYS.convert(diffInMillies,
@@ -250,5 +252,13 @@ public class Contact {
 
     public String getZodiacElementSymbol() {
         return this.zodiacElementSymbol;
+    }
+
+    public void setMissinYearInfo() {
+        this.missingYearInfo = true;
+    }
+
+    public boolean isMissingYearInfo() {
+        return this.missingYearInfo;
     }
 }
