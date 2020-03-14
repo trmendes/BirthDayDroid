@@ -47,11 +47,16 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     private int sortOrder;
     private int sortType;
 
+    private boolean hideZoadiac;
+    private boolean showCurrentAge;
+
     public ContactsDataAdapter(Context ctx, List<Contact> contacts) {
         this.contacts = contacts;
         this.contactsOrignal = contacts;
         this.ctx = ctx;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        showCurrentAge = prefs.getBoolean("show_current_age", false);
     }
 
     @Override
@@ -60,18 +65,15 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         RoundedBitmapDrawable picture = null;
 
-        boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-        boolean showCurrentAge = prefs.getBoolean("show_current_age", false);
-
         int age = contact.getAge();
         int daysOld = contact.getDaysOld();
 
         int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
 
         String status = "";
-        String ageText;
+        String ageText = "";
         String partyMsg = "";
-        String birthdayMsg;
+        String birthdayMsg = "";
 
         String photoUri = contact.getPhotoURI();
         String name = contact.getName();
@@ -107,19 +109,19 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         /* Age badge */
-        if (showCurrentAge) {
-            if (!contact.shallWePartyToday()) {
-                --age;
-            }
-            ageText = String.valueOf(age);
-        } else {
+        if (showCurrentAge && !contact.shallWePartyToday()) {
+            --age;
+        }
+        if (!showCurrentAge && !contact.shallWePartyToday()) {
             ageText = "↑" + age;
+        } else {
+            ageText = String.valueOf(age);
         }
 
         birthdayMsg = contact.getNextBirthDayInfo();
 
         /* Party */
-        if (daysUntilNextBirthday == 0 && contact.shallWePartyToday()) {
+        if (contact.shallWePartyToday()) {
             partyMsg = ctx.getResources().getString(R.string.party_message);
             status = status + " " + ctx.getResources()
                     .getString(R.string.emoji_today_party);
@@ -143,7 +145,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         eventTypeLabel = eventTypeLabel.toLowerCase();
         eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
                 + eventTypeLabel.substring(1);
-
 
         if (picture == null) {
             holder.picture.setImageDrawable(
