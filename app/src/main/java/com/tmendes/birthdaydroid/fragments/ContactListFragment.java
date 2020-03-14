@@ -164,8 +164,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     public void onResume() {
         super.onResume();
 
-        int sortInput = Integer.valueOf(prefs.getString("sort_input", "0"));
-        int sortMethod = Integer.valueOf(prefs.getString("sort_method", "0"));
+        int sortInput = Integer.parseInt(prefs.getString("sort_input", "0"));
+        int sortMethod = Integer.parseInt(prefs.getString("sort_method", "0"));
 
         showHideAddNewBirthday();
 

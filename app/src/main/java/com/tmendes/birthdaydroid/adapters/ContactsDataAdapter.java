@@ -41,22 +41,19 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     private final Context ctx;
 
-    private final SharedPreferences prefs;
-    private final int MAX_DAYS_AGO = -7;
-
     private int sortOrder;
     private int sortType;
 
-    private boolean hideZoadiac;
-    private boolean showCurrentAge;
+    private final boolean hideZoadiac;
+    private final boolean showCurrentAge;
 
     public ContactsDataAdapter(Context ctx, List<Contact> contacts) {
         this.contacts = contacts;
         this.contactsOrignal = contacts;
         this.ctx = ctx;
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-        showCurrentAge = prefs.getBoolean("show_current_age", false);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        this.hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        this.showCurrentAge = prefs.getBoolean("show_current_age", false);
     }
 
     @Override
@@ -71,9 +68,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         int daysUntilNextBirthday = contact.getDaysUntilNextBirthday();
 
         String status = "";
-        String ageText = "";
-        String partyMsg = "";
-        String birthdayMsg = "";
+        String ageText;
+        String partyMsg;
+        String birthdayMsg;
 
         String photoUri = contact.getPhotoURI();
         String name = contact.getName();
@@ -121,6 +118,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         birthdayMsg = contact.getNextBirthDayInfo();
 
         /* Party */
+        int MAX_DAYS_AGO = -7;
         if (contact.shallWePartyToday()) {
             partyMsg = ctx.getResources().getString(R.string.party_message);
             status = status + " " + ctx.getResources()
@@ -197,6 +195,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 if (constraint.length() == 0) {
                     contacts = contactsOrignal;
                 } else {
+                    //noinspection unchecked
                     contacts = (ArrayList<Contact>) results.values;
                 }
                 notifyDataSetChanged();

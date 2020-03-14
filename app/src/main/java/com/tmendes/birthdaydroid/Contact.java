@@ -22,6 +22,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
@@ -94,10 +95,6 @@ public class Contact {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public int getDaysOld() {
         return daysOld;
     }
@@ -108,8 +105,6 @@ public class Contact {
 
     public void setBornOn(Calendar bornOn) {
         if (bornOn != null) {
-            boolean lateBDD = false;
-
             this.bornOn = bornOn;
             this.bornOn.set(Calendar.HOUR_OF_DAY, 0);
             this.bornOn.set(Calendar.MINUTE, 0);
@@ -155,10 +150,6 @@ public class Contact {
         }
     }
 
-    public boolean isBornInFuture() {
-        return bornInFuture;
-    }
-
     public int getBornOnDay() {
         return bornOnDay;
     }
@@ -168,7 +159,7 @@ public class Contact {
     }
 
     public String getNextBirthDayInfo() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM/dd - E");
+        DateFormat dateFormat = new SimpleDateFormat("MMM/dd - E", Locale.getDefault());
         Date date = this.nextBirthday.getTime();
         return dateFormat.format(date);
     }
