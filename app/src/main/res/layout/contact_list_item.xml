@@ -10,7 +10,7 @@
     android:layout_gravity="center"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
-    android:layout_margin="1dp"
+    android:layout_margin="0dp"
     style="?attr/cardStyle">
 
     <FrameLayout
