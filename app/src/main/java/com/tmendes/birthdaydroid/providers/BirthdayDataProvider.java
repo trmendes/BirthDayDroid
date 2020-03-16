@@ -158,7 +158,7 @@ public class BirthdayDataProvider {
             DBHelper db = new DBHelper(ctx);
             HashMap<String, DBContact> dbContacs = db.getAllCotacts();
 
-            while (cursor.moveToNext()) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 
                 int eventType = cursor.getInt(typeColumn);
 
@@ -276,7 +276,7 @@ public class BirthdayDataProvider {
         };
 
         String selection = ContactsContract.Data.MIMETYPE
-                + "=?";
+                + "= ?";
 
         String[] args = new String[] {
                 ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
