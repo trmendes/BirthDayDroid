@@ -1,23 +1,19 @@
 <resources>
 
-    <attr format="reference" name="cardStyle"/>
-    <attr format="reference" name="cardTitle" />
+  <!-- Base application theme. -->
+  <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar" >
+    <item name="colorPrimaryDark">#ffffff</item>
+    <item name="android:windowLightStatusBar">true</item>
 
-    <!-- Base application theme. -->
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar" >
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="cardStyle">@style/CardView.Light</item>
-        <item name="cardTitle">@color/black</item>
-    </style>
+    <item name="android:windowTranslucentStatus">false</item>
+    <item name="android:windowTranslucentNavigation">true</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+  </style>
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="cardStyle">@style/CardView.Dark</item>
-        <item name="cardTitle">@color/white</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+  <style name="AppThemeDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="android:windowTranslucentStatus">false</item>
+    <item name="android:windowTranslucentNavigation">true</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+  </style>
 
 </resources>

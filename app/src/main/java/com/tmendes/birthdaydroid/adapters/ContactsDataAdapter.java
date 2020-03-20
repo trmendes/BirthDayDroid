@@ -37,7 +37,7 @@ import java.util.List;
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
         implements Filterable {
     private List<Contact> contacts;
-    private final List<Contact> contactsOrignal;
+    private final List<Contact> readyOnlyOriginalContacts;
 
     private final Context ctx;
 
@@ -49,7 +49,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     public ContactsDataAdapter(Context ctx, List<Contact> contacts) {
         this.contacts = contacts;
-        this.contactsOrignal = contacts;
+        this.readyOnlyOriginalContacts = contacts;
         this.ctx = ctx;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.hideZoadiac = prefs.getBoolean("hide_zodiac", false);
@@ -189,41 +189,33 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     @Override
     public Filter getFilter() {
         return new Filter() {
-
             @Override
             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
                 if (constraint.length() == 0) {
-                    contacts = contactsOrignal;
-                } else {
-                    //noinspection unchecked
-                    contacts = (ArrayList<Contact>) results.values;
-                }
+                    contacts = readyOnlyOriginalContacts;
+                } else contacts = (ArrayList<Contact>) results.values;
                 notifyDataSetChanged();
             }
 
             @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                FilterResults results = new FilterResults();
-
-                if (charSequence == null || charSequence.length() == 0) {
-                    results.count = contactsOrignal.size();
-                    results.values = contactsOrignal;
+            protected FilterResults performFiltering(CharSequence query) {
+                FilterResults filterResults = new FilterResults();
+                if (query == null || query.length() == 0) {
+                    filterResults.count = contacts.size();
+                    filterResults.values = contacts;
                 } else {
-                    String filterString = charSequence.toString().toLowerCase();
-                    ArrayList<Contact> nlist = new ArrayList<>();
+                    String filterString = query.toString().toLowerCase();
+                    ArrayList<Contact> filteredContacts = new ArrayList<>();
 
-                    for (int idx = 0; idx < contactsOrignal.size(); ++idx) {
-                        Contact contact = contactsOrignal.get(idx);
+                    for (Contact contact : readyOnlyOriginalContacts) {
                         if (applyFilter(contact, filterString)) {
-                            nlist.add(contact);
+                            filteredContacts.add(contact);
                         }
                     }
-
-                    results.count = nlist.size();
-                    results.values = nlist;
+                    filterResults.count = filteredContacts.size();
+                    filterResults.values = filteredContacts;
                 }
-
-                return results;
+                return filterResults;
             }
 
             boolean applyFilter(Contact contact, String filter) {

@@ -20,6 +20,8 @@ package com.tmendes.birthdaydroid.fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,12 +45,12 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.fragment_about_us,
                 container, false);
+        setHasOptionsMenu(true);
 
         TextView appVersion = v.findViewById(R.id.tvVersion);
         Button btChangelog = v.findViewById(R.id.about_us_bt_changelog);
 
         btChangelog.setOnClickListener(this);
-
 
         appVersion.setText(container.getContext().getResources()
                 .getString(R.string.build, BuildConfig.VERSION_CODE));

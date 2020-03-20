@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity
 
     private MenuItem zodiacDrawerMenuItem;
 
-    private DrawerLayout drawer;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
     private SharedPreferences prefs;
 
@@ -90,7 +92,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
-        this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
+        this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
+                false);
 
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
@@ -110,92 +113,81 @@ public class MainActivity extends AppCompatActivity
         BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
         bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            navigationView.setNavigationItemSelectedListener(this);
-        }
+        navigationView.setNavigationItemSelectedListener(this);
 
         zodiacDrawerMenuItem = Objects.requireNonNull(navigationView).getMenu()
                 .findItem(R.id.nav_statistics_zodiac);
 
-        drawer = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
 
-        if (drawer != null) {
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-            drawer.closeDrawer(GravityCompat.START);
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(inputManager).hideSoftInputFromWindow(view.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
 
-            drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+            }
 
-                @Override
-                public void onDrawerSlide(@NonNull View view, float v) {
-                    InputMethodManager inputManager = (InputMethodManager)
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(view.getWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
-                }
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
 
-                @Override
-                public void onDrawerOpened(@NonNull View view) {
-                }
+            }
 
-                @Override
-                public void onDrawerClosed(@NonNull View view) {
+            @Override
+            public void onDrawerStateChanged(int i) {
+                boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+                zodiacDrawerMenuItem.setVisible(!hideZoadiac);
+                statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
+                        false);
+            }
+        });
 
-                }
-
-                @Override
-                public void onDrawerStateChanged(int i) {
-                    boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-                    zodiacDrawerMenuItem.setVisible(!hideZoadiac);
-                    statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
-                }
-            });
-        }
-
-        openContactFragments();
-    }
-
-    private void openContactFragments() {
-        Fragment fragment;
-        try {
-            fragment = ContactListFragment.class.newInstance();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        showFragments(new ContactListFragment());
     }
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
-            }
-
             if (backStackEntryCount == 0) {
-                Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
-                this.doubleBackToExitPressedOnce = true;
-                new Handler().postDelayed(new Runnable() {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.exit_warning_msg),
+                            Toast.LENGTH_SHORT).show();
+                    this.doubleBackToExitPressedOnce = true;
+                    new Handler().postDelayed(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
+                        @Override
+                        public void run() {
+                            doubleBackToExitPressedOnce = false;
+                        }
+                    }, 2000);
+                }
             } else {
-                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getSupportFragmentManager().popBackStack(null,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
     }
@@ -211,73 +203,61 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 /* No break */
             case R.id.nav_birthday_list:
-                fragmentClass = ContactListFragment.class;
+                showFragments(new ContactListFragment());
                 break;
             case R.id.nav_statistics_age:
                 if (this.statisticsAsText) {
-                    fragmentClass = TextAgeFragment.class;
+                    showFragments(new TextAgeFragment());
                 } else {
-                    fragmentClass = BarChartAgeFragment.class;
+                    showFragments(new BarChartAgeFragment());
                 }
                 break;
             case R.id.nav_statistics_zodiac:
                 if (this.statisticsAsText) {
-                    fragmentClass = TextZodiacFragment.class;
+                    showFragments(new TextZodiacFragment());
                 } else {
-                    fragmentClass = PieChartZodiacFragment.class;
+                    showFragments(new PieChartZodiacFragment());
                 }
                 break;
             case R.id.nav_statistics_week:
                 if (this.statisticsAsText) {
-                    fragmentClass = TextWeekFragment.class;
+                    showFragments(new TextWeekFragment());
                 } else {
-                    fragmentClass = PieChartWeekFragment.class;
+                    showFragments(new PieChartWeekFragment());
                 }
                 break;
             case R.id.nav_statistics_month:
                 if (this.statisticsAsText) {
-                    fragmentClass = TextMonthFragment.class;
+                    showFragments(new TextMonthFragment());
                 } else {
-                    fragmentClass = PieChartMonthFragment.class;
+                    showFragments(new PieChartMonthFragment());
                 }
                 break;
             case R.id.nav_settings:
-                fragmentClass = SettingsFragment.class;
+                showFragments(new SettingsFragment());
                 break;
             case R.id.nav_about:
-                fragmentClass = AboutUsFragment.class;
+                showFragments(new AboutUsFragment());
                 break;
         }
 
-        if (fragmentClass != null) {
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment);
-
-                if (fragmentClass != ContactListFragment.class) {
-                    transaction.addToBackStack(null);
-                }
-
-                transaction.commit();
-
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }
 
+    private void showFragments(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_layout, fragment);
+        if (!(fragment instanceof ContactListFragment)) {
+            ft.addToBackStack(null);
+        }
+        ft.commit();
+    }
+
     private void requestForPermissions() {
-
         String permissionString;
-
         permissionString = Manifest.permission.READ_CONTACTS;
-
         if (ContextCompat.checkSelfPermission(this, permissionString)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -289,20 +269,24 @@ public class MainActivity extends AppCompatActivity
                         PERMISSION_CONTACT_READ);
             }
         } else {
-            permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
-            openContactFragments();
+            permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
+                    true);
+            showFragments(new ContactListFragment());
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_CONTACT_READ) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
-                openContactFragments();
+                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
+                        true);
+                showFragments(new ContactListFragment());
             } else {
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, false);
+                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
+                        false);
             }
         }
     }

@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_barchart, container, false);
+        setHasOptionsMenu(true);
 
         float max_age = 0;
         float min_age = Integer.MAX_VALUE;

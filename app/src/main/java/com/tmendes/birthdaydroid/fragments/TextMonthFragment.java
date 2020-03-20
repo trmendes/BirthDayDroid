@@ -2,6 +2,8 @@ package com.tmendes.birthdaydroid.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -23,6 +25,8 @@ public class TextMonthFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
+        setHasOptionsMenu(true);
+
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
         BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();

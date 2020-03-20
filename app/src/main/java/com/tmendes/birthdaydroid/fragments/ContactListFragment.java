@@ -17,6 +17,7 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,16 +26,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -57,8 +59,9 @@ import static androidx.recyclerview.widget.ItemTouchHelper.Callback.getDefaultUI
 
 public class ContactListFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
+    private SearchView searchView;
+    private SearchView.OnQueryTextListener queryTextListener;
     private BirthdayDataProvider bddDataProviver;
-    private EditText inputSearch;
     private ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
     private DBHelper dbHelper;
@@ -73,6 +76,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         View v = inflater.inflate(R.layout.fragment_contact_list,
                 container, false);
 
+        setHasOptionsMenu(true);
+
         PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
@@ -85,18 +90,16 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-
-
+        recyclerView.setAdapter(contactsDataAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(contactsDataAdapter);
+
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(
                 0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        inputSearch = v.findViewById(R.id.inputSearch);
         coordinatorLayout = v.findViewById(R.id.coordinator_layout);
 
         Objects.requireNonNull(getActivity()).getWindow()
@@ -115,39 +118,6 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         showHideAddNewBirthday();
 
-        inputSearch.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                contactsDataAdapter.getFilter().filter(cs.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                String text = inputSearch.getText().toString();
-                contactsDataAdapter.getFilter().filter(text);
-            }
-        });
-
-        inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    InputMethodManager inputManager = (InputMethodManager) Objects
-                            .requireNonNull(getContext()).
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Objects.requireNonNull(inputManager).hideSoftInputFromWindow(
-                            Objects.requireNonNull(getView()).getWindowToken(), 0);
-                }
-            }
-        });
-
         return v;
     }
 
@@ -158,6 +128,48 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         } else {
             fab.show();
         }
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        SearchManager searchManager = (SearchManager) getContext()
+                .getSystemService(getContext().SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(getActivity().getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager
+                    .getSearchableInfo(getActivity().getComponentName()));
+
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String query) {
+                    contactsDataAdapter.getFilter().filter(query);
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    contactsDataAdapter.getFilter().filter(query);
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.app_bar_search:
+                return false;
+            default:
+                break;
+        }
+        searchView.setOnQueryTextListener(queryTextListener);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
