@@ -57,6 +57,7 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
 
         this.chart.setHighlightPerTapEnabled(true);
 
+        chart.setBackgroundColor(Color.TRANSPARENT);
         this.chart.setUsePercentValues(true);
         this.chart.getDescription().setEnabled(false);
         this.chart.setExtraOffsets(5, 10, 5, 5);
@@ -70,7 +71,6 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
         this.chart.setDrawCenterText(true);
 
         if (useDarkTheme) {
-            this.chart.setBackgroundColor(Color.BLACK);
             this.chart.setHoleColor(Color.BLACK);
         }
 

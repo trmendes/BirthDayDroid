@@ -57,7 +57,8 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         chart.setDrawBarShadow(false);
         chart.setDrawValueAboveBar(false);
         chart.setPinchZoom(false);
-        chart.setDrawGridBackground(true);
+        chart.setDrawGridBackground(false);
+        chart.setBackgroundColor(Color.TRANSPARENT);
         chart.getLegend().setEnabled(false);
         chart.getDescription().setText(getResources().getString(R.string.menu_statistics_age));
         chart.setDrawBorders(false);
@@ -74,8 +75,6 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         leftAxis.setAxisMinimum(0f);
 
         if (useDarkTheme) {
-            chart.setBackgroundColor(Color.BLACK);
-            chart.setDrawGridBackground(false);
             leftAxis.setTextColor(Color.WHITE);
             rightAxis.setTextColor(Color.WHITE);
             xAxis.setTextColor(Color.WHITE);

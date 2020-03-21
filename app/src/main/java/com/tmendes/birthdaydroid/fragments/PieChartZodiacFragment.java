@@ -54,7 +54,8 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
         this.chart.setOnChartValueSelectedListener(this);
 
         this.chart.setHighlightPerTapEnabled(true);
-
+        
+        chart.setBackgroundColor(Color.TRANSPARENT);
         this.chart.setUsePercentValues(true);
         this.chart.getDescription().setEnabled(false);
         this.chart.setExtraOffsets(5, 10, 5, 5);
@@ -68,7 +69,6 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
         this.chart.setDrawCenterText(true);
 
         if (useDarkTheme) {
-            this.chart.setBackgroundColor(Color.BLACK);
             this.chart.setHoleColor(Color.BLACK);
         }
 
