@@ -130,13 +130,13 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         }
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_toolbar, menu);
-        SearchManager searchManager = (SearchManager) getContext()
+        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getContext())
                 .getSystemService(getContext().SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
-        searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSearchableInfo(Objects.requireNonNull(searchManager)
+                .getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         if (searchView != null) {
@@ -162,11 +162,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.app_bar_search:
-                return false;
-            default:
-                break;
+        if (item.getItemId() == R.id.app_bar_search) {
+            return false;
         }
         searchView.setOnQueryTextListener(queryTextListener);
         return super.onOptionsItemSelected(item);

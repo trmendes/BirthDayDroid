@@ -82,9 +82,7 @@ public class MainActivity extends AppCompatActivity
 
     private MenuItem zodiacDrawerMenuItem;
 
-    private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
 
     private SharedPreferences prefs;
 
@@ -113,11 +111,11 @@ public class MainActivity extends AppCompatActivity
         BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
         bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(this,
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
                 toolbar,
                 R.string.navigation_drawer_open,
@@ -195,8 +193,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment;
-        Class fragmentClass = null;
 
         switch (id) {
             case android.R.id.home:

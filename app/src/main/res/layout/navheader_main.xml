@@ -21,7 +21,8 @@
         tools:ignore="ContentDescription" />
 
   <LinearLayout
-    android:paddingLeft="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="0dp"
     android:layout_margin="5dp"
     android:orientation="vertical"
     android:layout_width="match_parent"

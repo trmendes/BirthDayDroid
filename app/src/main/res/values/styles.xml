@@ -2,18 +2,15 @@
 
   <!-- Base application theme. -->
   <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar" >
-    <item name="colorPrimaryDark">#ffffff</item>
+    <item name="colorPrimaryDark">@android:color/white</item>
     <item name="android:windowLightStatusBar">true</item>
-
-    <item name="android:windowTranslucentStatus">false</item>
-    <item name="android:windowTranslucentNavigation">true</item>
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <!--<item name="android:windowTranslucentStatus">false</item>
+    <item name="android:windowTranslucentNavigation">false</item>-->
   </style>
 
   <style name="AppThemeDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <item name="android:windowTranslucentStatus">false</item>
-    <item name="android:windowTranslucentNavigation">true</item>
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <!--<item name="android:windowTranslucentStatus">false</item>
+    <item name="android:windowTranslucentNavigation">false</item>-->
   </style>
 
 </resources>
