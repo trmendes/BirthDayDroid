@@ -37,21 +37,23 @@ import java.util.List;
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
         implements Filterable {
     private List<Contact> contacts;
-    private final List<Contact> contactsOrignal;
+    private final List<Contact> readyOnlyOriginalContacts;
 
     private final Context ctx;
-
-    private final SharedPreferences prefs;
-    private final int MAX_DAYS_AGO = -7;
 
     private int sortOrder;
     private int sortType;
 
+    private final boolean hideZoadiac;
+    private final boolean showCurrentAge;
+
     public ContactsDataAdapter(Context ctx, List<Contact> contacts) {
         this.contacts = contacts;
-        this.contactsOrignal = contacts;
+        this.readyOnlyOriginalContacts = contacts;
         this.ctx = ctx;
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        this.hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        this.showCurrentAge = prefs.getBoolean("show_current_age", false);
     }
 
     @Override
@@ -60,9 +62,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         RoundedBitmapDrawable picture = null;
 
-        boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-        boolean showCurrentAge = prefs.getBoolean("show_current_age", false);
-
         int age = contact.getAge();
         int daysOld = contact.getDaysOld();
 
@@ -70,7 +69,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         String status = "";
         String ageText;
-        String partyMsg = "";
+        String partyMsg;
         String birthdayMsg;
 
         String photoUri = contact.getPhotoURI();
@@ -107,19 +106,20 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         /* Age badge */
-        if (showCurrentAge) {
-            if (!contact.shallWePartyToday()) {
-                --age;
-            }
-            ageText = String.valueOf(age);
-        } else {
+        if (showCurrentAge && !contact.shallWePartyToday()) {
+            --age;
+        }
+        if (!showCurrentAge && !contact.shallWePartyToday()) {
             ageText = "↑" + age;
+        } else {
+            ageText = String.valueOf(age);
         }
 
         birthdayMsg = contact.getNextBirthDayInfo();
 
         /* Party */
-        if (daysUntilNextBirthday == 0 && contact.shallWePartyToday()) {
+        int MAX_DAYS_AGO = -7;
+        if (contact.shallWePartyToday()) {
             partyMsg = ctx.getResources().getString(R.string.party_message);
             status = status + " " + ctx.getResources()
                     .getString(R.string.emoji_today_party);
@@ -144,7 +144,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
                 + eventTypeLabel.substring(1);
 
-
         if (picture == null) {
             holder.picture.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -161,7 +160,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 
-        if (contact.getAge() == 0 && !contact.shallWePartyToday()) {
+        if (age == 0 && !contact.shallWePartyToday()) {
             holder.lineFour.setText(ctx.getResources().getQuantityString(
                     R.plurals.days_old, daysOld, daysOld));
         }
@@ -180,45 +179,43 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         holder.contactStatus.setText(status);
+
+        if (contact.isMissingYearInfo()) {
+            holder.ageBadge.setVisibility(View.INVISIBLE);
+            holder.lineFour.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public Filter getFilter() {
         return new Filter() {
-
             @Override
             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
                 if (constraint.length() == 0) {
-                    contacts = contactsOrignal;
-                } else {
-                    contacts = (ArrayList<Contact>) results.values;
-                }
+                    contacts = readyOnlyOriginalContacts;
+                } else contacts = (ArrayList<Contact>) results.values;
                 notifyDataSetChanged();
             }
 
             @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                FilterResults results = new FilterResults();
-
-                if (charSequence == null || charSequence.length() == 0) {
-                    results.count = contactsOrignal.size();
-                    results.values = contactsOrignal;
+            protected FilterResults performFiltering(CharSequence query) {
+                FilterResults filterResults = new FilterResults();
+                if (query == null || query.length() == 0) {
+                    filterResults.count = contacts.size();
+                    filterResults.values = contacts;
                 } else {
-                    String filterString = charSequence.toString().toLowerCase();
-                    ArrayList<Contact> nlist = new ArrayList<>();
+                    String filterString = query.toString().toLowerCase();
+                    ArrayList<Contact> filteredContacts = new ArrayList<>();
 
-                    for (int idx = 0; idx < contactsOrignal.size(); ++idx) {
-                        Contact contact = contactsOrignal.get(idx);
+                    for (Contact contact : readyOnlyOriginalContacts) {
                         if (applyFilter(contact, filterString)) {
-                            nlist.add(contact);
+                            filteredContacts.add(contact);
                         }
                     }
-
-                    results.count = nlist.size();
-                    results.values = nlist;
+                    filterResults.count = filteredContacts.size();
+                    filterResults.values = filteredContacts;
                 }
-
-                return results;
+                return filterResults;
             }
 
             boolean applyFilter(Contact contact, String filter) {

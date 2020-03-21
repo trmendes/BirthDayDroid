@@ -1,3 +1,9 @@
+* V45
+- Layout changes
+- Do not show badge when contact has no year defined
+- Shows current age on birthday
+- Fix an issue with some contacts that were missing
+
 * V43
 - Fix Birthday List Order and Notification Messages
 - Fix Notification in Advance

@@ -23,6 +23,8 @@ public class TextWeekFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
+        setHasOptionsMenu(true);
+
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
         BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();

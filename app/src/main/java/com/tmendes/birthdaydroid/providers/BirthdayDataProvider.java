@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class BirthdayDataProvider {
@@ -157,7 +158,7 @@ public class BirthdayDataProvider {
             DBHelper db = new DBHelper(ctx);
             HashMap<String, DBContact> dbContacs = db.getAllCotacts();
 
-            while (cursor.moveToNext()) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 
                 int eventType = cursor.getInt(typeColumn);
 
@@ -275,7 +276,7 @@ public class BirthdayDataProvider {
         };
 
         String selection = ContactsContract.Data.MIMETYPE
-                + "=?";
+                + "= ?";
 
         String[] args = new String[] {
                 ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
@@ -296,20 +297,15 @@ public class BirthdayDataProvider {
         for (String pattern : dataFormatKnownPatterns) {
             Date bornOnDate;
             try {
-                bornOnDate = new SimpleDateFormat(pattern).parse(dateString);
+                bornOnDate = new SimpleDateFormat(pattern, Locale.getDefault()).parse(dateString);
 
                 if (bornOnDate != null) {
-                    boolean contactHasYearSet = pattern.contains("y");
-
-                    Calendar now = Calendar.getInstance();
-                    int nowYear = now.get(Calendar.YEAR);
-                    boolean isNowLeapYear = new GregorianCalendar().isLeapYear(nowYear);
-
                     Calendar bornOn = new GregorianCalendar();
                     bornOn.setTime(bornOnDate);
 
-                    if (!contactHasYearSet) {
-                        bornOn.set(Calendar.YEAR, nowYear);
+                    if (!pattern.contains("y")) {
+                        contact.setMissinYearInfo();
+                        bornOn.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
                     }
 
                     contact.setBornOn(bornOn);

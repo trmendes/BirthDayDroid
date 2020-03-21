@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="true"
-    android:clickable="true"
-    android:layout_gravity="center"
-    card_view:cardCornerRadius="0dp"
-    card_view:cardElevation="0dp"
-    android:layout_margin="1dp"
-    style="?attr/cardStyle">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:focusable="true"
+  android:clickable="true"
+  android:layout_gravity="center">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -29,7 +24,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
                 android:text="@string/emoji_block"
                 android:textSize="@dimen/ignore_favorite_text_size" />
 
@@ -46,7 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
                 android:text="@string/emoji_heart"
                 android:textSize="@dimen/ignore_favorite_text_size" />
 
@@ -111,7 +104,6 @@
                         android:gravity="start"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="?attr/cardTitle"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -138,7 +130,6 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <!-- next birthday week name -->
@@ -151,7 +142,6 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <!-- Days to go to her/his birthday -->
@@ -164,7 +154,6 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                     <TextView
@@ -176,7 +165,6 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="?attr/cardTitle"
                         android:textSize="12sp" />
 
                 </RelativeLayout>

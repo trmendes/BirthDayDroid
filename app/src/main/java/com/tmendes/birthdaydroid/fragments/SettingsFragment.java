@@ -28,6 +28,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -63,6 +65,13 @@ public class SettingsFragment extends Fragment {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
             setPowerServiceStatus();
+            setHasOptionsMenu(false);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            super.onCreateOptionsMenu(menu, inflater);
+            menu.clear();
         }
 
         @Override

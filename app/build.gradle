@@ -7,8 +7,8 @@ android {
         applicationId "com.tmendes.birthdaydroid"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 43
-        versionName '20200307_V43'
+        versionCode 45
+        versionName '20200321_V45'
     }
     buildTypes {
         release {
@@ -80,7 +80,6 @@ allprojects {
 dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api 'androidx.appcompat:appcompat:1.1.0'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -43,12 +43,12 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.fragment_about_us,
                 container, false);
+        setHasOptionsMenu(true);
 
         TextView appVersion = v.findViewById(R.id.tvVersion);
         Button btChangelog = v.findViewById(R.id.about_us_bt_changelog);
 
         btChangelog.setOnClickListener(this);
-
 
         appVersion.setText(container.getContext().getResources()
                 .getString(R.string.build, BuildConfig.VERSION_CODE));
