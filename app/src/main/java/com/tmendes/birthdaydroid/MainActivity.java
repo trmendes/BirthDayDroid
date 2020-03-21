@@ -40,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -65,6 +66,8 @@ import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.Objects;
+
+import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity
         this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
                 false);
 
+        setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES);
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
         } else {

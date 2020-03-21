@@ -9,6 +9,7 @@
   </style>
 
   <style name="AppThemeDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="android:windowLightStatusBar">false</item>
     <!--<item name="android:windowTranslucentStatus">false</item>
     <item name="android:windowTranslucentNavigation">false</item>-->
   </style>
