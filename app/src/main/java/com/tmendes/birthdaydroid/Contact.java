@@ -126,7 +126,11 @@ public class Contact {
             this.nextBirthday = (Calendar) this.bornOn.clone();
             this.nextBirthday.set(Calendar.YEAR, now.get(Calendar.YEAR));
 
-            long diffInMillies = nextBirthday.getTimeInMillis() - now.getTimeInMillis();
+            // diff for daylight saving time. Offset between nextBirthday and now can be different.
+            long timeZoneDiff = nextBirthday.getTimeZone().getOffset(nextBirthday.getTimeInMillis())
+                    - now.getTimeZone().getOffset(now.getTimeInMillis());
+
+            long diffInMillies = nextBirthday.getTimeInMillis() - now.getTimeInMillis() + timeZoneDiff;
             this.daysUntilNextBirthday = (int) TimeUnit.DAYS.convert(diffInMillies,
                     TimeUnit.MILLISECONDS);
 
