@@ -48,16 +48,17 @@ public class AccountHelper {
                 ContactsContract.RawContacts.ACCOUNT_TYPE
         };
 
+        String selection = ContactsContract.RawContacts.ACCOUNT_NAME + " IS NOT NULL"
+                + " AND " + ContactsContract.RawContacts.ACCOUNT_TYPE + " IS NOT NULL";
+
         Cursor cursor = null;
         try {
-            cursor = ctx.getContentResolver().query(uri, projection, null, null, null);
+            cursor = ctx.getContentResolver().query(uri, projection, selection, null, null);
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     String name = cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_NAME));
                     String type = cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_TYPE));
-                    if (name != null && type != null) {
-                        sources.add(new Account(name, type));
-                    }
+                    sources.add(new Account(name, type));
                 } while (cursor.moveToNext());
             }
         } finally {
