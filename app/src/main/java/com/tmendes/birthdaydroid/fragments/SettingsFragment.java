@@ -84,7 +84,7 @@ public class SettingsFragment extends Fragment {
             Arrays.sort(accounts, new Comparator<Account>() {
                 @Override
                 public int compare(Account o1, Account o2) {
-                    return 0;
+                    return o1.name.compareToIgnoreCase(o2.name);
                 }
             });
             String[] entries = new String[accounts.length];
