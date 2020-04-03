@@ -125,11 +125,11 @@ public class BirthdayDataProvider {
         if (permissionHelper.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
             Cursor cursor = getCursor();
 
+            resetListsAndMaps();
+
             if (cursor == null) {
                 return;
             }
-
-            resetListsAndMaps();
 
             if (!Objects.requireNonNull(cursor).moveToFirst()) {
                 cursor.close();
@@ -303,7 +303,7 @@ public class BirthdayDataProvider {
                 }
                 selectionBuilder.append(")");
             } else {
-                selectionBuilder.append("'1' = '2'");
+                return null;
             }
         }
 
