@@ -17,6 +17,7 @@
 
 package com.tmendes.birthdaydroid.providers;
 
+import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,6 +29,7 @@ import android.util.Log;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.DBContact;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.AccountHelper;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
@@ -47,6 +49,7 @@ public class BirthdayDataProvider {
 
     private Context ctx;
     private PermissionHelper permissionHelper;
+    private final AccountHelper accountHelper;
     private SharedPreferences prefs;
 
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
@@ -74,6 +77,7 @@ public class BirthdayDataProvider {
         contactsToCelebrate = new ArrayList<>();
         contactsFailureOnParser = new ArrayList<>();
         statistics = new StatisticsProvider();
+        accountHelper = new AccountHelper();
     }
 
     public static BirthdayDataProvider getInstance() {
@@ -87,6 +91,7 @@ public class BirthdayDataProvider {
         this.ctx = ctx;
         this.permissionHelper = permissionHelper;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        this.accountHelper.init(ctx);
     }
 
     private void resetListsAndMaps() {
@@ -275,18 +280,43 @@ public class BirthdayDataProvider {
                 ContactsContract.CommonDataKinds.Event.TYPE
         };
 
-        String selection = ContactsContract.Data.MIMETYPE
-                + "= ?";
+        List<Account> accounts = accountHelper.getAccounts();
+        accounts.removeAll(accountHelper.getIgnoredAccounts());
 
-        String[] args = new String[] {
-                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
-        };
+        StringBuilder selectionBuilder = new StringBuilder();
+        List<String> argsList = new ArrayList<>();
+
+        selectionBuilder.append(ContactsContract.Data.MIMETYPE).append(" = ? ");
+        argsList.add(ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE);
+        selectionBuilder.append(" AND ");
+
+        if(!accounts.isEmpty()) {
+            selectionBuilder.append("(");
+            boolean first = true;
+            for (Account account : accounts) {
+                if (first) {
+                    first = false;
+                } else {
+                    selectionBuilder.append(" OR ");
+                }
+                selectionBuilder.append("(");
+                selectionBuilder.append(ContactsContract.RawContacts.ACCOUNT_NAME).append(" = ? ");
+                argsList.add(account.name);
+                selectionBuilder.append(" AND ");
+                selectionBuilder.append(ContactsContract.RawContacts.ACCOUNT_TYPE).append(" = ? ");
+                argsList.add(account.type);
+                selectionBuilder.append(")");
+            }
+            selectionBuilder.append(")");
+        } else {
+            selectionBuilder.append("'1' = '2'");
+        }
 
         return contentResolver.query(
                 ContactsContract.Data.CONTENT_URI,
                 projection,
-                selection,
-                args,
+                selectionBuilder.toString(),
+                argsList.toArray(new String[0]),
                 null
         );
     }
