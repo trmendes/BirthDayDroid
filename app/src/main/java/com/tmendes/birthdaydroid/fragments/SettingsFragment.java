@@ -17,6 +17,8 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.CheckBoxPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
@@ -66,6 +69,25 @@ public class SettingsFragment extends Fragment {
             addPreferencesFromResource(R.xml.preferences);
             setPowerServiceStatus();
             setHasOptionsMenu(false);
+            initIgnoredAccountPreference();
+        }
+
+        private void initIgnoredAccountPreference() {
+            MultiSelectListPreference ignoredAccountsPreference =
+                    (MultiSelectListPreference) findPreference("selected_accounts");
+
+            Account[] accounts = AccountManager.get(getContext()).getAccounts();
+            String[] entries = new String[accounts.length];
+            String[] entryValues = new String[accounts.length];
+
+            for (int i = 0; i < accounts.length; i++) {
+                String accountName = accounts[i].name;
+                entries[i] = accountName;
+                entryValues[i] = accountName;
+            }
+
+            ignoredAccountsPreference.setEntries(entries);
+            ignoredAccountsPreference.setEntryValues(entryValues);
         }
 
         @Override

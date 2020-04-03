@@ -42,7 +42,19 @@
             android:summary="@string/settings_scan_precise"
             android:title="@string/settings_scan_precise_title" />
     </PreferenceCategory>
-    
+
+    <PreferenceCategory android:title="@string/settings_accounts_preferences">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="selected_accounts_enabled"
+            android:title="@string/accounts_enabled_title"
+            android:summary="@string/accounts_enabled_sum" />
+        <MultiSelectListPreference
+            android:dependency="selected_accounts_enabled"
+            android:key="selected_accounts"
+            android:title="@string/accounts_title" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_list_preferences">
         <ListPreference
             android:defaultValue="0"

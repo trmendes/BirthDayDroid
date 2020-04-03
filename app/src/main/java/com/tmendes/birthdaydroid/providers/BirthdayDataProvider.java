@@ -17,7 +17,6 @@
 
 package com.tmendes.birthdaydroid.providers;
 
-import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,7 +28,6 @@ import android.util.Log;
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.DBContact;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.helpers.AccountHelper;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 
@@ -38,18 +36,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 public class BirthdayDataProvider {
 
     private Context ctx;
     private PermissionHelper permissionHelper;
-    private final AccountHelper accountHelper;
     private SharedPreferences prefs;
 
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
@@ -77,7 +76,6 @@ public class BirthdayDataProvider {
         contactsToCelebrate = new ArrayList<>();
         contactsFailureOnParser = new ArrayList<>();
         statistics = new StatisticsProvider();
-        accountHelper = new AccountHelper();
     }
 
     public static BirthdayDataProvider getInstance() {
@@ -91,7 +89,6 @@ public class BirthdayDataProvider {
         this.ctx = ctx;
         this.permissionHelper = permissionHelper;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        this.accountHelper.init(ctx);
     }
 
     private void resetListsAndMaps() {
@@ -132,12 +129,12 @@ public class BirthdayDataProvider {
                 return;
             }
 
+            resetListsAndMaps();
+
             if (!Objects.requireNonNull(cursor).moveToFirst()) {
                 cursor.close();
                 return;
             }
-
-            resetListsAndMaps();
 
             boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
             boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
@@ -280,36 +277,34 @@ public class BirthdayDataProvider {
                 ContactsContract.CommonDataKinds.Event.TYPE
         };
 
-        List<Account> accounts = accountHelper.getAccounts();
-        accounts.removeAll(accountHelper.getIgnoredAccounts());
-
-        StringBuilder selectionBuilder = new StringBuilder();
         List<String> argsList = new ArrayList<>();
+        StringBuilder selectionBuilder = new StringBuilder();
 
         selectionBuilder.append(ContactsContract.Data.MIMETYPE).append(" = ? ");
         argsList.add(ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE);
-        selectionBuilder.append(" AND ");
 
-        if(!accounts.isEmpty()) {
-            selectionBuilder.append("(");
-            boolean first = true;
-            for (Account account : accounts) {
-                if (first) {
-                    first = false;
-                } else {
-                    selectionBuilder.append(" OR ");
+        if (prefs.getBoolean("selected_accounts_enabled", false)) {
+            Set<String> selectedAccounts = prefs.getStringSet("selected_accounts",
+                    Collections.<String>emptySet());
+
+            selectionBuilder.append(" AND ");
+            if (!selectedAccounts.isEmpty()) {
+                selectionBuilder.append(ContactsContract.RawContacts.ACCOUNT_NAME);
+                selectionBuilder.append(" IN (");
+                boolean first = true;
+                for (String accountName : selectedAccounts) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        selectionBuilder.append(",");
+                    }
+                    selectionBuilder.append("?");
+                    argsList.add(accountName);
                 }
-                selectionBuilder.append("(");
-                selectionBuilder.append(ContactsContract.RawContacts.ACCOUNT_NAME).append(" = ? ");
-                argsList.add(account.name);
-                selectionBuilder.append(" AND ");
-                selectionBuilder.append(ContactsContract.RawContacts.ACCOUNT_TYPE).append(" = ? ");
-                argsList.add(account.type);
                 selectionBuilder.append(")");
+            } else {
+                selectionBuilder.append("'1' = '2'");
             }
-            selectionBuilder.append(")");
-        } else {
-            selectionBuilder.append("'1' = '2'");
         }
 
         return contentResolver.query(
@@ -357,7 +352,7 @@ public class BirthdayDataProvider {
 
     private void setContactZodiac(Contact contact) {
         String zodiacSymbol = "";
-        String zodiacElementSymbol =  "";
+        String zodiacElementSymbol = "";
         String zodiac = "";
         String zodiacElement = "";
 
