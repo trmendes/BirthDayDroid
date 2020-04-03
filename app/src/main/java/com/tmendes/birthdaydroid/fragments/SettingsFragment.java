@@ -76,7 +76,7 @@ public class SettingsFragment extends Fragment {
         }
 
         private void initIgnoredAccountPreference() {
-            MultiSelectListPreference ignoredAccountsPreference =
+            MultiSelectListPreference selectedAccounts =
                     (MultiSelectListPreference) findPreference("selected_accounts");
 
             Account[] accounts = new AccountHelper().getAllAccounts(getContext());
@@ -96,8 +96,8 @@ public class SettingsFragment extends Fragment {
                 entryValues[i] = accountName;
             }
 
-            ignoredAccountsPreference.setEntries(entries);
-            ignoredAccountsPreference.setEntryValues(entryValues);
+            selectedAccounts.setEntries(entries);
+            selectedAccounts.setEntryValues(entryValues);
         }
 
         @Override
