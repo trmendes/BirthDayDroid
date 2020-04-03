@@ -40,8 +40,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.AccountHelper;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 
 import static android.content.Context.POWER_SERVICE;
@@ -76,7 +79,14 @@ public class SettingsFragment extends Fragment {
             MultiSelectListPreference ignoredAccountsPreference =
                     (MultiSelectListPreference) findPreference("selected_accounts");
 
-            Account[] accounts = AccountManager.get(getContext()).getAccounts();
+            Account[] accounts = new AccountHelper().getAllAccounts(getContext());
+
+            Arrays.sort(accounts, new Comparator<Account>() {
+                @Override
+                public int compare(Account o1, Account o2) {
+                    return 0;
+                }
+            });
             String[] entries = new String[accounts.length];
             String[] entryValues = new String[accounts.length];
 
