@@ -1,13 +1,10 @@
 package com.tmendes.birthdaydroid.helpers;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-
-import androidx.appcompat.widget.TintTypedArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,13 +14,8 @@ import java.util.Set;
 
 public class AccountHelper {
     public Account[] getAllAccounts(Context ctx) {
-        Account[] deviceAccounts = AccountManager.get(ctx).getAccounts();
         List<Account> contentResolverAccounts = getContentResolverAccounts(ctx);
-
-        Set<Account> allAccounts = new HashSet<>(Arrays.asList(deviceAccounts));
-        allAccounts.addAll(contentResolverAccounts);
-
-        return allAccounts.toArray(new Account[0]);
+        return contentResolverAccounts.toArray(new Account[0]);
     }
 
     private List<Account> getContentResolverAccounts(Context ctx) {
@@ -45,11 +37,12 @@ public class AccountHelper {
     private void fillSourcesFromUri(Uri uri, Set<Account> sources, Context ctx) {
         String[] projection = new String[]{
                 ContactsContract.RawContacts.ACCOUNT_NAME,
-                ContactsContract.RawContacts.ACCOUNT_TYPE
+                ContactsContract.RawContacts.ACCOUNT_TYPE,
         };
 
         String selection = ContactsContract.RawContacts.ACCOUNT_NAME + " IS NOT NULL"
-                + " AND " + ContactsContract.RawContacts.ACCOUNT_TYPE + " IS NOT NULL";
+                + " AND " + ContactsContract.RawContacts.ACCOUNT_TYPE + " IS NOT NULL"
+                + " AND " + ContactsContract.RawContacts.CONTACT_ID + " IS NOT NULL";
 
         Cursor cursor = null;
         try {
@@ -61,6 +54,7 @@ public class AccountHelper {
                     sources.add(new Account(name, type));
                 } while (cursor.moveToNext());
             }
+        } catch (Exception ignored) {
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
