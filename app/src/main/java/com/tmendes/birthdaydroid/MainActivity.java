@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 
         // Birthdays
         BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        bddDataProvider.setPermissionHelper(getApplicationContext(), permissionHelper);
+        bddDataProvider.init(getApplicationContext(), permissionHelper);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

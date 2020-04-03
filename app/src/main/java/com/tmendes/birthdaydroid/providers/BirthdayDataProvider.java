@@ -83,7 +83,7 @@ public class BirthdayDataProvider {
         return instance;
     }
 
-    public void setPermissionHelper(Context ctx, PermissionHelper permissionHelper) {
+    public void init(Context ctx, PermissionHelper permissionHelper) {
         this.ctx = ctx;
         this.permissionHelper = permissionHelper;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
