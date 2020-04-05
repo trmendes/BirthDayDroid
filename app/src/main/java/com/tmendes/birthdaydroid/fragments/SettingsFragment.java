@@ -17,6 +17,8 @@
 
 package com.tmendes.birthdaydroid.fragments;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.CheckBoxPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
@@ -37,8 +40,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.AccountHelper;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 
 import static android.content.Context.POWER_SERVICE;
@@ -66,6 +72,32 @@ public class SettingsFragment extends Fragment {
             addPreferencesFromResource(R.xml.preferences);
             setPowerServiceStatus();
             setHasOptionsMenu(false);
+            initIgnoredAccountPreference();
+        }
+
+        private void initIgnoredAccountPreference() {
+            MultiSelectListPreference selectedAccounts =
+                    (MultiSelectListPreference) findPreference("selected_accounts");
+
+            Account[] accounts = new AccountHelper().getAllAccounts(getContext());
+
+            Arrays.sort(accounts, new Comparator<Account>() {
+                @Override
+                public int compare(Account o1, Account o2) {
+                    return o1.name.compareToIgnoreCase(o2.name);
+                }
+            });
+            String[] entries = new String[accounts.length];
+            String[] entryValues = new String[accounts.length];
+
+            for (int i = 0; i < accounts.length; i++) {
+                String accountName = accounts[i].name;
+                entries[i] = accountName;
+                entryValues[i] = accountName;
+            }
+
+            selectedAccounts.setEntries(entries);
+            selectedAccounts.setEntryValues(entryValues);
         }
 
         @Override

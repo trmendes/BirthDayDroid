@@ -92,6 +92,7 @@
     <string name="settings_scan_precise_title">Precise Notifications</string>
     <string name="settings_scan_precise">Only one notification in advance</string>
     <string name="settings_list_preferences">Birthday List Settings</string>
+    <string name="settings_accounts_preferences">Account Settings</string>
     <string name="settings_application_preferences">Application Behavior Settings</string>
     <string name="settings_list_input_sum">Days Until Birthday/Age/Name/Zodiac</string>
     <string name="settings_list_input_title">Sort By</string>
@@ -145,5 +146,8 @@
     <string name="about_special_thanks">Special Thanks</string>
     <string name="about_libs">Libs (Thank you so much)</string>
     <string name="about_icons">Icons (Special Thanks)</string>
+    <string name="accounts_enabled_title">Select Accounts</string>
+    <string name="accounts_enabled_sum">Enable the use of specific accounts</string>
+    <string name="accounts_title">Accounts</string>
 </resources>
 

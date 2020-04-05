@@ -41,7 +41,7 @@ public class NotifierReceiver extends BroadcastReceiver {
             PermissionHelper permission = new PermissionHelper(context);
             permission.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
             BirthdayDataProvider bddProvider = BirthdayDataProvider.getInstance();
-            bddProvider.setPermissionHelper(context, permission);
+            bddProvider.init(context, permission);
             bddProvider.refreshData(true);
 
             ArrayList<Contact> todayBirthdayList = bddProvider.getContactsToCelebrate();
