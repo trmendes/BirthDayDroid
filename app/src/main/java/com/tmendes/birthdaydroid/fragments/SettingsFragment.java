@@ -146,7 +146,7 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             if (key.equals("scan_daily") || key.equals("scan_daily_interval")) {
-                boolean dailyNotification = prefs.getBoolean("scan_daily", false);
+                boolean dailyNotification = prefs.getBoolean("scan_daily", true);
 
                 AlarmHelper alarm = new AlarmHelper();
 
