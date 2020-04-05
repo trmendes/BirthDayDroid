@@ -45,7 +45,7 @@ public class AlarmHelper {
         Calendar defaultToRingAt = Calendar.getInstance();
 
         if (toGoesOffAt == 0) {
-            defaultToRingAt.set(Calendar.HOUR, MainActivity.DEFAULT_ALARM_TIME);
+            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
             defaultToRingAt.set(Calendar.MINUTE, 0);
             defaultToRingAt.set(Calendar.SECOND, 0);
         } else {

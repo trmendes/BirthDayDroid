@@ -50,7 +50,7 @@ public class TimeDialogPreference extends DialogPreference {
         setNegativeButtonText(ctxt.getResources().getString(R.string.settings_time_cancel));
 
         calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, MainActivity.DEFAULT_ALARM_TIME);
+        calendar.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
     }
