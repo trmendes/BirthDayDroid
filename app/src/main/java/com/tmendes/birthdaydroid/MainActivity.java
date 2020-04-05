@@ -62,6 +62,7 @@ import com.tmendes.birthdaydroid.fragments.TextAgeFragment;
 import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
 import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
 import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
+import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
@@ -92,6 +93,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        executeFirstRunInitializationIfNeeded(prefs, this);
+
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
         this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
                 false);
@@ -165,6 +169,15 @@ public class MainActivity extends AppCompatActivity
         });
 
         showFragments(new ContactListFragment());
+    }
+
+    private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
+        if (prefs.getBoolean("run_first_time", true)) {
+            new AlarmHelper().setAlarm(ctx, 0);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean("run_first_time", false);
+            edit.apply();
+        }
     }
 
     @Override
