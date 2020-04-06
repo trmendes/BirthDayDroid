@@ -140,9 +140,11 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         }
 
         /* Capitalize it */
-        eventTypeLabel = eventTypeLabel.toLowerCase();
-        eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
-                + eventTypeLabel.substring(1);
+        if(!contact.isCustomTypeLabel()) {
+            eventTypeLabel = eventTypeLabel.toLowerCase();
+            eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
+                    + eventTypeLabel.substring(1);
+        }
 
         if (picture == null) {
             holder.picture.setImageDrawable(

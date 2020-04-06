@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.tmendes.birthdaydroid.Contact;
@@ -99,8 +100,9 @@ public class BirthdayDataProvider {
     }
 
     private Contact parseNewContact(String key, String name, String photoURI, String date,
-                                    String eventTypeLabel, boolean ignored, boolean favorite) {
-        Contact contact = new Contact(key, name, photoURI, eventTypeLabel);
+                                    boolean customTypeLabel, String eventTypeLabel,
+                                    boolean ignored, boolean favorite) {
+        Contact contact = new Contact(key, name, photoURI, customTypeLabel, eventTypeLabel);
 
         if (setBasicContactBirthInfo(contact, date)) {
             setContactZodiac(contact);
@@ -179,8 +181,9 @@ public class BirthdayDataProvider {
                     String label = cursor.getString(typeLabelColumn);
 
                     String eventTypeLabel = ContactsContract.CommonDataKinds.Event
-                            .getTypeLabel(ctx.getResources(), eventType, label).toString()
-                            .toLowerCase();
+                            .getTypeLabel(ctx.getResources(), eventType, label).toString();
+                    boolean customTypeLabel = eventType == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
+                            && !TextUtils.isEmpty(label);
 
                     boolean ignoreContact = false;
                     boolean favoriteContact = false;
@@ -202,6 +205,7 @@ public class BirthdayDataProvider {
                             cursor.getString(nameColumn),
                             cursor.getString(photoColumn),
                             cursor.getString(dateColumn),
+                            customTypeLabel,
                             eventTypeLabel,
                             ignoreContact,
                             favoriteContact);
