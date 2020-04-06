@@ -156,6 +156,8 @@ public class BirthdayDataProvider {
                     ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
             final int typeColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.TYPE);
+            final int typeLabelColumn = cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Event.LABEL);
 
             DBHelper db = new DBHelper(ctx);
             HashMap<String, DBContact> dbContacs = db.getAllCotacts();
@@ -174,9 +176,10 @@ public class BirthdayDataProvider {
                 if (parseContacts) {
 
                     String keyCID = cursor.getString(keyColumn);
+                    String label = cursor.getString(typeLabelColumn);
 
                     String eventTypeLabel = ContactsContract.CommonDataKinds.Event
-                            .getTypeLabel(ctx.getResources(), eventType, "").toString()
+                            .getTypeLabel(ctx.getResources(), eventType, label).toString()
                             .toLowerCase();
 
                     boolean ignoreContact = false;
@@ -274,7 +277,8 @@ public class BirthdayDataProvider {
                 ContactsContract.CommonDataKinds.Event.START_DATE,
                 ContactsContract.Contacts.DISPLAY_NAME,
                 ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-                ContactsContract.CommonDataKinds.Event.TYPE
+                ContactsContract.CommonDataKinds.Event.TYPE,
+                ContactsContract.CommonDataKinds.Event.LABEL
         };
 
         List<String> argsList = new ArrayList<>();
