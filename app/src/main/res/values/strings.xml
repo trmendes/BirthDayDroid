@@ -149,5 +149,8 @@
     <string name="accounts_enabled_title">Select Accounts</string>
     <string name="accounts_enabled_sum">Enable the use of specific accounts</string>
     <string name="accounts_title">Accounts</string>
+
+    <string name="breaking_change_dialog_title">Important Update Notice</string>
+    <string name="breaking_change_dialog_message_v46">The mechanisme how times are saved was changed. Please check the notification time and correct it if needed.</string>
 </resources>
 

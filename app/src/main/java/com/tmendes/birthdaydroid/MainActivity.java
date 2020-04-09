@@ -62,10 +62,13 @@ import com.tmendes.birthdaydroid.fragments.TextAgeFragment;
 import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
 import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
 import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
+import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
+import java.util.Calendar;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity
 
         permissionHelper = new PermissionHelper(this);
 
+        showBreakingChangeDialogAndMigradeIfNeeded();
         checkIsEnableBatteryOptimizations();
         requestForPermissions();
 
@@ -165,6 +169,34 @@ public class MainActivity extends AppCompatActivity
         });
 
         showFragments(new ContactListFragment());
+    }
+
+    private void showBreakingChangeDialogAndMigradeIfNeeded() {
+        if (!prefs.contains("breaking_change_v46")) {
+            long scanDailyInterval = prefs.getLong("scan_daily_interval", 0);
+            if (scanDailyInterval != 0) {
+                // Migrade
+                Calendar oldCalendar = Calendar.getInstance();
+                oldCalendar.setTimeInMillis(scanDailyInterval);
+                Calendar newCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                newCalendar.set(Calendar.HOUR_OF_DAY, oldCalendar.get(Calendar.HOUR_OF_DAY));
+                newCalendar.set(Calendar.MINUTE, oldCalendar.get(Calendar.MINUTE));
+                long scanDailyIntervalNew = newCalendar.getTimeInMillis();
+                prefs.edit().putLong("scan_daily_interval", scanDailyIntervalNew).apply();
+
+                AlarmHelper alarmHelper = new AlarmHelper();
+                alarmHelper.cancelAlarm(this);
+                alarmHelper.setAlarm(this, scanDailyIntervalNew);
+
+                // Show message because migration is not save.
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.breaking_change_dialog_title)
+                        .setMessage(R.string.breaking_change_dialog_message_v46)
+                        .show();
+            }
+
+            prefs.edit().putBoolean("breaking_change_v46", true).apply();
+        }
     }
 
     @Override
