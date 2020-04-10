@@ -32,6 +32,7 @@ import com.tmendes.birthdaydroid.receivers.NotifierReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
@@ -45,13 +46,22 @@ public class AlarmHelper {
         Calendar defaultToRingAt = Calendar.getInstance();
 
         if (toGoesOffAt == 0) {
-            defaultToRingAt.set(Calendar.HOUR, MainActivity.DEFAULT_ALARM_TIME);
+            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
             defaultToRingAt.set(Calendar.MINUTE, 0);
             defaultToRingAt.set(Calendar.SECOND, 0);
         } else {
+            Calendar configuredTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            configuredTime.setTimeInMillis(toGoesOffAt);
+
+            defaultToRingAt.set(Calendar.HOUR_OF_DAY, configuredTime.get(Calendar.HOUR_OF_DAY));
+            defaultToRingAt.set(Calendar.MINUTE, configuredTime.get(Calendar.MINUTE));
+            defaultToRingAt.set(Calendar.SECOND, configuredTime.get(Calendar.SECOND));
+
             Calendar now = Calendar.getInstance();
-            defaultToRingAt.setTimeInMillis(toGoesOffAt);
             defaultToRingAt.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
+            if(defaultToRingAt.getTimeInMillis() < now.getTimeInMillis()){
+                defaultToRingAt.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH) + 1);
+            }
         }
 
         @SuppressLint("SimpleDateFormat")

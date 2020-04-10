@@ -30,6 +30,7 @@ import com.tmendes.birthdaydroid.R;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TimeDialogPreference extends DialogPreference {
     private final Calendar calendar;
@@ -49,8 +50,8 @@ public class TimeDialogPreference extends DialogPreference {
         setPositiveButtonText(ctxt.getResources().getString(R.string.settings_time_set));
         setNegativeButtonText(ctxt.getResources().getString(R.string.settings_time_cancel));
 
-        calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, MainActivity.DEFAULT_ALARM_TIME);
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
     }
@@ -116,6 +117,9 @@ public class TimeDialogPreference extends DialogPreference {
         if (calendar == null) {
             return null;
         }
-        return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
+
+        java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getContext());
+        timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return timeFormat.format(new Date(calendar.getTimeInMillis()));
     }
 }
