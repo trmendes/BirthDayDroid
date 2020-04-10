@@ -32,6 +32,7 @@ public class Contact {
     private final String key;
     private final String name;
     private final String photoURI;
+    private final boolean customTypeLabel;
     private final String eventTypeLabel;
 
     private String zodiacSymbol;
@@ -58,10 +59,11 @@ public class Contact {
     private boolean missingYearInfo;
 
     public Contact(String key, String name, String photoURI,
-                   String eventTypeLabel) {
+                   boolean customTypeLabel, String eventTypeLabel) {
         this.key = key;
         this.name = name;
         this.photoURI = photoURI;
+        this.customTypeLabel = customTypeLabel;
         this.eventTypeLabel = eventTypeLabel;
         this.dbID = -1;
         this.missingYearInfo = false;
@@ -201,6 +203,10 @@ public class Contact {
 
     public String getPhotoURI() {
         return photoURI;
+    }
+
+    public boolean isCustomTypeLabel() {
+        return customTypeLabel;
     }
 
     public String getEventTypeLabel() {

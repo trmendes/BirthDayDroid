@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.tmendes.birthdaydroid.Contact;
@@ -99,8 +100,9 @@ public class BirthdayDataProvider {
     }
 
     private Contact parseNewContact(String key, String name, String photoURI, String date,
-                                    String eventTypeLabel, boolean ignored, boolean favorite) {
-        Contact contact = new Contact(key, name, photoURI, eventTypeLabel);
+                                    boolean customTypeLabel, String eventTypeLabel,
+                                    boolean ignored, boolean favorite) {
+        Contact contact = new Contact(key, name, photoURI, customTypeLabel, eventTypeLabel);
 
         if (setBasicContactBirthInfo(contact, date)) {
             setContactZodiac(contact);
@@ -156,6 +158,8 @@ public class BirthdayDataProvider {
                     ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
             final int typeColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.TYPE);
+            final int typeLabelColumn = cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Event.LABEL);
 
             DBHelper db = new DBHelper(ctx);
             HashMap<String, DBContact> dbContacs = db.getAllCotacts();
@@ -174,10 +178,12 @@ public class BirthdayDataProvider {
                 if (parseContacts) {
 
                     String keyCID = cursor.getString(keyColumn);
+                    String label = cursor.getString(typeLabelColumn);
 
                     String eventTypeLabel = ContactsContract.CommonDataKinds.Event
-                            .getTypeLabel(ctx.getResources(), eventType, "").toString()
-                            .toLowerCase();
+                            .getTypeLabel(ctx.getResources(), eventType, label).toString();
+                    boolean customTypeLabel = eventType == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
+                            && !TextUtils.isEmpty(label);
 
                     boolean ignoreContact = false;
                     boolean favoriteContact = false;
@@ -199,6 +205,7 @@ public class BirthdayDataProvider {
                             cursor.getString(nameColumn),
                             cursor.getString(photoColumn),
                             cursor.getString(dateColumn),
+                            customTypeLabel,
                             eventTypeLabel,
                             ignoreContact,
                             favoriteContact);
@@ -274,7 +281,8 @@ public class BirthdayDataProvider {
                 ContactsContract.CommonDataKinds.Event.START_DATE,
                 ContactsContract.Contacts.DISPLAY_NAME,
                 ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-                ContactsContract.CommonDataKinds.Event.TYPE
+                ContactsContract.CommonDataKinds.Event.TYPE,
+                ContactsContract.CommonDataKinds.Event.LABEL
         };
 
         List<String> argsList = new ArrayList<>();
