@@ -71,6 +71,7 @@
     <string name="settings_scan_precise_title">Eenmalige notificaties</string>
     <string name="settings_scan_precise">Enkel 1 notificatie van tevoren</string>
     <string name="settings_list_preferences">Verjaardagslijst instellingen</string>
+    <string name="settings_accounts_preferences">Account instellingen</string>
     <string name="settings_application_preferences">Applicatiegedrag instellingen</string>
     <string name="settings_list_input_sum">Dagen tot verjaardag/leeftijd/naam/dierenriem</string>
     <string name="settings_list_input_title">Sorteren op</string>
@@ -118,5 +119,11 @@
     <string name="about_special_thanks">Met dank aan</string>
     <string name="about_libs">Bibliotheken (hartelijk bedankt)</string>
     <string name="about_icons">Iconen (dank je wel)</string>
+    <string name="accounts_enabled_title">Selecteer accounts</string>
+    <string name="accounts_enabled_sum">Schakel het gebruik van specifieke accounts in</string>
+    <string name="accounts_title">Accounts</string>
+
+    <string name="breaking_change_dialog_title">Belangrijke updatemelding</string>
+    <string name="breaking_change_dialog_message_v46">Het mechanisme voor het opslaan van tijden is veranderd. Controleer de meldingstijd en corrigeer deze indien nodig.</string>
 </resources>
 

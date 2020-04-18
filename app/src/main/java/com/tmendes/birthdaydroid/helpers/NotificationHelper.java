@@ -87,7 +87,6 @@ public class NotificationHelper extends ContextWrapper {
                     .setSmallIcon(R.drawable.ic_cake_white_24dp)
                     .setAutoCancel(true);
         } else {
-            //noinspection deprecation
             return new Notification.Builder(getApplicationContext())
                     .setContentTitle(title)
                     .setContentText(body)

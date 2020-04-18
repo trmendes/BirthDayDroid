@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.tmendes.birthdaydroid"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 45
-        versionName '20200321_V45'
+        versionCode 47
+        versionName '20200418_V47'
     }
     buildTypes {
         release {

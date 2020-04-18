@@ -117,7 +117,6 @@ public class BirthdayDataProvider {
         return null;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void refreshData(boolean notificationListOnly) {
         if (permissionHelper == null || prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");

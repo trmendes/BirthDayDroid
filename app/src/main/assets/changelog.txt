@@ -1,3 +1,12 @@
+* V47
+- Fix custom labels: Show insufficient informations issue
+- New option to select account source: Change contact list issue
+- Fix issue: Wrong notification on switch to daylight saving time
+- Fix issue: Wrong notification on switch to daylight saving time
+- Fix issue: No alarm after fresh installation
+- Updata languages
+- A huge thanks to Bastian Wilhelm (schlagi123)
+
 * V45
 - Layout changes
 - Do not show badge when contact has no year defined

@@ -71,6 +71,7 @@
     <string name="settings_scan_precise_title">Exakta aviseringar</string>
     <string name="settings_scan_precise">Endast en avisering i förväg</string>
     <string name="settings_list_preferences">Inställningar för födelsedagslistan</string>
+    <string name="settings_accounts_preferences">Kontoinställningar</string>
     <string name="settings_application_preferences">Inställningar för applikationsbeteende</string>
     <string name="settings_list_input_sum">Dagar till Födelsedag/Ålder/Namn/Stjärntecken</string>
     <string name="settings_list_input_title">Sortera efter</string>
@@ -118,5 +119,11 @@
     <string name="about_special_thanks">Speciellt tack</string>
     <string name="about_libs">Libs (Tack så mycket)</string>
     <string name="about_icons">Ikoner (Speciellt tack)</string>
+    <string name="accounts_enabled_title">Välj konton</string>
+    <string name="accounts_enabled_sum">Aktivera användningen av specifika konton</string>
+    <string name="accounts_title">konton</string>
+
+    <string name="breaking_change_dialog_title">Viktigt meddelande om uppdatering</string>
+    <string name="breaking_change_dialog_message_v46">Mekanismen för hur tid sparas har förändrats. Kontrollera anmälningstiden och korrigera den vid behov.</string>
 </resources>
 

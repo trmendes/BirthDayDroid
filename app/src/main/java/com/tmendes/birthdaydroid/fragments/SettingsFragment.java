@@ -18,7 +18,6 @@
 package com.tmendes.birthdaydroid.fragments;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;

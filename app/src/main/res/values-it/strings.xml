@@ -71,6 +71,7 @@
     <string name="settings_scan_precise_title">Notifiche precise</string>
     <string name="settings_scan_precise">Solo una notifica in anticipo</string>
     <string name="settings_list_preferences">Impostazioni riguardo la lista dei compleanni</string>
+    <string name="settings_accounts_preferences">Impostazioni dell \'account</string>
     <string name="settings_application_preferences">Impostazioni sul comportamento dell\'applicazione</string>
     <string name="settings_list_input_sum">Giorni fino al compleanno/Età/Nome/Zodiaco</string>
     <string name="settings_list_input_title">Ordina per</string>
@@ -118,5 +119,11 @@
     <string name="about_special_thanks">Ringraziamento speciale</string>
     <string name="about_libs">Librerie (grazie tante)</string>
     <string name="about_icons">Icone (ringraziamento speciale)</string>
+    <string name="accounts_enabled_title">Seleziona account</string>
+    <string name="accounts_enabled_sum">Abilita l\'uso di account specifici</string>
+    <string name="accounts_title">Conti</string>
+
+    <string name="breaking_change_dialog_title">Avviso importante di aggiornamento</string>
+    <string name="breaking_change_dialog_message_v46">Il meccanismo di risparmio dei tempi è cambiato. Si prega di controllare il tempo di notifica e correggerlo se necessario.</string>
 </resources>
 

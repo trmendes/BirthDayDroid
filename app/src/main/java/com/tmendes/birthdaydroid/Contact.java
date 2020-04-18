@@ -205,6 +205,7 @@ public class Contact {
         return photoURI;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isCustomTypeLabel() {
         return customTypeLabel;
     }

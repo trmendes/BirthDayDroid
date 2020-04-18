@@ -54,6 +54,7 @@ import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.Objects;
 
+import static android.content.Context.SEARCH_SERVICE;
 import static androidx.recyclerview.widget.ItemTouchHelper.Callback.getDefaultUIUtil;
 
 
@@ -133,7 +134,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_toolbar, menu);
         SearchManager searchManager = (SearchManager) Objects.requireNonNull(getContext())
-                .getSystemService(getContext().SEARCH_SERVICE);
+                .getSystemService(SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setSearchableInfo(Objects.requireNonNull(searchManager)
                 .getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));

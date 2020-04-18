@@ -71,6 +71,7 @@
     <string name="settings_scan_precise_title">Notificaciones precisas</string>
     <string name="settings_scan_precise">Sólo una notificación por anticipado.</string>
     <string name="settings_list_preferences">Opciones de la lista de cumpleaños</string>
+    <string name="settings_accounts_preferences">Configuraciones de la cuenta</string>
     <string name="settings_application_preferences">Configuración del comportamiento de la app</string>
     <string name="settings_list_input_sum">Días hasta Cumpleaños/Edad/Nombre/Zodiaco</string>
     <string name="settings_list_input_title">Ordenar por</string>
@@ -118,5 +119,11 @@
     <string name="about_special_thanks">Agradecimiento Especial</string>
     <string name="about_libs">Librerías de código (Muchas gracias)</string>
     <string name="about_icons">Iconos (Agradecimiento Especial)</string>
+    <string name="accounts_enabled_title">Seleccionar cuentas</string>
+    <string name="accounts_enabled_sum">Habilitar el uso de cuentas específicas</string>
+    <string name="accounts_title">Cuentas</string>
+
+    <string name="breaking_change_dialog_title">Aviso importante de actualización</string>
+    <string name="breaking_change_dialog_message_v46">El mecanismo de cómo se guardan los tiempos ha cambiado. Compruebe el tiempo de notificación y corríjalo si es necesario.</string>
 </resources>
 

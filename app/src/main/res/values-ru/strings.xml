@@ -83,6 +83,7 @@
     <string name="settings_scan_precise_title">Точные уведомления</string>
     <string name="settings_scan_precise">Только одно уведомление заранее</string>
     <string name="settings_list_preferences">Настройки списка дней рождения</string>
+    <string name="settings_accounts_preferences">Настройки аккаунта</string>
     <string name="settings_application_preferences">Настройки Приложения</string>
     <string name="settings_list_input_sum">Дней до ДР / Возраст / Имя / Знак зодиака</string>
     <string name="settings_list_input_title">Сортировка</string>
@@ -130,5 +131,11 @@
     <string name="about_special_thanks">Особая благодарность</string>
     <string name="about_libs">Библиотеки (спасибо большое!)</string>
     <string name="about_icons">Значки (Отдельное спасибо)</string>
+    <string name="accounts_enabled_title">Выберите учетные записи</string>
+    <string name="accounts_enabled_sum">Включить использование определенных учетных записей</string>
+    <string name="accounts_title">Счета</string>
+
+    <string name="breaking_change_dialog_title">Важное уведомление об обновлении</string>
+    <string name="breaking_change_dialog_message_v46">Механизм сохранения времени изменился. Пожалуйста, проверьте время уведомления и исправьте его, если необходимо.</string>
 </resources>
 
