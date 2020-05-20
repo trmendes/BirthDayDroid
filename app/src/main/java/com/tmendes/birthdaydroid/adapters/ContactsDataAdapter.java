@@ -162,10 +162,19 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 
-        if (age == 0 && !contact.shallWePartyToday()) {
+        if(contact.shallWePartyToday()) {
             holder.lineFour.setText(ctx.getResources().getQuantityString(
-                    R.plurals.days_old, daysOld, daysOld));
+                    R.plurals.years_old, age, age));
+        } else {
+            if (age == 1) {
+                holder.lineFour.setText(ctx.getResources().getQuantityString(
+                        R.plurals.days_old, daysOld, daysOld));
+            } else if(age > 1) {
+                holder.lineFour.setText(ctx.getResources().getQuantityString(
+                        R.plurals.years_old, age, age));
+            }
         }
+
 
         /* Zodiac Icons */
         if (!hideZoadiac) {
