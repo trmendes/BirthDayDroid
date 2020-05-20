@@ -255,7 +255,7 @@ public class Contact {
         return this.zodiacElementSymbol;
     }
 
-    public void setMissinYearInfo() {
+    public void setMissingYearInfo() {
         this.missingYearInfo = true;
     }
 

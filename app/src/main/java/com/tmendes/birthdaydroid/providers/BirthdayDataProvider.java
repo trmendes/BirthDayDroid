@@ -336,7 +336,7 @@ public class BirthdayDataProvider {
                     bornOn.setTime(bornOnDate);
 
                     if (!pattern.contains("y")) {
-                        contact.setMissinYearInfo();
+                        contact.setMissingYearInfo();
                         bornOn.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
                     }
 
