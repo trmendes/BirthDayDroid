@@ -140,11 +140,19 @@ public class NotificationHelper extends ContextWrapper {
                 if (contact.shallWePartyToday()) {
                         body.append(getBaseContext().getString(R.string.party_message));
                 } else {
-                    body.append(getBaseContext().getResources().getQuantityString(
-                            R.plurals.message_notification_message_bt_to_come,
-                            contact.getDaysUntilNextBirthday(),
-                            contact.getContactFirstName(), contact.getAge(),
-                            contact.getDaysUntilNextBirthday()));
+                    if(contact.getAge() > 0) {
+                        body.append(getBaseContext().getResources().getQuantityString(
+                                R.plurals.message_notification_message_bt_to_come,
+                                contact.getDaysUntilNextBirthday(),
+                                contact.getContactFirstName(), contact.getAge(),
+                                contact.getDaysUntilNextBirthday()));
+                    } else {
+                        body.append(getBaseContext().getResources().getQuantityString(
+                                R.plurals.message_notification_message_bt_to_come_no_age,
+                                contact.getDaysUntilNextBirthday(),
+                                contact.getContactFirstName(),
+                                contact.getDaysUntilNextBirthday()));
+                    }
                 }
 
                 /* Contact Picture */

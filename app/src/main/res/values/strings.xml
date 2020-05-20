@@ -69,6 +69,11 @@
         <item quantity="other">%1$s turning %2$d in %3$d days</item>
     </plurals>
 
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">%1$s\'s birthday is tomorrow</item>
+        <item quantity="other">%1$s\'s birthday is in %2$d days</item>
+    </plurals>
+
     <string name="menu_birthday_list">Birthday List</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_statistics_age">Age Statistics</string>
