@@ -151,7 +151,6 @@ public class Contact {
             if (this.bornInFuture) {
                 this.age = 0;
                 this.daysOld = 0;
-                this.daysUntilNextBirthday = 0;
             }
         }
     }
