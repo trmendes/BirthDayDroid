@@ -132,8 +132,8 @@ public class Contact {
             long timeZoneDiff = nextBirthday.getTimeZone().getOffset(nextBirthday.getTimeInMillis())
                     - now.getTimeZone().getOffset(now.getTimeInMillis());
 
-            long diffInMillies = nextBirthday.getTimeInMillis() - now.getTimeInMillis() + timeZoneDiff;
-            this.daysUntilNextBirthday = (int) TimeUnit.DAYS.convert(diffInMillies,
+            long diffInMillis = nextBirthday.getTimeInMillis() - now.getTimeInMillis() + timeZoneDiff;
+            this.daysUntilNextBirthday = (int) TimeUnit.DAYS.convert(diffInMillis,
                     TimeUnit.MILLISECONDS);
 
             if (this.daysUntilNextBirthday < 0){
@@ -144,14 +144,13 @@ public class Contact {
 
             this.bornInFuture = this.bornOn.compareTo(now) >= 1 && !this.missingYearInfo;
 
-            diffInMillies = bornOn.getTimeInMillis() - now.getTimeInMillis();
-            this.daysOld = Math.abs((int) TimeUnit.DAYS.convert(diffInMillies,
+            diffInMillis = bornOn.getTimeInMillis() - now.getTimeInMillis();
+            this.daysOld = Math.abs((int) TimeUnit.DAYS.convert(diffInMillis,
                     TimeUnit.MILLISECONDS));
 
             if (this.bornInFuture) {
                 this.age = 0;
                 this.daysOld = 0;
-                this.daysUntilNextBirthday = 0;
             }
         }
     }
@@ -256,7 +255,7 @@ public class Contact {
         return this.zodiacElementSymbol;
     }
 
-    public void setMissinYearInfo() {
+    public void setMissingYearInfo() {
         this.missingYearInfo = true;
     }
 
