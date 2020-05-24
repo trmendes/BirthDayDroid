@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity
         permissionHelper = new PermissionHelper(this);
 
         showBreakingChangeDialogAndMigradeIfNeeded();
-        checkIsEnableBatteryOptimizations();
         requestForPermissions();
 
         // Birthdays
@@ -176,6 +175,7 @@ public class MainActivity extends AppCompatActivity
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
         if (prefs.getBoolean("run_first_time", true)) {
+            checkIsEnableBatteryOptimizations();
             new AlarmHelper().setAlarm(ctx, 0);
             SharedPreferences.Editor edit = prefs.edit();
             edit.putBoolean("run_first_time", false);
