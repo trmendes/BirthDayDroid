@@ -12,7 +12,7 @@ import java.util.Comparator;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import static com.tmendes.birthdaydroid.comparators.BirthDayComparator.*;
+import static com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory.*;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.mockito.Mockito.mock;
@@ -21,17 +21,19 @@ public class BirthDayComparatorTest {
 
     private Contact contactA;
     private Contact contactB;
+    private BirthDayComparatorFactory factory;
 
     @Before
     public void setUp() {
         contactA = mock(Contact.class);
         contactB = mock(Contact.class);
+        factory = new BirthDayComparatorFactory();
     }
 
     @Test
     public void testCompareByNameLess() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getName()).thenReturn("a");
         Mockito.when(contactB.getName()).thenReturn("b");
@@ -42,8 +44,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByNameEquals() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getName()).thenReturn("a");
         Mockito.when(contactB.getName()).thenReturn("a");
@@ -54,8 +56,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByNameGreater() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getName()).thenReturn("b");
         Mockito.when(contactB.getName()).thenReturn("a");
@@ -66,8 +68,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByNameCaseInsensitive() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_NAME, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getName()).thenReturn("A");
         Mockito.when(contactB.getName()).thenReturn("a");
@@ -78,8 +80,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByZodiacLess() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getZodiacName()).thenReturn("a");
         Mockito.when(contactB.getZodiacName()).thenReturn("b");
@@ -90,8 +92,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByZodiacEquals() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getZodiacName()).thenReturn("a");
         Mockito.when(contactB.getZodiacName()).thenReturn("a");
@@ -102,8 +104,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByZodiacGreater() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_ZODIAC, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getZodiacName()).thenReturn("b");
         Mockito.when(contactB.getZodiacName()).thenReturn("a");
@@ -114,8 +116,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByAgeLess() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_AGE, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_AGE, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_AGE, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_AGE, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 2));
         Mockito.when(contactB.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
@@ -126,8 +128,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByAgeEquals() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_AGE, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_AGE, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_AGE, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_AGE, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
         Mockito.when(contactB.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
@@ -138,8 +140,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByAgeGreater() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_AGE, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_AGE, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_AGE, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_AGE, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
         Mockito.when(contactB.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 2));
@@ -150,8 +152,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayLessPositive() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(2);
@@ -162,8 +164,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayLessNegative() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(-2);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-1);
@@ -174,8 +176,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayLessNegativeAndPositive() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-1);
@@ -186,8 +188,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayOnBirthdayFirst() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(0);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-1);
@@ -204,8 +206,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayEquals() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
@@ -216,8 +218,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayGreaterPositive() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(2);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
@@ -228,8 +230,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayGreaterNegative() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(-1);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-2);
@@ -240,8 +242,8 @@ public class BirthDayComparatorTest {
 
     @Test
     public void testCompareByDaysUntilNextBirthdayGreaterNegativeAndPositive() {
-        Comparator<Contact> comparatorAsc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
-        Comparator<Contact> comparatorDesc = new BirthDayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
+        Comparator<Contact> comparatorAsc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_ASC);
+        Comparator<Contact> comparatorDesc = factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, SORT_ORDER_DESC);
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(-1);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
