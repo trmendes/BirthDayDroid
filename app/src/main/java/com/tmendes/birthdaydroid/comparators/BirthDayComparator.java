@@ -56,28 +56,20 @@ public class BirthDayComparator implements Comparator<Contact> {
     }
 
     private int compareByDaysUntilBirthday(Contact contactA, Contact contactB) {
-        int res;
         int cADaysToGo = contactA.getDaysUntilNextBirthday();
         int cBDaysToGo = contactB.getDaysUntilNextBirthday();
         if (cADaysToGo < 0) {
-            cADaysToGo = cADaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
+            cADaysToGo = cADaysToGo + 512;
         }
         if (cBDaysToGo < 0) {
-            cBDaysToGo = cBDaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
-        }
-
-        if(cADaysToGo == cBDaysToGo) {
-            return 0;
+            cBDaysToGo = cBDaysToGo + 512;
         }
 
         if (sortOrder == SORT_ORDER_ASC) {
-            if (cADaysToGo - cBDaysToGo >= 0) res = 1;
-            else res = -1;
+            return Integer.compare(cADaysToGo, cBDaysToGo);
         } else {
-            if (cBDaysToGo - cADaysToGo <= 0) res = -1;
-            else res = 1;
+            return Integer.compare(cBDaysToGo, cADaysToGo);
         }
-        return res;
     }
 
     private <T extends Comparable<T>> int compareComparable(T comparableA, T comparableB) {
