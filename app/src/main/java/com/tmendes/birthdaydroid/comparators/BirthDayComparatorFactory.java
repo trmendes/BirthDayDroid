@@ -1,7 +1,5 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import android.content.pm.ResolveInfo;
-
 import com.tmendes.birthdaydroid.Contact;
 
 import java.util.Collections;
@@ -20,7 +18,7 @@ public class BirthDayComparatorFactory {
         final Comparator<Contact> comparator;
         switch (sortType) {
             case SORT_TYPE_AGE:
-                comparator = new BornOnComparator();
+                comparator = new AgeComparator();
                 break;
             case SORT_TYPE_DAYS_UNTIL_BIRTHDAY:
                 comparator = new DaysUntilBirthdayComparator();
