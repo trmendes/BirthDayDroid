@@ -49,7 +49,7 @@ public class BirthDayComparator implements Comparator<Contact> {
             case SORT_TYPE_SIGN:
                 return compareComparable(contactA.getZodiacName(), contactB.getZodiacName());
             case SORT_TYPE_NAME:
-                return compareComparable(contactA.getName(), contactB.getName());
+                return compareStringCaseinSensitive(contactA.getName(), contactB.getName());
             default:
                 return 0;
         }
@@ -81,6 +81,16 @@ public class BirthDayComparator implements Comparator<Contact> {
             res = comparableA.compareTo(comparableB);
         } else {
             res = comparableB.compareTo(comparableA);
+        }
+        return res;
+    }
+
+    private int compareStringCaseinSensitive(String stringA, String stringB) {
+        int res;
+        if (sortOrder == SORT_ORDER_ASC) {
+            res = stringA.compareToIgnoreCase(stringB);
+        } else {
+            res = stringB.compareToIgnoreCase(stringA);
         }
         return res;
     }
