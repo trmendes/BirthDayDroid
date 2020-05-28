@@ -33,7 +33,7 @@ public class BirthDayComparator implements Comparator<Contact> {
     public static final int SORT_TYPE_DAYS_UNTIL_BIRTHDAY = 0;
     public static final int SORT_TYPE_AGE = 1;
     public static final int SORT_TYPE_NAME = 2;
-    public static final int SORT_TYPE_SIGN = 3;
+    public static final int SORT_TYPE_ZODIAC = 3;
 
     public BirthDayComparator(int sortType, int sortOrder) {
         this.sortType = sortType;
@@ -46,7 +46,7 @@ public class BirthDayComparator implements Comparator<Contact> {
                 return compareComparable(contactB.getBornOn(), contactA.getBornOn());
             case SORT_TYPE_DAYS_UNTIL_BIRTHDAY:
                 return compareByDaysUntilBirthday(contactA, contactB);
-            case SORT_TYPE_SIGN:
+            case SORT_TYPE_ZODIAC:
                 return compareComparable(contactA.getZodiacName(), contactB.getZodiacName());
             case SORT_TYPE_NAME:
                 return compareStringCaseinSensitive(contactA.getName(), contactB.getName());
@@ -65,6 +65,11 @@ public class BirthDayComparator implements Comparator<Contact> {
         if (cBDaysToGo < 0) {
             cBDaysToGo = cBDaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
         }
+
+        if(cADaysToGo == cBDaysToGo) {
+            return 0;
+        }
+
         if (sortOrder == SORT_ORDER_ASC) {
             if (cADaysToGo - cBDaysToGo >= 0) res = 1;
             else res = -1;
