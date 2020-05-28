@@ -24,70 +24,64 @@ import java.util.Comparator;
 
 public class BirthDayComparator implements Comparator<Contact> {
 
-    private final int orderType;
     private final int sortType;
+    private final int sortOrder;
 
-    public BirthDayComparator(int order, int sortType) {
-        this.orderType = order;
+    public static final int SORT_ORDER_ASC = 0;
+    public static final int SORT_ORDER_DESC = 1;
+
+    public static final int SORT_TYPE_DAYS_UNTIL_BIRTHDAY = 0;
+    public static final int SORT_TYPE_AGE = 1;
+    public static final int SORT_TYPE_NAME = 2;
+    public static final int SORT_TYPE_SIGN = 3;
+
+    public BirthDayComparator(int sortType, int sortOrder) {
         this.sortType = sortType;
+        this.sortOrder = sortOrder;
     }
 
     public int compare(Contact contactA, Contact contactB) {
-        final int ORDER_DAYS_UNTIL_BIRTHDAY = 0;
-        final int ORDER_AGE = 1;
-        final int ORDER_NAME = 2;
-        final int ORDER_SIGN = 3;
-        final int SORT_ASC = 0;
-
-        int res;
-
-        switch (orderType) {
-            case ORDER_AGE:
-                if (sortType == SORT_ASC) {
-                    if ( contactA.getBornOn().before(contactB.getBornOn()) ) res = 1;
-                    else res = -1;
-                } else {
-                    if ( contactB.getBornOn().after(contactA.getBornOn()) ) res = -1;
-                    else res = 1;
-                }
-                break;
-            case ORDER_DAYS_UNTIL_BIRTHDAY:
-                int cADaysToGo = contactA.getDaysUntilNextBirthday();
-                int cBDaysToGo = contactB.getDaysUntilNextBirthday();
-                if (cADaysToGo < 0) {
-                    cADaysToGo = cADaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
-                }
-                if (cBDaysToGo < 0) {
-                    cBDaysToGo = cBDaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
-                }
-                if (sortType == SORT_ASC) {
-                    if (cADaysToGo - cBDaysToGo >= 0) res = 1;
-                    else res = -1;
-                } else {
-                    if (cBDaysToGo - cADaysToGo <= 0) res = -1;
-                    else res = 1;
-                }
-                break;
-            case ORDER_SIGN:
-                if (sortType == SORT_ASC) {
-                    res = (contactA.getZodiacName()).compareTo(contactB.getZodiacName());
-                } else {
-                    res = (contactB.getZodiacName()).compareTo(contactA.getZodiacName());
-                }
-                break;
-            case ORDER_NAME:
-                if (sortType == SORT_ASC) {
-                    res = (contactA.getName()).compareTo(contactB.getName());
-                } else {
-                    res = (contactB.getName()).compareTo(contactA.getName());
-                }
-                break;
-
+        switch (sortType) {
+            case SORT_TYPE_AGE:
+                return compareComparable(contactB.getBornOn(), contactA.getBornOn());
+            case SORT_TYPE_DAYS_UNTIL_BIRTHDAY:
+                return compareByDaysUntilBirthday(contactA, contactB);
+            case SORT_TYPE_SIGN:
+                return compareComparable(contactA.getZodiacName(), contactB.getZodiacName());
+            case SORT_TYPE_NAME:
+                return compareComparable(contactA.getName(), contactB.getName());
             default:
-                res = 0;
+                return 0;
         }
+    }
 
+    private int compareByDaysUntilBirthday(Contact contactA, Contact contactB) {
+        int res;
+        int cADaysToGo = contactA.getDaysUntilNextBirthday();
+        int cBDaysToGo = contactB.getDaysUntilNextBirthday();
+        if (cADaysToGo < 0) {
+            cADaysToGo = cADaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
+        }
+        if (cBDaysToGo < 0) {
+            cBDaysToGo = cBDaysToGo + Calendar.getInstance().getActualMaximum(Calendar.YEAR);
+        }
+        if (sortOrder == SORT_ORDER_ASC) {
+            if (cADaysToGo - cBDaysToGo >= 0) res = 1;
+            else res = -1;
+        } else {
+            if (cBDaysToGo - cADaysToGo <= 0) res = -1;
+            else res = 1;
+        }
         return res;
     }
 
+    private <T extends Comparable<T>> int compareComparable(T comparableA, T comparableB) {
+        int res;
+        if (sortOrder == SORT_ORDER_ASC) {
+            res = comparableA.compareTo(comparableB);
+        } else {
+            res = comparableB.compareTo(comparableA);
+        }
+        return res;
+    }
 }
