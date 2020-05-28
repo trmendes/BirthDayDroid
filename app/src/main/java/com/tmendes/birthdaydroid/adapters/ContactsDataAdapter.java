@@ -233,8 +233,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 String name = contact.getName().toLowerCase();
                 String monthName = contact.getBornOnMonthName().toLowerCase();
                 String birthdayWeekName = contact.getNextBirthDayWeekName().toLowerCase();
-                String zodiac = contact.getZodiac().toLowerCase();
-                String zodiacElement = contact.getZodiacElement().toLowerCase();
+                String zodiac = contact.getZodiacName().toLowerCase();
+                String zodiacElement = contact.getZodiacElementName().toLowerCase();
                 String age = Integer.toString(contact.getAge());
                 String daysOld = Integer.toString(contact.getDaysOld());
 

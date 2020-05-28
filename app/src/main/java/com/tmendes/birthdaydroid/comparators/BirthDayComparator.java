@@ -70,9 +70,9 @@ public class BirthDayComparator implements Comparator<Contact> {
                 break;
             case ORDER_SIGN:
                 if (sortType == SORT_ASC) {
-                    res = (contactA.getZodiac()).compareTo(contactB.getZodiac());
+                    res = (contactA.getZodiacName()).compareTo(contactB.getZodiacName());
                 } else {
-                    res = (contactB.getZodiac()).compareTo(contactA.getZodiac());
+                    res = (contactB.getZodiacName()).compareTo(contactA.getZodiacName());
                 }
                 break;
             case ORDER_NAME:

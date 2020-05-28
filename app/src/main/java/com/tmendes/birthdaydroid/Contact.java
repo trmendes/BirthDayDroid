@@ -36,9 +36,9 @@ public class Contact {
     private final String eventTypeLabel;
 
     private String zodiacSymbol;
-    private String zodiac;
+    private String zodiacName;
     private String zodiacElementSymbol;
-    private String zodiacElement;
+    private String zodiacElementName;
 
     private int age;
     private int daysOld;
@@ -69,28 +69,28 @@ public class Contact {
         this.missingYearInfo = false;
     }
 
-    public String getZodiac() {
-        return zodiac;
+    public String getZodiacName() {
+        return zodiacName;
     }
 
     public void setZodiacSymbol(String zodiacSymbol) {
         this.zodiacSymbol = zodiacSymbol;
     }
 
-    public void setZodiac(String zodiac) {
-        this.zodiac = zodiac;
+    public void setZodiacName(String zodiacName) {
+        this.zodiacName = zodiacName;
     }
 
-    public String getZodiacElement() {
-        return zodiacElement;
+    public String getZodiacElementName() {
+        return zodiacElementName;
     }
 
     public void setZodiacElementSymbol(String zodiacElementSymbol) {
         this.zodiacElementSymbol = zodiacElementSymbol;
     }
 
-    public void setZodiacElement(String zodiacElement) {
-        this.zodiacElement = zodiacElement;
+    public void setZodiacElementName(String zodiacElementName) {
+        this.zodiacElementName = zodiacElementName;
     }
 
     public int getAge() {
