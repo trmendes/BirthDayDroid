@@ -25,47 +25,4 @@
         <item>1</item>
     </string-array>
 
-    <string-array translatable="false" name="zodiac_names">
-        <item>@string/sign_capricorn</item>
-        <item>@string/sign_aquarius</item>
-        <item>@string/sign_pisces</item>
-        <item>@string/sign_aries</item>
-        <item>@string/sign_taurus</item>
-        <item>@string/sign_gemini</item>
-        <item>@string/sign_cancer</item>
-        <item>@string/sign_leo</item>
-        <item>@string/sign_virgo</item>
-        <item>@string/sign_libra</item>
-        <item>@string/sign_scorpio</item>
-        <item>@string/sign_sagittarius</item>
-    </string-array>
-
-    <string-array translatable="false" name="zodiac_symbols">
-        <item>@string/sign_capricorn_symbol</item>
-        <item>@string/sign_aquarius_symbol</item>
-        <item>@string/sign_pisces_symbol</item>
-        <item>@string/sign_aries_symbol</item>
-        <item>@string/sign_taurus_symbol</item>
-        <item>@string/sign_gemini_symbol</item>
-        <item>@string/sign_cancer_symbol</item>
-        <item>@string/sign_leo_symbol</item>
-        <item>@string/sign_virgo_symbol</item>
-        <item>@string/sign_libra_symbol</item>
-        <item>@string/sign_scorpio_symbol</item>
-        <item>@string/sign_sagittarius_symbol</item>
-    </string-array>
-
-    <string-array translatable="false" name="zodiac_element_names">
-        <item>@string/sign_element_earth</item>
-        <item>@string/sign_element_air</item>
-        <item>@string/sign_element_water</item>
-        <item>@string/sign_element_fire</item>
-    </string-array>
-
-    <string-array translatable="false" name="zodiac_element_symbols">
-        <item>@string/sign_element_earth_symbol</item>
-        <item>@string/sign_element_air_symbol</item>
-        <item>@string/sign_element_water_symbol</item>
-        <item>@string/sign_element_fire_symbol</item>
-    </string-array>
 </resources>
