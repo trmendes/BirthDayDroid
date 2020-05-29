@@ -174,13 +174,14 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     public void onResume() {
         super.onResume();
 
-        int sortInput = Integer.parseInt(prefs.getString("sort_input", "0"));
-        int sortMethod = Integer.parseInt(prefs.getString("sort_method", "0"));
+        // ToDo rename Preferences
+        int sortOrder = Integer.parseInt(prefs.getString("sort_input", "0"));
+        int sortType = Integer.parseInt(prefs.getString("sort_method", "0"));
 
         showHideAddNewBirthday();
 
         bddDataProviver.refreshData(false);
-        contactsDataAdapter.sort(sortInput, sortMethod);
+        contactsDataAdapter.sort(sortOrder, sortType);
     }
 
     @Override

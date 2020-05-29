@@ -26,12 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.comparators.BirthDayComparator;
+import com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
@@ -233,8 +234,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 String name = contact.getName().toLowerCase();
                 String monthName = contact.getBornOnMonthName().toLowerCase();
                 String birthdayWeekName = contact.getNextBirthDayWeekName().toLowerCase();
-                String zodiac = contact.getZodiac().toLowerCase();
-                String zodiacElement = contact.getZodiacElement().toLowerCase();
+                String zodiac = contact.getZodiacName().toLowerCase();
+                String zodiacElement = contact.getZodiacElementName().toLowerCase();
                 String age = Integer.toString(contact.getAge());
                 String daysOld = Integer.toString(contact.getDaysOld());
 
@@ -322,14 +323,16 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         return contacts.size();
     }
 
-    public void sort(int order, int sortType) {
+    public void sort(int sortOrder, int sortType) {
+        Comparator<Contact> comparator = new BirthDayComparatorFactory()
+                .createBirthdayComparator(sortOrder, sortType);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            contacts.sort(new BirthDayComparator(order, sortType));
+            contacts.sort(comparator);
         } else {
-            Collections.sort(contacts, new BirthDayComparator(order, sortType));
+            Collections.sort(contacts, comparator);
         }
         this.sortType = sortType;
-        this.sortOrder = order;
+        this.sortOrder = sortOrder;
         notifyDataSetChanged();
     }
 
