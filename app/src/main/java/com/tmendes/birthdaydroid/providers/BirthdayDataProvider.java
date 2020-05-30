@@ -28,23 +28,21 @@ import android.util.Log;
 
 import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.DBContact;
+import com.tmendes.birthdaydroid.contact.DateConverter;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -57,17 +55,6 @@ public class BirthdayDataProvider {
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
     private static BirthdayDataProvider instance;
     private static StatisticsProvider statistics;
-
-    private final List<String> dataFormatKnownPatterns = Arrays.asList(
-            "yyyy-M-dd",
-            "yyyy-M-dd hh:mm:ss.SSS",
-            "dd-M-y",
-            "dd-M-y hh:mm:ss.SSS",
-            "--M-dd",
-            "--M-dd hh:mm:ss.SSS",
-            "dd-M-- hh:mm:ss.SSS",
-            "dd-M--"
-    );
 
     private final ArrayList<Contact> contacts;
     private final ArrayList<Contact> contactsToCelebrate;
@@ -336,37 +323,23 @@ public class BirthdayDataProvider {
     }
 
     private boolean setBasicContactBirthInfo(Contact contact, String dateString) {
-        boolean parseSuccess = false;
+        DateConverter.DateConverterResult converterResult = new DateConverter().convert(dateString);
 
-        for (String pattern : dataFormatKnownPatterns) {
-            Date bornOnDate;
-            try {
-                bornOnDate = new SimpleDateFormat(pattern, Locale.getDefault()).parse(dateString);
-
-                if (bornOnDate != null) {
-                    Calendar bornOn = new GregorianCalendar();
-                    bornOn.setTime(bornOnDate);
-
-                    if (!pattern.contains("y")) {
-                        contact.setMissingYearInfo();
-                        bornOn.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
-                    }
-
-                    contact.setBornOn(bornOn);
-                    parseSuccess = true;
-
-                    break;
-                }
-            } catch (ParseException ignored) {
+        if (converterResult.isSuccess()) {
+            if (converterResult.getMissingYearInfo()) {
+                contact.setMissingYearInfo();
             }
-        }
-
-        if (!parseSuccess) {
+            Calendar calendar = GregorianCalendar.from(
+                    converterResult.getDate().atTime(0, 0).atZone(ZoneId.systemDefault())
+            );
+            contact.setBornOn(calendar);
+            return true;
+        } else {
             /* If we reach this place is because we are not treating a case */
             this.contactsFailureOnParser.add(contact);
             Log.i(LOG_TAG, dateString + " not supported for " + contact.getName());
+            return false;
         }
-        return parseSuccess;
     }
 
     public ArrayList<Contact> getAllContacts() {
