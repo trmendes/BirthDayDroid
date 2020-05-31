@@ -43,7 +43,7 @@ public class TextWeekFragment extends Fragment {
         BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
         final Map<DayOfWeek, Integer> dayOfWeekStats = bddDataProvider.getAllContacts().stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getBornOnDayOfWeek, c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
 
         for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
             DayOfWeek dayOfWeek = pair.getKey();

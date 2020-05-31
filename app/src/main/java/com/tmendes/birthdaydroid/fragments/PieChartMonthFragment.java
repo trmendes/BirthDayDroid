@@ -83,7 +83,7 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
         BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
         final Map<Month, Integer> monthMap = bddDataProvider.getAllContacts().stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getBornOnMonth, c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
             final Month month = pair.getKey();
             final int quantity = pair.getValue();

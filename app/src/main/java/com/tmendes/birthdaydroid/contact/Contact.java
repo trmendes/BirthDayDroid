@@ -2,9 +2,7 @@ package com.tmendes.birthdaydroid.contact;
 
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 
 public interface Contact {
     long getDbId();
@@ -12,14 +10,6 @@ public interface Contact {
 
     String getKey();
     String getName();
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    default String getFirstName() {
-        String[] firstName = getName().split(" ");
-        return firstName[0];
-    }
 
     String getPhotoUri();
     boolean isCustomEventTypeLabel();
@@ -36,14 +26,6 @@ public interface Contact {
 
     LocalDate getBornOn();
     LocalDate getNextBirthday();
-
-    default Month getBornOnMonth(){
-        return this.getBornOn().getMonth();
-    }
-
-    default DayOfWeek getBornOnDayOfWeek(){
-        return this.getBornOn().getDayOfWeek();
-    }
 
     boolean isFavorite();
     void setFavorite(boolean favorite);

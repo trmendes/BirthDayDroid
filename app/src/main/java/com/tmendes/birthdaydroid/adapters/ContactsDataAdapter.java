@@ -230,7 +230,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
             boolean applyFilter(Contact contact, String filter) {
                 String name = contact.getName().toLowerCase();
-                String monthName = dateLocalHelper.getMonthString(contact.getBornOnMonth(), ctx).toLowerCase();
+                String monthName = dateLocalHelper.getMonthString(contact.getBornOn().getMonth(), ctx).toLowerCase();
                 String birthdayWeekName = dateLocalHelper.getDayOfWeek(contact.getNextBirthday().getDayOfWeek(), ctx).toLowerCase();
                 String zodiacName = zodiacResourceHelper.getZodiacName(contact.getZodiac()).toLowerCase();
                 String zodiacElement = zodiacResourceHelper.getZodiacElementName(contact.getZodiac()).toLowerCase();
