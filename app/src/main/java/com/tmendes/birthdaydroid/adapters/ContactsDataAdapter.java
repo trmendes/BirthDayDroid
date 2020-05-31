@@ -109,7 +109,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         if(contact.hasBirthDayToday()) {
             ageText = String.valueOf(age);
         } else {
-            if(showCurrentAge || contact.isBornInFuture()) {
+            if(showCurrentAge) {
                 ageText = String.valueOf(age);
             } else {
                 ageText = "↑" + (age + 1);
