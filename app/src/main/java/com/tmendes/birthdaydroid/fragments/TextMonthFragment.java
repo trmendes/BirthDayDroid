@@ -13,16 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
-import java.text.DateFormatSymbols;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TextMonthFragment extends Fragment {

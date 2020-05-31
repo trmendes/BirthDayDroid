@@ -2,7 +2,6 @@ package com.tmendes.birthdaydroid.contact;
 
 import com.tmendes.birthdaydroid.date.EventDateConverter;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
-import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

@@ -1,7 +1,6 @@
 package com.tmendes.birthdaydroid.comparators;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;

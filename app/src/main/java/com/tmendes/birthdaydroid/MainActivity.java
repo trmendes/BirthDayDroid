@@ -66,11 +66,6 @@ import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -229,13 +224,7 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(this, getResources().getString(R.string.exit_warning_msg),
                             Toast.LENGTH_SHORT).show();
                     this.doubleBackToExitPressedOnce = true;
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            doubleBackToExitPressedOnce = false;
-                        }
-                    }, 2000);
+                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
                 }
             } else {
                 getSupportFragmentManager().popBackStack(null,
@@ -342,8 +331,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("BatteryLife")
-    private void checkIsEnableBatteryOptimizations()
-    {
+    private void checkIsEnableBatteryOptimizations() {
         Intent intent = new Intent();
         String packageName = getPackageName();
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
@@ -361,21 +349,15 @@ public class MainActivity extends AppCompatActivity
         builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
         builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
 
-        builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow), new Dialog.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        PERMISSION_CONTACT_READ);
-            }
-        });
+        builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow),
+                (dialog, which) -> {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            PERMISSION_CONTACT_READ);
+                });
 
-        builder.setNegativeButton(getResources().getString(R.string.alert_permissions_deny), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton(getResources().getString(R.string.alert_permissions_deny),
+                (dialog, which) -> dialog.dismiss());
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();

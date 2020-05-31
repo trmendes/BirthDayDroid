@@ -66,11 +66,7 @@ public class AboutUsFragment extends Fragment  implements View.OnClickListener {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage(s);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
 
                 AlertDialog alert = builder.create();
                 alert.show();

@@ -24,7 +24,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.time.Month;

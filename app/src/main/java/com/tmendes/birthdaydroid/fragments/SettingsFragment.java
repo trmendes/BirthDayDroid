@@ -80,12 +80,7 @@ public class SettingsFragment extends Fragment {
 
             Account[] accounts = new AccountHelper().getAllAccounts(getContext());
 
-            Arrays.sort(accounts, new Comparator<Account>() {
-                @Override
-                public int compare(Account o1, Account o2) {
-                    return o1.name.compareToIgnoreCase(o2.name);
-                }
-            });
+            Arrays.sort(accounts, (o1, o2) -> o1.name.compareToIgnoreCase(o2.name));
             String[] entries = new String[accounts.length];
             String[] entryValues = new String[accounts.length];
 
@@ -113,24 +108,20 @@ public class SettingsFragment extends Fragment {
 
             CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
                     findPreference("battery_status");
-            mCheckBoxPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @SuppressLint("BatteryLife")
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent();
-                    String packageName = getActivity().getPackageName();
-                    PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
+            mCheckBoxPref.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent();
+                String packageName = getActivity().getPackageName();
+                PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
 
-                    if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
-                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + packageName));
-                        startActivity(intent);
-                    } else {
-                        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                        startActivity(intent);
-                    }
-                    return true;
+                if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
+                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + packageName));
+                } else {
+                    intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
                 }
-                });
+                startActivity(intent);
+                return true;
+            });
 
         }
 

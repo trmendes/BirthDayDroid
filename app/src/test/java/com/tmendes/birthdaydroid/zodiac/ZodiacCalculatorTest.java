@@ -32,7 +32,7 @@ public class ZodiacCalculatorTest {
     }
 
     @Parameterized.Parameters(name = "Date: {0,number,0000}-{1,number,00}-{2,number,00}")
-    public static Collection daysOfTheYear2020() {
+    public static Collection<Object[]> daysOfTheYear2020() {
         List<Object[]> parameters = new ArrayList<>();
 
         parameters.add(new Object[]{2020, 1, 1, Zodiac.CAPRICORN});
