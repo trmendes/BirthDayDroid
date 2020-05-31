@@ -53,13 +53,10 @@ public class BirthdayDataProvider {
 
     private final ArrayList<Contact> contacts;
     private final ArrayList<Contact> contactsToCelebrate;
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private final ArrayList<Contact> contactsFailureOnParser;
 
     private BirthdayDataProvider() {
         contacts = new ArrayList<>();
         contactsToCelebrate = new ArrayList<>();
-        contactsFailureOnParser = new ArrayList<>();
     }
 
     public static synchronized BirthdayDataProvider getInstance() {
@@ -77,7 +74,6 @@ public class BirthdayDataProvider {
 
     private void resetListsAndMaps() {
         contacts.clear();
-        contactsFailureOnParser.clear();
         contactsToCelebrate.clear();
     }
 
@@ -140,15 +136,7 @@ public class BirthdayDataProvider {
                 }
 
                 if (parseContacts) {
-                    final ContactBuilder contactBuilder = new ContactBuilder(zodiacCalculator, eventDateConverter);
-
                     String keyCID = cursor.getString(keyColumn);
-                    String label = cursor.getString(typeLabelColumn);
-
-                    String eventTypeLabel = ContactsContract.CommonDataKinds.Event
-                            .getTypeLabel(ctx.getResources(), eventType, label).toString();
-                    boolean customTypeLabel = eventType == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
-                            && !TextUtils.isEmpty(label);
 
                     boolean ignoreContact = false;
                     boolean favoriteContact = false;
@@ -166,8 +154,14 @@ public class BirthdayDataProvider {
                         continue;
                     }
 
+                    final String label = cursor.getString(typeLabelColumn);
+                    final String eventTypeLabel = ContactsContract.CommonDataKinds.Event
+                            .getTypeLabel(ctx.getResources(), eventType, label).toString();
+                    final boolean customTypeLabel = eventType == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
+                            && !TextUtils.isEmpty(label);
+
                     try {
-                        Contact contact = contactBuilder
+                        Contact contact = new ContactBuilder(zodiacCalculator, eventDateConverter)
                                 .setDbId(contactDBId)
                                 .setKey(keyCID)
                                 .setName(cursor.getString(nameColumn))
@@ -190,7 +184,7 @@ public class BirthdayDataProvider {
                             contacts.add(contact);
                         }
                     } catch (ContactBuilderException e) {
-                        e.printStackTrace();
+                        Log.i(LOG_TAG, "Unable to build contact", e);
                     }
                 }
 
