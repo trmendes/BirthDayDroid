@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.Year;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -139,5 +140,13 @@ public class EventDateConverterTest {
         assertThat(result1.isSuccess(), is(true));
         assertThat(result1.getMissingYearInfo(), is(true));
         assertThat(result1.getDate(), is(LocalDate.of(Year.now().getValue(), 1, 2)));
+    }
+
+    @Test
+    public void testUnparsableDate() {
+        EventDateConverter.DateConverterResult result1 = converter.convert("1234-1234-1234");
+        assertThat(result1.isSuccess(), is(false));
+        assertThat(result1.getMissingYearInfo(), nullValue());
+        assertThat(result1.getDate(), nullValue());
     }
 }
