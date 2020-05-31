@@ -8,13 +8,13 @@ import java.time.format.DateTimeParseException;
 
 public class DateConverter {
     private static final String[] DATA_FORMATS_WITH_YEAR = new String[] {
-            "yyyy-M[M]-d[d][ hh:mm[:ss[.SSS]]]",
-            "d[d]-M[M]-yyyy[ hh:mm[:ss[.SSS]]]",
+            "yyyy-M[M]-d[d][ HH:mm[:ss[.SSS]]]",
+            "d[d]-M[M]-yyyy[ HH:mm[:ss[.SSS]]]",
     };
 
     private static final String[] DATA_FORMATS_WITHOUT_YEAR = new String[] {
-            "--M[M]-d[d][ hh:mm[:ss[.SSS]]]",
-            "d[d]-M[M]--[ hh:mm[:ss[.SSS]]]",
+            "--M[M]-d[d][ HH:mm[:ss[.SSS]]]",
+            "d[d]-M[M]--[ HH:mm[:ss[.SSS]]]",
     };
 
     public DateConverterResult convert(String dateString) {
