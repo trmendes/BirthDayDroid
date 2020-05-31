@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory;
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         implements Filterable {
     private List<Contact> contacts;
     private final List<Contact> readyOnlyOriginalContacts;
+    private final ZodiacResourceHelper zodiacResourceHelper;
 
     private final Context ctx;
 
@@ -56,6 +58,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.hideZoadiac = prefs.getBoolean("hide_zodiac", false);
         this.showCurrentAge = prefs.getBoolean("show_current_age", false);
+        this.zodiacResourceHelper = new ZodiacResourceHelper(ContactsDataAdapter.this.ctx.getResources());
+
     }
 
     @Override
@@ -165,8 +169,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         /* Zodiac Icons */
         if (!hideZoadiac) {
-            status.append(" ").append(contact.getZodiacSymbol());
-            status.append(" ").append(contact.getZodiacElementSymbol());
+            status.append(" ").append(zodiacResourceHelper.getZodiacSymbol(contact.getZodiac()));
+            status.append(" ").append(zodiacResourceHelper.getZodiacElementSymbol(contact.getZodiac()));
         }
 
         /* Favorite/Ignore Icons */
@@ -223,8 +227,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 String name = contact.getName().toLowerCase();
                 String monthName = contact.getBornOnMonthName().toLowerCase();
                 String birthdayWeekName = contact.getNextBirthDayWeekName().toLowerCase();
-                String zodiac = contact.getZodiacName().toLowerCase();
-                String zodiacElement = contact.getZodiacElementName().toLowerCase();
+                String zodiacName = zodiacResourceHelper.getZodiacName(contact.getZodiac()).toLowerCase();
+                String zodiacElement = zodiacResourceHelper.getZodiacElementName(contact.getZodiac()).toLowerCase();
                 String age = Integer.toString(contact.getAge());
                 String daysOld = Integer.toString(contact.getDaysOld());
 
@@ -233,7 +237,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                         daysOld.startsWith(filter) ||
                         monthName.contains(filter) ||
                         birthdayWeekName.contains(filter) ||
-                        zodiac.contains(filter) ||
+                        zodiacName.contains(filter) ||
                         zodiacElement.contains(filter);
             }
         };
@@ -309,7 +313,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     }
 
     public void sort(int sortOrder, int sortType) {
-        Comparator<Contact> comparator = new BirthDayComparatorFactory()
+        Comparator<Contact> comparator = new BirthDayComparatorFactory(ctx)
                 .createBirthdayComparator(sortOrder, sortType);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             contacts.sort(comparator);

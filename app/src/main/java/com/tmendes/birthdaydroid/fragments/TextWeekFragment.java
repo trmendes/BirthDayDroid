@@ -1,5 +1,6 @@
 package com.tmendes.birthdaydroid.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.text.DateFormatSymbols;
 import java.time.DayOfWeek;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -43,8 +46,13 @@ public class TextWeekFragment extends Fragment {
             DayOfWeek dayOfWeek = pair.getKey();
             int amount = pair.getValue();
 
-            DateFormatSymbols dfs = new DateFormatSymbols();
-            String weekName = dfs.getWeekdays()[dayOfWeek.getValue() - 1];
+            final Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = getResources().getConfiguration().getLocales().get(0);
+            } else {
+                locale = getResources().getConfiguration().locale;
+            }
+            final String weekName = dayOfWeek.getDisplayName(TextStyle.FULL, locale);
 
             TableRow row = newRow(weekName, String.valueOf(amount));
 

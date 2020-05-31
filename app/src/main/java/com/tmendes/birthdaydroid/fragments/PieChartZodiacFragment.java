@@ -25,6 +25,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.providers.StatisticsProvider;
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -76,14 +78,13 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
-        Map<String, Integer> zodiacMap;
-        zodiacMap = statisticsProvider.getSignStats();
-        for (Object o : zodiacMap.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            String zodiac = (String) pair.getKey();
-            int number = (int) pair.getValue();
+        ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
+        final Map<Integer, Integer> zodiacMap = statisticsProvider.getSignStats();
+        for (Map.Entry<Integer, Integer> pair : zodiacMap.entrySet()) {
+            @Zodiac int zodiac = pair.getKey();
+            int number = pair.getValue();
             PieEntry entry = new PieEntry(number, zodiac);
-            entry.setLabel(zodiac);
+            entry.setLabel(zodiacResourceHelper.getZodiacName(zodiac));
             pieEntries.add(entry);
         }
 

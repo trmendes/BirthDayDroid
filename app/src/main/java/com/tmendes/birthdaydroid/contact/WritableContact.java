@@ -1,5 +1,7 @@
 package com.tmendes.birthdaydroid.contact;
 
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
+
 import java.time.LocalDate;
 
 public class WritableContact implements Contact {
@@ -9,10 +11,8 @@ public class WritableContact implements Contact {
     private String photoUri;
     private boolean customEventTypeLabel;
     private String eventTypeLabel;
-    private String zodiacSymbol;
-    private String zodiacName;
-    private String zodiacElementName;
-    private String zodiacElementSymbol;
+    @Zodiac
+    private int zodiac;
     private int age;
     private int daysOld;
     private int daysUntilNextBirthday;
@@ -79,39 +79,12 @@ public class WritableContact implements Contact {
     }
 
     @Override
-    public String getZodiacSymbol() {
-        return zodiacSymbol;
+    public int getZodiac() {
+        return zodiac;
     }
 
-    public void setZodiacSymbol(String zodiacSymbol) {
-        this.zodiacSymbol = zodiacSymbol;
-    }
-
-    @Override
-    public String getZodiacName() {
-        return zodiacName;
-    }
-
-    public void setZodiacName(String zodiacName) {
-        this.zodiacName = zodiacName;
-    }
-
-    @Override
-    public String getZodiacElementName() {
-        return zodiacElementName;
-    }
-
-    public void setZodiacElementName(String zodiacElementName) {
-        this.zodiacElementName = zodiacElementName;
-    }
-
-    @Override
-    public String getZodiacElementSymbol() {
-        return zodiacElementSymbol;
-    }
-
-    public void setZodiacElementSymbol(String zodiacElementSymbol) {
-        this.zodiacElementSymbol = zodiacElementSymbol;
+    public void setZodiac(@Zodiac int zodiac) {
+        this.zodiac = zodiac;
     }
 
     @Override

@@ -38,10 +38,9 @@ public class TextAgeFragment extends Fragment {
                 getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        for (Object o : ageStat.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            int age = (int) pair.getKey();
-            int amount = (int) pair.getValue();
+        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
+            int age = pair.getKey();
+            int amount = pair.getValue();
 
             TableRow row = newRow(String.valueOf(age), String.valueOf(amount));
 

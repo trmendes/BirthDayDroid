@@ -1,5 +1,7 @@
 package com.tmendes.birthdaydroid.contact;
 
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
+
 import java.text.DateFormatSymbols;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -27,26 +29,8 @@ public interface Contact {
     boolean isCustomEventTypeLabel();
     String getEventTypeLabel();
 
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    String getZodiacSymbol();
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    String getZodiacName();
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    String getZodiacElementName();
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    String getZodiacElementSymbol();
+    @Zodiac
+    int getZodiac();
 
     int getAge();
     int getDaysOld();

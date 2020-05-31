@@ -25,7 +25,7 @@ import java.util.TreeMap;
 public class StatisticsProvider {
 
     private final Map<Integer, Integer> ageStats;
-    private final Map<String, Integer> signStats;
+    private final Map<Integer, Integer> signStats;
     private final Map<Month, Integer> monthStats;
     private final Map<DayOfWeek, Integer> weekStats;
 
@@ -47,7 +47,7 @@ public class StatisticsProvider {
         return ageStats;
     }
 
-    public Map<String, Integer> getSignStats() {
+    public Map<Integer, Integer> getSignStats() {
         return signStats;
     }
 

@@ -203,11 +203,11 @@ public class BirthdayDataProvider {
                                         statistics.getAgeStats().put(contact.getAge(), 1);
                                     }
 
-                                    if (statistics.getSignStats().get(contact.getZodiacName()) != null) {
-                                        statistics.getSignStats().put(contact.getZodiacName(),
-                                                statistics.getSignStats().get(contact.getZodiacName()) + 1);
+                                    if (statistics.getSignStats().get(contact.getZodiac()) != null) {
+                                        statistics.getSignStats().put(contact.getZodiac(),
+                                                statistics.getSignStats().get(contact.getZodiac()) + 1);
                                     } else {
-                                        statistics.getSignStats().put(contact.getZodiacName(), 1);
+                                        statistics.getSignStats().put(contact.getZodiac(), 1);
                                     }
 
                                     if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {

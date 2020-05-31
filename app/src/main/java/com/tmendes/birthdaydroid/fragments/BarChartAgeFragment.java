@@ -86,10 +86,9 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
 
         Map<Integer, Integer> ageStat = statisticsProvider.getAgeStats();
 
-        for (Object o : ageStat.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            int age = (int) pair.getKey();
-            int number = (int) pair.getValue();
+        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
+            int age = pair.getKey();
+            int number = pair.getValue();
             barEntries.add(new BarEntry(age, number));
             if ((age > max_age)) {
                 max_age = age;

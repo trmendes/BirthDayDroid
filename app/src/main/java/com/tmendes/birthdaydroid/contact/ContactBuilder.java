@@ -1,5 +1,6 @@
 package com.tmendes.birthdaydroid.contact;
 
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
@@ -38,23 +39,23 @@ public class ContactBuilder {
         this.key = key;
         return this;
     }
-    
+
     public ContactBuilder setName(String name) {
         this.name = name;
         return this;
     }
-    
+
     public ContactBuilder setPhotoUri(String photoUri) {
         this.photoUri = photoUri;
         return this;
     }
-    
+
     public ContactBuilder setEventTypeLabel(String eventTypeLabel) {
         this.eventTypeLabel = eventTypeLabel;
         return this;
     }
-    
-    public ContactBuilder setCustomEventTypeLabel(boolean customEventTypeLabel){
+
+    public ContactBuilder setCustomEventTypeLabel(boolean customEventTypeLabel) {
         this.customEventTypeLabel = customEventTypeLabel;
         return this;
     }
@@ -78,17 +79,17 @@ public class ContactBuilder {
     public Contact build() throws ContactBuilderException {
         WritableContact contact = new WritableContact();
 
-        if(dbId == null) {
+        if (dbId == null) {
             throw new ContactBuilderException();
         }
         contact.setDbId(dbId);
 
-        if(key == null) {
+        if (key == null) {
             throw new ContactBuilderException();
         }
         contact.setKey(key);
 
-        if(name == null) {
+        if (name == null) {
             throw new ContactBuilderException();
         }
         contact.setName(name);
@@ -100,23 +101,23 @@ public class ContactBuilder {
         }
         contact.setEventTypeLabel(eventTypeLabel);
 
-        if(customEventTypeLabel == null) {
+        if (customEventTypeLabel == null) {
             throw new ContactBuilderException();
         }
         contact.setCustomEventTypeLabel(customEventTypeLabel);
 
-        if(favorite == null) {
+        if (favorite == null) {
             throw new ContactBuilderException();
         }
         contact.setFavorite(favorite);
 
-        if(ignore == null) {
+        if (ignore == null) {
             throw new ContactBuilderException();
         }
         contact.setFavorite(ignore);
 
         final EventDateConverter.DateConverterResult convertingResult = eventDateConverter.convert(birthday);
-        if(!convertingResult.isSuccess()) {
+        if (!convertingResult.isSuccess()) {
             throw new ContactBuilderException();
         }
 
@@ -131,7 +132,7 @@ public class ContactBuilder {
 
         LocalDate nextBirthday = bornOn.withYear(now.getYear());
         if (nextBirthday.isBefore(now)) {
-           nextBirthday = nextBirthday.plusYears(1);
+            nextBirthday = nextBirthday.plusYears(1);
         }
         contact.setNextBirthday(nextBirthday);
 
@@ -140,11 +141,7 @@ public class ContactBuilder {
         contact.setDaysOld((int) ChronoUnit.DAYS.between(bornOn, now));
         contact.setBornInFuture(bornOn.isAfter(now) && !missingYearInfo);
 
-        final int zodiac = zodiacCalculator.calculateZodiac(bornOn);
-        contact.setZodiacName(zodiacResourceHelper.getZodiacName(zodiac));
-        contact.setZodiacSymbol(zodiacResourceHelper.getZodiacSymbol(zodiac));
-        contact.setZodiacElementName(zodiacResourceHelper.getZodiacElementName(zodiac));
-        contact.setZodiacElementSymbol(zodiacResourceHelper.getZodiacElementSymbol(zodiac));
+        contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
 
         return contact;
     }

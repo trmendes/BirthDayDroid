@@ -1,11 +1,13 @@
 package com.tmendes.birthdaydroid.comparators;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.tmendes.birthdaydroid.contact.Contact;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,6 +16,8 @@ import static com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class BirthDayComparatorFactoryTest {
 
@@ -21,7 +25,9 @@ public class BirthDayComparatorFactoryTest {
 
     @Before
     public void setUp() {
-        factory = new BirthDayComparatorFactory();
+        Context context = mock(Context.class);
+        when(context.getResources()).thenReturn(mock(Resources.class));
+        factory = new BirthDayComparatorFactory(context);
     }
 
     @Test

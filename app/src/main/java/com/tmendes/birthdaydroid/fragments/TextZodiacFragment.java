@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +30,7 @@ public class TextZodiacFragment extends Fragment {
 
         BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();
 
-        Map<String, Integer> ageStat = bddDataProviver.getStatistics().getSignStats();
+        Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getSignStats();
 
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
@@ -37,12 +39,12 @@ public class TextZodiacFragment extends Fragment {
         TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        for (Object o : ageStat.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            String zodiac = (String) pair.getKey();
-            int amount = (int) pair.getValue();
+        ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
+        for (Map.Entry<Integer, Integer> pair: ageStat.entrySet()) {
+            @Zodiac int zodiac = pair.getKey();
+            int amount = pair.getValue();
 
-            TableRow row = newRow(zodiac, String.valueOf(amount));
+            TableRow row = newRow(zodiacResourceHelper.getZodiacName(zodiac), String.valueOf(amount));
 
             tableLayout.addView(row);
         }
