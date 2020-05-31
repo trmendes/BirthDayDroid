@@ -12,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class TextZodiacFragment extends Fragment {
 
@@ -28,10 +30,6 @@ public class TextZodiacFragment extends Fragment {
 
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
-        BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();
-
-        Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getSignStats();
-
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_zodiac));
@@ -39,8 +37,13 @@ public class TextZodiacFragment extends Fragment {
         TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        final Map<Integer, Integer> zodiacMap = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
+
         ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
-        for (Map.Entry<Integer, Integer> pair: ageStat.entrySet()) {
+        for (Map.Entry<Integer, Integer> pair: zodiacMap.entrySet()) {
             @Zodiac int zodiac = pair.getKey();
             int amount = pair.getValue();
 

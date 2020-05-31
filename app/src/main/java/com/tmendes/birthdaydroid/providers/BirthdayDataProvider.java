@@ -51,7 +51,6 @@ public class BirthdayDataProvider {
 
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
     private static BirthdayDataProvider instance;
-    private static StatisticsProvider statistics;
 
     private final ArrayList<Contact> contacts;
     private final ArrayList<Contact> contactsToCelebrate;
@@ -62,7 +61,6 @@ public class BirthdayDataProvider {
         contacts = new ArrayList<>();
         contactsToCelebrate = new ArrayList<>();
         contactsFailureOnParser = new ArrayList<>();
-        statistics = new StatisticsProvider();
     }
 
     public static BirthdayDataProvider getInstance() {
@@ -82,7 +80,6 @@ public class BirthdayDataProvider {
         contacts.clear();
         contactsFailureOnParser.clear();
         contactsToCelebrate.clear();
-        statistics.reset();
     }
 
     public void refreshData(boolean notificationListOnly) {
@@ -193,39 +190,6 @@ public class BirthdayDataProvider {
                         if (!notificationListOnly) {
                             /* All Contacts */
                             contacts.add(contact);
-
-                            if (!contact.isIgnore()) {
-                                try {
-                                    if (statistics.getAgeStats().get(contact.getAge()) != null) {
-                                        statistics.getAgeStats().put(contact.getAge(),
-                                                statistics.getAgeStats().get(contact.getAge()) + 1);
-                                    } else {
-                                        statistics.getAgeStats().put(contact.getAge(), 1);
-                                    }
-
-                                    if (statistics.getSignStats().get(contact.getZodiac()) != null) {
-                                        statistics.getSignStats().put(contact.getZodiac(),
-                                                statistics.getSignStats().get(contact.getZodiac()) + 1);
-                                    } else {
-                                        statistics.getSignStats().put(contact.getZodiac(), 1);
-                                    }
-
-                                    if (statistics.getMonthStats().get(contact.getBornOnMonth()) != null) {
-                                        statistics.getMonthStats().put(contact.getBornOnMonth(),
-                                                statistics.getMonthStats().get(contact.getBornOnMonth()) + 1);
-                                    } else {
-                                        statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
-                                    }
-
-                                    if (statistics.getWeekStats().get(contact.getBornOnDayOfWeek()) != null) {
-                                        statistics.getWeekStats().put(contact.getBornOnDayOfWeek(),
-                                                statistics.getWeekStats().get(contact.getBornOnDayOfWeek()) + 1);
-                                    } else {
-                                        statistics.getWeekStats().put(contact.getBornOnDayOfWeek(), 1);
-                                    }
-                                } catch (NullPointerException ignored) {
-                                }
-                            }
                         }
                     } catch (ContactBuilderException e) {
                         e.printStackTrace();
@@ -303,9 +267,5 @@ public class BirthdayDataProvider {
 
     public ArrayList<Contact> getContactsToCelebrate() {
         return contactsToCelebrate;
-    }
-
-    public StatisticsProvider getStatistics() {
-        return statistics;
     }
 }

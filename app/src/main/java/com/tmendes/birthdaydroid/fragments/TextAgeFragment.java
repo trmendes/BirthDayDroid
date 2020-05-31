@@ -12,10 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class TextAgeFragment extends Fragment {
 
@@ -26,17 +28,18 @@ public class TextAgeFragment extends Fragment {
 
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
-        BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();
-
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_age));
 
-        Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getAgeStats();
-
         TableRow header = newRow(getContext().getResources().getString(R.string.array_order_age),
                 getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
+
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        Map<Integer, Integer> ageStat = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
 
         for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
             int age = pair.getKey();

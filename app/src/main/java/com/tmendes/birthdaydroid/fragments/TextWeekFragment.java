@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.text.DateFormatSymbols;
@@ -21,6 +22,7 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class TextWeekFragment extends Fragment {
 
@@ -31,8 +33,6 @@ public class TextWeekFragment extends Fragment {
 
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
-        BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();
-
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_week));
@@ -40,9 +40,12 @@ public class TextWeekFragment extends Fragment {
         TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        Map<DayOfWeek, Integer> ageStat = bddDataProviver.getStatistics().getWeekStats();
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        final Map<DayOfWeek, Integer> dayOfWeekStats = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getBornOnDayOfWeek, c -> 1, Integer::sum));
 
-        for (Map.Entry<DayOfWeek, Integer> pair : ageStat.entrySet()) {
+        for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
             DayOfWeek dayOfWeek = pair.getKey();
             int amount = pair.getValue();
 

@@ -25,16 +25,16 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
-import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
-import java.text.DateFormatSymbols;
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class PieChartWeekFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -81,10 +81,12 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        final Map<DayOfWeek, Integer> dayOfWeekStats = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getBornOnDayOfWeek, c -> 1, Integer::sum));
 
-        Map<DayOfWeek, Integer> weekMap = statisticsProvider.getWeekStats();
-        for (Map.Entry<DayOfWeek, Integer> pair : weekMap.entrySet()) {
+        for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
             DayOfWeek dayOfWeek = pair.getKey();
             final int quantity = pair.getValue();
             final PieEntry entry = new PieEntry(quantity, dayOfWeek);

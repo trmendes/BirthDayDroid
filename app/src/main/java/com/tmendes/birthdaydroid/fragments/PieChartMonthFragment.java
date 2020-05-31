@@ -24,16 +24,16 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
-import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
-import java.text.DateFormatSymbols;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class PieChartMonthFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -80,9 +80,10 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
-
-        Map<Month, Integer> monthMap = statisticsProvider.getMonthStats();
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        final Map<Month, Integer> monthMap = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getBornOnMonth, c -> 1, Integer::sum));
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
             final Month month = pair.getKey();
             final int quantity = pair.getValue();

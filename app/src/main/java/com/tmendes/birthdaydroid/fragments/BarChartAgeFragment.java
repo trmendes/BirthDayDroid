@@ -24,12 +24,13 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
-import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class BarChartAgeFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -82,9 +83,10 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
-        StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
-
-        Map<Integer, Integer> ageStat = statisticsProvider.getAgeStats();
+        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        Map<Integer, Integer> ageStat = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
 
         for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
             int age = pair.getKey();

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.text.DateFormatSymbols;
@@ -22,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TextMonthFragment extends Fragment {
 
@@ -32,18 +34,18 @@ public class TextMonthFragment extends Fragment {
 
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
-        BirthdayDataProvider bddDataProviver = BirthdayDataProvider.getInstance();
-
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_month));
 
-        Map<Month, Integer> ageStat = bddDataProviver.getStatistics().getMonthStats();
-
         TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        for (Map.Entry<Month, Integer> pair : ageStat.entrySet()) {
+        final BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
+        final Map<Month, Integer> monthMap = bddDataProvider.getAllContacts().stream()
+                .filter(c -> !c.isIgnore())
+                .collect(Collectors.toMap(Contact::getBornOnMonth, c -> 1, Integer::sum));
+        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
             Month month = pair.getKey();
             int amount = pair.getValue();
 
