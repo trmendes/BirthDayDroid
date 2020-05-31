@@ -77,45 +77,48 @@ public class ContactBuilder {
         WritableContact contact = new WritableContact();
 
         if (dbId == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without dbId");
         }
         contact.setDbId(dbId);
 
         if (key == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without key");
         }
         contact.setKey(key);
 
         if (name == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without name");
         }
         contact.setName(name);
 
         contact.setPhotoUri(photoUri);
 
         if (eventTypeLabel == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without eventTypeLabel");
         }
         contact.setEventTypeLabel(eventTypeLabel);
 
         if (customEventTypeLabel == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without customEventTypeLabel");
         }
         contact.setCustomEventTypeLabel(customEventTypeLabel);
 
         if (favorite == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without favorite");
         }
         contact.setFavorite(favorite);
 
         if (ignore == null) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException("Can not build contact without ignore");
         }
         contact.setFavorite(ignore);
 
+        if(birthday == null) {
+            throw new ContactBuilderException("Can not build contact without birthday");
+        }
         final EventDateConverter.DateConverterResult convertingResult = eventDateConverter.convert(birthday);
         if (!convertingResult.isSuccess()) {
-            throw new ContactBuilderException();
+            throw new ContactBuilderException(String.format("Can not build contact with unparsable date: %s", birthday));
         }
 
         final LocalDate bornOn = convertingResult.getDate();
