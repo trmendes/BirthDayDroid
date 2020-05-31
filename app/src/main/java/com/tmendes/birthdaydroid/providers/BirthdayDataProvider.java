@@ -35,12 +35,8 @@ import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -244,11 +240,11 @@ public class BirthdayDataProvider {
                                         statistics.getMonthStats().put(contact.getBornOnMonth(), 1);
                                     }
 
-                                    if (statistics.getWeekStats().get(contact.getBornOnDayWeek()) != null) {
-                                        statistics.getWeekStats().put(contact.getBornOnDayWeek(),
-                                                statistics.getWeekStats().get(contact.getBornOnDayWeek()) + 1);
+                                    if (statistics.getWeekStats().get(contact.getBornOnDayOfWeek()) != null) {
+                                        statistics.getWeekStats().put(contact.getBornOnDayOfWeek(),
+                                                statistics.getWeekStats().get(contact.getBornOnDayOfWeek()) + 1);
                                     } else {
-                                        statistics.getWeekStats().put(contact.getBornOnDayWeek(), 1);
+                                        statistics.getWeekStats().put(contact.getBornOnDayOfWeek(), 1);
                                     }
                                 } catch (NullPointerException ignored) {
                                 }
@@ -326,13 +322,8 @@ public class BirthdayDataProvider {
         DateConverter.DateConverterResult converterResult = new DateConverter().convert(dateString);
 
         if (converterResult.isSuccess()) {
-            if (converterResult.getMissingYearInfo()) {
-                contact.setMissingYearInfo();
-            }
-            Calendar calendar = GregorianCalendar.from(
-                    converterResult.getDate().atTime(0, 0).atZone(ZoneId.systemDefault())
-            );
-            contact.setBornOn(calendar);
+            contact.setMissingYearInfo(converterResult.getMissingYearInfo());
+            contact.setBornOn(converterResult.getDate());
             return true;
         } else {
             /* If we reach this place is because we are not treating a case */

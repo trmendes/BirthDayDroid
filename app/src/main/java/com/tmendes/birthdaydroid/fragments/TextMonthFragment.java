@@ -15,8 +15,10 @@ import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.text.DateFormatSymbols;
+import java.time.Month;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class TextMonthFragment extends Fragment {
 
@@ -33,18 +35,17 @@ public class TextMonthFragment extends Fragment {
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_month));
 
-        Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getMonthStats();
+        Map<Month, Integer> ageStat = bddDataProviver.getStatistics().getMonthStats();
 
         TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        for (Object o : ageStat.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            int month = (int) pair.getKey();
-            int amount = (int) pair.getValue();
+        for (Map.Entry<Month, Integer> pair : ageStat.entrySet()) {
+            Month month = pair.getKey();
+            int amount = pair.getValue();
 
             DateFormatSymbols dfs = new DateFormatSymbols();
-            String monthName = dfs.getMonths()[month];
+            String monthName = dfs.getMonths()[month.getValue() - 1];
 
             TableRow row = newRow(monthName, String.valueOf(amount));
 

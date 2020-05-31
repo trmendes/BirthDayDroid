@@ -25,31 +25,11 @@ public class DaysUntilBirthdayComparatorTest {
     }
 
     @Test
-    public void testLessWithPositiveValues() {
+    public void testLess() {
         Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(2);
-
-        assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
-    }
-
-    @Test
-    public void testLessWithNegativeValues() {
-        Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
-
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(-2);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-1);
-
-        assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
-    }
-
-    @Test
-    public void testLessMixedValues() {
-        Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
-
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-1);
 
         assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
     }
@@ -65,47 +45,12 @@ public class DaysUntilBirthdayComparatorTest {
     }
 
     @Test
-    public void testGreaterWithPositiveValues() {
+    public void testGreater() {
         Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
 
         Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(2);
         Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
 
         assertThat(comparatorAsc.compare(contactA, contactB), greaterThan(0));
-    }
-
-    @Test
-    public void testGreaterWithNegativeValues() {
-        Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
-
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(-1);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-2);
-
-        assertThat(comparatorAsc.compare(contactA, contactB), greaterThan(0));
-    }
-
-    @Test
-    public void testGreaterWithMixedValues() {
-        Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
-
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(-1);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
-
-        assertThat(comparatorAsc.compare(contactA, contactB), greaterThan(0));
-    }
-
-    @Test
-    public void testTodayBirthdayIsFirst() {
-        Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
-
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(0);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(-1);
-
-        assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
-
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(0);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
-
-        assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
     }
 }

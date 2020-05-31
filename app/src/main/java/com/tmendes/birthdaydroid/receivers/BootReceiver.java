@@ -39,7 +39,7 @@ public class BootReceiver extends BroadcastReceiver {
                 || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            long toRingAt = prefs.getLong("scan_daily_interval", 0);
+            long toRingAt = prefs.getLong("scan_daily_interval", -1);
             alarm.cancelAlarm(context);
             alarm.setAlarm(context, toRingAt);
         }

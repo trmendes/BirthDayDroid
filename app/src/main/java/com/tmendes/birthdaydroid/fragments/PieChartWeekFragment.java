@@ -27,6 +27,7 @@ import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -78,14 +79,12 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
-        Map<Integer, Integer> weekMap;
-        weekMap = statisticsProvider.getWeekStats();
-        for (Object o : weekMap.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            int week = (int) pair.getKey();
-            int quantity = (int) pair.getValue();
-            PieEntry entry = new PieEntry(quantity, week);
-            String weekString = new DateFormatSymbols().getWeekdays()[week];
+        Map<DayOfWeek, Integer> weekMap = statisticsProvider.getWeekStats();
+        for (Map.Entry<DayOfWeek, Integer> pair : weekMap.entrySet()) {
+            DayOfWeek dayOfWeek = pair.getKey();
+            int quantity = pair.getValue();
+            PieEntry entry = new PieEntry(quantity, dayOfWeek);
+            String weekString = new DateFormatSymbols().getWeekdays()[dayOfWeek.getValue() - 1];
             entry.setLabel(weekString);
             pieEntries.add(entry);
         }

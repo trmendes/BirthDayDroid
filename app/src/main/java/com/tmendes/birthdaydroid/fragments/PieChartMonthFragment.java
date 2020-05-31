@@ -27,6 +27,7 @@ import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.text.DateFormatSymbols;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -78,14 +79,12 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
 
         StatisticsProvider statisticsProvider = BirthdayDataProvider.getInstance().getStatistics();
 
-        Map<Integer, Integer> monthMap;
-        monthMap = statisticsProvider.getMonthStats();
-        for (Object o : monthMap.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            int month = (int) pair.getKey();
-            int quantity = (int) pair.getValue();
+        Map<Month, Integer> monthMap = statisticsProvider.getMonthStats();
+        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
+            Month month = pair.getKey();
+            int quantity = pair.getValue();
             PieEntry entry = new PieEntry(quantity, month);
-            String monthString = new DateFormatSymbols().getMonths()[month];
+            String monthString = new DateFormatSymbols().getMonths()[month.getValue() - 1];
             entry.setLabel(monthString);
             pieEntries.add(entry);
         }

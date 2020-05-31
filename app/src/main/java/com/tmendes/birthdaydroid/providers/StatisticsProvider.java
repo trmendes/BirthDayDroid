@@ -17,6 +17,8 @@
 
 package com.tmendes.birthdaydroid.providers;
 
+import java.time.DayOfWeek;
+import java.time.Month;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,8 +26,8 @@ public class StatisticsProvider {
 
     private final Map<Integer, Integer> ageStats;
     private final Map<String, Integer> signStats;
-    private final Map<Integer, Integer> monthStats;
-    private final Map<Integer, Integer> weekStats;
+    private final Map<Month, Integer> monthStats;
+    private final Map<DayOfWeek, Integer> weekStats;
 
     public StatisticsProvider() {
         ageStats = new TreeMap<>();
@@ -49,11 +51,11 @@ public class StatisticsProvider {
         return signStats;
     }
 
-    public Map<Integer, Integer> getMonthStats() {
+    public Map<Month, Integer> getMonthStats() {
         return monthStats;
     }
 
-    public Map<Integer, Integer> getWeekStats() {
+    public Map<DayOfWeek, Integer> getWeekStats() {
         return weekStats;
     }
 

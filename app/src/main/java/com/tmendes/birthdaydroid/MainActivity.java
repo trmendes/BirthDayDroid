@@ -66,6 +66,11 @@ import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;

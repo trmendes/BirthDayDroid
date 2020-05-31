@@ -1,82 +1,83 @@
 package com.tmendes.birthdaydroid.zodiac;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 public class ZodiacCalculator {
     @Zodiac
-    public int calculateZodiac(Calendar birthDate) {
+    public int calculateZodiac(LocalDate birthDate) {
         if (birthDate != null) {
-            final int birthMonth = birthDate.get(Calendar.MONTH);
-            final int birthDay = birthDate.get(Calendar.DAY_OF_MONTH);
+            final Month birthMonth = birthDate.getMonth();
+            final int birthDay = birthDate.getDayOfMonth();
 
             switch (birthMonth) {
-                case Calendar.JANUARY:
+                case JANUARY:
                     if ((birthDay >= 21)) {
                         return Zodiac.AQUARIUS;
                     } else {
                         return Zodiac.CAPRICORN;
                     }
-                case Calendar.FEBRUARY:
+                case FEBRUARY:
                     if ((birthDay >= 20)) {
                         return Zodiac.PISCES;
                     } else {
                         return Zodiac.AQUARIUS;
                     }
-                case Calendar.MARCH:
+                case MARCH:
                     if ((birthDay >= 21)) {
                         return Zodiac.ARIES;
                     } else {
                         return Zodiac.PISCES;
                     }
-                case Calendar.APRIL:
+                case APRIL:
                     if ((birthDay >= 20)) {
                         return Zodiac.TAURUS;
                     } else {
                         return Zodiac.ARIES;
                     }
-                case Calendar.MAY:
+                case MAY:
                     if ((birthDay >= 20)) {
                         return Zodiac.GEMINI;
                     } else {
                         return Zodiac.TAURUS;
                     }
-                case Calendar.JUNE:
+                case JUNE:
                     if ((birthDay >= 21)) {
                         return Zodiac.CANCER;
                     } else {
                         return Zodiac.GEMINI;
                     }
-                case Calendar.JULY:
+                case JULY:
                     if ((birthDay >= 23)) {
                         return Zodiac.LEO;
                     } else {
                         return Zodiac.CANCER;
                     }
-                case Calendar.AUGUST:
+                case AUGUST:
                     if ((birthDay >= 22)) {
                         return Zodiac.VIRGO;
                     } else {
                         return Zodiac.LEO;
                     }
-                case Calendar.SEPTEMBER:
+                case SEPTEMBER:
                     if ((birthDay >= 23)) {
                         return Zodiac.LIBRA;
                     } else {
                         return Zodiac.VIRGO;
                     }
-                case Calendar.OCTOBER:
+                case OCTOBER:
                     if ((birthDay >= 23)) {
                         return Zodiac.SCORPIO;
                     } else {
                         return Zodiac.LIBRA;
                     }
-                case Calendar.NOVEMBER:
+                case NOVEMBER:
                     if ((birthDay >= 22)) {
                         return Zodiac.SAGITTARIUS;
                     } else {
                         return Zodiac.SCORPIO;
                     }
-                case Calendar.DECEMBER:
+                case DECEMBER:
                     if (birthDay >= 22) {
                         return Zodiac.CAPRICORN;
                     } else {

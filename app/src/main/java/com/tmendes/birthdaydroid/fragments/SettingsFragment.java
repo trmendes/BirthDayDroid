@@ -150,7 +150,7 @@ public class SettingsFragment extends Fragment {
                 AlarmHelper alarm = new AlarmHelper();
 
                 if (dailyNotification) {
-                    long toGoesOffAt = prefs.getLong("scan_daily_interval", 0);
+                    long toGoesOffAt = prefs.getLong("scan_daily_interval", -1);
                     alarm.setAlarm(getContext(), toGoesOffAt);
                 } else {
                     alarm.cancelAlarm(getContext());

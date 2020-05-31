@@ -17,13 +17,13 @@
 
 package com.tmendes.birthdaydroid;
 
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 
 public class Contact {
@@ -43,14 +43,14 @@ public class Contact {
     private int age;
     private int daysOld;
 
-    private int bornOnDay;
-    private int bornOnMonth;
-    private int bornOnDayWeek;
+    private Month bornOnMonth;
+    private DayOfWeek bornOnDayOfWeek;
 
     private int daysUntilNextBirthday;
+    private int daysSinceLastBirthday;
 
-    private Calendar bornOn;
-    private Calendar nextBirthday;
+    private LocalDate bornOn;
+    private LocalDate nextBirthday;
 
     private boolean favorite;
     private boolean ignore;
@@ -101,52 +101,31 @@ public class Contact {
         return daysOld;
     }
 
-    public Calendar getBornOn() {
+    public LocalDate getBornOn() {
         return bornOn;
     }
 
-    public void setBornOn(Calendar bornOn) {
+    public void setBornOn(LocalDate bornOn) {
         if (bornOn != null) {
             this.bornOn = bornOn;
-            this.bornOn.set(Calendar.HOUR_OF_DAY, 0);
-            this.bornOn.set(Calendar.MINUTE, 0);
-            this.bornOn.set(Calendar.SECOND, 0);
-            this.bornOn.set(Calendar.MILLISECOND, 0);
 
-            this.bornOnDay = bornOn.get(Calendar.DAY_OF_MONTH);
-            this.bornOnMonth = bornOn.get(Calendar.MONTH);
-            this.bornOnDayWeek = bornOn.get(Calendar.DAY_OF_WEEK);
+            this.bornOnMonth = bornOn.getMonth();
+            this.bornOnDayOfWeek = bornOn.getDayOfWeek();
 
-            Calendar now = Calendar.getInstance();
-            now.set(Calendar.HOUR_OF_DAY, 0);
-            now.set(Calendar.MINUTE, 0);
-            now.set(Calendar.SECOND, 0);
-            now.set(Calendar.MILLISECOND, 0);
+            LocalDate now = LocalDate.now();
 
-            this.age = now.get(Calendar.YEAR) - this.bornOn.get(Calendar.YEAR);
+            this.age = (int) ChronoUnit.YEARS.between(bornOn, now);
 
-            this.nextBirthday = (Calendar) this.bornOn.clone();
-            this.nextBirthday.set(Calendar.YEAR, now.get(Calendar.YEAR));
-
-            // diff for daylight saving time. Offset between nextBirthday and now can be different.
-            long timeZoneDiff = nextBirthday.getTimeZone().getOffset(nextBirthday.getTimeInMillis())
-                    - now.getTimeZone().getOffset(now.getTimeInMillis());
-
-            long diffInMillis = nextBirthday.getTimeInMillis() - now.getTimeInMillis() + timeZoneDiff;
-            this.daysUntilNextBirthday = (int) TimeUnit.DAYS.convert(diffInMillis,
-                    TimeUnit.MILLISECONDS);
-
-            if (this.daysUntilNextBirthday < 0){
-                /* Late birthday */
-                ++this.age;
-                this.nextBirthday.set(Calendar.YEAR, now.get(Calendar.YEAR) + 1);
+            this.nextBirthday = this.bornOn.withYear(now.getYear());
+            if (nextBirthday.isBefore(now)) {
+                this.nextBirthday = this.nextBirthday.plusYears(1);
             }
 
-            this.bornInFuture = this.bornOn.compareTo(now) >= 1 && !this.missingYearInfo;
+            this.daysUntilNextBirthday = (int) ChronoUnit.DAYS.between(now, nextBirthday);
+            this.daysSinceLastBirthday = (int) ChronoUnit.DAYS.between(nextBirthday.minusYears(1), now);
+            this.daysOld = (int) ChronoUnit.DAYS.between(bornOn, now);
 
-            diffInMillis = bornOn.getTimeInMillis() - now.getTimeInMillis();
-            this.daysOld = Math.abs((int) TimeUnit.DAYS.convert(diffInMillis,
-                    TimeUnit.MILLISECONDS));
+            this.bornInFuture = this.bornOn.isAfter(now) && !this.missingYearInfo;
 
             if (this.bornInFuture) {
                 this.age = 0;
@@ -155,34 +134,29 @@ public class Contact {
         }
     }
 
-    public int getBornOnDay() {
-        return bornOnDay;
-    }
-
-    public int getBornOnMonth() {
+    public Month getBornOnMonth() {
         return bornOnMonth;
     }
 
     public String getNextBirthDayInfo() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM/dd - E", Locale.getDefault());
-        Date date = this.nextBirthday.getTime();
-        return dateFormat.format(date);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
+        return dateFormatter.format(this.nextBirthday);
     }
 
     public String getBornOnMonthName() {
         DateFormatSymbols dfs = new DateFormatSymbols();
-        return dfs.getMonths()[bornOnMonth];
+        return dfs.getMonths()[bornOnMonth.getValue() - 1];
     }
 
-    public int getBornOnDayWeek() {
-        return bornOnDayWeek;
+    public DayOfWeek getBornOnDayOfWeek() {
+        return bornOnDayOfWeek;
     }
 
     public String getNextBirthDayWeekName() {
         String weekName = "";
         if (nextBirthday != null) {
             DateFormatSymbols dfs = new DateFormatSymbols();
-            weekName = dfs.getWeekdays()[this.nextBirthday.get(Calendar.DAY_OF_WEEK)];
+            weekName = dfs.getWeekdays()[this.nextBirthday.getDayOfWeek().getValue() - 1];
         }
         return weekName;
     }
@@ -255,11 +229,15 @@ public class Contact {
         return this.zodiacElementSymbol;
     }
 
-    public void setMissingYearInfo() {
-        this.missingYearInfo = true;
+    public void setMissingYearInfo(boolean missingYearInfo) {
+        this.missingYearInfo = missingYearInfo;
     }
 
     public boolean isMissingYearInfo() {
         return this.missingYearInfo;
+    }
+
+    public int getDaysSinceLastBirthday() {
+        return daysSinceLastBirthday;
     }
 }

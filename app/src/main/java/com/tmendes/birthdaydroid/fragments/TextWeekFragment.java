@@ -15,6 +15,7 @@ import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,15 +37,14 @@ public class TextWeekFragment extends Fragment {
         TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        Map<Integer, Integer> ageStat = bddDataProviver.getStatistics().getWeekStats();
+        Map<DayOfWeek, Integer> ageStat = bddDataProviver.getStatistics().getWeekStats();
 
-        for (Object o : ageStat.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            int week = (int) pair.getKey();
-            int amount = (int) pair.getValue();
+        for (Map.Entry<DayOfWeek, Integer> pair : ageStat.entrySet()) {
+            DayOfWeek dayOfWeek = pair.getKey();
+            int amount = pair.getValue();
 
             DateFormatSymbols dfs = new DateFormatSymbols();
-            String weekName = dfs.getWeekdays()[week];
+            String weekName = dfs.getWeekdays()[dayOfWeek.getValue() - 1];
 
             TableRow row = newRow(weekName, String.valueOf(amount));
 
