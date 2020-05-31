@@ -6,7 +6,7 @@ import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class DateConverter {
+public class EventDateConverter {
     private static final String[] DATA_FORMATS_WITH_YEAR = new String[] {
             "yyyy-M[M]-d[d][ HH:mm[:ss[.SSS]]]",
             "d[d]-M[M]-yyyy[ HH:mm[:ss[.SSS]]]",

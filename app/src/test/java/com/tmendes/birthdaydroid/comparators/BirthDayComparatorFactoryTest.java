@@ -1,6 +1,6 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -86,21 +86,13 @@ public class BirthDayComparatorFactoryTest {
 
     @Test
     public void testUnknownSortType() {
-        Assert.assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
-            @Override
-            public void run() {
-                factory.createBirthdayComparator(-42, SORT_ORDER_DESC);
-            }
-        });
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> factory.createBirthdayComparator(-42, SORT_ORDER_DESC));
     }
 
     @Test
     public void testUnknownSortOrder() {
-        Assert.assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
-            @Override
-            public void run() {
-                factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, -42);
-            }
-        });
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, -42));
     }
 }

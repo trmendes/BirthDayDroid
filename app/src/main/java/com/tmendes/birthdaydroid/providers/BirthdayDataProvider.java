@@ -26,12 +26,13 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.DBContact;
-import com.tmendes.birthdaydroid.contact.DateConverter;
+import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.contact.ContactBuilder;
+import com.tmendes.birthdaydroid.contact.ContactBuilderException;
+import com.tmendes.birthdaydroid.contact.EventDateConverter;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
-import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
@@ -84,30 +85,6 @@ public class BirthdayDataProvider {
         statistics.reset();
     }
 
-    private Contact parseNewContact(String key, String name, String photoURI, String date,
-                                    boolean customTypeLabel, String eventTypeLabel,
-                                    boolean ignored, boolean favorite, ZodiacCalculator zodiacCalculator,
-                                    ZodiacResourceHelper zodiacResourceHelper) {
-        Contact contact = new Contact(key, name, photoURI, customTypeLabel, eventTypeLabel);
-
-        if (setBasicContactBirthInfo(contact, date)) {
-            @Zodiac final int zodiac = zodiacCalculator.calculateZodiac(contact.getBornOn());
-            contact.setZodiacName(zodiacResourceHelper.getZodiacName(zodiac));
-            contact.setZodiacSymbol(zodiacResourceHelper.getZodiacSymbol(zodiac));
-            contact.setZodiacElementName(zodiacResourceHelper.getZodiacElementName(zodiac));
-            contact.setZodiacElementSymbol(zodiacResourceHelper.getZodiacElementSymbol(zodiac));
-
-            if (favorite) {
-                contact.setFavorite();
-            }
-            if (ignored) {
-                contact.setIgnore();
-            }
-            return contact;
-        }
-        return null;
-    }
-
     public void refreshData(boolean notificationListOnly) {
         if (permissionHelper == null || prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
@@ -136,8 +113,6 @@ public class BirthdayDataProvider {
                 daysInAdvance = prefs.getInt("days_in_advance_interval", 0);
             }
 
-            boolean parseContacts;
-
             final int keyColumn = cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY);
             final int dateColumn = cursor.getColumnIndex(
@@ -151,15 +126,17 @@ public class BirthdayDataProvider {
             final int typeLabelColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.LABEL);
 
-            DBHelper db = new DBHelper(ctx);
-            HashMap<String, DBContact> dbContacs = db.getAllCotacts();
+            final DBHelper db = new DBHelper(ctx);
+            final HashMap<String, DBContact> dbContacts = db.getAllContacts();
+
             final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
             final ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(ctx.getResources());
+            final EventDateConverter eventDateConverter = new EventDateConverter();
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                final int eventType = cursor.getInt(typeColumn);
 
-                int eventType = cursor.getInt(typeColumn);
-
+                final boolean parseContacts;
                 if (showBirthdayTypeOnly) {
                     parseContacts = (eventType ==
                             ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
@@ -168,6 +145,7 @@ public class BirthdayDataProvider {
                 }
 
                 if (parseContacts) {
+                    final ContactBuilder contactBuilder = new ContactBuilder(zodiacCalculator, zodiacResourceHelper, eventDateConverter);
 
                     String keyCID = cursor.getString(keyColumn);
                     String label = cursor.getString(typeLabelColumn);
@@ -183,7 +161,7 @@ public class BirthdayDataProvider {
 
                     DBContact dbContact;
 
-                    if ((dbContact = dbContacs.remove(keyCID)) != null) {
+                    if ((dbContact = dbContacts.remove(keyCID)) != null) {
                         ignoreContact = dbContact.isIgnore();
                         favoriteContact = dbContact.isFavorite();
                         contactDBId = dbContact.getId();
@@ -193,22 +171,21 @@ public class BirthdayDataProvider {
                         continue;
                     }
 
-                    Contact contact = parseNewContact(keyCID,
-                            cursor.getString(nameColumn),
-                            cursor.getString(photoColumn),
-                            cursor.getString(dateColumn),
-                            customTypeLabel,
-                            eventTypeLabel,
-                            ignoreContact,
-                            favoriteContact,
-                            zodiacCalculator,
-                            zodiacResourceHelper);
-
-                    if (contact != null) {
-                        contact.setDbID(contactDBId);
+                    try {
+                        Contact contact = contactBuilder
+                                .setDbId(contactDBId)
+                                .setKey(keyCID)
+                                .setName(cursor.getString(nameColumn))
+                                .setPhotoUri(cursor.getString(photoColumn))
+                                .setBirthdayString(cursor.getString(dateColumn))
+                                .setCustomEventTypeLabel(customTypeLabel)
+                                .setEventTypeLabel(eventTypeLabel)
+                                .setIgnore(ignoreContact)
+                                .setFavorite(favoriteContact)
+                                .build();
 
                         /* Birthday List */
-                        if (contact.shallWePartyToday() ||
+                        if (contact.hasBirthDayToday() ||
                                 contact.getDaysUntilNextBirthday() == daysInAdvance) {
                             contactsToCelebrate.add(contact);
                         }
@@ -250,10 +227,12 @@ public class BirthdayDataProvider {
                                 }
                             }
                         }
+                    } catch (ContactBuilderException e) {
+                        e.printStackTrace();
                     }
                 }
 
-                db.cleanDb(dbContacs);
+                db.cleanDb(dbContacts);
 
                 db.close();
             }
@@ -287,7 +266,7 @@ public class BirthdayDataProvider {
 
         if (prefs.getBoolean("selected_accounts_enabled", false)) {
             Set<String> selectedAccounts = prefs.getStringSet("selected_accounts",
-                    Collections.<String>emptySet());
+                    Collections.emptySet());
 
             selectionBuilder.append(" AND ");
             if (!selectedAccounts.isEmpty()) {
@@ -316,21 +295,6 @@ public class BirthdayDataProvider {
                 argsList.toArray(new String[0]),
                 null
         );
-    }
-
-    private boolean setBasicContactBirthInfo(Contact contact, String dateString) {
-        DateConverter.DateConverterResult converterResult = new DateConverter().convert(dateString);
-
-        if (converterResult.isSuccess()) {
-            contact.setMissingYearInfo(converterResult.getMissingYearInfo());
-            contact.setBornOn(converterResult.getDate());
-            return true;
-        } else {
-            /* If we reach this place is because we are not treating a case */
-            this.contactsFailureOnParser.add(contact);
-            Log.i(LOG_TAG, dateString + " not supported for " + contact.getName());
-            return false;
-        }
     }
 
     public ArrayList<Contact> getAllContacts() {

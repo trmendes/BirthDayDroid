@@ -2,6 +2,7 @@ package com.tmendes.birthdaydroid.fragments;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -28,7 +29,9 @@ import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.text.DateFormatSymbols;
 import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -81,10 +84,16 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
 
         Map<Month, Integer> monthMap = statisticsProvider.getMonthStats();
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
-            Month month = pair.getKey();
-            int quantity = pair.getValue();
-            PieEntry entry = new PieEntry(quantity, month);
-            String monthString = new DateFormatSymbols().getMonths()[month.getValue() - 1];
+            final Month month = pair.getKey();
+            final int quantity = pair.getValue();
+            final PieEntry entry = new PieEntry(quantity, month);
+            final Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = getResources().getConfiguration().getLocales().get(0);
+            } else {
+                locale = getResources().getConfiguration().locale;
+            }
+            String monthString = month.getDisplayName(TextStyle.FULL, locale);
             entry.setLabel(monthString);
             pieEntries.add(entry);
         }

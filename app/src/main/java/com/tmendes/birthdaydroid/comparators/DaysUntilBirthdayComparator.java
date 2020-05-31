@@ -1,6 +1,6 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import java.util.Comparator;
 

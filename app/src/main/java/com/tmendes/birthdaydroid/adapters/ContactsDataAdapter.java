@@ -24,9 +24,9 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tmendes.birthdaydroid.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory;
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,12 +82,12 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineFour.setText("");
 
         /* Contact Picture */
-        if (contact.getPhotoURI() != null) {
+        if (contact.getPhotoUri() != null) {
             try {
                 Bitmap src = MediaStore
                         .Images
                         .Media
-                        .getBitmap(ctx.getContentResolver(), Uri.parse(contact.getPhotoURI()));
+                        .getBitmap(ctx.getContentResolver(), Uri.parse(contact.getPhotoUri()));
 
                 picture = RoundedBitmapDrawableFactory.create(ctx.getResources(), src);
                 picture.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
@@ -98,7 +98,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         /* Age badge */
         final String ageText;
-        if(contact.shallWePartyToday()) {
+        if(contact.hasBirthDayToday()) {
             ageText = String.valueOf(age);
         } else {
             if(showCurrentAge) {
@@ -110,7 +110,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         /* Party */
         final String partyMsg;
-        if (contact.shallWePartyToday()) {
+        if (contact.hasBirthDayToday()) {
             partyMsg = ctx.getResources().getString(R.string.party_message);
             status.append(" ").append(ctx.getResources().getString(R.string.emoji_today_party));
         } else if (contact.getDaysSinceLastBirthday() <= MAX_DAYS_AGO) {
@@ -127,7 +127,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         /* Capitalize it */
         String eventTypeLabel = contact.getEventTypeLabel();
-        if(!contact.isCustomTypeLabel()) {
+        if(!contact.isCustomEventTypeLabel()) {
             eventTypeLabel = eventTypeLabel.toLowerCase();
             eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
                     + eventTypeLabel.substring(1);
@@ -149,7 +149,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 
-        if(contact.shallWePartyToday()) {
+        if(contact.hasBirthDayToday()) {
             holder.lineFour.setText(ctx.getResources().getQuantityString(
                     R.plurals.years_old, age, age));
         } else {
@@ -192,7 +192,9 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
                 if (constraint.length() == 0) {
                     contacts = readyOnlyOriginalContacts;
-                } else contacts = (ArrayList<Contact>) results.values;
+                } else {
+                    contacts = (List<Contact>) results.values;
+                }
                 notifyDataSetChanged();
             }
 
@@ -260,32 +262,28 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         ContactViewHolder(View view) {
             super(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    Contact contact = contacts.get(pos);
-                    Intent i;
-                    i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(
-                            ContactsContract.Contacts.CONTENT_LOOKUP_URI
-                                    + "/" + contact.getKey()));
-                    ctx.startActivity(i);
-                }
+
+            view.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                Contact contact = contacts.get(pos);
+                Intent i;
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(
+                        ContactsContract.Contacts.CONTENT_LOOKUP_URI
+                                + "/" + contact.getKey()));
+                ctx.startActivity(i);
             });
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    int pos = getAdapterPosition();
-                    Contact contact = contacts.get(pos);
-                    Intent i;
-                    i = new Intent(Intent.ACTION_EDIT);
-                    i.setData(Uri.parse(
-                            ContactsContract.Contacts.CONTENT_LOOKUP_URI
-                                    + "/" + contact.getKey()));
-                    ctx.startActivity(i);
-                    return true;
-                }
+
+            view.setOnLongClickListener(view1 -> {
+                int pos = getAdapterPosition();
+                Contact contact = contacts.get(pos);
+                Intent i;
+                i = new Intent(Intent.ACTION_EDIT);
+                i.setData(Uri.parse(
+                        ContactsContract.Contacts.CONTENT_LOOKUP_URI
+                                + "/" + contact.getKey()));
+                ctx.startActivity(i);
+                return true;
             });
 
             name = view.findViewById(R.id.tvContactName);

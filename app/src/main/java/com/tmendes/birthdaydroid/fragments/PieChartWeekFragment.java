@@ -2,6 +2,7 @@ package com.tmendes.birthdaydroid.fragments;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -28,7 +30,9 @@ import com.tmendes.birthdaydroid.providers.StatisticsProvider;
 
 import java.text.DateFormatSymbols;
 import java.time.DayOfWeek;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -82,13 +86,18 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
         Map<DayOfWeek, Integer> weekMap = statisticsProvider.getWeekStats();
         for (Map.Entry<DayOfWeek, Integer> pair : weekMap.entrySet()) {
             DayOfWeek dayOfWeek = pair.getKey();
-            int quantity = pair.getValue();
-            PieEntry entry = new PieEntry(quantity, dayOfWeek);
-            String weekString = new DateFormatSymbols().getWeekdays()[dayOfWeek.getValue() - 1];
+            final int quantity = pair.getValue();
+            final PieEntry entry = new PieEntry(quantity, dayOfWeek);
+            final Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = getResources().getConfiguration().getLocales().get(0);
+            } else {
+                locale = getResources().getConfiguration().locale;
+            }
+            final String weekString = dayOfWeek.getDisplayName(TextStyle.FULL, locale);
             entry.setLabel(weekString);
             pieEntries.add(entry);
         }
-
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
         pieDataSet.setSliceSpace(1f);

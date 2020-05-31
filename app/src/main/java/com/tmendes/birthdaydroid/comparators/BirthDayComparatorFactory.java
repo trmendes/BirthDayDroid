@@ -1,8 +1,7 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 
-import java.util.Collections;
 import java.util.Comparator;
 
 public class BirthDayComparatorFactory {
@@ -37,7 +36,7 @@ public class BirthDayComparatorFactory {
             case SORT_ORDER_ASC:
                 return comparator;
             case SORT_ORDER_DESC:
-                return Collections.reverseOrder(comparator);
+                return comparator.reversed();
             default:
                 throw new IllegalArgumentException(String.format("Unknown sortOrder: %d", sortOrder));
         }

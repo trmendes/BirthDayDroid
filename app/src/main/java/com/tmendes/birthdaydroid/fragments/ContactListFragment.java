@@ -45,7 +45,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.helpers.DBHelper;
@@ -62,7 +62,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
     private SearchView searchView;
     private SearchView.OnQueryTextListener queryTextListener;
-    private BirthdayDataProvider bddDataProviver;
+    private BirthdayDataProvider bddDataProvider;
     private ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
     private DBHelper dbHelper;
@@ -83,11 +83,11 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
-        bddDataProviver = BirthdayDataProvider.getInstance();
+        bddDataProvider = BirthdayDataProvider.getInstance();
         dbHelper = new DBHelper(getContext());
 
         contactsDataAdapter = new ContactsDataAdapter(getContext(),
-                bddDataProviver.getAllContacts());
+                bddDataProvider.getAllContacts());
 
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -108,13 +108,10 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
 
         fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_INSERT,
-                        ContactsContract.Contacts.CONTENT_URI);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_INSERT,
+                    ContactsContract.Contacts.CONTENT_URI);
+            startActivity(intent);
         });
 
         showHideAddNewBirthday();
@@ -180,7 +177,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         showHideAddNewBirthday();
 
-        bddDataProviver.refreshData(false);
+        bddDataProvider.refreshData(false);
         contactsDataAdapter.sort(sortOrder, sortType);
     }
 
@@ -192,18 +189,17 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             final Contact contact = contactsDataAdapter.getContact(index);
 
             if (direction == ItemTouchHelper.LEFT) {
-                contact.setIgnore();
+                contact.toggleIgnore();
                 contactsDataAdapter.ignoreItem(index, hideIgnoredContacts);
-            }
-            if (direction == ItemTouchHelper.RIGHT) {
-                contact.setFavorite();
+            } else if (direction == ItemTouchHelper.RIGHT) {
+                contact.toggleFavorite();
                 contactsDataAdapter.favoriteItem(index);
             }
 
             if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                long dbID = dbHelper.insertContact(contact.getDbID(), contact.getKey(),
+                long dbID = dbHelper.insertContact(contact.getDbId(), contact.getKey(),
                         contact.isFavorite(), contact.isIgnore());
-                contact.setDbID(dbID);
+                contact.setDbId(dbID);
             }
 
             InputMethodManager inputManager = (InputMethodManager)
@@ -220,30 +216,28 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                     .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
             snackbar.setActionTextColor(Color.RED);
 
-            snackbar.setAction(Objects.requireNonNull(getContext()).getResources().getString(R.string.undo),
-                    new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (dir == ItemTouchHelper.LEFT) {
-                        contact.setIgnore();
-                        if (hideIgnoredContacts) {
-                            contactsDataAdapter.restoreContact(contact);
-                        } else {
-                            contactsDataAdapter.notifyDataSetChanged();
+            snackbar.setAction(
+                    Objects.requireNonNull(getContext()).getResources().getString(R.string.undo),
+                    view -> {
+                        if (dir == ItemTouchHelper.LEFT) {
+                            contact.toggleIgnore();
+                            if (hideIgnoredContacts) {
+                                contactsDataAdapter.restoreContact(contact);
+                            } else {
+                                contactsDataAdapter.notifyDataSetChanged();
+                            }
                         }
-                    }
-                    if (dir == ItemTouchHelper.RIGHT) {
-                        contact.setFavorite();
-                        contactsDataAdapter.favoriteItem(index);
-                    }
+                        if (dir == ItemTouchHelper.RIGHT) {
+                            contact.toggleFavorite();
+                            contactsDataAdapter.favoriteItem(index);
+                        }
 
-                    if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
-                        long dbID = dbHelper.insertContact(contact.getDbID(), contact.getKey(),
-                                contact.isFavorite(), contact.isIgnore());
-                        contact.setDbID(dbID);
-                    }
-                }
-            });
+                        if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
+                            long dbID = dbHelper.insertContact(contact.getDbId(), contact.getKey(),
+                                    contact.isFavorite(), contact.isIgnore());
+                            contact.setDbId(dbID);
+                        }
+                    });
             snackbar.show();
         }
     }

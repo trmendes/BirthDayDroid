@@ -34,7 +34,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 
 import java.io.IOException;
@@ -128,7 +128,7 @@ public class NotificationHelper extends ContextWrapper {
 
             if (notify) {
                 String eventTypeLabel = contact.getEventTypeLabel();
-                if(!contact.isCustomTypeLabel()) {
+                if(!contact.isCustomEventTypeLabel()) {
                     eventTypeLabel = eventTypeLabel.toLowerCase();
                     eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
                             + eventTypeLabel.substring(1);
@@ -137,30 +137,30 @@ public class NotificationHelper extends ContextWrapper {
                 String title = contact.getName() + " (" + eventTypeLabel + ")";
                 StringBuilder body = new StringBuilder();
 
-                if (contact.shallWePartyToday()) {
+                if (contact.hasBirthDayToday()) {
                         body.append(getBaseContext().getString(R.string.party_message));
                 } else {
                     if(contact.getAge() > 0) {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthday(),
-                                contact.getContactFirstName(), contact.getAge(),
+                                contact.getFirstName(), contact.getAge(),
                                 contact.getDaysUntilNextBirthday()));
                     } else {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come_no_age,
                                 contact.getDaysUntilNextBirthday(),
-                                contact.getContactFirstName(),
+                                contact.getFirstName(),
                                 contact.getDaysUntilNextBirthday()));
                     }
                 }
 
                 /* Contact Picture */
                 Bitmap notifyPicture;
-                if (contact.getPhotoURI() != null) {
+                if (contact.getPhotoUri() != null) {
                     notifyPicture = MediaStore.Images.Media.getBitmap(
                             getBaseContext().getContentResolver(),
-                            Uri.parse(contact.getPhotoURI()));
+                            Uri.parse(contact.getPhotoUri()));
                 } else {
                     notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
                             R.drawable.ic_account_circle_black_48dp);

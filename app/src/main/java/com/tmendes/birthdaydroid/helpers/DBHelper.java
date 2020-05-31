@@ -71,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public HashMap<String, DBContact> getAllCotacts() {
+    public HashMap<String, DBContact> getAllContacts() {
         HashMap<String, DBContact> hashMap = new HashMap<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
