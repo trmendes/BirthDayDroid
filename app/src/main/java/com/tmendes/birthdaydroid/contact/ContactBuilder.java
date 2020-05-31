@@ -137,6 +137,10 @@ public class ContactBuilder {
         contact.setDaysSinceLastBirthday((int) ChronoUnit.DAYS.between(nextBirthday.minusYears(1), now));
         contact.setDaysOld((int) ChronoUnit.DAYS.between(bornOn, now));
         contact.setBornInFuture(bornOn.isAfter(now) && !missingYearInfo);
+        if(contact.isBornInFuture()) {
+            contact.setAge(0);
+            contact.setDaysOld(0);
+        }
 
         contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
 
