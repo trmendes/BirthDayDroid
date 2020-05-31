@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.contact;
+package com.tmendes.birthdaydroid.date;
 
 import org.junit.Before;
 import org.junit.Test;

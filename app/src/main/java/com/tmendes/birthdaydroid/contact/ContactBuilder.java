@@ -1,6 +1,6 @@
 package com.tmendes.birthdaydroid.contact;
 
-import com.tmendes.birthdaydroid.zodiac.Zodiac;
+import com.tmendes.birthdaydroid.date.EventDateConverter;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
@@ -9,7 +9,6 @@ import java.time.temporal.ChronoUnit;
 
 public class ContactBuilder {
     private final ZodiacCalculator zodiacCalculator;
-    private final ZodiacResourceHelper zodiacResourceHelper;
     private final EventDateConverter eventDateConverter;
 
     private Long dbId;
@@ -23,10 +22,8 @@ public class ContactBuilder {
     private Boolean favorite;
 
     public ContactBuilder(ZodiacCalculator zodiacCalculator,
-                          ZodiacResourceHelper zodiacResourceHelper,
                           EventDateConverter eventDateConverter) {
         this.zodiacCalculator = zodiacCalculator;
-        this.zodiacResourceHelper = zodiacResourceHelper;
         this.eventDateConverter = eventDateConverter;
     }
 

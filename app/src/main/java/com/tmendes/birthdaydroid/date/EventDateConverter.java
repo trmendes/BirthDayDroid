@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.contact;
+package com.tmendes.birthdaydroid.date;
 
 import java.time.LocalDate;
 import java.time.MonthDay;

@@ -2,12 +2,10 @@ package com.tmendes.birthdaydroid.contact;
 
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 
-import java.text.DateFormatSymbols;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.Locale;
 
 public interface Contact {
@@ -75,21 +73,5 @@ public interface Contact {
     default String getNextBirthDayInfo() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
         return dateFormatter.format(this.getNextBirthday());
-    }
-
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    default String getBornOnMonthName() {
-        return this.getBornOn().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
-    }
-
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    default String getNextBirthDayWeekName() {
-        return this.getNextBirthday().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
     }
 }

@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory;
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.date.DateLocalHelper;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     private List<Contact> contacts;
     private final List<Contact> readyOnlyOriginalContacts;
     private final ZodiacResourceHelper zodiacResourceHelper;
+    private final DateLocalHelper dateLocalHelper;
 
     private final Context ctx;
 
@@ -59,7 +61,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         this.hideZoadiac = prefs.getBoolean("hide_zodiac", false);
         this.showCurrentAge = prefs.getBoolean("show_current_age", false);
         this.zodiacResourceHelper = new ZodiacResourceHelper(ContactsDataAdapter.this.ctx.getResources());
-
+        this.dateLocalHelper = new DateLocalHelper();
     }
 
     @Override
@@ -225,8 +227,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
             boolean applyFilter(Contact contact, String filter) {
                 String name = contact.getName().toLowerCase();
-                String monthName = contact.getBornOnMonthName().toLowerCase();
-                String birthdayWeekName = contact.getNextBirthDayWeekName().toLowerCase();
+                String monthName = dateLocalHelper.getMonthString(contact.getBornOnMonth(), ctx).toLowerCase();
+                String birthdayWeekName = dateLocalHelper.getDayOfWeek(contact.getNextBirthday().getDayOfWeek(), ctx).toLowerCase();
                 String zodiacName = zodiacResourceHelper.getZodiacName(contact.getZodiac()).toLowerCase();
                 String zodiacElement = zodiacResourceHelper.getZodiacElementName(contact.getZodiac()).toLowerCase();
                 String age = Integer.toString(contact.getAge());
