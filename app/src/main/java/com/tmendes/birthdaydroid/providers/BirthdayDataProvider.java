@@ -62,7 +62,7 @@ public class BirthdayDataProvider {
         contactsFailureOnParser = new ArrayList<>();
     }
 
-    public static BirthdayDataProvider getInstance() {
+    public static synchronized BirthdayDataProvider getInstance() {
         if (instance == null) {
             instance = new BirthdayDataProvider();
         }

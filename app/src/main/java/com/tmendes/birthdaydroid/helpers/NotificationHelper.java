@@ -42,7 +42,7 @@ import java.io.IOException;
 public class NotificationHelper extends ContextWrapper {
     private static NotificationHelper instance;
 
-    private NotificationManager notifManager;
+    private NotificationManager notifyManager;
 
     private static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
     private static final String CHANNEL_ONE_NAME = "Channel One";
@@ -103,10 +103,10 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     private NotificationManager getManager() {
-        if (notifManager == null) {
-            notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notifyManager == null) {
+            notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
-        return notifManager;
+        return notifyManager;
     }
 
     public void postNotification(Contact contact) {
