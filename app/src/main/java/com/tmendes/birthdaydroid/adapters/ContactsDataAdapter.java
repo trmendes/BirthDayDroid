@@ -31,10 +31,12 @@ import com.tmendes.birthdaydroid.date.DateLocalHelper;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapter.ContactViewHolder>
         implements Filterable {
@@ -151,7 +153,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         holder.ageBadge.setText(ageText);
 
-        holder.lineOne.setText(contact.getNextBirthDayInfo());
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
+        holder.lineOne.setText(dateFormatter.format(contact.getNextBirthday()));
         holder.lineTwo.setText(eventTypeLabel);
         holder.lineThree.setText(partyMsg);
 

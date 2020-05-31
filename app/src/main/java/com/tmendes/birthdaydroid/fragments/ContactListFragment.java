@@ -48,7 +48,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
-import com.tmendes.birthdaydroid.helpers.DBHelper;
+import com.tmendes.birthdaydroid.contact.ContactDBHelper;
 import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
@@ -65,7 +65,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     private BirthdayDataProvider bddDataProvider;
     private ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
-    private DBHelper dbHelper;
+    private ContactDBHelper contactDbHelper;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences prefs;
     private FloatingActionButton fab;
@@ -84,7 +84,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
         bddDataProvider = BirthdayDataProvider.getInstance();
-        dbHelper = new DBHelper(getContext());
+        contactDbHelper = new ContactDBHelper(getContext());
 
         contactsDataAdapter = new ContactsDataAdapter(getContext(),
                 bddDataProvider.getAllContacts());
@@ -197,7 +197,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                long dbID = dbHelper.insertContact(contact.getDbId(), contact.getKey(),
+                long dbID = contactDbHelper.insertContact(contact.getDbId(), contact.getKey(),
                         contact.isFavorite(), contact.isIgnore());
                 contact.setDbId(dbID);
             }
@@ -233,7 +233,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                         }
 
                         if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
-                            long dbID = dbHelper.insertContact(contact.getDbId(), contact.getKey(),
+                            long dbID = contactDbHelper.insertContact(contact.getDbId(), contact.getKey(),
                                     contact.isFavorite(), contact.isIgnore());
                             contact.setDbId(dbID);
                         }

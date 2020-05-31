@@ -65,13 +65,4 @@ public interface Contact {
     default boolean hasBirthDayToday() {
         return this.getDaysUntilNextBirthday() == 0 && !isBornInFuture();
     }
-
-    /**
-     * @deprecated Will be refactored in future
-     */
-    @Deprecated
-    default String getNextBirthDayInfo() {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
-        return dateFormatter.format(this.getNextBirthday());
-    }
 }

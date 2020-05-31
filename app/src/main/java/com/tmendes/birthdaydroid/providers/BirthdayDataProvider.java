@@ -26,15 +26,14 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.tmendes.birthdaydroid.DBContact;
+import com.tmendes.birthdaydroid.contact.DBContact;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.contact.ContactBuilder;
 import com.tmendes.birthdaydroid.contact.ContactBuilderException;
 import com.tmendes.birthdaydroid.date.EventDateConverter;
-import com.tmendes.birthdaydroid.helpers.DBHelper;
+import com.tmendes.birthdaydroid.contact.ContactDBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
-import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,7 +122,7 @@ public class BirthdayDataProvider {
             final int typeLabelColumn = cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Event.LABEL);
 
-            final DBHelper db = new DBHelper(ctx);
+            final ContactDBHelper db = new ContactDBHelper(ctx);
             final HashMap<String, DBContact> dbContacts = db.getAllContacts();
 
             final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
