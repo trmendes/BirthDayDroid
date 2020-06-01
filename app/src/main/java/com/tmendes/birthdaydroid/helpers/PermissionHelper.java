@@ -1,32 +1,15 @@
 package com.tmendes.birthdaydroid.helpers;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import com.tmendes.birthdaydroid.R;
 
 public class PermissionHelper {
-
-    public static final int CONTACT_PERMISSION = 0;
-    private boolean contactReadStatus;
-    private final Context ctx;
-
-    public PermissionHelper(Context ctx) {
-        contactReadStatus = false;
-        this.ctx = ctx;
-    }
-
-    public void updatePermissionPreferences(int permission, boolean status) {
-        if (permission == CONTACT_PERMISSION) {
-            contactReadStatus = status;
-        }
-    }
-
-    public boolean checkPermissionPreferences(int permission) {
-        boolean allowed = false;
-        if (permission == CONTACT_PERMISSION) {
-            allowed = contactReadStatus;
-        }
+    public boolean checkReadContactsPermission(Context ctx) {
+        boolean allowed = ctx.checkCallingOrSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 
         if (!allowed) {
             Toast.makeText(ctx, ctx.getResources().getString(R.string.alert_contats_dialog_title),

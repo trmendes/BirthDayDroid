@@ -38,10 +38,8 @@ public class NotifierReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
                 == PackageManager.PERMISSION_GRANTED) {
-            PermissionHelper permission = new PermissionHelper(context);
-            permission.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
             BirthdayDataProvider bddProvider = BirthdayDataProvider.getInstance();
-            bddProvider.refreshData(context, permission,true);
+            bddProvider.refreshData(context, true);
 
             ArrayList<Contact> todayBirthdayList = bddProvider.getContactsToCelebrate();
             for (Contact contact : todayBirthdayList) {

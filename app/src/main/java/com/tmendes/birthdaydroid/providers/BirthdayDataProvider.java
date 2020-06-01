@@ -66,14 +66,16 @@ public class BirthdayDataProvider {
         contactsToCelebrate.clear();
     }
 
-    public void refreshData(Context ctx, PermissionHelper permissionHelper, boolean notificationListOnly) {
+    public void refreshData(Context ctx, boolean notificationListOnly) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        if (permissionHelper == null || prefs == null) {
+        PermissionHelper permissionHelper = new PermissionHelper();
+
+        if (prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
             return;
         }
 
-        if (permissionHelper.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
+        if (permissionHelper.checkReadContactsPermission(ctx)) {
             Cursor cursor = getCursor(ctx);
 
             resetListsAndMaps();

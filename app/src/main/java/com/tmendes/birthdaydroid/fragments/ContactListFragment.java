@@ -178,8 +178,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         showHideAddNewBirthday();
 
-        PermissionHelper permissionHelper = new PermissionHelper(getContext());
-        bddDataProvider.refreshData(getContext(), permissionHelper, false);
+        bddDataProvider.refreshData(getContext(), false);
         contactsDataAdapter.sort(sortOrder, sortType);
     }
 

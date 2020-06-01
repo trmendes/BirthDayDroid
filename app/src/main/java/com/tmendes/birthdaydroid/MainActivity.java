@@ -19,9 +19,7 @@ package com.tmendes.birthdaydroid;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -63,8 +61,6 @@ import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
 import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
 import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
-import com.tmendes.birthdaydroid.helpers.PermissionHelper;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -78,8 +74,6 @@ public class MainActivity extends AppCompatActivity
     // the Default time to notify the user about a birthday
     public static final int DEFAULT_ALARM_TIME = 8;
 
-    // Permission Control
-    private PermissionHelper permissionHelper;
     private static final int PERMISSION_CONTACT_READ = 100;
 
     private boolean doubleBackToExitPressedOnce = false;
@@ -113,13 +107,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        permissionHelper = new PermissionHelper(this);
-
+        // Permission Control
         showBreakingChangeDialogAndMigradeIfNeeded();
         requestForPermissions();
-
-        // Birthdays
-        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -307,8 +297,6 @@ public class MainActivity extends AppCompatActivity
                         PERMISSION_CONTACT_READ);
             }
         } else {
-            permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
-                    true);
             showFragments(new ContactListFragment());
         }
     }
@@ -319,12 +307,7 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == PERMISSION_CONTACT_READ) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
-                        true);
                 showFragments(new ContactListFragment());
-            } else {
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
-                        false);
             }
         }
     }
