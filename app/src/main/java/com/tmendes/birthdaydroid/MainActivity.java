@@ -23,12 +23,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -160,6 +163,12 @@ public class MainActivity extends AppCompatActivity
         });
 
         showFragments(new ContactListFragment());
+
+        MyContentObserver contentObserver = new MyContentObserver();
+        getApplicationContext().getContentResolver().registerContentObserver(
+                ContactsContract.Contacts.CONTENT_URI,
+                true,
+                contentObserver);
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
@@ -345,4 +354,22 @@ public class MainActivity extends AppCompatActivity
         alertDialog.show();
     }
 
+    private static class MyContentObserver extends ContentObserver {
+        public MyContentObserver() {
+            super(null);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+
+            Log.d(this.getClass().getSimpleName(), "A change has happened");
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            Log.d(this.getClass().getSimpleName(), "A change has happened");
+        }
+    }
 }

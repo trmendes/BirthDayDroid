@@ -39,8 +39,6 @@ import static android.app.AlarmManager.INTERVAL_DAY;
 
 public class AlarmHelper {
 
-    private AlarmManager alarmManager;
-
     private final static String ACTION_BD_NOTIFICATION = "com.tmendes.birthdaydroid.NOTIFICATION";
 
     public void setAlarm(Context context, long toGoesOffAt) {
@@ -58,13 +56,12 @@ public class AlarmHelper {
             defaultToRingAt = defaultToRingAt.plusDays(1);
         }
 
-
         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         Log.i("Alarm", "Setting alarm at " + defaultToRingAt.format(dtf));
 
         toGoesOffAt = defaultToRingAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent alarmIntent = new Intent(context, NotifierReceiver.class);
         alarmIntent.setAction(ACTION_BD_NOTIFICATION);
@@ -90,7 +87,7 @@ public class AlarmHelper {
     public void cancelAlarm(Context context) {
         Log.i("Alarm", "Cancel the alarm");
 
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent alarmIntent = new Intent(context, NotifierReceiver.class);
         alarmIntent.setAction(ACTION_BD_NOTIFICATION);
