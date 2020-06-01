@@ -27,7 +27,6 @@ import androidx.core.content.ContextCompat;
 
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.helpers.NotificationHelper;
-import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
 import java.util.ArrayList;

@@ -32,7 +32,6 @@ import com.tmendes.birthdaydroid.contact.ContactBuilder;
 import com.tmendes.birthdaydroid.contact.ContactBuilderException;
 import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.contact.ContactDBHelper;
-import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.util.ArrayList;
@@ -68,14 +67,13 @@ public class BirthdayDataProvider {
 
     public void refreshData(Context ctx, boolean notificationListOnly) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        PermissionHelper permissionHelper = new PermissionHelper();
 
         if (prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
             return;
         }
 
-        if (permissionHelper.checkReadContactsPermission(ctx)) {
+        if (new PermissionHelper().checkReadContactsPermission(ctx)) {
             Cursor cursor = getCursor(ctx);
 
             resetListsAndMaps();

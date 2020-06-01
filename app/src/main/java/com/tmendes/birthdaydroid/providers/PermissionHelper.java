@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.helpers;
+package com.tmendes.birthdaydroid.providers;
 
 import android.Manifest;
 import android.content.Context;
