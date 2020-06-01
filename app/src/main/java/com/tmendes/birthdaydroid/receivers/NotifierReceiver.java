@@ -41,8 +41,11 @@ public class NotifierReceiver extends BroadcastReceiver {
             bddProvider.refreshData(context, true);
 
             ArrayList<Contact> todayBirthdayList = bddProvider.getContactsToCelebrate();
-            for (Contact contact : todayBirthdayList) {
-                NotificationHelper.getInstance(context).postNotification(contact);
+            if (!todayBirthdayList.isEmpty()) {
+                NotificationHelper notification = new NotificationHelper(context);
+                for (Contact contact : todayBirthdayList) {
+                    notification.postNotification(contact);
+                }
             }
         }
     }
