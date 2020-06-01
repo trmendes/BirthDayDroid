@@ -49,6 +49,7 @@ import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.contact.ContactDBHelper;
+import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
 import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
 
@@ -177,7 +178,8 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         showHideAddNewBirthday();
 
-        bddDataProvider.refreshData(false);
+        PermissionHelper permissionHelper = new PermissionHelper(getContext());
+        bddDataProvider.refreshData(getContext(), permissionHelper, false);
         contactsDataAdapter.sort(sortOrder, sortType);
     }
 

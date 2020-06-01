@@ -43,14 +43,9 @@ import java.util.Objects;
 import java.util.Set;
 
 public class BirthdayDataProvider {
-
-    private Context ctx;
-    private PermissionHelper permissionHelper;
-    private SharedPreferences prefs;
-
     private final String LOG_TAG = "BDD_DATA_PROVIDER";
-    private static BirthdayDataProvider instance;
 
+    private static BirthdayDataProvider instance;
     private final ArrayList<Contact> contacts;
     private final ArrayList<Contact> contactsToCelebrate;
 
@@ -66,25 +61,20 @@ public class BirthdayDataProvider {
         return instance;
     }
 
-    public void init(Context ctx, PermissionHelper permissionHelper) {
-        this.ctx = ctx;
-        this.permissionHelper = permissionHelper;
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-    }
-
     private void resetListsAndMaps() {
         contacts.clear();
         contactsToCelebrate.clear();
     }
 
-    public void refreshData(boolean notificationListOnly) {
+    public void refreshData(Context ctx, PermissionHelper permissionHelper, boolean notificationListOnly) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         if (permissionHelper == null || prefs == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
             return;
         }
 
         if (permissionHelper.checkPermissionPreferences(PermissionHelper.CONTACT_PERMISSION)) {
-            Cursor cursor = getCursor();
+            Cursor cursor = getCursor(ctx);
 
             resetListsAndMaps();
 
@@ -196,12 +186,12 @@ public class BirthdayDataProvider {
         }
     }
 
-    private Cursor getCursor() {
+    private Cursor getCursor(Context ctx) {
         if (ctx == null) {
             Log.i(LOG_TAG, "You must set a permission helper");
             return null;
         }
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         ContentResolver contentResolver = ctx.getContentResolver();
 
         String[] projection = new String[]{
