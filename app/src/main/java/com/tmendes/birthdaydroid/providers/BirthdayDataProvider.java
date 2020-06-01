@@ -30,7 +30,7 @@ import com.tmendes.birthdaydroid.contact.DBContact;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.contact.ContactBuilder;
 import com.tmendes.birthdaydroid.contact.ContactBuilderException;
-import com.tmendes.birthdaydroid.date.EventDateConverter;
+import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.contact.ContactDBHelper;
 import com.tmendes.birthdaydroid.helpers.PermissionHelper;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
@@ -122,7 +122,7 @@ public class BirthdayDataProvider {
             final HashMap<String, DBContact> dbContacts = db.getAllContacts();
 
             final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
-            final EventDateConverter eventDateConverter = new EventDateConverter();
+            final DateConverter dateConverter = new DateConverter();
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 final int eventType = cursor.getInt(typeColumn);
@@ -140,7 +140,7 @@ public class BirthdayDataProvider {
 
                     boolean ignoreContact = false;
                     boolean favoriteContact = false;
-                    int contactDBId = -1;
+                    long contactDBId = -1;
 
                     DBContact dbContact;
 
@@ -161,7 +161,7 @@ public class BirthdayDataProvider {
                             && !TextUtils.isEmpty(label);
 
                     try {
-                        Contact contact = new ContactBuilder(zodiacCalculator, eventDateConverter)
+                        Contact contact = new ContactBuilder(zodiacCalculator, dateConverter)
                                 .setDbId(contactDBId)
                                 .setKey(keyCID)
                                 .setName(cursor.getString(nameColumn))

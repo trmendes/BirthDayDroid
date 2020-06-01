@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
-public class TestDateLocalHelperTranslations {
+public class DateLocalHelperTranslationsTest {
 
     private DateLocalHelper dateLocalHelper;
 

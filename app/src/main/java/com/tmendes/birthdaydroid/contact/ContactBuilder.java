@@ -1,6 +1,6 @@
 package com.tmendes.birthdaydroid.contact;
 
-import com.tmendes.birthdaydroid.date.EventDateConverter;
+import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
 
 public class ContactBuilder {
     private final ZodiacCalculator zodiacCalculator;
-    private final EventDateConverter eventDateConverter;
+    private final DateConverter dateConverter;
 
     private Long dbId;
     private String key;
@@ -21,12 +21,12 @@ public class ContactBuilder {
     private Boolean favorite;
 
     public ContactBuilder(ZodiacCalculator zodiacCalculator,
-                          EventDateConverter eventDateConverter) {
+                          DateConverter dateConverter) {
         this.zodiacCalculator = zodiacCalculator;
-        this.eventDateConverter = eventDateConverter;
+        this.dateConverter = dateConverter;
     }
 
-    public ContactBuilder setDbId(long dbId) {
+    public ContactBuilder setDbId(Long dbId) {
         this.dbId = dbId;
         return this;
     }
@@ -51,7 +51,7 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder setCustomEventTypeLabel(boolean customEventTypeLabel) {
+    public ContactBuilder setCustomEventTypeLabel(Boolean customEventTypeLabel) {
         this.customEventTypeLabel = customEventTypeLabel;
         return this;
     }
@@ -62,12 +62,12 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder setIgnore(boolean ignore) {
+    public ContactBuilder setIgnore(Boolean ignore) {
         this.ignore = ignore;
         return this;
     }
 
-    public ContactBuilder setFavorite(boolean favorite) {
+    public ContactBuilder setFavorite(Boolean favorite) {
         this.favorite = favorite;
         return this;
     }
@@ -115,7 +115,7 @@ public class ContactBuilder {
         if(birthday == null) {
             throw new ContactBuilderException("Can not build contact without birthday");
         }
-        final EventDateConverter.DateConverterResult convertingResult = eventDateConverter.convert(birthday);
+        final DateConverter.DateConverterResult convertingResult = dateConverter.convert(birthday);
         if (!convertingResult.isSuccess()) {
             throw new ContactBuilderException(String.format("Can not build contact with unparsable date: %s", birthday));
         }
@@ -142,6 +142,7 @@ public class ContactBuilder {
         if(contact.isBornInFuture()) {
             contact.setAge(0);
             contact.setDaysOld(0);
+            contact.setDaysSinceLastBirthday(0);
         }
 
         contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));

@@ -6,7 +6,7 @@ import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class EventDateConverter {
+public class DateConverter {
     private static final String[] DATA_FORMATS_WITH_YEAR = new String[] {
             "yyyy-M[M]-d[d][ HH:mm[:ss[.SSS]]]",
             "d[d]-M[M]-yyyy[ HH:mm[:ss[.SSS]]]",
@@ -48,11 +48,11 @@ public class EventDateConverter {
         private final Boolean missingYearInfo;
         private final LocalDate date;
 
-        private static DateConverterResult createNotSuccess() {
+        public static DateConverterResult createNotSuccess() {
             return new DateConverterResult(false, null, null);
         }
 
-        private static DateConverterResult createSuccess(boolean missingYearInfo, LocalDate date) {
+        public static DateConverterResult createSuccess(boolean missingYearInfo, LocalDate date) {
             return new DateConverterResult(true, missingYearInfo, date);
         }
 
