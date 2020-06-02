@@ -24,7 +24,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.contact.ContactCache;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
@@ -77,13 +77,13 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
             this.chart.setHoleColor(Color.BLACK);
         }
 
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        final Map<DayOfWeek, Integer> dayOfWeekStats = bddDataProvider.getAllContacts().stream()
+        final ContactCache contactCache = ContactCache.getInstance();
+        final Map<DayOfWeek, Integer> dayOfWeekStats = contactCache.getContacts().stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
 
+        final ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
             DayOfWeek dayOfWeek = pair.getKey();
             final int quantity = pair.getValue();

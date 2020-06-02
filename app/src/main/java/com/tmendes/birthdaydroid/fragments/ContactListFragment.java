@@ -48,10 +48,16 @@ import com.google.android.material.snackbar.Snackbar;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
-import com.tmendes.birthdaydroid.contact.ContactDBHelper;
+import com.tmendes.birthdaydroid.contact.ContactCache;
+import com.tmendes.birthdaydroid.contact.ContactService;
+import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
+import com.tmendes.birthdaydroid.contact.db.DBContactService;
+import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.permission.PermissionHelper;
+import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
+import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.SEARCH_SERVICE;
@@ -62,10 +68,9 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
     private SearchView searchView;
     private SearchView.OnQueryTextListener queryTextListener;
-    private BirthdayDataProvider bddDataProvider;
     private ContactsDataAdapter contactsDataAdapter;
     private boolean hideIgnoredContacts;
-    private ContactDBHelper contactDbHelper;
+    private DBContactService dbContactService;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences prefs;
     private FloatingActionButton fab;
@@ -83,11 +88,10 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
-        bddDataProvider = BirthdayDataProvider.getInstance();
-        contactDbHelper = new ContactDBHelper(getContext());
+        dbContactService = new DBContactService(getContext());
 
-        contactsDataAdapter = new ContactsDataAdapter(getContext(),
-                bddDataProvider.getAllContacts());
+        final ContactCache contactCache = ContactCache.getInstance();
+        contactsDataAdapter = new ContactsDataAdapter(getContext(), contactCache.getContacts());
 
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -177,7 +181,27 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         showHideAddNewBirthday();
 
-        bddDataProvider.refreshData(getContext(), false);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+        final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
+
+        final PermissionHelper permissionHelper = new PermissionHelper(getContext());
+        final DBContactService dbContactService = new DBContactService(getContext());
+        final AndroidContactService androidContactService = new AndroidContactService(getContext());
+        final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
+        final DateConverter dateConverter = new DateConverter();
+        final ContactService contactService = new ContactService(
+                permissionHelper,
+                dbContactService,
+                androidContactService,
+                zodiacCalculator,
+                dateConverter,
+                getContext()
+        );
+
+        final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
+        ContactCache.getInstance().setContacts(allContacts);
+        contactsDataAdapter.refreshContacts(allContacts);
         contactsDataAdapter.sort(sortOrder, sortType);
     }
 
@@ -197,7 +221,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
             }
 
             if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                long dbID = contactDbHelper.insertContact(contact.getDbId(), contact.getKey(),
+                long dbID = dbContactService.insertContact(contact.getDbId(), contact.getKey(),
                         contact.isFavorite(), contact.isIgnore());
                 contact.setDbId(dbID);
             }
@@ -233,7 +257,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
                         }
 
                         if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
-                            long dbID = contactDbHelper.insertContact(contact.getDbId(), contact.getKey(),
+                            long dbID = dbContactService.insertContact(contact.getDbId(), contact.getKey(),
                                     contact.isFavorite(), contact.isIgnore());
                             contact.setDbId(dbID);
                         }

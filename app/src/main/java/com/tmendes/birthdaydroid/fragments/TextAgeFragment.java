@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.contact.ContactCache;
 
 import java.util.Map;
 import java.util.Objects;
@@ -36,14 +36,14 @@ public class TextAgeFragment extends Fragment {
                 getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        Map<Integer, Integer> ageStat = bddDataProvider.getAllContacts().stream()
+        final ContactCache contactCache = ContactCache.getInstance();
+        final Map<Integer, Integer> ageStat = contactCache.getContacts().stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
 
         for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
-            int age = pair.getKey();
-            int amount = pair.getValue();
+            final int age = pair.getKey();
+            final int amount = pair.getValue();
 
             TableRow row = newRow(String.valueOf(age), String.valueOf(amount));
 

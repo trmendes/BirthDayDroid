@@ -1,0 +1,102 @@
+package com.tmendes.birthdaydroid.contact;
+
+import android.content.Context;
+import android.provider.ContactsContract;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.tmendes.birthdaydroid.contact.android.AndroidContact;
+import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
+import com.tmendes.birthdaydroid.contact.db.DBContact;
+import com.tmendes.birthdaydroid.contact.db.DBContactService;
+import com.tmendes.birthdaydroid.date.DateConverter;
+import com.tmendes.birthdaydroid.permission.PermissionHelper;
+import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+public class ContactService {
+    private final PermissionHelper permissionHelper;
+    private final DBContactService dbContactService;
+    private final AndroidContactService androidContactService;
+    private final ZodiacCalculator zodiacCalculator;
+    private final DateConverter dateConverter;
+    private final Context context;
+
+    public ContactService(PermissionHelper permissionHelper, DBContactService dbContactService, AndroidContactService androidContactService, ZodiacCalculator zodiacCalculator, DateConverter dateConverter, Context context) {
+        this.permissionHelper = permissionHelper;
+        this.dbContactService = dbContactService;
+        this.androidContactService = androidContactService;
+        this.zodiacCalculator = zodiacCalculator;
+        this.dateConverter = dateConverter;
+        this.context = context;
+    }
+
+    public List<Contact> getAllContacts(boolean hideIgnoredContacts, boolean showBirthdayTypeOnly) {
+        final List<Contact> contacts = new ArrayList<>();
+        if (permissionHelper.checkReadContactsPermission()) {
+            final HashMap<String, DBContact> dbContacts = dbContactService.getAllContacts();
+            final Iterator<AndroidContact> cursorIterator = androidContactService.getAndroidContacts();
+
+            while (cursorIterator.hasNext()) {
+                AndroidContact androidContact = cursorIterator.next();
+
+                final boolean parseContacts;
+                if (showBirthdayTypeOnly) {
+                    parseContacts = (androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
+                } else {
+                    parseContacts = true;
+                }
+
+                if (parseContacts) {
+                    boolean ignoreContact = false;
+                    boolean favoriteContact = false;
+                    long contactDBId = -1;
+
+                    DBContact dbContact;
+
+                    if ((dbContact = dbContacts.remove(androidContact.getLookupKey())) != null) {
+                        ignoreContact = dbContact.isIgnore();
+                        favoriteContact = dbContact.isFavorite();
+                        contactDBId = dbContact.getId();
+                    }
+
+                    if (hideIgnoredContacts && ignoreContact) {
+                        continue;
+                    }
+
+                    final String label = androidContact.getEventLabel();
+                    final String eventTypeLabel = ContactsContract.CommonDataKinds.Event
+                            .getTypeLabel(context.getResources(), androidContact.getEventType(), label).toString();
+                    final boolean customTypeLabel = androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
+                            && !TextUtils.isEmpty(label);
+
+                    try {
+                        Contact contact = new ContactBuilder(zodiacCalculator, dateConverter)
+                                .setDbId(contactDBId)
+                                .setKey(androidContact.getLookupKey())
+                                .setName(androidContact.getDisplayName())
+                                .setPhotoUri(androidContact.getPhotoThumbnailUri())
+                                .setBirthdayString(androidContact.getStartDate())
+                                .setCustomEventTypeLabel(customTypeLabel)
+                                .setEventTypeLabel(eventTypeLabel)
+                                .setIgnore(ignoreContact)
+                                .setFavorite(favoriteContact)
+                                .build();
+
+                        contacts.add(contact);
+                    } catch (ContactBuilderException e) {
+                        Log.i(getClass().toString(), "Unable to build contact", e);
+                    }
+                }
+
+                dbContactService.cleanDb(dbContacts);
+            }
+        }
+
+        return contacts;
+    }
+}

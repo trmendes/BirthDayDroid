@@ -24,7 +24,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.contact.ContactCache;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
@@ -75,14 +75,14 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
             this.chart.setHoleColor(Color.BLACK);
         }
 
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        final Map<Integer, Integer> zodiacMap = bddDataProvider.getAllContacts().stream()
+        final ContactCache contactCache = ContactCache.getInstance();
+        final Map<Integer, Integer> zodiacMap = contactCache.getContacts().stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
 
-        ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
+        final ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
+        final ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (Map.Entry<Integer, Integer> pair : zodiacMap.entrySet()) {
             @Zodiac int zodiac = pair.getKey();
             int number = pair.getValue();

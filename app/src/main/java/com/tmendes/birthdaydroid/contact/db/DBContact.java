@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.contact;
+package com.tmendes.birthdaydroid.contact.db;
 
 public class DBContact {
     private final int id;

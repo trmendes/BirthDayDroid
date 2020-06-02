@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.contact;
+package com.tmendes.birthdaydroid.contact.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ContactDBHelper extends SQLiteOpenHelper {
+public class DBContactService extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "contacts.db";
     private static final String CONTACTS_COLUMN_ID = "id";
@@ -17,7 +17,7 @@ public class ContactDBHelper extends SQLiteOpenHelper {
     private static final String CONTACTS_COLUMN_FAVORITE = "favorite";
     private static final String CONTACTS_COLUMN_IGNORE = "ignored";
 
-    public ContactDBHelper(Context context) {
+    public DBContactService(Context context) {
         super(context, DATABASE_NAME , null, 1);
     }
 

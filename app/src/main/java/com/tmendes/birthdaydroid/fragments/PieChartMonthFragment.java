@@ -24,7 +24,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.contact.ContactCache;
 
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -77,12 +77,12 @@ public class PieChartMonthFragment extends Fragment implements OnChartValueSelec
             this.chart.setHoleColor(Color.BLACK);
         }
 
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
-
-        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        final Map<Month, Integer> monthMap = bddDataProvider.getAllContacts().stream()
+        final ContactCache contactCache = ContactCache.getInstance();
+        final Map<Month, Integer> monthMap = contactCache.getContacts().stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
+
+        final ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
             final Month month = pair.getKey();
             final int quantity = pair.getValue();

@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.providers;
+package com.tmendes.birthdaydroid.permission;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,7 +8,13 @@ import android.widget.Toast;
 import com.tmendes.birthdaydroid.R;
 
 public class PermissionHelper {
-    public boolean checkReadContactsPermission(Context ctx) {
+    private final Context ctx;
+
+    public PermissionHelper(Context ctx) {
+        this.ctx = ctx;
+    }
+
+    public boolean checkReadContactsPermission() {
         boolean allowed = ctx.checkCallingOrSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 
         if (!allowed) {

@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.contact.ContactCache;
 
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -26,25 +26,26 @@ public class TextMonthFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
+        final View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
         setHasOptionsMenu(true);
 
-        TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        final TableLayout tableLayout = v.findViewById(R.id.tableLayout);
 
-        TextView title = v.findViewById(R.id.tvStatisticsTitle);
+        final TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_month));
 
-        TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
+        final TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
         tableLayout.addView(header);
 
-        final BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        final Map<Month, Integer> monthMap = bddDataProvider.getAllContacts().stream()
+        final ContactCache contactCache = ContactCache.getInstance();
+        final Map<Month, Integer> monthMap = contactCache.getContacts().stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
+
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
-            Month month = pair.getKey();
-            int amount = pair.getValue();
+            final Month month = pair.getKey();
+            final int amount = pair.getValue();
 
             final Locale locale;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -52,9 +53,8 @@ public class TextMonthFragment extends Fragment {
             } else {
                 locale = getResources().getConfiguration().locale;
             }
-            String monthName = month.getDisplayName(TextStyle.FULL, locale);
-
-            TableRow row = newRow(monthName, String.valueOf(amount));
+            final String monthName = month.getDisplayName(TextStyle.FULL, locale);
+            final TableRow row = newRow(monthName, String.valueOf(amount));
 
             tableLayout.addView(row);
         }

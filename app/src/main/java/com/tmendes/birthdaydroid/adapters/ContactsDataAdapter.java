@@ -317,6 +317,11 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         return contacts.size();
     }
 
+    public void refreshContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+        notifyDataSetChanged();
+    }
+
     public void sort(int sortOrder, int sortType) {
         Comparator<Contact> comparator = new BirthDayComparatorFactory(ctx)
                 .createBirthdayComparator(sortOrder, sortType);
