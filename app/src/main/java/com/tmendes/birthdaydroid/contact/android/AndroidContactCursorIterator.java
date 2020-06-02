@@ -13,7 +13,7 @@ public class AndroidContactCursorIterator extends CursorIterator<AndroidContact>
     private final int typeColumn;
     private final int typeLabelColumn;
 
-    protected AndroidContactCursorIterator(Cursor cursor) {
+    public AndroidContactCursorIterator(Cursor cursor) {
         super(cursor);
         keyColumn = cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
         dateColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
