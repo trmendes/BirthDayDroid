@@ -121,7 +121,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         if (contact.hasBirthDayToday()) {
             partyMsg = ctx.getResources().getString(R.string.party_message);
             status.append(" ").append(ctx.getResources().getString(R.string.emoji_today_party));
-        } else if (contact.getDaysSinceLastBirthday() <= MAX_DAYS_AGO) {
+        } else if (contact.getDaysSinceLastBirthday() <= MAX_DAYS_AGO && !contact.isBornInFuture()) {
             partyMsg = ctx.getResources().getQuantityString(R.plurals.days_ago,
                     contact.getDaysSinceLastBirthday(),
                     contact.getDaysSinceLastBirthday());
