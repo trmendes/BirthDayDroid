@@ -8,7 +8,7 @@ import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-public class DateLocalHelper {
+public class DateLocaleHelper {
     public String getMonthString(Month month, Context context) {
         return month.getDisplayName(TextStyle.FULL, getCurrentLocale(context));
     }
