@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.util.Log;
+
+import com.tmendes.birthdaydroid.cursor.CursorIterator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public class AndroidContactService {
         this.context = context;
     }
 
-    public Iterator<AndroidContact> getAndroidContacts() {
+    public CursorIterator<AndroidContact> getAndroidContacts() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         ContentResolver contentResolver = context.getContentResolver();
 

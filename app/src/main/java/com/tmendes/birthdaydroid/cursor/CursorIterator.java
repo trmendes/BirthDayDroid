@@ -3,9 +3,26 @@ package com.tmendes.birthdaydroid.cursor;
 import android.database.Cursor;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public abstract class CursorIterator<T> implements Iterator<T> {
+/**
+ * Use CursorIterator as the following example:
+ * <pre>
+ * try (CursorIterator<Object> cursorIterator = ...) {
+ *     while (cursorIterator.hasNext()) {
+ *         ...
+ *     }
+ * }
+ * </pre>
+ *
+ * Important is, that the iterator is initialized in the try resource part.
+ * This force that the inner used cursor will be closed in all cases.
+ *
+ * @param <T>
+ */
+public abstract class CursorIterator<T> implements Iterator<T>, AutoCloseable {
     private final Cursor cursor;
+    private boolean hasNext = true;
 
     protected CursorIterator(Cursor cursor) {
         if(cursor == null) {
@@ -18,32 +35,37 @@ public abstract class CursorIterator<T> implements Iterator<T> {
 
         this.cursor = cursor;
 
-        if(!cursor.moveToFirst()){
-            cursor.close();
-            throw new IllegalArgumentException("Cursor can not move to first element");
+        if(!this.cursor.moveToFirst()){
+            this.hasNext = false;
+            this.close();
         }
     }
 
     @Override
     public boolean hasNext() {
-        boolean last = cursor.isLast();
-        if(last) {
-            closeCursor();
-        }
-        return !last;
-    }
-
-    private void closeCursor() {
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        return this.hasNext;
     }
 
     @Override
     public T next() {
-        cursor.moveToNext();
-        return convertCursor(cursor);
+        if(!hasNext){
+            throw new NoSuchElementException();
+        }
+
+        final T t = convertCursor(this.cursor);
+        if(!this.cursor.moveToNext()) {
+            this.hasNext = false;
+            this.close();
+        }
+        return t;
     }
 
     public abstract T convertCursor(Cursor cursor);
+
+    @Override
+    public void close() {
+        if(!this.cursor.isClosed()) {
+            this.cursor.close();
+        }
+    }
 }
