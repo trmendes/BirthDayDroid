@@ -27,11 +27,11 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -50,6 +50,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
@@ -81,8 +82,6 @@ public class MainActivity extends AppCompatActivity
 
     private boolean doubleBackToExitPressedOnce = false;
 
-    private boolean statisticsAsText = false;
-
     private MenuItem zodiacDrawerMenuItem;
 
     private DrawerLayout drawerLayout;
@@ -92,15 +91,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         executeFirstRunInitializationIfNeeded(prefs, this);
 
-        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
-        this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
-                false);
-
-        setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES);
+        // Theme
+        final boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
         } else {
@@ -111,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // Permission Control
-        showBreakingChangeDialogAndMigradeIfNeeded();
+        showBreakingChangeDialogAndMigrateIfNeeded();
         requestForPermissions();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -155,20 +150,18 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerStateChanged(int i) {
-                boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-                zodiacDrawerMenuItem.setVisible(!hideZoadiac);
-                statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
-                        false);
+                boolean hideZodiac = prefs.getBoolean("hide_zodiac", false);
+                zodiacDrawerMenuItem.setVisible(!hideZodiac);
             }
         });
 
         showFragments(new ContactListFragment());
 
-        MyContentObserver contentObserver = new MyContentObserver();
+        final ContentObserver contactChangeContentObserver = new ContactContentChangeObserver(this);
         getApplicationContext().getContentResolver().registerContentObserver(
                 ContactsContract.Contacts.CONTENT_URI,
                 true,
-                contentObserver);
+                contactChangeContentObserver);
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
@@ -181,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void showBreakingChangeDialogAndMigradeIfNeeded() {
+    private void showBreakingChangeDialogAndMigrateIfNeeded() {
         if (!prefs.contains("breaking_change_v46")) {
             long scanDailyInterval = prefs.getLong("scan_daily_interval", 0);
             if (scanDailyInterval != 0) {
@@ -243,28 +236,28 @@ public class MainActivity extends AppCompatActivity
                 showFragments(new ContactListFragment());
                 break;
             case R.id.nav_statistics_age:
-                if (this.statisticsAsText) {
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
                     showFragments(new TextAgeFragment());
                 } else {
                     showFragments(new BarChartAgeFragment());
                 }
                 break;
             case R.id.nav_statistics_zodiac:
-                if (this.statisticsAsText) {
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
                     showFragments(new TextZodiacFragment());
                 } else {
                     showFragments(new PieChartZodiacFragment());
                 }
                 break;
             case R.id.nav_statistics_week:
-                if (this.statisticsAsText) {
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
                     showFragments(new TextWeekFragment());
                 } else {
                     showFragments(new PieChartWeekFragment());
                 }
                 break;
             case R.id.nav_statistics_month:
-                if (this.statisticsAsText) {
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
                     showFragments(new TextMonthFragment());
                 } else {
                     showFragments(new PieChartMonthFragment());
@@ -352,24 +345,5 @@ public class MainActivity extends AppCompatActivity
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    private static class MyContentObserver extends ContentObserver {
-        public MyContentObserver() {
-            super(null);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-
-            Log.d(this.getClass().getSimpleName(), "A change has happened");
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            super.onChange(selfChange, uri);
-            Log.d(this.getClass().getSimpleName(), "A change has happened");
-        }
     }
 }

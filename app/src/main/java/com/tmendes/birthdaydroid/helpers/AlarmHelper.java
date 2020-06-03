@@ -57,7 +57,7 @@ public class AlarmHelper {
         }
 
         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        Log.i("Alarm", "Setting alarm at " + defaultToRingAt.format(dtf));
+        Log.i(getClass().toString(), "Setting alarm at " + defaultToRingAt.format(dtf));
 
         toGoesOffAt = defaultToRingAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 

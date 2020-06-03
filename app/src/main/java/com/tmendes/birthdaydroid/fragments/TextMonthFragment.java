@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.tmendes.birthdaydroid.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.contact.ContactCache;
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -24,25 +27,35 @@ import java.util.stream.Collectors;
 
 public class TextMonthFragment extends Fragment {
 
+    private TableLayout tableLayout;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
         setHasOptionsMenu(true);
 
-        final TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        tableLayout = v.findViewById(R.id.tableLayout);
 
         final TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_month));
 
-        final TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
-        tableLayout.addView(header);
+        ViewModelProviders.of(requireActivity())
+                .get(ContactsViewModel.class)
+                .getContacts()
+                .observe(this, this::updateTableData);
 
-        final ContactCache contactCache = ContactCache.getInstance();
-        final Map<Month, Integer> monthMap = contactCache.getContacts().stream()
+        return v;
+    }
+
+    private void updateTableData(List<Contact> contacts) {
+        final Map<Month, Integer> monthMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
 
+        final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
+        tableLayout.removeAllViews();
+        tableLayout.addView(header);
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
             final Month month = pair.getKey();
             final int amount = pair.getValue();
@@ -58,8 +71,6 @@ public class TextMonthFragment extends Fragment {
 
             tableLayout.addView(row);
         }
-
-        return v;
     }
 
     private TableRow newRow(String left, String right) {

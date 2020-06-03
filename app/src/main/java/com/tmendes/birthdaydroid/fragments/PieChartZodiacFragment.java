@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -22,20 +23,23 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tmendes.birthdaydroid.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.contact.ContactCache;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PieChartZodiacFragment extends Fragment implements OnChartValueSelectedListener {
-    @SuppressWarnings("FieldCanBeLocal")
     private PieChart chart;
+    private String label;
+    private ZodiacResourceHelper zodiacResourceHelper;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
         this.chart = v.findViewById(R.id.pieChart);
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
-        String label = Objects.requireNonNull(getContext()).getResources()
+        label = Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_zodiac);
         title.setText(label);
 
@@ -75,13 +79,21 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
             this.chart.setHoleColor(Color.BLACK);
         }
 
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext().getResources());
 
-        final ContactCache contactCache = ContactCache.getInstance();
-        final Map<Integer, Integer> zodiacMap = contactCache.getContacts().stream()
+        ViewModelProviders.of(requireActivity())
+                .get(ContactsViewModel.class)
+                .getContacts()
+                .observe(this, this::updateChartData);
+
+        return v;
+    }
+
+    private void updateChartData(List<Contact> contacts) {
+        final Map<Integer, Integer> zodiacMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
 
-        final ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (Map.Entry<Integer, Integer> pair : zodiacMap.entrySet()) {
             @Zodiac int zodiac = pair.getKey();
@@ -102,8 +114,6 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
         pieData.setValueTextColor(Color.YELLOW);
 
         this.chart.setData(pieData);
-
-        return v;
     }
 
     @Override

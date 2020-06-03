@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,29 +25,28 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tmendes.birthdaydroid.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.contact.ContactCache;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class BarChartAgeFragment extends Fragment implements OnChartValueSelectedListener {
+
+    private BarChart chart;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_barchart, container, false);
         setHasOptionsMenu(true);
 
-        float max_age = 0;
-        float min_age = Integer.MAX_VALUE;
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
-        BarChart chart = v.findViewById(R.id.barChart);
+        chart = v.findViewById(R.id.barChart);
         TextView title = v.findViewById(R.id.tvBarChartTitle);
 
         title.setText(getResources().getString(R.string.menu_statistics_age));
@@ -53,7 +54,6 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
         chart.setHighlightPerTapEnabled(true);
 
         chart.setOnChartValueSelectedListener(this);
-
 
         chart.setDrawBarShadow(false);
         chart.setDrawValueAboveBar(false);
@@ -81,13 +81,22 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
             xAxis.setTextColor(Color.WHITE);
         }
 
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        ViewModelProviders.of(requireActivity())
+                .get(ContactsViewModel.class)
+                .getContacts()
+                .observe(this, this::updateChartData);
 
-        final ContactCache contactCache = ContactCache.getInstance();
-        final Map<Integer, Integer> ageStat = contactCache.getContacts().stream()
+        return v;
+    }
+
+    private void updateChartData(List<Contact> contacts) {
+        final ArrayList<BarEntry> barEntries = new ArrayList<>();
+        float max_age = 0;
+        float min_age = Integer.MAX_VALUE;
+
+        final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
-
         for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
             int age = pair.getKey();
             int number = pair.getValue();
@@ -100,28 +109,24 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
             }
         }
 
-        xAxis.setAxisMaximum(max_age);
-        xAxis.setAxisMinimum(min_age);
-
-        BarDataSet barDataSet = new BarDataSet(barEntries, Objects.requireNonNull(getActivity()).getApplicationContext()
-                .getResources().getString(R.string.array_order_age));
+        final BarDataSet barDataSet = new BarDataSet(barEntries, requireContext().getResources().getString(R.string.array_order_age));
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setDrawValues(false);
         barDataSet.setHighlightEnabled(true);
         barDataSet.setBarBorderWidth(0f);
 
-        BarData barData = new BarData(barDataSet);
+        final BarData barData = new BarData(barDataSet);
         barData.setBarWidth(0.9f);
 
+        chart.getXAxis().setAxisMaximum(max_age);
+        chart.getXAxis().setAxisMinimum(min_age);
         chart.setData(barData);
-
-        return v;
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         String msg = Integer.toString(((int) e.getY()));
-        Toast.makeText(getContext(), msg , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

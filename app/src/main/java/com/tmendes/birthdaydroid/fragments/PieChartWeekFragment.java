@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -23,12 +24,14 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tmendes.birthdaydroid.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
-import com.tmendes.birthdaydroid.contact.ContactCache;
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -36,8 +39,8 @@ import java.util.stream.Collectors;
 
 public class PieChartWeekFragment extends Fragment implements OnChartValueSelectedListener {
 
-    @SuppressWarnings("FieldCanBeLocal")
     private PieChart chart;
+    private String label;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
         this.chart = v.findViewById(R.id.pieChart);
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
-        String label = Objects.requireNonNull(getContext()).getResources()
+        label = Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_week);
         title.setText(label);
 
@@ -77,9 +80,16 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
             this.chart.setHoleColor(Color.BLACK);
         }
 
+        ViewModelProviders.of(requireActivity())
+                .get(ContactsViewModel.class)
+                .getContacts()
+                .observe(this, this::updateChartData);
 
-        final ContactCache contactCache = ContactCache.getInstance();
-        final Map<DayOfWeek, Integer> dayOfWeekStats = contactCache.getContacts().stream()
+        return v;
+    }
+
+    private void updateChartData(List<Contact> contacts) {
+        final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
 
@@ -110,8 +120,6 @@ public class PieChartWeekFragment extends Fragment implements OnChartValueSelect
         pieData.setValueTextColor(Color.YELLOW);
 
         this.chart.setData(pieData);
-
-        return v;
     }
 
     @Override

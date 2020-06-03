@@ -10,39 +10,53 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.tmendes.birthdaydroid.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.contact.ContactCache;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TextZodiacFragment extends Fragment {
 
+    private TableLayout tableLayout;
+    private ZodiacResourceHelper zodiacResourceHelper;
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
         setHasOptionsMenu(true);
 
-        final TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        tableLayout = v.findViewById(R.id.tableLayout);
 
         final TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_zodiac));
 
-        final TableRow header = newRow("", getContext().getResources().getString(R.string.amount));
-        tableLayout.addView(header);
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext().getResources());
+        ViewModelProviders.of(requireActivity())
+                .get(ContactsViewModel.class)
+                .getContacts()
+                .observe(this, this::updateTableData);
 
-        final ContactCache contactCache = ContactCache.getInstance();
-        final Map<Integer, Integer> zodiacMap = contactCache.getContacts().stream()
+        return v;
+    }
+
+    private void updateTableData(List<Contact> contacts) {
+        final Map<Integer, Integer> zodiacMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
 
-        final ZodiacResourceHelper zodiacResourceHelper = new ZodiacResourceHelper(getContext().getResources());
+        final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
+        tableLayout.removeAllViews();
+        tableLayout.addView(header);
         for (Map.Entry<Integer, Integer> pair: zodiacMap.entrySet()) {
             @Zodiac final int zodiac = pair.getKey();
             final int amount = pair.getValue();
@@ -51,8 +65,6 @@ public class TextZodiacFragment extends Fragment {
 
             tableLayout.addView(row);
         }
-
-        return v;
     }
 
     private TableRow newRow(String left, String right) {

@@ -39,25 +39,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.tmendes.birthdaydroid.ContactsViewModel;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
-import com.tmendes.birthdaydroid.contact.ContactCache;
-import com.tmendes.birthdaydroid.contact.ContactService;
-import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
-import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
-import com.tmendes.birthdaydroid.permission.PermissionHelper;
-import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
-import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.SEARCH_SERVICE;
@@ -90,8 +85,9 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         dbContactService = new DBContactService(getContext());
 
-        final ContactCache contactCache = ContactCache.getInstance();
-        contactsDataAdapter = new ContactsDataAdapter(getContext(), contactCache.getContacts());
+        final ContactsViewModel contactsViewModel = ViewModelProviders.of(requireActivity()).get(ContactsViewModel.class);
+        contactsDataAdapter = new ContactsDataAdapter(getContext());
+        contactsViewModel.getContacts().observe(this, contacts -> contactsDataAdapter.refreshContacts(contacts));
 
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -181,27 +177,6 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         showHideAddNewBirthday();
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
-        final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
-
-        final PermissionHelper permissionHelper = new PermissionHelper(getContext());
-        final DBContactService dbContactService = new DBContactService(getContext());
-        final AndroidContactService androidContactService = new AndroidContactService(getContext());
-        final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
-        final DateConverter dateConverter = new DateConverter();
-        final ContactService contactService = new ContactService(
-                permissionHelper,
-                dbContactService,
-                androidContactService,
-                zodiacCalculator,
-                dateConverter,
-                getContext()
-        );
-
-        final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
-        ContactCache.getInstance().setContacts(allContacts);
-        contactsDataAdapter.refreshContacts(allContacts);
         contactsDataAdapter.sort(sortOrder, sortType);
     }
 

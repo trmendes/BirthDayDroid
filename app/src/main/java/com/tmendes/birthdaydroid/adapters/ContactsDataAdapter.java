@@ -50,17 +50,17 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
     private int sortOrder;
     private int sortType;
 
-    private final boolean hideZoadiac;
+    private final boolean hideZodiac;
     private final boolean showCurrentAge;
 
     private static final int MAX_DAYS_AGO = 7;
 
-    public ContactsDataAdapter(Context ctx, List<Contact> contacts) {
-        this.contacts = contacts;
-        this.readyOnlyOriginalContacts = contacts;
+    public ContactsDataAdapter(Context ctx) {
+        this.contacts = new ArrayList<>();
+        this.readyOnlyOriginalContacts = this.contacts;
         this.ctx = ctx;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        this.hideZoadiac = prefs.getBoolean("hide_zodiac", false);
+        this.hideZodiac = prefs.getBoolean("hide_zodiac", false);
         this.showCurrentAge = prefs.getBoolean("show_current_age", false);
         this.zodiacResourceHelper = new ZodiacResourceHelper(ContactsDataAdapter.this.ctx.getResources());
         this.dateLocaleHelper = new DateLocaleHelper();
@@ -173,7 +173,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
 
         /* Zodiac Icons */
-        if (!hideZoadiac) {
+        if (!hideZodiac) {
             status.append(" ").append(zodiacResourceHelper.getZodiacSymbol(contact.getZodiac()));
             status.append(" ").append(zodiacResourceHelper.getZodiacElementSymbol(contact.getZodiac()));
         }
@@ -319,7 +319,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
     public void refreshContacts(List<Contact> contacts) {
         this.contacts = contacts;
-        notifyDataSetChanged();
+        this.sort(this.sortOrder, this.sortType);
     }
 
     public void sort(int sortOrder, int sortType) {
