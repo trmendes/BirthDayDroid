@@ -21,13 +21,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -50,9 +49,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
+import com.tmendes.birthdaydroid.contact.android.ContactContentChangeObserver;
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.BarChartAgeFragment;
 import com.tmendes.birthdaydroid.fragments.ContactListFragment;
@@ -65,6 +64,7 @@ import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
 import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
 import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
+import com.tmendes.birthdaydroid.receivers.DayChangeReceiver;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
 
     private SharedPreferences prefs;
+    private DayChangeReceiver dateChangeReceiver;
+    private ContactContentChangeObserver contactChangeContentObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,11 +159,25 @@ public class MainActivity extends AppCompatActivity
 
         showFragments(new ContactListFragment());
 
-        final ContentObserver contactChangeContentObserver = new ContactContentChangeObserver(this);
+        contactChangeContentObserver = new ContactContentChangeObserver(this);
         getApplicationContext().getContentResolver().registerContentObserver(
                 ContactsContract.Contacts.CONTENT_URI,
                 true,
                 contactChangeContentObserver);
+
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        dateChangeReceiver = new DayChangeReceiver(this);
+        getApplicationContext().registerReceiver(dateChangeReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        getApplicationContext().unregisterReceiver(dateChangeReceiver);
+        getApplicationContext().getContentResolver().unregisterContentObserver(contactChangeContentObserver);
+        super.onDestroy();
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {

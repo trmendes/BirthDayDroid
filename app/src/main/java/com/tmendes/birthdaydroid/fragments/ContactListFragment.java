@@ -46,7 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.tmendes.birthdaydroid.ContactsViewModel;
+import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;

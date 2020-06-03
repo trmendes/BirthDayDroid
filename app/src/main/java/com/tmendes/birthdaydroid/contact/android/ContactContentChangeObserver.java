@@ -1,9 +1,11 @@
-package com.tmendes.birthdaydroid;
+package com.tmendes.birthdaydroid.contact.android;
 
 import android.database.ContentObserver;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
