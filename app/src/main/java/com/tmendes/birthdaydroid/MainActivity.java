@@ -49,8 +49,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
+import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.contact.android.ContactContentChangeObserver;
 import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
 import com.tmendes.birthdaydroid.fragments.BarChartAgeFragment;
@@ -171,6 +173,12 @@ public class MainActivity extends AppCompatActivity
         intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         dateChangeReceiver = new DayChangeReceiver(this);
         getApplicationContext().registerReceiver(dateChangeReceiver, intentFilter);
+
+        prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            if("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
+                ViewModelProviders.of(this).get(ContactsViewModel.class).reloadContactsAsync();
+            }
+        });
     }
 
     @Override
