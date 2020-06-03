@@ -79,7 +79,7 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
             this.chart.setHoleColor(Color.BLACK);
         }
 
-        zodiacResourceHelper = new ZodiacResourceHelper(requireContext().getResources());
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
 
         ViewModelProviders.of(requireActivity())
                 .get(ContactsViewModel.class)

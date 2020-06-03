@@ -62,7 +62,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.hideZodiac = prefs.getBoolean("hide_zodiac", false);
         this.showCurrentAge = prefs.getBoolean("show_current_age", false);
-        this.zodiacResourceHelper = new ZodiacResourceHelper(ContactsDataAdapter.this.ctx.getResources());
+        this.zodiacResourceHelper = new ZodiacResourceHelper(this.ctx);
         this.dateLocaleHelper = new DateLocaleHelper();
     }
 
@@ -137,8 +137,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         String eventTypeLabel = contact.getEventTypeLabel();
         if(!contact.isCustomEventTypeLabel()) {
             eventTypeLabel = eventTypeLabel.toLowerCase();
-            eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
-                    + eventTypeLabel.substring(1);
+            eventTypeLabel = eventTypeLabel.substring(0, 1).toUpperCase() + eventTypeLabel.substring(1);
         }
 
         if (picture == null) {

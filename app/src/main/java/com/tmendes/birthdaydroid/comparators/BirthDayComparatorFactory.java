@@ -32,7 +32,7 @@ public class BirthDayComparatorFactory {
                 comparator = new DaysUntilBirthdayComparator();
                 break;
             case SORT_TYPE_ZODIAC:
-                comparator = new ZodiacComparator(new ZodiacResourceHelper(ctx.getResources()));
+                comparator = new ZodiacComparator(new ZodiacResourceHelper(ctx));
                 break;
             case SORT_TYPE_NAME:
                 comparator = new NameComparator();

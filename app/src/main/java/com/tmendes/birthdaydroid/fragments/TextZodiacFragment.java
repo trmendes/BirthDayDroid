@@ -40,7 +40,7 @@ public class TextZodiacFragment extends Fragment {
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_zodiac));
 
-        zodiacResourceHelper = new ZodiacResourceHelper(requireContext().getResources());
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
         ViewModelProviders.of(requireActivity())
                 .get(ContactsViewModel.class)
                 .getContacts()

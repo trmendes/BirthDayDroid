@@ -112,8 +112,7 @@ public class NotificationHelper extends ContextWrapper {
                 String eventTypeLabel = contact.getEventTypeLabel();
                 if(!contact.isCustomEventTypeLabel()) {
                     eventTypeLabel = eventTypeLabel.toLowerCase();
-                    eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
-                            + eventTypeLabel.substring(1);
+                    eventTypeLabel = eventTypeLabel.substring(0, 1).toUpperCase() + eventTypeLabel.substring(1);
                 }
 
                 String title = contact.getName() + " (" + eventTypeLabel + ")";

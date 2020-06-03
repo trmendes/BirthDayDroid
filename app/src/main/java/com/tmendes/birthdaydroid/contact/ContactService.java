@@ -16,7 +16,6 @@ import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class ContactService {
@@ -45,21 +44,16 @@ public class ContactService {
                 while (cursorIterator.hasNext()) {
                     AndroidContact androidContact = cursorIterator.next();
 
-                    final boolean parseContacts;
-                    if (showBirthdayTypeOnly) {
-                        parseContacts = (androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
-                    } else {
-                        parseContacts = true;
-                    }
+                    final boolean parseContacts = !showBirthdayTypeOnly ||
+                                    androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
 
                     if (parseContacts) {
                         boolean ignoreContact = false;
                         boolean favoriteContact = false;
                         long contactDBId = -1;
 
-                        DBContact dbContact;
-
-                        if ((dbContact = dbContacts.remove(androidContact.getLookupKey())) != null) {
+                        DBContact dbContact = dbContacts.remove(androidContact.getLookupKey());
+                        if (dbContact != null) {
                             ignoreContact = dbContact.isIgnore();
                             favoriteContact = dbContact.isFavorite();
                             contactDBId = dbContact.getId();
