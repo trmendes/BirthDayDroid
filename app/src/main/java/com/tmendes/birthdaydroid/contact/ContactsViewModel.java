@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.contact.ContactService;
 import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
 import com.tmendes.birthdaydroid.date.DateConverter;
