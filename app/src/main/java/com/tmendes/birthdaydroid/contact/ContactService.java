@@ -24,15 +24,15 @@ public class ContactService {
     private final AndroidContactService androidContactService;
     private final ZodiacCalculator zodiacCalculator;
     private final DateConverter dateConverter;
-    private final Context context;
+    private final EventTypeLabelService eventTypeLabelService;
 
-    public ContactService(PermissionHelper permissionHelper, DBContactService dbContactService, AndroidContactService androidContactService, ZodiacCalculator zodiacCalculator, DateConverter dateConverter, Context context) {
+    public ContactService(PermissionHelper permissionHelper, DBContactService dbContactService, AndroidContactService androidContactService, ZodiacCalculator zodiacCalculator, DateConverter dateConverter, EventTypeLabelService eventTypeLabelService) {
         this.permissionHelper = permissionHelper;
         this.dbContactService = dbContactService;
         this.androidContactService = androidContactService;
         this.zodiacCalculator = zodiacCalculator;
         this.dateConverter = dateConverter;
-        this.context = context;
+        this.eventTypeLabelService = eventTypeLabelService;
     }
 
     public List<Contact> getAllContacts(boolean hideIgnoredContacts, boolean showBirthdayTypeOnly) {
@@ -63,17 +63,6 @@ public class ContactService {
                             continue;
                         }
 
-                        final String label = androidContact.getEventLabel();
-                        String eventTypeLabel = ContactsContract.CommonDataKinds.Event
-                                .getTypeLabel(context.getResources(), androidContact.getEventType(), label).toString();
-                        final boolean customTypeLabel = androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
-                                && !TextUtils.isEmpty(label);
-
-                        if(!customTypeLabel) {
-                            // Capitalize
-                            eventTypeLabel = eventTypeLabel.substring(0,1).toUpperCase() + eventTypeLabel.substring(1).toLowerCase();
-                        }
-
                         try {
                             Contact contact = new ContactBuilder(zodiacCalculator, dateConverter)
                                     .setDbId(contactDBId)
@@ -81,7 +70,7 @@ public class ContactService {
                                     .setName(androidContact.getDisplayName())
                                     .setPhotoUri(androidContact.getPhotoThumbnailUri())
                                     .setBirthdayString(androidContact.getStartDate())
-                                    .setEventTypeLabel(eventTypeLabel)
+                                    .setEventTypeLabel(eventTypeLabelService.getEventTypeLabel(androidContact.getEventType(), androidContact.getEventLabel()))
                                     .setIgnore(ignoreContact)
                                     .setFavorite(favoriteContact)
                                     .build();

@@ -54,13 +54,14 @@ public class ContactsViewModel extends AndroidViewModel {
         final AndroidContactService androidContactService = new AndroidContactService(context);
         final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
         final DateConverter dateConverter = new DateConverter();
+        final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
         final ContactService contactService = new ContactService(
                 permissionHelper,
                 dbContactService,
                 androidContactService,
                 zodiacCalculator,
                 dateConverter,
-                context
+                eventTypeLabelService
         );
         final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
         dbContactService.close();
