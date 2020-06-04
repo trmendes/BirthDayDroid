@@ -7,24 +7,33 @@ import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 
-import com.tmendes.birthdaydroid.cursor.CursorIterator;
+import com.tmendes.birthdaydroid.cursor.CloseableIterator;
+import com.tmendes.birthdaydroid.permission.PermissionHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class AndroidContactService {
     private final Context context;
+    private final PermissionHelper permissionHelper;
 
-    public AndroidContactService(Context context) {
+    public AndroidContactService(Context context, PermissionHelper permissionHelper) {
         if (context == null) {
             throw new IllegalArgumentException("context can not be null");
         }
         this.context = context;
+        this.permissionHelper = permissionHelper;
     }
 
-    public CursorIterator<AndroidContact> getAndroidContacts() {
+    public CloseableIterator<AndroidContact> getAndroidContacts() {
+        if(!permissionHelper.checkReadContactsPermission()) {
+            return new EmptyCloseableIterator<>();
+        }
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         ContentResolver contentResolver = context.getContentResolver();
 
@@ -77,5 +86,21 @@ public class AndroidContactService {
         );
 
         return new AndroidContactCursorIterator(cursor);
+    }
+
+    private static final class EmptyCloseableIterator<T> implements CloseableIterator<T> {
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public void close() {
+        }
     }
 }

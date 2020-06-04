@@ -49,9 +49,12 @@ public class ContactsViewModel extends AndroidViewModel {
         final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
         final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
 
-        final PermissionHelper permissionHelper = new PermissionHelper(context);
         final DBContactService dbContactService = new DBContactService(context);
-        final AndroidContactService androidContactService = new AndroidContactService(context);
+        final PermissionHelper permissionHelper = new PermissionHelper(context);
+        final AndroidContactService androidContactService = new AndroidContactService(
+                context,
+                permissionHelper
+        );
         final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
         final DateConverter dateConverter = new DateConverter();
         final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
@@ -61,7 +64,6 @@ public class ContactsViewModel extends AndroidViewModel {
                 eventTypeLabelService
         );
         final ContactService contactService = new ContactService(
-                permissionHelper,
                 dbContactService,
                 androidContactService,
                 contactFactory);

@@ -54,7 +54,10 @@ public class NotifierReceiver extends BroadcastReceiver {
 
             final PermissionHelper permissionHelper = new PermissionHelper(context);
             final DBContactService dbContactService = new DBContactService(context);
-            final AndroidContactService androidContactService = new AndroidContactService(context);
+            final AndroidContactService androidContactService = new AndroidContactService(
+                    context,
+                    permissionHelper
+            );
             final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
             final DateConverter dateConverter = new DateConverter();
             final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
@@ -64,7 +67,6 @@ public class NotifierReceiver extends BroadcastReceiver {
                     eventTypeLabelService
             );
             final ContactService contactService = new ContactService(
-                    permissionHelper,
                     dbContactService,
                     androidContactService,
                     contactFactory);

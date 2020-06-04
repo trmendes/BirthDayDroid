@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
  *
  * @param <T>
  */
-public abstract class CursorIterator<T> implements Iterator<T>, AutoCloseable {
+public abstract class CursorIterator<T> implements CloseableIterator<T> {
     private final Cursor cursor;
     private boolean hasNext = true;
 
