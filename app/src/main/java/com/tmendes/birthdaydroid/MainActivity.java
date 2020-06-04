@@ -66,6 +66,7 @@ import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
 import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
 import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
+import com.tmendes.birthdaydroid.permission.PermissionHelper;
 import com.tmendes.birthdaydroid.receivers.DayChangeReceiver;
 
 import java.util.Calendar;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences prefs;
     private DayChangeReceiver dateChangeReceiver;
     private ContactContentChangeObserver contactChangeContentObserver;
+    private ContactsViewModel contactsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,9 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        contactsViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
+        contactChangeContentObserver = new ContactContentChangeObserver(this);
 
         // Permission Control
         showBreakingChangeDialogAndMigrateIfNeeded();
@@ -161,11 +166,13 @@ public class MainActivity extends AppCompatActivity
 
         showFragments(new ContactListFragment());
 
-        contactChangeContentObserver = new ContactContentChangeObserver(this);
-        getApplicationContext().getContentResolver().registerContentObserver(
-                ContactsContract.Contacts.CONTENT_URI,
-                true,
-                contactChangeContentObserver);
+
+        if(new PermissionHelper(this.getApplicationContext()).checkReadContactsPermission()) {
+            getApplicationContext().getContentResolver().registerContentObserver(
+                    ContactsContract.Contacts.CONTENT_URI,
+                    true,
+                    contactChangeContentObserver);
+        }
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity
 
         prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
             if("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
-                ViewModelProviders.of(this).get(ContactsViewModel.class).reloadContactsAsync();
+                contactsViewModel.reloadContactsAsync();
             }
         });
     }
@@ -322,8 +329,6 @@ public class MainActivity extends AppCompatActivity
                         new String[]{Manifest.permission.READ_CONTACTS},
                         PERMISSION_CONTACT_READ);
             }
-        } else {
-            showFragments(new ContactListFragment());
         }
     }
 
@@ -333,7 +338,11 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == PERMISSION_CONTACT_READ) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showFragments(new ContactListFragment());
+                contactsViewModel.reloadContactsAsync();
+                getApplicationContext().getContentResolver().registerContentObserver(
+                        ContactsContract.Contacts.CONTENT_URI,
+                        true,
+                        contactChangeContentObserver);
             }
         }
     }
