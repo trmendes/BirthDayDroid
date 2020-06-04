@@ -9,7 +9,6 @@ public class WritableContact implements Contact {
     private String key;
     private String name;
     private String photoUri;
-    private boolean customEventTypeLabel;
     private String eventTypeLabel;
     @Zodiac
     private int zodiac;
@@ -58,15 +57,6 @@ public class WritableContact implements Contact {
 
     public void setPhotoUri(String photoUri) {
         this.photoUri = photoUri;
-    }
-
-    @Override
-    public boolean isCustomEventTypeLabel() {
-        return customEventTypeLabel;
-    }
-
-    public void setCustomEventTypeLabel(boolean customEventTypeLabel) {
-        this.customEventTypeLabel = customEventTypeLabel;
     }
 
     @Override

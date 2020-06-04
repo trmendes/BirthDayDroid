@@ -12,7 +12,6 @@ public interface Contact {
     String getName();
 
     String getPhotoUri();
-    boolean isCustomEventTypeLabel();
     String getEventTypeLabel();
 
     @Zodiac

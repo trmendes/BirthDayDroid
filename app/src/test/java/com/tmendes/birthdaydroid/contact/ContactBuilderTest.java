@@ -27,7 +27,7 @@ public class ContactBuilderTest {
     private ContactBuilder contactBuilder;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         zodiacCalculator = mock(ZodiacCalculator.class);
         dateConverter = mock(DateConverter.class);
         contactBuilder = new ContactBuilder(zodiacCalculator, dateConverter);
@@ -41,7 +41,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(false)
                 .setIgnore(false);
@@ -57,7 +56,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(false)
                 .setIgnore(false);
@@ -73,7 +71,6 @@ public class ContactBuilderTest {
                 .setName(null)
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(false)
                 .setIgnore(false);
@@ -89,23 +86,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel(null)
-                .setCustomEventTypeLabel(true)
-                .setBirthdayString("2020-01-01")
-                .setFavorite(false)
-                .setIgnore(false);
-
-        Assert.assertThrows(ContactBuilderException.class, () -> this.contactBuilder.build());
-    }
-
-    @Test
-    public void testCustomEventTypeLabelNullException() {
-        this.contactBuilder = this.contactBuilder
-                .setDbId(-1L)
-                .setKey("key")
-                .setName("Name Name")
-                .setPhotoUri("uri")
-                .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(null)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(false)
                 .setIgnore(false);
@@ -121,7 +101,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString(null)
                 .setFavorite(false)
                 .setIgnore(false);
@@ -137,7 +116,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(null)
                 .setIgnore(false);
@@ -153,7 +131,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(false)
                 .setIgnore(null);
@@ -171,7 +148,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2020-01-01")
                 .setFavorite(false)
                 .setIgnore(false);
@@ -193,7 +169,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2019-01-01")
                 .setFavorite(false)
                 .setIgnore(false)
@@ -204,7 +179,6 @@ public class ContactBuilderTest {
         assertThat(contact.getName(), is("Name Name"));
         assertThat(contact.getPhotoUri(), is("uri"));
         assertThat(contact.getEventTypeLabel(), is("label"));
-        assertThat(contact.isCustomEventTypeLabel(), is(true));
         assertThat(contact.isFavorite(), is(false));
         assertThat(contact.isIgnore(), is(false));
 
@@ -237,7 +211,6 @@ public class ContactBuilderTest {
                 .setName("Name Name")
                 .setPhotoUri("uri")
                 .setEventTypeLabel("label")
-                .setCustomEventTypeLabel(true)
                 .setBirthdayString("2019-01-01")
                 .setFavorite(false)
                 .setIgnore(false)
@@ -248,7 +221,6 @@ public class ContactBuilderTest {
         assertThat(contact.getName(), is("Name Name"));
         assertThat(contact.getPhotoUri(), is("uri"));
         assertThat(contact.getEventTypeLabel(), is("label"));
-        assertThat(contact.isCustomEventTypeLabel(), is(true));
         assertThat(contact.isFavorite(), is(false));
         assertThat(contact.isIgnore(), is(false));
 

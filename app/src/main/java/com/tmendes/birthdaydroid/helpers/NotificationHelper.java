@@ -109,13 +109,7 @@ public class NotificationHelper extends ContextWrapper {
             }
 
             if (notify) {
-                String eventTypeLabel = contact.getEventTypeLabel();
-                if(!contact.isCustomEventTypeLabel()) {
-                    eventTypeLabel = eventTypeLabel.toLowerCase();
-                    eventTypeLabel = eventTypeLabel.substring(0, 1).toUpperCase() + eventTypeLabel.substring(1);
-                }
-
-                String title = contact.getName() + " (" + eventTypeLabel + ")";
+                String title = contact.getName() + " (" + contact.getEventTypeLabel() + ")";
                 StringBuilder body = new StringBuilder();
 
                 if (contact.hasBirthDayToday()) {

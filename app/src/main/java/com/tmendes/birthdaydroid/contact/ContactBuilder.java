@@ -15,7 +15,6 @@ public class ContactBuilder {
     private String name;
     private String photoUri;
     private String eventTypeLabel;
-    private Boolean customEventTypeLabel;
     private String birthday;
     private Boolean ignore;
     private Boolean favorite;
@@ -50,12 +49,6 @@ public class ContactBuilder {
         this.eventTypeLabel = eventTypeLabel;
         return this;
     }
-
-    public ContactBuilder setCustomEventTypeLabel(Boolean customEventTypeLabel) {
-        this.customEventTypeLabel = customEventTypeLabel;
-        return this;
-    }
-
 
     public ContactBuilder setBirthdayString(String birthday) {
         this.birthday = birthday;
@@ -96,11 +89,6 @@ public class ContactBuilder {
             throw new ContactBuilderException("Can not build contact without eventTypeLabel");
         }
         contact.setEventTypeLabel(eventTypeLabel);
-
-        if (customEventTypeLabel == null) {
-            throw new ContactBuilderException("Can not build contact without customEventTypeLabel");
-        }
-        contact.setCustomEventTypeLabel(customEventTypeLabel);
 
         if (favorite == null) {
             throw new ContactBuilderException("Can not build contact without favorite");

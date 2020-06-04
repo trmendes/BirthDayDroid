@@ -64,10 +64,15 @@ public class ContactService {
                         }
 
                         final String label = androidContact.getEventLabel();
-                        final String eventTypeLabel = ContactsContract.CommonDataKinds.Event
+                        String eventTypeLabel = ContactsContract.CommonDataKinds.Event
                                 .getTypeLabel(context.getResources(), androidContact.getEventType(), label).toString();
                         final boolean customTypeLabel = androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
                                 && !TextUtils.isEmpty(label);
+
+                        if(!customTypeLabel) {
+                            // Capitalize
+                            eventTypeLabel = eventTypeLabel.substring(0,1).toUpperCase() + eventTypeLabel.substring(1).toLowerCase();
+                        }
 
                         try {
                             Contact contact = new ContactBuilder(zodiacCalculator, dateConverter)
@@ -76,7 +81,6 @@ public class ContactService {
                                     .setName(androidContact.getDisplayName())
                                     .setPhotoUri(androidContact.getPhotoThumbnailUri())
                                     .setBirthdayString(androidContact.getStartDate())
-                                    .setCustomEventTypeLabel(customTypeLabel)
                                     .setEventTypeLabel(eventTypeLabel)
                                     .setIgnore(ignoreContact)
                                     .setFavorite(favoriteContact)

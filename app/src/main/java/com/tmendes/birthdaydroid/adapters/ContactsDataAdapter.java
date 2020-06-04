@@ -133,13 +133,6 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
             );
         }
 
-        /* Capitalize it */
-        String eventTypeLabel = contact.getEventTypeLabel();
-        if(!contact.isCustomEventTypeLabel()) {
-            eventTypeLabel = eventTypeLabel.toLowerCase();
-            eventTypeLabel = eventTypeLabel.substring(0, 1).toUpperCase() + eventTypeLabel.substring(1);
-        }
-
         if (picture == null) {
             holder.picture.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -154,7 +147,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
         holder.lineOne.setText(dateFormatter.format(contact.getNextBirthday()));
-        holder.lineTwo.setText(eventTypeLabel);
+        holder.lineTwo.setText(contact.getEventTypeLabel());
         holder.lineThree.setText(partyMsg);
 
         if(contact.hasBirthDayToday()) {
