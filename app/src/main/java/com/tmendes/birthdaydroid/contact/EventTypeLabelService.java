@@ -21,6 +21,8 @@ public class EventTypeLabelService {
     }
 
     private boolean isCustomEventTypeLabel(int eventType, String eventTypeLabel){
-        return eventType == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM && !TextUtils.isEmpty(eventTypeLabel);
+        return eventType == ContactsContract.CommonDataKinds.Event.TYPE_CUSTOM
+                && eventTypeLabel != null
+                && !eventTypeLabel.isEmpty();
     }
 }
