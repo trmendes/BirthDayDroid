@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import androidx.core.content.ContextCompat;
 
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.contact.ContactFactory;
 import com.tmendes.birthdaydroid.contact.ContactService;
 import com.tmendes.birthdaydroid.contact.EventTypeLabelService;
 import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
@@ -57,14 +58,16 @@ public class NotifierReceiver extends BroadcastReceiver {
             final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
             final DateConverter dateConverter = new DateConverter();
             final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
-            final ContactService contactService = new ContactService(
-                    permissionHelper,
-                    dbContactService,
-                    androidContactService,
+            final ContactFactory contactFactory = new ContactFactory(
                     zodiacCalculator,
                     dateConverter,
                     eventTypeLabelService
             );
+            final ContactService contactService = new ContactService(
+                    permissionHelper,
+                    dbContactService,
+                    androidContactService,
+                    contactFactory);
             final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
             dbContactService.close();
 

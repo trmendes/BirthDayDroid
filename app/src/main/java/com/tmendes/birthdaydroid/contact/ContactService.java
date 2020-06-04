@@ -1,8 +1,6 @@
 package com.tmendes.birthdaydroid.contact;
 
-import android.content.Context;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.tmendes.birthdaydroid.contact.android.AndroidContact;
@@ -10,9 +8,7 @@ import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
 import com.tmendes.birthdaydroid.contact.db.DBContact;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
 import com.tmendes.birthdaydroid.cursor.CursorIterator;
-import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.permission.PermissionHelper;
-import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,17 +18,13 @@ public class ContactService {
     private final PermissionHelper permissionHelper;
     private final DBContactService dbContactService;
     private final AndroidContactService androidContactService;
-    private final ZodiacCalculator zodiacCalculator;
-    private final DateConverter dateConverter;
-    private final EventTypeLabelService eventTypeLabelService;
+    private final ContactFactory contactFactory;
 
-    public ContactService(PermissionHelper permissionHelper, DBContactService dbContactService, AndroidContactService androidContactService, ZodiacCalculator zodiacCalculator, DateConverter dateConverter, EventTypeLabelService eventTypeLabelService) {
+    public ContactService(PermissionHelper permissionHelper, DBContactService dbContactService, AndroidContactService androidContactService, ContactFactory contactFactory) {
         this.permissionHelper = permissionHelper;
         this.dbContactService = dbContactService;
         this.androidContactService = androidContactService;
-        this.zodiacCalculator = zodiacCalculator;
-        this.dateConverter = dateConverter;
-        this.eventTypeLabelService = eventTypeLabelService;
+        this.contactFactory = contactFactory;
     }
 
     public List<Contact> getAllContacts(boolean hideIgnoredContacts, boolean showBirthdayTypeOnly) {
@@ -48,33 +40,14 @@ public class ContactService {
                                     androidContact.getEventType() == ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
 
                     if (parseContacts) {
-                        boolean ignoreContact = false;
-                        boolean favoriteContact = false;
-                        long contactDBId = -1;
 
                         DBContact dbContact = dbContacts.remove(androidContact.getLookupKey());
-                        if (dbContact != null) {
-                            ignoreContact = dbContact.isIgnore();
-                            favoriteContact = dbContact.isFavorite();
-                            contactDBId = dbContact.getId();
-                        }
-
-                        if (hideIgnoredContacts && ignoreContact) {
+                        if (hideIgnoredContacts && dbContact != null && dbContact.isIgnore()) {
                             continue;
                         }
 
                         try {
-                            Contact contact = new ContactBuilder(zodiacCalculator, dateConverter)
-                                    .setDbId(contactDBId)
-                                    .setKey(androidContact.getLookupKey())
-                                    .setName(androidContact.getDisplayName())
-                                    .setPhotoUri(androidContact.getPhotoThumbnailUri())
-                                    .setBirthdayString(androidContact.getStartDate())
-                                    .setEventTypeLabel(eventTypeLabelService.getEventTypeLabel(androidContact.getEventType(), androidContact.getEventLabel()))
-                                    .setIgnore(ignoreContact)
-                                    .setFavorite(favoriteContact)
-                                    .build();
-
+                            Contact contact = contactFactory.createContact(androidContact, dbContact);
                             contacts.add(contact);
                         } catch (ContactBuilderException e) {
                             Log.i(getClass().toString(), "Unable to build contact", e);
