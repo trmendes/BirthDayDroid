@@ -35,7 +35,7 @@ import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
 import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.helpers.NotificationHelper;
-import com.tmendes.birthdaydroid.permission.PermissionHelper;
+import com.tmendes.birthdaydroid.permission.PermissionChecker;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.util.List;
@@ -44,20 +44,14 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
-                == PackageManager.PERMISSION_GRANTED) {
-
+        if (new PermissionChecker(context).checkReadContactsPermission()) {
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
             final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
             final int daysInAdvance = getDaysInAdviceFromPreferences(prefs);
 
-            final PermissionHelper permissionHelper = new PermissionHelper(context);
             final DBContactService dbContactService = new DBContactService(context);
-            final AndroidContactService androidContactService = new AndroidContactService(
-                    context,
-                    permissionHelper
-            );
+            final AndroidContactService androidContactService = new AndroidContactService(context);
             final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
             final DateConverter dateConverter = new DateConverter();
             final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);

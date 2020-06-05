@@ -17,13 +17,11 @@
 
 package com.tmendes.birthdaydroid;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,8 +40,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -66,7 +62,7 @@ import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
 import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
 import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
-import com.tmendes.birthdaydroid.permission.PermissionHelper;
+import com.tmendes.birthdaydroid.permission.PermissionGranter;
 import com.tmendes.birthdaydroid.receivers.DayChangeReceiver;
 
 import java.util.Calendar;
@@ -81,8 +77,6 @@ public class MainActivity extends AppCompatActivity
     // the Default time to notify the user about a birthday
     public static final int DEFAULT_ALARM_TIME = 8;
 
-    private static final int PERMISSION_CONTACT_READ = 100;
-
     private boolean doubleBackToExitPressedOnce = false;
 
     private MenuItem zodiacDrawerMenuItem;
@@ -93,6 +87,7 @@ public class MainActivity extends AppCompatActivity
     private DayChangeReceiver dateChangeReceiver;
     private ContactContentChangeObserver contactChangeContentObserver;
     private ContactsViewModel contactsViewModel;
+    private PermissionGranter permissionGranter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +110,16 @@ public class MainActivity extends AppCompatActivity
         contactChangeContentObserver = new ContactContentChangeObserver(this);
 
         // Permission Control
+        permissionGranter = new PermissionGranter(this, () -> {
+            contactsViewModel.reloadContactsAsync();
+            getApplicationContext().getContentResolver().registerContentObserver(
+                    ContactsContract.Contacts.CONTENT_URI,
+                    true,
+                    contactChangeContentObserver);
+        });
+        permissionGranter.grandReadContactOrExit();
+
         showBreakingChangeDialogAndMigrateIfNeeded();
-        requestForPermissions();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -167,13 +170,6 @@ public class MainActivity extends AppCompatActivity
         showFragments(new ContactListFragment());
 
 
-        if(new PermissionHelper(this.getApplicationContext()).checkReadContactsPermission()) {
-            getApplicationContext().getContentResolver().registerContentObserver(
-                    ContactsContract.Contacts.CONTENT_URI,
-                    true,
-                    contactChangeContentObserver);
-        }
-
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
         intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
@@ -182,7 +178,7 @@ public class MainActivity extends AppCompatActivity
         getApplicationContext().registerReceiver(dateChangeReceiver, intentFilter);
 
         prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
+            if ("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
                 contactsViewModel.reloadContactsAsync();
             }
         });
@@ -316,35 +312,10 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-    private void requestForPermissions() {
-        String permissionString;
-        permissionString = Manifest.permission.READ_CONTACTS;
-        if (ContextCompat.checkSelfPermission(this, permissionString)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    permissionString)) {
-                displayPermissionExplanation();
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        PERMISSION_CONTACT_READ);
-            }
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_CONTACT_READ) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                contactsViewModel.reloadContactsAsync();
-                getApplicationContext().getContentResolver().registerContentObserver(
-                        ContactsContract.Contacts.CONTENT_URI,
-                        true,
-                        contactChangeContentObserver);
-            }
-        }
+        permissionGranter.onRequestPermissionsResultForReadContacts(requestCode, permissions, grantResults);
     }
 
     @SuppressLint("BatteryLife")
@@ -358,25 +329,5 @@ public class MainActivity extends AppCompatActivity
             intent.setData(Uri.parse("package:" + packageName));
             startActivity(intent);
         }
-    }
-
-    private void displayPermissionExplanation() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
-        builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
-
-        builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow),
-                (dialog, which) -> {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{Manifest.permission.READ_CONTACTS},
-                            PERMISSION_CONTACT_READ);
-                });
-
-        builder.setNegativeButton(getResources().getString(R.string.alert_permissions_deny),
-                (dialog, which) -> dialog.dismiss());
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 }

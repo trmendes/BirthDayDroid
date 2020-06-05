@@ -8,7 +8,6 @@ import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
 import com.tmendes.birthdaydroid.contact.db.DBContact;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
 import com.tmendes.birthdaydroid.cursor.CloseableIterator;
-import com.tmendes.birthdaydroid.permission.PermissionHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

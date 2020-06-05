@@ -41,6 +41,7 @@ public class AlarmHelper {
 
     private final static String ACTION_BD_NOTIFICATION = "com.tmendes.birthdaydroid.NOTIFICATION";
 
+
     public void setAlarm(Context context, long toGoesOffAt) {
         final LocalTime localTime;
         if (toGoesOffAt == -1) {
