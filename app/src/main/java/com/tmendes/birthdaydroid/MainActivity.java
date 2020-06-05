@@ -74,9 +74,6 @@ import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // the Default time to notify the user about a birthday
-    public static final int DEFAULT_ALARM_TIME = 8;
-
     private boolean doubleBackToExitPressedOnce = false;
 
     private MenuItem zodiacDrawerMenuItem;

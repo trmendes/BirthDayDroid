@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.receivers.BootReceiver;
 import com.tmendes.birthdaydroid.receivers.NotifierReceiver;
 
@@ -41,11 +40,12 @@ public class AlarmHelper {
 
     private final static String ACTION_BD_NOTIFICATION = "com.tmendes.birthdaydroid.NOTIFICATION";
 
+    public static final int DEFAULT_ALARM_TIME_HOUR = 8;
 
     public void setAlarm(Context context, long toGoesOffAt) {
         final LocalTime localTime;
         if (toGoesOffAt == -1) {
-            localTime = LocalTime.of(MainActivity.DEFAULT_ALARM_TIME, 0);
+            localTime = LocalTime.of(DEFAULT_ALARM_TIME_HOUR, 0);
         } else {
             localTime = LocalTime.of(0, 0).plus(toGoesOffAt, ChronoUnit.MILLIS);
         }

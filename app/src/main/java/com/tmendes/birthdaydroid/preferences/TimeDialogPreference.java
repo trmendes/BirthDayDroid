@@ -24,8 +24,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
-import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +51,7 @@ public class TimeDialogPreference extends DialogPreference {
         setPositiveButtonText(ctxt.getResources().getString(R.string.settings_time_set));
         setNegativeButtonText(ctxt.getResources().getString(R.string.settings_time_cancel));
 
-        localTime = LocalTime.of(MainActivity.DEFAULT_ALARM_TIME, 0);
+        localTime = LocalTime.of(AlarmHelper.DEFAULT_ALARM_TIME_HOUR, 0);
     }
 
     @Override
