@@ -30,8 +30,6 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -83,8 +81,9 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences prefs;
     private DayChangeReceiver dateChangeReceiver;
     private ContactContentChangeObserver contactChangeContentObserver;
-    private ContactsViewModel contactsViewModel;
     private PermissionGranter permissionGranter;
+    private SharedPreferences.OnSharedPreferenceChangeListener hideZodiacChangeListener;
+    private SharedPreferences.OnSharedPreferenceChangeListener reloadContactsChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        contactsViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
+        final ContactsViewModel contactsViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
         contactChangeContentObserver = new ContactContentChangeObserver(this);
 
         // Permission Control
@@ -134,35 +133,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.addDrawerListener(new RemoveKeyboardDrawerListener(this));
+
+        // ZodiacDrawerMenuItem
         zodiacDrawerMenuItem = Objects.requireNonNull(navigationView).getMenu()
                 .findItem(R.id.nav_statistics_zodiac);
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-
-            @Override
-            public void onDrawerSlide(@NonNull View view, float v) {
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                Objects.requireNonNull(inputManager).hideSoftInputFromWindow(view.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+        setZodiacStatisticMenuItemVisibility();
+        hideZodiacChangeListener = (sharedPreferences, key) -> {
+            if ("hide_zodiac".equals(key)) {
+                setZodiacStatisticMenuItemVisibility();
             }
-
-            @Override
-            public void onDrawerOpened(@NonNull View view) {
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View view) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-                boolean hideZodiac = prefs.getBoolean("hide_zodiac", false);
-                zodiacDrawerMenuItem.setVisible(!hideZodiac);
-            }
-        });
+        };
+        prefs.registerOnSharedPreferenceChangeListener(hideZodiacChangeListener);
 
         showFragments(new ContactListFragment());
 
@@ -174,18 +157,26 @@ public class MainActivity extends AppCompatActivity
         dateChangeReceiver = new DayChangeReceiver(this);
         getApplicationContext().registerReceiver(dateChangeReceiver, intentFilter);
 
-        prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+        reloadContactsChangeListener = (sharedPreferences, key) -> {
             if ("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
                 contactsViewModel.reloadContactsAsync();
             }
-        });
+        };
+        prefs.registerOnSharedPreferenceChangeListener(reloadContactsChangeListener);
     }
 
     @Override
     protected void onDestroy() {
+        prefs.unregisterOnSharedPreferenceChangeListener(hideZodiacChangeListener);
+        prefs.unregisterOnSharedPreferenceChangeListener(reloadContactsChangeListener);
         getApplicationContext().unregisterReceiver(dateChangeReceiver);
         getApplicationContext().getContentResolver().unregisterContentObserver(contactChangeContentObserver);
         super.onDestroy();
+    }
+
+    private void setZodiacStatisticMenuItemVisibility() {
+        final boolean hide_zodiac = this.prefs.getBoolean("hide_zodiac", false);
+        zodiacDrawerMenuItem.setVisible(!hide_zodiac);
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
