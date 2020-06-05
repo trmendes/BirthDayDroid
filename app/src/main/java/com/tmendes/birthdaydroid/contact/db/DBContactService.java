@@ -63,14 +63,14 @@ public class DBContactService extends SQLiteOpenHelper {
                 new String[]{Integer.toString(id)});
     }
 
-    public void cleanDb(final HashMap<String, DBContact> contactList) {
+    public void cleanDb(final Map<String, DBContact> contactList) {
         for (Map.Entry<String, DBContact> contact: contactList.entrySet()) {
             this.deleteContact(contact.getValue().getId());
         }
     }
 
-    public HashMap<String, DBContact> getAllContacts() {
-        HashMap<String, DBContact> hashMap = new HashMap<>();
+    public Map<String, DBContact> getAllContacts() {
+        Map<String, DBContact> map = new HashMap<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from contacts", null );
@@ -81,13 +81,13 @@ public class DBContactService extends SQLiteOpenHelper {
             String cid = res.getString(res.getColumnIndex(CONTACTS_COLUMN_CONTACT_ID));
             boolean favorite = res.getInt(res.getColumnIndex(CONTACTS_COLUMN_FAVORITE)) == 1;
             boolean ignore = res.getInt(res.getColumnIndex(CONTACTS_COLUMN_IGNORE)) == 1;
-            hashMap.put(cid, new DBContact(id, favorite, ignore));
+            map.put(cid, new DBContact(id, favorite, ignore));
             res.moveToNext();
         }
 
         res.close();
         db.close();
 
-        return hashMap;
+        return map;
     }
 }
