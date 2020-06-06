@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.fragments.statistics.zodiac;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +9,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
@@ -23,11 +25,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextZodiacFragment extends Fragment {
+public class TextZodiacFragment extends AbstractContactsFragment {
 
     private TableLayout tableLayout;
     private ZodiacResourceHelper zodiacResourceHelper;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,16 +47,11 @@ public class TextZodiacFragment extends Fragment {
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_zodiac));
 
-        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
-        ViewModelProviders.of(requireActivity())
-                .get(ContactsViewModel.class)
-                .getContacts()
-                .observe(this, this::updateTableData);
-
         return v;
     }
 
-    private void updateTableData(List<Contact> contacts) {
+    @Override
+    protected void updateContacts(List<Contact> contacts) {
         final Map<Integer, Integer> zodiacMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));

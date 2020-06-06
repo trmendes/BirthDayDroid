@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.fragments.statistics.dayofweek;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
@@ -25,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextWeekFragment extends Fragment {
+public class TextWeekFragment extends AbstractContactsFragment {
 
     private TableLayout tableLayout;
 
@@ -40,15 +41,11 @@ public class TextWeekFragment extends Fragment {
         title.setText(Objects.requireNonNull(getContext()).getResources()
                 .getString(R.string.menu_statistics_week));
 
-        ViewModelProviders.of(requireActivity())
-                .get(ContactsViewModel.class)
-                .getContacts()
-                .observe(this, this::updateTableData);
-
         return v;
     }
 
-    private void updateTableData(List<Contact> contacts) {
+    @Override
+    protected void updateContacts(List<Contact> contacts) {
         final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));

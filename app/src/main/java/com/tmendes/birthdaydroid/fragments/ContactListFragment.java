@@ -36,6 +36,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
@@ -53,13 +54,14 @@ import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
 import com.tmendes.birthdaydroid.helpers.RecyclerItemTouchHelper;
 
+import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.SEARCH_SERVICE;
 import static androidx.recyclerview.widget.ItemTouchHelper.Callback.getDefaultUIUtil;
 
 
-public class ContactListFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class ContactListFragment extends AbstractContactsFragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     private SearchView searchView;
     private SearchView.OnQueryTextListener queryTextListener;
@@ -71,6 +73,13 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
     private FloatingActionButton fab;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dbContactService = new DBContactService(getContext());
+        contactsDataAdapter = new ContactsDataAdapter(getContext());
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -79,15 +88,9 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         setHasOptionsMenu(true);
 
-        PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
+//        PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
-
-        dbContactService = new DBContactService(getContext());
-
-        final ContactsViewModel contactsViewModel = ViewModelProviders.of(requireActivity()).get(ContactsViewModel.class);
-        contactsDataAdapter = new ContactsDataAdapter(getContext());
-        contactsViewModel.getContacts().observe(this, contacts -> contactsDataAdapter.refreshContacts(contacts));
 
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -103,9 +106,7 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         coordinatorLayout = v.findViewById(R.id.coordinator_layout);
 
-        Objects.requireNonNull(getActivity()).getWindow()
-                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         fab = v.findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
@@ -266,5 +267,10 @@ public class ContactListFragment extends Fragment implements RecyclerItemTouchHe
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,
                 isCurrentlyActive);
+    }
+
+    @Override
+    protected void updateContacts(List<Contact> contacts) {
+        contactsDataAdapter.refreshContacts(contacts);
     }
 }

@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.fragments.statistics.age;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -27,13 +28,14 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BarChartAgeFragment extends Fragment implements OnChartValueSelectedListener {
+public class BarChartAgeFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
 
     private BarChart chart;
 
@@ -80,15 +82,11 @@ public class BarChartAgeFragment extends Fragment implements OnChartValueSelecte
             xAxis.setTextColor(Color.WHITE);
         }
 
-        ViewModelProviders.of(requireActivity())
-                .get(ContactsViewModel.class)
-                .getContacts()
-                .observe(this, this::updateChartData);
-
         return v;
     }
 
-    private void updateChartData(List<Contact> contacts) {
+    @Override
+    protected void updateContacts(List<Contact> contacts) {
         final ArrayList<BarEntry> barEntries = new ArrayList<>();
         float max_age = 0;
         float min_age = Integer.MAX_VALUE;

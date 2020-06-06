@@ -1,7 +1,8 @@
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.fragments.statistics.dayofweek;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -26,20 +27,21 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.zodiac.Zodiac;
-import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
+import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
 
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class PieChartZodiacFragment extends Fragment implements OnChartValueSelectedListener {
+public class PieChartWeekFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
+
     private PieChart chart;
     private String label;
-    private ZodiacResourceHelper zodiacResourceHelper;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
         label = Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_zodiac);
+                .getString(R.string.menu_statistics_week);
         title.setText(label);
 
         this.chart.getDescription().setEnabled(false);
@@ -79,27 +81,28 @@ public class PieChartZodiacFragment extends Fragment implements OnChartValueSele
             this.chart.setHoleColor(Color.BLACK);
         }
 
-        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
-
-        ViewModelProviders.of(requireActivity())
-                .get(ContactsViewModel.class)
-                .getContacts()
-                .observe(this, this::updateChartData);
-
         return v;
     }
 
-    private void updateChartData(List<Contact> contacts) {
-        final Map<Integer, Integer> zodiacMap = contacts.stream()
+    @Override
+    protected void updateContacts(List<Contact> contacts) {
+        final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
 
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> pair : zodiacMap.entrySet()) {
-            @Zodiac int zodiac = pair.getKey();
-            int number = pair.getValue();
-            PieEntry entry = new PieEntry(number, zodiac);
-            entry.setLabel(zodiacResourceHelper.getZodiacName(zodiac));
+        for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
+            DayOfWeek dayOfWeek = pair.getKey();
+            final int quantity = pair.getValue();
+            final PieEntry entry = new PieEntry(quantity, dayOfWeek);
+            final Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = getResources().getConfiguration().getLocales().get(0);
+            } else {
+                locale = getResources().getConfiguration().locale;
+            }
+            final String weekString = dayOfWeek.getDisplayName(TextStyle.FULL, locale);
+            entry.setLabel(weekString);
             pieEntries.add(entry);
         }
 

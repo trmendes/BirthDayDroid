@@ -1,6 +1,6 @@
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.fragments.statistics.age;
 
-import android.os.Build;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,59 +16,47 @@ import androidx.lifecycle.ViewModelProviders;
 import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
 
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextMonthFragment extends Fragment {
+public class TextAgeFragment extends AbstractContactsFragment {
 
     private TableLayout tableLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
+        View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
         setHasOptionsMenu(true);
 
         tableLayout = v.findViewById(R.id.tableLayout);
 
-        final TextView title = v.findViewById(R.id.tvStatisticsTitle);
+        TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_month));
-
-        ViewModelProviders.of(requireActivity())
-                .get(ContactsViewModel.class)
-                .getContacts()
-                .observe(this, this::updateTableData);
+                .getString(R.string.menu_statistics_age));
 
         return v;
     }
 
-    private void updateTableData(List<Contact> contacts) {
-        final Map<Month, Integer> monthMap = contacts.stream()
+    @Override
+    protected void updateContacts(List<Contact> contacts) {
+        final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
+                .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
 
-        final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
+        final Resources resources = requireContext().getResources();
+        final TableRow header = newRow(resources.getString(R.string.array_order_age),
+                resources.getString(R.string.amount));
+
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
-            final Month month = pair.getKey();
+        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
+            final int age = pair.getKey();
             final int amount = pair.getValue();
-
-            final Locale locale;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                locale = getResources().getConfiguration().getLocales().get(0);
-            } else {
-                locale = getResources().getConfiguration().locale;
-            }
-            final String monthName = month.getDisplayName(TextStyle.FULL, locale);
-            final TableRow row = newRow(monthName, String.valueOf(amount));
-
+            TableRow row = newRow(String.valueOf(age), String.valueOf(amount));
             tableLayout.addView(row);
         }
     }
