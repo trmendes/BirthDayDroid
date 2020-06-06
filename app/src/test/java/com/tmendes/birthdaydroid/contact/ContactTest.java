@@ -9,7 +9,7 @@ import static org.mockito.Mockito.spy;
 public class ContactTest {
     @Test
     public void testHasBirthdayToday() {
-        Contact contact = spy(new WritableContact());
+        Contact contact = spy(new Contact());
 
         doReturn(0).when(contact).getDaysUntilNextBirthday();
         doReturn(false).when(contact).isBornInFuture();
@@ -30,7 +30,7 @@ public class ContactTest {
 
     @Test
     public void testFavoriteAndIgnoreSwitch() {
-        Contact contact = new WritableContact();
+        Contact contact = new Contact();
 
         contact.setFavorite(false);
         contact.setIgnore(false);
@@ -52,7 +52,7 @@ public class ContactTest {
 
     @Test
     public void testFavoriteAndIgnoreToggle() {
-        Contact contact = new WritableContact();
+        Contact contact = new Contact();
 
         contact.setFavorite(false);
         contact.setIgnore(false);

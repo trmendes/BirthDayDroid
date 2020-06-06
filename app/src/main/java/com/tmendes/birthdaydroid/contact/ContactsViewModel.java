@@ -17,12 +17,15 @@ import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.permission.PermissionChecker;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class ContactsViewModel extends AndroidViewModel {
     private MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
@@ -33,7 +36,7 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Contact>> getContacts() {
-        if(contacts.getValue() == null){
+        if (contacts.getValue() == null) {
             contacts.postValue(new ArrayList<>());
             reloadContacts();
         }
@@ -47,6 +50,28 @@ public class ContactsViewModel extends AndroidViewModel {
         } else {
             return executor.submit(() -> contacts.postValue(new ArrayList<>()));
         }
+    }
+
+    public Future<?> reloadTimeDependentDataInContacts() {
+        return this.executor.submit(() -> {
+            final Context context = getApplication().getApplicationContext();
+            final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
+            final DateConverter dateConverter = new DateConverter();
+            final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
+            final ContactFactory contactFactory = new ContactFactory(
+                    zodiacCalculator,
+                    dateConverter,
+                    eventTypeLabelService
+            );
+
+            final LocalDate now = LocalDate.now();
+            final List<Contact> newContacts = contacts.getValue()
+                    .stream()
+                    .map(c -> contactFactory.calculateTimeDependentData(c, now))
+                    .collect(Collectors.toList());
+
+            contacts.postValue(newContacts);
+        });
     }
 
     private List<Contact> calculateContacts() {

@@ -61,7 +61,7 @@ import com.tmendes.birthdaydroid.fragments.statistics.dayofweek.TextWeekFragment
 import com.tmendes.birthdaydroid.fragments.statistics.zodiac.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 import com.tmendes.birthdaydroid.permission.PermissionGranter;
-import com.tmendes.birthdaydroid.receivers.DayChangeReceiver;
+import com.tmendes.birthdaydroid.receivers.LocalDateNowChangeReceiver;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
 
     private SharedPreferences prefs;
-    private DayChangeReceiver dateChangeReceiver;
+    private LocalDateNowChangeReceiver localDateNowChangeReceiver;
     private ContactContentChangeObserver contactChangeContentObserver;
     private PermissionGranter permissionGranter;
     private SharedPreferences.OnSharedPreferenceChangeListener hideZodiacChangeListener;
@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
         intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
         intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-        dateChangeReceiver = new DayChangeReceiver(this);
-        getApplicationContext().registerReceiver(dateChangeReceiver, intentFilter);
+        localDateNowChangeReceiver = new LocalDateNowChangeReceiver(this);
+        getApplicationContext().registerReceiver(localDateNowChangeReceiver, intentFilter);
 
         reloadContactsChangeListener = (sharedPreferences, key) -> {
             if ("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         prefs.unregisterOnSharedPreferenceChangeListener(hideZodiacChangeListener);
         prefs.unregisterOnSharedPreferenceChangeListener(reloadContactsChangeListener);
-        getApplicationContext().unregisterReceiver(dateChangeReceiver);
+        getApplicationContext().unregisterReceiver(localDateNowChangeReceiver);
         getApplicationContext().getContentResolver().unregisterContentObserver(contactChangeContentObserver);
         super.onDestroy();
     }

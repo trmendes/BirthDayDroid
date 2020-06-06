@@ -37,7 +37,7 @@ public class ContactFactory {
         }
 
 
-        final WritableContact contact = new WritableContact();
+        final Contact contact = new Contact();
 
         contact.setDbId(dbContact == null ? -1 : dbContact.getId());
         contact.setFavorite(dbContact != null && dbContact.isFavorite());
@@ -55,11 +55,17 @@ public class ContactFactory {
 
         final LocalDate bornOn = convertingResult.getDate();
         final Boolean missingYearInfo = convertingResult.getMissingYearInfo();
-        final LocalDate now = LocalDate.now();
 
         contact.setBornOn(bornOn);
         contact.setMissingYearInfo(missingYearInfo);
 
+        contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
+
+        return calculateTimeDependentData(contact, LocalDate.now());
+    }
+
+    public Contact calculateTimeDependentData(Contact contact, LocalDate now) {
+        final LocalDate bornOn = contact.getBornOn();
         contact.setAge((int) ChronoUnit.YEARS.between(bornOn, now));
 
         LocalDate nextBirthday = bornOn.withYear(now.getYear());
@@ -71,7 +77,7 @@ public class ContactFactory {
         contact.setDaysUntilNextBirthday((int) ChronoUnit.DAYS.between(now, nextBirthday));
         contact.setDaysSinceLastBirthday((int) ChronoUnit.DAYS.between(nextBirthday.minusYears(1), now));
         contact.setDaysOld((int) ChronoUnit.DAYS.between(bornOn, now));
-        contact.setBornInFuture(bornOn.isAfter(now) && !missingYearInfo);
+        contact.setBornInFuture(bornOn.isAfter(now) && !contact.isMissingYearInfo());
         if(contact.isBornInFuture()) {
             contact.setAge(0);
             contact.setDaysOld(0);
@@ -79,7 +85,6 @@ public class ContactFactory {
         }
 
         contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
-
         return contact;
     }
 }

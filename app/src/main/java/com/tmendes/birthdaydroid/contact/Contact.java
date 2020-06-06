@@ -4,44 +4,173 @@ import com.tmendes.birthdaydroid.zodiac.Zodiac;
 
 import java.time.LocalDate;
 
-public interface Contact {
-    long getDbId();
-    void setDbId(long id);
+public class Contact {
+    private long dbId;
+    private String key;
 
-    String getKey();
-    String getName();
-
-    String getPhotoUri();
-    String getEventTypeLabel();
+    private String name;
+    private String photoUri;
+    private String eventTypeLabel;
 
     @Zodiac
-    int getZodiac();
+    private int zodiac;
 
-    int getAge();
-    int getDaysOld();
+    private boolean favorite;
+    private boolean ignore;
 
-    int getDaysUntilNextBirthday();
-    int getDaysSinceLastBirthday();
+    private LocalDate bornOn;
+    private boolean missingYearInfo;
 
-    LocalDate getBornOn();
-    LocalDate getNextBirthday();
+    private LocalDate nextBirthday;
+    private int age;
+    private int daysOld;
+    private int daysUntilNextBirthday;
+    private int daysSinceLastBirthday;
+    private boolean bornInFuture;
 
-    boolean isFavorite();
-    void setFavorite(boolean favorite);
-    default void toggleFavorite() {
+    public long getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(long dbId) {
+        this.dbId = dbId;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhotoUri() {
+        return photoUri;
+    }
+
+    public void setPhotoUri(String photoUri) {
+        this.photoUri = photoUri;
+    }
+
+    public String getEventTypeLabel() {
+        return eventTypeLabel;
+    }
+
+    public void setEventTypeLabel(String eventTypeLabel) {
+        this.eventTypeLabel = eventTypeLabel;
+    }
+
+    public int getZodiac() {
+        return zodiac;
+    }
+
+    public void setZodiac(@Zodiac int zodiac) {
+        this.zodiac = zodiac;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getDaysOld() {
+        return daysOld;
+    }
+
+    public void setDaysOld(int daysOld) {
+        this.daysOld = daysOld;
+    }
+
+    public int getDaysUntilNextBirthday() {
+        return daysUntilNextBirthday;
+    }
+
+    public void setDaysUntilNextBirthday(int daysUntilNextBirthday) {
+        this.daysUntilNextBirthday = daysUntilNextBirthday;
+    }
+
+    public int getDaysSinceLastBirthday() {
+        return daysSinceLastBirthday;
+    }
+
+    public void setDaysSinceLastBirthday(int daysSinceLastBirthday) {
+        this.daysSinceLastBirthday = daysSinceLastBirthday;
+    }
+
+    public LocalDate getBornOn() {
+        return bornOn;
+    }
+
+    public void setBornOn(LocalDate bornOn) {
+        this.bornOn = bornOn;
+    }
+
+    public LocalDate getNextBirthday() {
+        return nextBirthday;
+    }
+
+    public void setNextBirthday(LocalDate nextBirthday) {
+        this.nextBirthday = nextBirthday;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+        if(this.favorite) {
+            this.ignore = false;
+        }
+    }
+
+    public void toggleFavorite() {
         setFavorite(!isFavorite());
     }
 
-    boolean isIgnore();
-    void setIgnore(boolean ignore);
-    default void toggleIgnore() {
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
+        if(this.ignore) {
+            this.favorite = false;
+        }
+    }
+
+    public void toggleIgnore() {
         setIgnore(!isIgnore());
     }
 
-    boolean isBornInFuture();
-    boolean isMissingYearInfo();
+    public boolean isBornInFuture() {
+        return bornInFuture;
+    }
 
-    default boolean hasBirthDayToday() {
+    public void setBornInFuture(boolean bornInFuture) {
+        this.bornInFuture = bornInFuture;
+    }
+
+    public boolean isMissingYearInfo() {
+        return missingYearInfo;
+    }
+
+    public void setMissingYearInfo(boolean missingYearInfo) {
+        this.missingYearInfo = missingYearInfo;
+    }
+
+    public boolean hasBirthDayToday() {
         return this.getDaysUntilNextBirthday() == 0 && !isBornInFuture();
     }
 }

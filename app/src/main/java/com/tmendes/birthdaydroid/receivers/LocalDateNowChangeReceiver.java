@@ -11,11 +11,11 @@ import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 
 import java.time.LocalDate;
 
-public class DayChangeReceiver extends BroadcastReceiver {
+public class LocalDateNowChangeReceiver extends BroadcastReceiver {
     private FragmentActivity activity;
     private LocalDate lastLocalDate;
 
-    public DayChangeReceiver(FragmentActivity activity) {
+    public LocalDateNowChangeReceiver(FragmentActivity activity) {
         this.activity = activity;
         this.lastLocalDate = LocalDate.now();
     }
@@ -25,7 +25,7 @@ public class DayChangeReceiver extends BroadcastReceiver {
         final LocalDate now = LocalDate.now();
         if(!lastLocalDate.equals(now)) {
             lastLocalDate = now;
-            ViewModelProviders.of(activity).get(ContactsViewModel.class).reloadContacts();
+            ViewModelProviders.of(activity).get(ContactsViewModel.class).reloadTimeDependentDataInContacts();
         }
     }
 }
