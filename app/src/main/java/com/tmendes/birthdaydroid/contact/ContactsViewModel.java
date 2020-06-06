@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class ContactsViewModel extends AndroidViewModel {
@@ -30,36 +32,25 @@ public class ContactsViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public MutableLiveData<List<Contact>> getContacts() {
+    public LiveData<List<Contact>> getContacts() {
         if(contacts.getValue() == null){
             contacts.postValue(new ArrayList<>());
-            reloadContactsAsync();
+            reloadContacts();
         }
         return contacts;
     }
 
-    private Context getContext() {
-        return this.getApplication().getApplicationContext();
-    }
-
-    public void reloadContacts() {
-        if (new PermissionChecker(getContext()).checkReadContactsPermission()) {
-            contacts.postValue(calculateContacts());
+    public Future<?> reloadContacts() {
+        final Context context = getApplication().getApplicationContext();
+        if (new PermissionChecker(context).checkReadContactsPermission()) {
+            return executor.submit(() -> contacts.postValue(calculateContacts()));
         } else {
-            contacts.postValue(new ArrayList<>());
-        }
-    }
-
-    public void reloadContactsAsync() {
-        if (new PermissionChecker(getContext()).checkReadContactsPermission()) {
-            executor.submit(() -> contacts.postValue(calculateContacts()));
-        } else {
-            contacts.postValue(new ArrayList<>());
+            return executor.submit(() -> contacts.postValue(new ArrayList<>()));
         }
     }
 
     private List<Contact> calculateContacts() {
-        final Context context = getContext();
+        final Context context = getApplication().getApplicationContext();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
         final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
@@ -91,8 +82,6 @@ public class ContactsViewModel extends AndroidViewModel {
         } catch (InterruptedException e) {
             Log.i(this.getClass().toString(), "Error by shutdown ViewModel", e);
         }
-        contacts = null;
-
         super.onCleared();
     }
 }

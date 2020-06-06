@@ -25,7 +25,7 @@ public class DayChangeReceiver extends BroadcastReceiver {
         final LocalDate now = LocalDate.now();
         if(!lastLocalDate.equals(now)) {
             lastLocalDate = now;
-            ViewModelProviders.of(activity).get(ContactsViewModel.class).reloadContactsAsync();
+            ViewModelProviders.of(activity).get(ContactsViewModel.class).reloadContacts();
         }
     }
 }

@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
 
         // Permission Control
         permissionGranter = new PermissionGranter(this, () -> {
-            contactsViewModel.reloadContactsAsync();
+            contactsViewModel.reloadContacts();
             getApplicationContext().getContentResolver().registerContentObserver(
                     ContactsContract.Contacts.CONTENT_URI,
                     true,
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity
 
         reloadContactsChangeListener = (sharedPreferences, key) -> {
             if ("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
-                contactsViewModel.reloadContactsAsync();
+                contactsViewModel.reloadContacts();
             }
         };
         prefs.registerOnSharedPreferenceChangeListener(reloadContactsChangeListener);
