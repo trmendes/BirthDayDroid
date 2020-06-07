@@ -112,15 +112,15 @@ public class NotificationHelper extends ContextWrapper {
                 String title = contact.getName() + " (" + contact.getEventTypeLabel() + ")";
                 StringBuilder body = new StringBuilder();
 
-                if (contact.hasBirthDayToday()) {
+                if (contact.isBirthdayToday()) {
                         body.append(getBaseContext().getString(R.string.party_message));
                 } else {
                     final String firstName = contact.getName().split(" ")[0];
-                    if(contact.getAge() > 0) {
+                    if(!contact.isMissingYearInfo()) {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthday(),
-                                firstName, contact.getAge(),
+                                firstName, contact.getAgeInYears(),
                                 contact.getDaysUntilNextBirthday()));
                     } else {
                         body.append(getBaseContext().getResources().getQuantityString(

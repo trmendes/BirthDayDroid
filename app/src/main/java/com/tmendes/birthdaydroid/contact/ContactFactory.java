@@ -19,21 +19,21 @@ public class ContactFactory {
         this.eventTypeLabelService = eventTypeLabelService;
     }
 
-    public Contact createContact(AndroidContact androidContact, DBContact dbContact) throws ContactBuilderException {
+    public Contact createContact(AndroidContact androidContact, DBContact dbContact) throws ContactFactoryException {
         if (androidContact == null) {
-            throw new ContactBuilderException("Can not create Contact without AndroidContact");
+            throw new ContactFactoryException("Can not create Contact without AndroidContact");
         }
 
         if (androidContact.getLookupKey() == null) {
-            throw new ContactBuilderException("Can not build contact with null lookupKey");
+            throw new ContactFactoryException("Can not build contact with null lookupKey");
         }
 
         if (androidContact.getDisplayName() == null) {
-            throw new ContactBuilderException("Can not build contact with null displayName");
+            throw new ContactFactoryException("Can not build contact with null displayName");
         }
 
         if (androidContact.getStartDate() == null) {
-            throw new ContactBuilderException("Can not build contact with null startDate");
+            throw new ContactFactoryException("Can not build contact with null startDate");
         }
 
 
@@ -50,7 +50,7 @@ public class ContactFactory {
 
         final DateConverter.DateConverterResult convertingResult = dateConverter.convert(androidContact.getStartDate());
         if (!convertingResult.isSuccess()) {
-            throw new ContactBuilderException(String.format("Can not build contact with unparsable date: %s", androidContact.getStartDate()));
+            throw new ContactFactoryException(String.format("Can not build contact with unparsable date: %s", androidContact.getStartDate()));
         }
 
         final LocalDate bornOn = convertingResult.getDate();
@@ -66,25 +66,31 @@ public class ContactFactory {
 
     public Contact calculateTimeDependentData(Contact contact, LocalDate now) {
         final LocalDate bornOn = contact.getBornOn();
-        contact.setAge((int) ChronoUnit.YEARS.between(bornOn, now));
+
+        if(contact.isMissingYearInfo()){
+            contact.setAgeInYears(0);
+            contact.setAgeInDays(0);
+        } else {
+            contact.setAgeInYears(Math.max(0, (int) ChronoUnit.YEARS.between(bornOn, now)));
+            contact.setAgeInDays(Math.max(0, (int) ChronoUnit.DAYS.between(bornOn, now)));
+        }
 
         LocalDate nextBirthday = bornOn.withYear(now.getYear());
         if (nextBirthday.isBefore(now)) {
             nextBirthday = nextBirthday.plusYears(1);
         }
         contact.setNextBirthday(nextBirthday);
+        contact.setBirthdayToday(nextBirthday.equals(now));
 
         contact.setDaysUntilNextBirthday((int) ChronoUnit.DAYS.between(now, nextBirthday));
         contact.setDaysSinceLastBirthday((int) ChronoUnit.DAYS.between(nextBirthday.minusYears(1), now));
-        contact.setDaysOld((int) ChronoUnit.DAYS.between(bornOn, now));
+
         contact.setBornInFuture(bornOn.isAfter(now) && !contact.isMissingYearInfo());
         if(contact.isBornInFuture()) {
-            contact.setAge(0);
-            contact.setDaysOld(0);
             contact.setDaysSinceLastBirthday(0);
+            contact.setBirthdayToday(false);
         }
 
-        contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
         return contact;
     }
 }

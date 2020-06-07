@@ -13,19 +13,19 @@ public class ContactTest {
 
         doReturn(0).when(contact).getDaysUntilNextBirthday();
         doReturn(false).when(contact).isBornInFuture();
-        Assert.assertTrue(contact.hasBirthDayToday());
+        Assert.assertTrue(contact.isBirthdayToday());
 
         doReturn(1).when(contact).getDaysUntilNextBirthday();
         doReturn(false).when(contact).isBornInFuture();
-        Assert.assertFalse(contact.hasBirthDayToday());
+        Assert.assertFalse(contact.isBirthdayToday());
 
         doReturn(0).when(contact).getDaysUntilNextBirthday();
         doReturn(true).when(contact).isBornInFuture();
-        Assert.assertFalse(contact.hasBirthDayToday());
+        Assert.assertFalse(contact.isBirthdayToday());
 
         doReturn(0).when(contact).getDaysUntilNextBirthday();
         doReturn(true).when(contact).isBornInFuture();
-        Assert.assertFalse(contact.hasBirthDayToday());
+        Assert.assertFalse(contact.isBirthdayToday());
     }
 
     @Test

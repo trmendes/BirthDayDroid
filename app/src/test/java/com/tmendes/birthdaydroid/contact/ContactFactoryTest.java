@@ -13,16 +13,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.ChronoUnit;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 
 public class ContactFactoryTest {
 
@@ -47,7 +46,7 @@ public class ContactFactoryTest {
                 false
         );
         Assert.assertThrows(
-                ContactBuilderException.class,
+                ContactFactoryException.class,
                 () -> contactFactory.createContact(null, dbContact)
         );
     }
@@ -70,7 +69,7 @@ public class ContactFactoryTest {
         );
 
         Assert.assertThrows(
-                ContactBuilderException.class,
+                ContactFactoryException.class,
                 () -> contactFactory.createContact(androidContact, dbContact)
         );
     }
@@ -93,7 +92,7 @@ public class ContactFactoryTest {
         );
 
         Assert.assertThrows(
-                ContactBuilderException.class,
+                ContactFactoryException.class,
                 () -> contactFactory.createContact(androidContact, dbContact)
         );
     }
@@ -116,7 +115,7 @@ public class ContactFactoryTest {
         );
 
         Assert.assertThrows(
-                ContactBuilderException.class,
+                ContactFactoryException.class,
                 () -> contactFactory.createContact(androidContact, dbContact)
         );
     }
@@ -144,7 +143,7 @@ public class ContactFactoryTest {
         );
 
         Assert.assertThrows(
-                ContactBuilderException.class,
+                ContactFactoryException.class,
                 () -> contactFactory.createContact(androidContact, dbContact)
         );
     }
@@ -181,68 +180,17 @@ public class ContactFactoryTest {
         assertThat(contact.getEventTypeLabel(), is("Birthday"));
         assertThat(contact.isFavorite(), is(false));
         assertThat(contact.isIgnore(), is(false));
-
-        LocalDate nextBirthDay = bornOn.withYear(Year.now().getValue());
-        if (nextBirthDay.isBefore(LocalDate.now())) {
-            nextBirthDay = nextBirthDay.plusYears(1);
-        }
-
         assertThat(contact.getBornOn(), is(bornOn));
         assertThat(contact.isMissingYearInfo(), is(false));
-        assertThat(contact.getNextBirthday(), is(nextBirthDay));
-        assertThat(contact.getAge(), is((int) ChronoUnit.YEARS.between(bornOn, LocalDate.now())));
-        assertThat(contact.getDaysOld(), is((int) ChronoUnit.DAYS.between(bornOn, LocalDate.now())));
-        assertThat(contact.getDaysUntilNextBirthday(), is((int) ChronoUnit.DAYS.between(LocalDate.now(), nextBirthDay)));
-        assertThat(contact.getDaysSinceLastBirthday(), is((int) ChronoUnit.DAYS.between(nextBirthDay.minusYears(1), LocalDate.now())));
         assertThat(contact.getZodiac(), is(Zodiac.CAPRICORN));
-    }
 
-    @Test
-    public void testSuccessfulBornInFutureCreation() {
-        final AndroidContact androidContact = new AndroidContact(
-                "key",
-                "2020-01-01",
-                ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY,
-                null,
-                "uri",
-                "Name Name"
-        );
-        final DBContact dbContact = new DBContact(
-                1,
-                false,
-                false
-        );
-
-        LocalDate bornOn = LocalDate.now().plusDays(2);
-        instrumentDependencies(
-                DateConverter.DateConverterResult.createSuccess(false, bornOn),
-                "Birthday",
-                Zodiac.CAPRICORN
-        );
-
-        final Contact contact = contactFactory.createContact(androidContact, dbContact);
-
-        assertThat(contact.getDbId(), is(1L));
-        assertThat(contact.getKey(), is("key"));
-        assertThat(contact.getName(), is("Name Name"));
-        assertThat(contact.getPhotoUri(), is("uri"));
-        assertThat(contact.getEventTypeLabel(), is("Birthday"));
-        assertThat(contact.isFavorite(), is(false));
-        assertThat(contact.isIgnore(), is(false));
-
-        LocalDate nextBirthDay = bornOn.withYear(Year.now().getValue());
-        if (nextBirthDay.isBefore(LocalDate.now())) {
-            nextBirthDay = nextBirthDay.plusYears(1);
-        }
-
-        assertThat(contact.getBornOn(), is(bornOn));
-        assertThat(contact.isMissingYearInfo(), is(false));
-        assertThat(contact.getNextBirthday(), is(nextBirthDay));
-        assertThat(contact.getAge(), is(0));
-        assertThat(contact.getDaysOld(), is(0));
-        assertThat(contact.getDaysUntilNextBirthday(), is((int) ChronoUnit.DAYS.between(LocalDate.now(), nextBirthDay)));
-        assertThat(contact.getDaysSinceLastBirthday(), is(0));
-        assertThat(contact.getZodiac(), is(Zodiac.CAPRICORN));
+        // calculated date dependent information. is tested in other tests explicitly and exacter.
+        assertThat(contact.isBornInFuture(), is(false));
+        assertThat(contact.getNextBirthday(), notNullValue());
+        assertThat(contact.getAgeInYears(), greaterThanOrEqualTo(0));
+        assertThat(contact.getAgeInDays(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysUntilNextBirthday(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysSinceLastBirthday(), greaterThanOrEqualTo(0));
     }
 
     @Test
@@ -272,20 +220,107 @@ public class ContactFactoryTest {
         assertThat(contact.getEventTypeLabel(), is("Birthday"));
         assertThat(contact.isFavorite(), is(false));
         assertThat(contact.isIgnore(), is(false));
-
-        LocalDate nextBirthDay = bornOn.withYear(Year.now().getValue());
-        if (nextBirthDay.isBefore(LocalDate.now())) {
-            nextBirthDay = nextBirthDay.plusYears(1);
-        }
-
         assertThat(contact.getBornOn(), is(bornOn));
         assertThat(contact.isMissingYearInfo(), is(false));
-        assertThat(contact.getNextBirthday(), is(nextBirthDay));
-        assertThat(contact.getAge(), is((int) ChronoUnit.YEARS.between(bornOn, LocalDate.now())));
-        assertThat(contact.getDaysOld(), is((int) ChronoUnit.DAYS.between(bornOn, LocalDate.now())));
-        assertThat(contact.getDaysUntilNextBirthday(), is((int) ChronoUnit.DAYS.between(LocalDate.now(), nextBirthDay)));
-        assertThat(contact.getDaysSinceLastBirthday(), is((int) ChronoUnit.DAYS.between(nextBirthDay.minusYears(1), LocalDate.now())));
         assertThat(contact.getZodiac(), is(Zodiac.CAPRICORN));
+
+        // calculated date dependent information. is tested in other tests explicitly and exacter.
+        assertThat(contact.isBornInFuture(), is(false));
+        assertThat(contact.getNextBirthday(), notNullValue());
+        assertThat(contact.getAgeInYears(), greaterThanOrEqualTo(0));
+        assertThat(contact.getAgeInDays(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysUntilNextBirthday(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysSinceLastBirthday(), greaterThanOrEqualTo(0));
+    }
+
+    @Test
+    public void testCalculatedBirthdayInformationBirthday() {
+        final LocalDate now = LocalDate.of(2020, 6, 7);
+        final Contact contact = new Contact();
+        contact.setBornOn(now.minusYears(1));
+        contact.setMissingYearInfo(false);
+
+        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+
+        assertThat(resultContact.isBirthdayToday(), is(true));
+        assertThat(resultContact.isBornInFuture(), is(false));
+        assertThat(resultContact.getAgeInYears(), is(1));
+        assertThat(resultContact.getAgeInDays(), is(366)); // leapyear 29. February
+        assertThat(resultContact.getNextBirthday(), is(now));
+        assertThat(resultContact.getDaysUntilNextBirthday(), is(0));
+        assertThat(resultContact.getDaysSinceLastBirthday(), is(366)); // leapyear 29. February
+    }
+
+    @Test
+    public void testCalculatedBirthdayInformationBornInFuture() {
+        final LocalDate now = LocalDate.of(2020, 6, 7);
+        final Contact contact = new Contact();
+        contact.setBornOn(now.plusDays(3));
+        contact.setMissingYearInfo(false);
+
+        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+
+        assertThat(resultContact.isBirthdayToday(), is(false));
+        assertThat(resultContact.isBornInFuture(), is(true));
+        assertThat(resultContact.getAgeInYears(), is(0));
+        assertThat(resultContact.getAgeInDays(), is(0));
+        assertThat(resultContact.getNextBirthday(), is(now.plusDays(3)));
+        assertThat(resultContact.getDaysUntilNextBirthday(), is(3));
+        assertThat(resultContact.getDaysSinceLastBirthday(), is(0));
+    }
+
+    @Test
+    public void testCalculatedBirthdayInformationNoBirthday() {
+        final LocalDate now = LocalDate.of(2020, 6, 7);
+        final Contact contact = new Contact();
+        contact.setBornOn(now.minusYears(1).minusDays(1));
+        contact.setMissingYearInfo(false);
+
+        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+
+        assertThat(resultContact.isBirthdayToday(), is(false));
+        assertThat(resultContact.isBornInFuture(), is(false));
+        assertThat(resultContact.getAgeInYears(), is(1));
+        assertThat(resultContact.getAgeInDays(), is(367)); // leapyear 29. February
+        assertThat(resultContact.getNextBirthday(), is(now.minusDays(1).plusYears(1)));
+        assertThat(resultContact.getDaysUntilNextBirthday(), is(364));
+        assertThat(resultContact.getDaysSinceLastBirthday(), is(1));
+    }
+
+    @Test
+    public void testCalculatedBirthdayInformationMissingYearInfoAfterNow() {
+        final LocalDate now = LocalDate.of(2020, 6, 7);
+        final Contact contact = new Contact();
+        contact.setBornOn(now.plusDays(1));
+        contact.setMissingYearInfo(true);
+
+        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+
+        assertThat(resultContact.isBirthdayToday(), is(false));
+        assertThat(resultContact.isBornInFuture(), is(false));
+        assertThat(resultContact.getAgeInYears(), is(0));
+        assertThat(resultContact.getAgeInDays(), is(0));
+        assertThat(resultContact.getNextBirthday(), is(now.plusDays(1)));
+        assertThat(resultContact.getDaysUntilNextBirthday(), is(1));
+        assertThat(resultContact.getDaysSinceLastBirthday(), is(365)); // leapyear 29. February
+    }
+
+    @Test
+    public void testCalculatedBirthdayInformationMissingYearInfoBeforeNow() {
+        final LocalDate now = LocalDate.of(2020, 6, 7);
+        final Contact contact = new Contact();
+        contact.setBornOn(now.minusDays(1));
+        contact.setMissingYearInfo(true);
+
+        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+
+        assertThat(resultContact.isBirthdayToday(), is(false));
+        assertThat(resultContact.isBornInFuture(), is(false));
+        assertThat(resultContact.getAgeInYears(), is(0));
+        assertThat(resultContact.getAgeInDays(), is(0));
+        assertThat(resultContact.getNextBirthday(), is(now.minusDays(1).plusYears(1)));
+        assertThat(resultContact.getDaysUntilNextBirthday(), is(364));
+        assertThat(resultContact.getDaysSinceLastBirthday(), is(1));
     }
 
     private void instrumentDependencies(DateConverter.DateConverterResult dateConverterResult,

@@ -22,11 +22,12 @@ public class Contact {
     private boolean missingYearInfo;
 
     private LocalDate nextBirthday;
-    private int age;
-    private int daysOld;
+    private int ageInYears;
+    private int ageInDays;
     private int daysUntilNextBirthday;
     private int daysSinceLastBirthday;
     private boolean bornInFuture;
+    private boolean birthdayToday;
 
     public long getDbId() {
         return dbId;
@@ -76,20 +77,20 @@ public class Contact {
         this.zodiac = zodiac;
     }
 
-    public int getAge() {
-        return age;
+    public int getAgeInYears() {
+        return ageInYears;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAgeInYears(int ageInYears) {
+        this.ageInYears = ageInYears;
     }
 
-    public int getDaysOld() {
-        return daysOld;
+    public int getAgeInDays() {
+        return ageInDays;
     }
 
-    public void setDaysOld(int daysOld) {
-        this.daysOld = daysOld;
+    public void setAgeInDays(int ageInDays) {
+        this.ageInDays = ageInDays;
     }
 
     public int getDaysUntilNextBirthday() {
@@ -170,7 +171,11 @@ public class Contact {
         this.missingYearInfo = missingYearInfo;
     }
 
-    public boolean hasBirthDayToday() {
-        return this.getDaysUntilNextBirthday() == 0 && !isBornInFuture();
+    public void setBirthdayToday(boolean birthdayToday) {
+        this.birthdayToday = birthdayToday;
+    }
+
+    public boolean isBirthdayToday() {
+        return birthdayToday;
     }
 }

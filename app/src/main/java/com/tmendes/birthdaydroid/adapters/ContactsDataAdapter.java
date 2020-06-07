@@ -59,7 +59,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         this.contacts = new ArrayList<>();
         this.readyOnlyOriginalContacts = this.contacts;
         this.ctx = ctx;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.hideZodiac = prefs.getBoolean("hide_zodiac", false);
         this.showCurrentAge = prefs.getBoolean("show_current_age", false);
         this.zodiacResourceHelper = new ZodiacResourceHelper(this.ctx);
@@ -72,8 +72,7 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         RoundedBitmapDrawable picture = null;
 
-        int age = contact.getAge();
-        int daysOld = contact.getDaysOld();
+        int age = contact.getAgeInYears();
 
         StringBuilder status = new StringBuilder();
 
@@ -106,19 +105,27 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
 
         /* Age badge */
         final String ageText;
-        if(contact.hasBirthDayToday()) {
-            ageText = String.valueOf(age);
+        if(contact.isMissingYearInfo()) {
+            if(contact.isBirthdayToday()) {
+                ageText = "?";
+            } else {
+                ageText = "↑?";
+            }
         } else {
-            if(showCurrentAge) {
+            if(contact.isBirthdayToday()) {
                 ageText = String.valueOf(age);
             } else {
-                ageText = "↑" + (age + 1);
+                if(showCurrentAge) {
+                    ageText = String.valueOf(age);
+                } else {
+                    ageText = "↑" + (age + 1);
+                }
             }
         }
 
         /* Party */
         final String partyMsg;
-        if (contact.hasBirthDayToday()) {
+        if (contact.isBirthdayToday()) {
             partyMsg = ctx.getResources().getString(R.string.party_message);
             status.append(" ").append(ctx.getResources().getString(R.string.emoji_today_party));
         } else if (contact.getDaysSinceLastBirthday() <= MAX_DAYS_AGO && !contact.isBornInFuture()) {
@@ -150,16 +157,19 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
         holder.lineTwo.setText(contact.getEventTypeLabel());
         holder.lineThree.setText(partyMsg);
 
-        if(contact.hasBirthDayToday()) {
-            holder.lineFour.setText(ctx.getResources().getQuantityString(
-                    R.plurals.years_old, age, age));
-        } else {
-            if (age == 0 && !contact.isMissingYearInfo()) {
-                holder.lineFour.setText(ctx.getResources().getQuantityString(
-                        R.plurals.days_old, daysOld, daysOld));
-            } else if(age > 0) {
+        if(!contact.isMissingYearInfo()) {
+            if(contact.isBirthdayToday()) {
                 holder.lineFour.setText(ctx.getResources().getQuantityString(
                         R.plurals.years_old, age, age));
+            } else {
+                if (age == 0) {
+                    int daysOld = contact.getAgeInDays();
+                    holder.lineFour.setText(ctx.getResources().getQuantityString(
+                            R.plurals.days_old, daysOld, daysOld));
+                } else if(age > 0) {
+                    holder.lineFour.setText(ctx.getResources().getQuantityString(
+                            R.plurals.years_old, age, age));
+                }
             }
         }
 
@@ -226,8 +236,8 @@ public class ContactsDataAdapter extends RecyclerView.Adapter<ContactsDataAdapte
                 String birthdayWeekName = dateLocaleHelper.getDayOfWeek(contact.getNextBirthday().getDayOfWeek(), ctx).toLowerCase();
                 String zodiacName = zodiacResourceHelper.getZodiacName(contact.getZodiac()).toLowerCase();
                 String zodiacElement = zodiacResourceHelper.getZodiacElementName(contact.getZodiac()).toLowerCase();
-                String age = Integer.toString(contact.getAge());
-                String daysOld = Integer.toString(contact.getDaysOld());
+                String age = Integer.toString(contact.getAgeInYears());
+                String daysOld = Integer.toString(contact.getAgeInDays());
 
                 return name.contains(filter) ||
                         age.startsWith(filter) ||

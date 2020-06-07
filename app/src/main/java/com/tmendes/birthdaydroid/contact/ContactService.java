@@ -43,7 +43,7 @@ public class ContactService {
                 try {
                     Contact contact = contactFactory.createContact(androidContact, dbContact);
                     contacts.add(contact);
-                } catch (ContactBuilderException e) {
+                } catch (ContactFactoryException e) {
                     Log.i(getClass().toString(), "Unable to build contact", e);
                 }
             }

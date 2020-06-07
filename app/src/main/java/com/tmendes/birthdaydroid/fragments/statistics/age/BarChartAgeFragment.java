@@ -11,9 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,7 +22,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
@@ -93,7 +89,8 @@ public class BarChartAgeFragment extends AbstractContactsFragment implements OnC
 
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
+                .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
+                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum));
         for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
             int age = pair.getKey();
             int number = pair.getValue();

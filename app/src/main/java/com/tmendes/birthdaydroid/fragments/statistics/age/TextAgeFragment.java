@@ -10,10 +10,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
@@ -45,7 +42,8 @@ public class TextAgeFragment extends AbstractContactsFragment {
     protected void updateContacts(List<Contact> contacts) {
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getAge, c -> 1, Integer::sum));
+                .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
+                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum));
 
         final Resources resources = requireContext().getResources();
         final TableRow header = newRow(resources.getString(R.string.array_order_age),
