@@ -1,6 +1,5 @@
-package com.tmendes.birthdaydroid.fragments.statistics.age;
+package com.tmendes.birthdaydroid.views.statistics.zodiac;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,51 +9,59 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextAgeFragment extends AbstractContactsFragment {
+public class TextZodiacFragment extends AbstractContactsFragment {
 
     private TableLayout tableLayout;
+    private ZodiacResourceHelper zodiacResourceHelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
+        final View v = inflater.inflate(R.layout.fragment_text_statistics, container, false);
         setHasOptionsMenu(true);
 
         tableLayout = v.findViewById(R.id.tableLayout);
 
-        TextView title = v.findViewById(R.id.tvStatisticsTitle);
+        final TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_age));
+                .getString(R.string.menu_statistics_zodiac));
 
         return v;
     }
 
     @Override
     protected void updateContacts(List<Contact> contacts) {
-        final Map<Integer, Integer> ageStat = contacts.stream()
+        final Map<Integer, Integer> zodiacMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
-                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum));
+                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
 
-        final Resources resources = requireContext().getResources();
-        final TableRow header = newRow(resources.getString(R.string.array_order_age),
-                resources.getString(R.string.amount));
-
+        final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
-            final int age = pair.getKey();
+        for (Map.Entry<Integer, Integer> pair: zodiacMap.entrySet()) {
+            @Zodiac final int zodiac = pair.getKey();
             final int amount = pair.getValue();
-            TableRow row = newRow(String.valueOf(age), String.valueOf(amount));
+
+            final TableRow row = newRow(zodiacResourceHelper.getZodiacName(zodiac), String.valueOf(amount));
+
             tableLayout.addView(row);
         }
     }
@@ -76,4 +83,5 @@ public class TextAgeFragment extends AbstractContactsFragment {
 
         return row;
     }
+
 }

@@ -1,8 +1,7 @@
-package com.tmendes.birthdaydroid.fragments.statistics.month;
+package com.tmendes.birthdaydroid.views.statistics.zodiac;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -12,8 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -24,24 +22,28 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.zodiac.Zodiac;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class PieChartMonthFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
-
+public class PieChartZodiacFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
     private PieChart chart;
     private String label;
+    private ZodiacResourceHelper zodiacResourceHelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class PieChartMonthFragment extends AbstractContactsFragment implements O
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
         label = Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_month);
+                .getString(R.string.menu_statistics_zodiac);
         title.setText(label);
 
         this.chart.getDescription().setEnabled(false);
@@ -86,32 +88,25 @@ public class PieChartMonthFragment extends AbstractContactsFragment implements O
 
     @Override
     protected void updateContacts(List<Contact> contacts) {
-        final Map<Month, Integer> monthMap = contacts.stream()
+        final Map<Integer, Integer> zodiacMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
+                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
 
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
-            final Month month = pair.getKey();
-            final int quantity = pair.getValue();
-            final PieEntry entry = new PieEntry(quantity, month);
-            final Locale locale;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                locale = getResources().getConfiguration().getLocales().get(0);
-            } else {
-                locale = getResources().getConfiguration().locale;
-            }
-            String monthString = month.getDisplayName(TextStyle.FULL, locale);
-            entry.setLabel(monthString);
+        for (Map.Entry<Integer, Integer> pair : zodiacMap.entrySet()) {
+            @Zodiac int zodiac = pair.getKey();
+            int number = pair.getValue();
+            PieEntry entry = new PieEntry(number, zodiac);
+            entry.setLabel(zodiacResourceHelper.getZodiacName(zodiac));
             pieEntries.add(entry);
         }
 
-        final PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
         pieDataSet.setSliceSpace(1f);
         pieDataSet.setSelectionShift(5f);
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        final PieData pieData = new PieData(pieDataSet);
+        PieData pieData = new PieData(pieDataSet);
         pieData.setValueFormatter(new PercentFormatter());
         pieData.setValueTextSize(10f);
         pieData.setValueTextColor(Color.YELLOW);

@@ -1,5 +1,6 @@
-package com.tmendes.birthdaydroid.fragments.statistics.zodiac;
+package com.tmendes.birthdaydroid.views.statistics.month;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,32 +10,22 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
-import com.tmendes.birthdaydroid.zodiac.Zodiac;
-import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
+import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
 
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextZodiacFragment extends AbstractContactsFragment {
+public class TextMonthFragment extends AbstractContactsFragment {
 
     private TableLayout tableLayout;
-    private ZodiacResourceHelper zodiacResourceHelper;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        zodiacResourceHelper = new ZodiacResourceHelper(requireContext());
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,25 +36,32 @@ public class TextZodiacFragment extends AbstractContactsFragment {
 
         final TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_zodiac));
+                .getString(R.string.menu_statistics_month));
 
         return v;
     }
 
     @Override
     protected void updateContacts(List<Contact> contacts) {
-        final Map<Integer, Integer> zodiacMap = contacts.stream()
+        final Map<Month, Integer> monthMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
 
         final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Integer, Integer> pair: zodiacMap.entrySet()) {
-            @Zodiac final int zodiac = pair.getKey();
+        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
+            final Month month = pair.getKey();
             final int amount = pair.getValue();
 
-            final TableRow row = newRow(zodiacResourceHelper.getZodiacName(zodiac), String.valueOf(amount));
+            final Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = getResources().getConfiguration().getLocales().get(0);
+            } else {
+                locale = getResources().getConfiguration().locale;
+            }
+            final String monthName = month.getDisplayName(TextStyle.FULL, locale);
+            final TableRow row = newRow(monthName, String.valueOf(amount));
 
             tableLayout.addView(row);
         }
@@ -86,5 +84,4 @@ public class TextZodiacFragment extends AbstractContactsFragment {
 
         return row;
     }
-
 }

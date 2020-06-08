@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.views.about;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

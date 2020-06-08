@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tmendes.birthdaydroid.fragments;
+package com.tmendes.birthdaydroid.views.preferences;
 
 import android.accounts.Account;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -26,7 +25,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.CheckBoxPreference;
 import android.preference.MultiSelectListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -43,7 +41,6 @@ import com.tmendes.birthdaydroid.helpers.AccountHelper;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Objects;
 
 import static android.content.Context.POWER_SERVICE;

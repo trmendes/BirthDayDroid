@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.fragments.statistics.age;
+package com.tmendes.birthdaydroid.views.statistics.age;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -24,7 +24,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;

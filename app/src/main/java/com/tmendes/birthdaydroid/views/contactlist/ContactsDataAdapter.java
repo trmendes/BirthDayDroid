@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.adapters;
+package com.tmendes.birthdaydroid.views.contactlist;
 
 import android.content.Context;
 import android.content.Intent;

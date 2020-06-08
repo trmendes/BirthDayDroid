@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.fragments.statistics.month;
+package com.tmendes.birthdaydroid.views.statistics.dayofweek;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -10,15 +10,12 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.fragments.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
 
-import java.time.Month;
+import java.time.DayOfWeek;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
@@ -26,7 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextMonthFragment extends AbstractContactsFragment {
+public class TextWeekFragment extends AbstractContactsFragment {
 
     private TableLayout tableLayout;
 
@@ -39,22 +36,22 @@ public class TextMonthFragment extends AbstractContactsFragment {
 
         final TextView title = v.findViewById(R.id.tvStatisticsTitle);
         title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_month));
+                .getString(R.string.menu_statistics_week));
 
         return v;
     }
 
     @Override
     protected void updateContacts(List<Contact> contacts) {
-        final Map<Month, Integer> monthMap = contacts.stream()
+        final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
 
         final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
-            final Month month = pair.getKey();
+        for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
+            final DayOfWeek dayOfWeek = pair.getKey();
             final int amount = pair.getValue();
 
             final Locale locale;
@@ -63,8 +60,8 @@ public class TextMonthFragment extends AbstractContactsFragment {
             } else {
                 locale = getResources().getConfiguration().locale;
             }
-            final String monthName = month.getDisplayName(TextStyle.FULL, locale);
-            final TableRow row = newRow(monthName, String.valueOf(amount));
+            final String weekName = dayOfWeek.getDisplayName(TextStyle.FULL, locale);
+            final TableRow row = newRow(weekName, String.valueOf(amount));
 
             tableLayout.addView(row);
         }
@@ -87,4 +84,5 @@ public class TextMonthFragment extends AbstractContactsFragment {
 
         return row;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.tmendes.birthdaydroid.helpers;
+package com.tmendes.birthdaydroid.views.contactlist;
 
 import android.graphics.Canvas;
 import android.view.View;
@@ -6,8 +6,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.tmendes.birthdaydroid.adapters.ContactsDataAdapter;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     private final RecyclerItemTouchHelperListener listener;
