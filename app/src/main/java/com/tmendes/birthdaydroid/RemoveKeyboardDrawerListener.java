@@ -9,16 +9,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.Objects;
 
-public class RemoveKeyboardDrawerListener implements DrawerLayout.DrawerListener {
+public class RemoveKeyboardDrawerListener extends DrawerLayout.SimpleDrawerListener {
     private final Context context;
 
     public RemoveKeyboardDrawerListener(Context context) {
         this.context = context;
-    }
-
-    @Override
-    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
     }
 
     @Override
@@ -27,15 +22,5 @@ public class RemoveKeyboardDrawerListener implements DrawerLayout.DrawerListener
                 context.getSystemService(Context.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(inputManager).hideSoftInputFromWindow(drawerView.getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    @Override
-    public void onDrawerClosed(@NonNull View drawerView) {
-
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
     }
 }
