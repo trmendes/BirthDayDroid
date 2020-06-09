@@ -21,7 +21,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,10 +54,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.SEARCH_SERVICE;
-import static androidx.recyclerview.widget.ItemTouchHelper.Callback.getDefaultUIUtil;
 
 
-public class ContactListFragment extends AbstractContactsFragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class ContactListFragment extends AbstractContactsFragment implements ContactViewHolderTouchHelper.SwipeListener {
 
     private SearchView searchView;
     private SearchView.OnQueryTextListener queryTextListener;
@@ -95,8 +94,7 @@ public class ContactListFragment extends AbstractContactsFragment implements Rec
                 LinearLayoutManager.VERTICAL, false));
 
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(
-                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ContactViewHolderTouchHelper(this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -144,6 +142,7 @@ public class ContactListFragment extends AbstractContactsFragment implements Rec
                     contactsDataAdapter.getFilter().filter(query);
                     return true;
                 }
+
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     contactsDataAdapter.getFilter().filter(query);
@@ -178,91 +177,61 @@ public class ContactListFragment extends AbstractContactsFragment implements Rec
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        if (viewHolder instanceof ContactsDataAdapter.ContactViewHolder) {
-            final int index = viewHolder.getAdapterPosition();
-            final int dir = direction;
-            final Contact contact = contactsDataAdapter.getContact(index);
+    public void onSwipeFavorite(int position) {
+        final Contact contact = contactsDataAdapter.getContact(position);
 
-            if (direction == ItemTouchHelper.LEFT) {
-                contact.toggleIgnore();
-                contactsDataAdapter.ignoreItem(index, hideIgnoredContacts);
-            } else if (direction == ItemTouchHelper.RIGHT) {
-                contact.toggleFavorite();
-                contactsDataAdapter.favoriteItem(index);
-            }
+        contact.toggleFavorite();
+        contactsDataAdapter.favoriteItem(position);
+        saveContactInDB(contact);
 
-            if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                long dbID = dbContactService.insertContact(contact.getDbId(), contact.getKey(),
-                        contact.isFavorite(), contact.isIgnore());
-                contact.setDbId(dbID);
-            }
-
-            InputMethodManager inputManager = (InputMethodManager)
-                    Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            View currentFocus = getActivity().getCurrentFocus();
-
-            if (currentFocus != null) {
-                Objects.requireNonNull(inputManager).hideSoftInputFromWindow(currentFocus.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
-            snackbar.setActionTextColor(Color.RED);
-
-            snackbar.setAction(
-                    Objects.requireNonNull(getContext()).getResources().getString(R.string.undo),
-                    view -> {
-                        if (dir == ItemTouchHelper.LEFT) {
-                            contact.toggleIgnore();
-                            if (hideIgnoredContacts) {
-                                contactsDataAdapter.restoreContact(contact);
-                            } else {
-                                contactsDataAdapter.notifyDataSetChanged();
-                            }
-                        }
-                        if (dir == ItemTouchHelper.RIGHT) {
-                            contact.toggleFavorite();
-                            contactsDataAdapter.favoriteItem(index);
-                        }
-
-                        if (dir == ItemTouchHelper.LEFT || dir == ItemTouchHelper.RIGHT) {
-                            long dbID = dbContactService.insertContact(contact.getDbId(), contact.getKey(),
-                                    contact.isFavorite(), contact.isIgnore());
-                            contact.setDbId(dbID);
-                        }
-                    });
-            snackbar.show();
-        }
+        disableKeyBoardIfNeeded();
     }
 
     @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView,
-                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
-                            int actionState, boolean isCurrentlyActive) {
+    public void onSwipeIgnore(int position) {
+        final Contact contact = contactsDataAdapter.getContact(position);
 
-        final View foregroundView = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
-                .itemLayout;
-        final View ignoredLayout = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
-                .ignoreContactLayout;
-        final View favoriteLayout = ((ContactsDataAdapter.ContactViewHolder) viewHolder)
-                .favoriteContactLayout;
-        
-        if (dX > 0) {
-            ignoredLayout.setVisibility(View.INVISIBLE);
-            favoriteLayout.setVisibility(View.VISIBLE);
-        } else if (dX < 0) {
-            ignoredLayout.setVisibility(View.VISIBLE);
-            favoriteLayout.setVisibility(View.INVISIBLE);
-        } else {
-            favoriteLayout.setVisibility(View.INVISIBLE);
-            ignoredLayout.setVisibility(View.INVISIBLE);
+        contact.toggleIgnore();
+        contactsDataAdapter.ignoreItem(position, hideIgnoredContacts);
+        saveContactInDB(contact);
+
+        disableKeyBoardIfNeeded();
+
+        if (contact.isIgnore()) {
+            createSnackbar(position, contact);
         }
+    }
 
-        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,
-                isCurrentlyActive);
+    private void createSnackbar(int position, Contact contact) {
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
+        snackbar.setActionTextColor(Color.RED);
+
+        snackbar.setAction(
+                requireContext().getResources().getString(R.string.undo),
+                view -> {
+                    contact.toggleIgnore();
+                    contactsDataAdapter.restoreIgnoredContact(position, hideIgnoredContacts, contact);
+                    saveContactInDB(contact);
+                });
+        snackbar.show();
+    }
+
+    private void disableKeyBoardIfNeeded() {
+        final FragmentActivity activity = requireActivity();
+        final View currentFocus = activity.getCurrentFocus();
+        if (currentFocus != null) {
+            final InputMethodManager inputManager = (InputMethodManager)
+                    activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            Objects.requireNonNull(inputManager).hideSoftInputFromWindow(currentFocus.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    private void saveContactInDB(Contact contact) {
+        final long dbIDInAction = dbContactService.insertContact(contact.getDbId(), contact.getKey(),
+                contact.isFavorite(), contact.isIgnore());
+        contact.setDbId(dbIDInAction);
     }
 
     @Override
