@@ -32,8 +32,7 @@ public class TextAgeFragment extends AbstractContactsFragment {
         tableLayout = v.findViewById(R.id.tableLayout);
 
         TextView title = v.findViewById(R.id.tvStatisticsTitle);
-        title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_age));
+        title.setText(requireContext().getResources().getString(R.string.menu_statistics_age));
 
         return v;
     }

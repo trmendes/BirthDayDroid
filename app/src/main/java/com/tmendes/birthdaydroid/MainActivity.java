@@ -137,8 +137,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(new RemoveKeyboardDrawerListener(this));
 
         // ZodiacDrawerMenuItem
-        zodiacDrawerMenuItem = Objects.requireNonNull(navigationView).getMenu()
-                .findItem(R.id.nav_statistics_zodiac);
+        zodiacDrawerMenuItem = navigationView.getMenu().findItem(R.id.nav_statistics_zodiac);
         setZodiacStatisticMenuItemVisibility();
         hideZodiacChangeListener = (sharedPreferences, key) -> {
             if ("hide_zodiac".equals(key)) {

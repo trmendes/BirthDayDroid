@@ -35,8 +35,7 @@ public class TextWeekFragment extends AbstractContactsFragment {
         tableLayout = v.findViewById(R.id.tableLayout);
 
         final TextView title = v.findViewById(R.id.tvStatisticsTitle);
-        title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_week));
+        title.setText(requireContext().getResources().getString(R.string.menu_statistics_week));
 
         return v;
     }

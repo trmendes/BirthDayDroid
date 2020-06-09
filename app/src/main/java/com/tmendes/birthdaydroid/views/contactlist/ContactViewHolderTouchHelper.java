@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ContactViewHolderTouchHelper<T extends RecyclerView.ViewHolder> extends ItemTouchHelper.SimpleCallback {
+public class ContactViewHolderTouchHelper extends ItemTouchHelper.SimpleCallback {
     private final SwipeListener listener;
 
     public ContactViewHolderTouchHelper(SwipeListener listener) {

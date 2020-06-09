@@ -51,8 +51,7 @@ public class PieChartMonthFragment extends AbstractContactsFragment implements O
         this.chart = v.findViewById(R.id.pieChart);
 
         TextView title = v.findViewById(R.id.tvPieChartTitle);
-        label = Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_month);
+        label = requireContext().getResources().getString(R.string.menu_statistics_month);
         title.setText(label);
 
         this.chart.getDescription().setEnabled(false);

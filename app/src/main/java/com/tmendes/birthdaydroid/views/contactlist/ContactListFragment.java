@@ -125,16 +125,15 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
 
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_toolbar, menu);
-        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getContext())
-                .getSystemService(SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) requireContext().getSystemService(SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setSearchableInfo(Objects.requireNonNull(searchManager)
-                .getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
+                .getSearchableInfo(requireActivity().getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager
-                    .getSearchableInfo(getActivity().getComponentName()));
+                    .getSearchableInfo(requireActivity().getComponentName()));
 
             queryTextListener = new SearchView.OnQueryTextListener() {
                 @Override

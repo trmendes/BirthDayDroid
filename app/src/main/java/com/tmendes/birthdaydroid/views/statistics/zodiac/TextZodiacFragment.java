@@ -41,8 +41,7 @@ public class TextZodiacFragment extends AbstractContactsFragment {
         tableLayout = v.findViewById(R.id.tableLayout);
 
         final TextView title = v.findViewById(R.id.tvStatisticsTitle);
-        title.setText(Objects.requireNonNull(getContext()).getResources()
-                .getString(R.string.menu_statistics_zodiac));
+        title.setText(requireContext().getResources().getString(R.string.menu_statistics_zodiac));
 
         return v;
     }

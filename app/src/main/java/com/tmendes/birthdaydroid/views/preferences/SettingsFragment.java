@@ -52,7 +52,7 @@ public class SettingsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_settings,
                 container, false);
 
-        Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction()
+        requireActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.setting_frame, new PrefFragment())
                 .commit();
 
