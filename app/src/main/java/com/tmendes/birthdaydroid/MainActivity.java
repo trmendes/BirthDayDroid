@@ -299,7 +299,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showFragmentIfNotExists(Fragment fragment) {
-        if(getSupportFragmentManager().isStateSaved())
         if (getSupportFragmentManager().getFragments().isEmpty()) {
             showFragments(fragment);
         }
