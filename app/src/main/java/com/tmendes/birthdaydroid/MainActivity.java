@@ -146,8 +146,7 @@ public class MainActivity extends AppCompatActivity
         };
         prefs.registerOnSharedPreferenceChangeListener(hideZodiacChangeListener);
 
-        showFragments(new ContactListFragment());
-
+        showFragmentIfNotExists(new ContactListFragment());
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
@@ -297,6 +296,13 @@ public class MainActivity extends AppCompatActivity
             ft.addToBackStack(null);
         }
         ft.commit();
+    }
+
+    private void showFragmentIfNotExists(Fragment fragment) {
+        if(getSupportFragmentManager().isStateSaved())
+        if (getSupportFragmentManager().getFragments().isEmpty()) {
+            showFragments(fragment);
+        }
     }
 
     @Override

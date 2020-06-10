@@ -44,7 +44,7 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
 
     private Contact contact;
 
-    ContactViewHolder(View view, ZodiacResourceHelper zodiacResourceHelper) {
+    public ContactViewHolder(View view, ZodiacResourceHelper zodiacResourceHelper) {
         super(view);
         this.context = view.getContext();
         this.zodiacResourceHelper = zodiacResourceHelper;

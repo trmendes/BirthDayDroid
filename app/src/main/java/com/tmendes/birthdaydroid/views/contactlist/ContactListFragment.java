@@ -39,17 +39,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;
+import com.tmendes.birthdaydroid.date.DateLocaleHelper;
 import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,17 +66,55 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
     private SearchView searchView;
     private SearchView.OnQueryTextListener queryTextListener;
     private ContactsDataAdapter contactsDataAdapter;
-    private boolean hideIgnoredContacts;
     private DBContactService dbContactService;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences prefs;
     private FloatingActionButton fab;
+    private SharedPreferences.OnSharedPreferenceChangeListener sortOrderChangeListener;
+    private SharedPreferences.OnSharedPreferenceChangeListener showAddContactFabListener;
+    private FilterTermViewModel filterTermViewModel;
+
+    public ContactListFragment() {
+        System.out.println("test");
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbContactService = new DBContactService(getContext());
-        contactsDataAdapter = new ContactsDataAdapter(getContext());
+
+        final Context context = requireContext();
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        filterTermViewModel = ViewModelProviders.of(this).get(FilterTermViewModel.class);
+
+        dbContactService = new DBContactService(context);
+        contactsDataAdapter = new ContactsDataAdapter(context);
+        contactsDataAdapter.setFilter(new ContactFilter(context, new DateLocaleHelper(), new ZodiacResourceHelper(context)));
+        filterTermViewModel.getFilterTerm().observe(this,
+                filterTerm -> contactsDataAdapter.setFilterTerm(filterTerm)
+        );
+        contactsDataAdapter.setFilterTerm(filterTermViewModel.getFilterTerm().getValue());
+
+        sortOrderChangeListener = (sharedPreferences, key) -> {
+            if ("sort_input".equals(key) || "sort_method".equals(key)) {
+                updateSortOrder(sharedPreferences);
+            }
+        };
+        updateSortOrder(prefs);
+        prefs.registerOnSharedPreferenceChangeListener(sortOrderChangeListener);
+
+        showAddContactFabListener = (sharedPreferences, key) -> {
+            if ("show_add_contact_fab".equals(key)) {
+                showHideAddNewBirthday(sharedPreferences);
+            }
+        };
+        prefs.registerOnSharedPreferenceChangeListener(showAddContactFabListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        prefs.unregisterOnSharedPreferenceChangeListener(showAddContactFabListener);
+        prefs.unregisterOnSharedPreferenceChangeListener(sortOrderChangeListener);
+        super.onDestroy();
     }
 
     @Override
@@ -82,10 +125,6 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
                 container, false);
 
         setHasOptionsMenu(true);
-
-//        PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
 
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -108,13 +147,20 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
                     ContactsContract.Contacts.CONTENT_URI);
             startActivity(intent);
         });
-
-        showHideAddNewBirthday();
+        showHideAddNewBirthday(prefs);
 
         return v;
     }
 
-    private void showHideAddNewBirthday() {
+    private void updateSortOrder(SharedPreferences prefs) {
+        final int sortOrder = Integer.parseInt(prefs.getString("sort_input", "0"));
+        final int sortType = Integer.parseInt(prefs.getString("sort_method", "0"));
+        Comparator<Contact> comparator = new BirthDayComparatorFactory(requireContext())
+                .createBirthdayComparator(sortOrder, sortType);
+        contactsDataAdapter.setComparator(comparator);
+    }
+
+    private void showHideAddNewBirthday(SharedPreferences prefs) {
         boolean hideAddNewBirthday = prefs.getBoolean("show_add_contact_fab", false);
         if (hideAddNewBirthday) {
             fab.hide();
@@ -123,6 +169,7 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
         }
     }
 
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_toolbar, menu);
         SearchManager searchManager = (SearchManager) requireContext().getSystemService(SEARCH_SERVICE);
@@ -138,13 +185,13 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
             queryTextListener = new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextChange(String query) {
-                    contactsDataAdapter.getFilter().filter(query);
+                    filterTermViewModel.updateFilterTerm(query);
                     return true;
                 }
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    contactsDataAdapter.getFilter().filter(query);
+                    filterTermViewModel.updateFilterTerm(query);
                     return true;
                 }
             };
@@ -163,24 +210,11 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        // ToDo rename Preferences
-        int sortOrder = Integer.parseInt(prefs.getString("sort_input", "0"));
-        int sortType = Integer.parseInt(prefs.getString("sort_method", "0"));
-
-        showHideAddNewBirthday();
-
-        contactsDataAdapter.sort(sortOrder, sortType);
-    }
-
-    @Override
     public void onSwipeFavorite(int position) {
-        final Contact contact = contactsDataAdapter.getContact(position);
+        final Contact contact = contactsDataAdapter.getItem(position);
 
         contact.toggleFavorite();
-        contactsDataAdapter.favoriteItem(position);
+        contactsDataAdapter.notifyItemChanged(position);
         saveContactInDB(contact);
 
         disableKeyBoardIfNeeded();
@@ -188,20 +222,25 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
 
     @Override
     public void onSwipeIgnore(int position) {
-        final Contact contact = contactsDataAdapter.getContact(position);
+        final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+        final Contact contact = contactsDataAdapter.getItem(position);
 
         contact.toggleIgnore();
-        contactsDataAdapter.ignoreItem(position, hideIgnoredContacts);
+        if (hideIgnoredContacts) {
+            contactsDataAdapter.removeItem(position);
+        } else {
+            contactsDataAdapter.notifyItemChanged(position);
+        }
         saveContactInDB(contact);
 
         disableKeyBoardIfNeeded();
 
-        if (contact.isIgnore()) {
-            createSnackbar(position, contact);
+        if (contact.isIgnore() && hideIgnoredContacts) {
+            createSnackbar(contact);
         }
     }
 
-    private void createSnackbar(int position, Contact contact) {
+    private void createSnackbar(Contact contact) {
         Snackbar snackbar = Snackbar
                 .make(coordinatorLayout, contact.getName(), Snackbar.LENGTH_LONG);
         snackbar.setActionTextColor(Color.RED);
@@ -210,7 +249,7 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
                 requireContext().getResources().getString(R.string.undo),
                 view -> {
                     contact.toggleIgnore();
-                    contactsDataAdapter.restoreIgnoredContact(position, hideIgnoredContacts, contact);
+                    contactsDataAdapter.addItem(contact);
                     saveContactInDB(contact);
                 });
         snackbar.show();
@@ -235,6 +274,6 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
 
     @Override
     protected void updateContacts(List<Contact> contacts) {
-        contactsDataAdapter.refreshContacts(contacts);
+        contactsDataAdapter.setData(contacts);
     }
 }
