@@ -146,7 +146,9 @@ public class MainActivity extends AppCompatActivity
         };
         prefs.registerOnSharedPreferenceChangeListener(hideZodiacChangeListener);
 
-        showFragmentIfNotExists(new ContactListFragment());
+        if (savedInstanceState == null) {
+            showFragment(new ContactListFragment());
+        }
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
@@ -246,41 +248,41 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 /* No break */
             case R.id.nav_birthday_list:
-                showFragments(new ContactListFragment());
+                showFragment(new ContactListFragment());
                 break;
             case R.id.nav_statistics_age:
                 if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragments(new TextAgeFragment());
+                    showFragment(new TextAgeFragment());
                 } else {
-                    showFragments(new BarChartAgeFragment());
+                    showFragment(new BarChartAgeFragment());
                 }
                 break;
             case R.id.nav_statistics_zodiac:
                 if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragments(new TextZodiacFragment());
+                    showFragment(new TextZodiacFragment());
                 } else {
-                    showFragments(new PieChartZodiacFragment());
+                    showFragment(new PieChartZodiacFragment());
                 }
                 break;
             case R.id.nav_statistics_week:
                 if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragments(new TextWeekFragment());
+                    showFragment(new TextWeekFragment());
                 } else {
-                    showFragments(new PieChartWeekFragment());
+                    showFragment(new PieChartWeekFragment());
                 }
                 break;
             case R.id.nav_statistics_month:
                 if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragments(new TextMonthFragment());
+                    showFragment(new TextMonthFragment());
                 } else {
-                    showFragments(new PieChartMonthFragment());
+                    showFragment(new PieChartMonthFragment());
                 }
                 break;
             case R.id.nav_settings:
-                showFragments(new SettingsFragment());
+                showFragment(new SettingsFragment());
                 break;
             case R.id.nav_about:
-                showFragments(new AboutUsFragment());
+                showFragment(new AboutUsFragment());
                 break;
         }
 
@@ -289,19 +291,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void showFragments(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_layout, fragment);
         if (!(fragment instanceof ContactListFragment)) {
             ft.addToBackStack(null);
         }
         ft.commit();
-    }
-
-    private void showFragmentIfNotExists(Fragment fragment) {
-        if (getSupportFragmentManager().getFragments().isEmpty()) {
-            showFragments(fragment);
-        }
     }
 
     @Override
