@@ -1,5 +1,6 @@
 package com.tmendes.birthdaydroid.zodiac;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.tmendes.birthdaydroid.R;
@@ -10,7 +11,8 @@ public class ZodiacResourceHelper {
     private final String[] zodiacElementNames;
     private final String[] zodiacElementSymbol;
 
-    public ZodiacResourceHelper(Resources resources) {
+    public ZodiacResourceHelper(Context context) {
+        final Resources resources = context.getResources();
         zodiacNames = new String[]{
                 resources.getString(R.string.sign_capricorn),
                 resources.getString(R.string.sign_aquarius),

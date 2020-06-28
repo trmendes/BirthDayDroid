@@ -17,23 +17,19 @@
 
 package com.tmendes.birthdaydroid;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,29 +38,30 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
-import com.tmendes.birthdaydroid.fragments.AboutUsFragment;
-import com.tmendes.birthdaydroid.fragments.BarChartAgeFragment;
-import com.tmendes.birthdaydroid.fragments.ContactListFragment;
-import com.tmendes.birthdaydroid.fragments.PieChartMonthFragment;
-import com.tmendes.birthdaydroid.fragments.PieChartWeekFragment;
-import com.tmendes.birthdaydroid.fragments.PieChartZodiacFragment;
-import com.tmendes.birthdaydroid.fragments.SettingsFragment;
-import com.tmendes.birthdaydroid.fragments.TextAgeFragment;
-import com.tmendes.birthdaydroid.fragments.TextMonthFragment;
-import com.tmendes.birthdaydroid.fragments.TextWeekFragment;
-import com.tmendes.birthdaydroid.fragments.TextZodiacFragment;
+import com.tmendes.birthdaydroid.contact.ContactsViewModel;
+import com.tmendes.birthdaydroid.contact.android.ContactContentChangeObserver;
+import com.tmendes.birthdaydroid.views.about.AboutUsFragment;
+import com.tmendes.birthdaydroid.views.statistics.age.BarChartAgeFragment;
+import com.tmendes.birthdaydroid.views.contactlist.ContactListFragment;
+import com.tmendes.birthdaydroid.views.statistics.month.PieChartMonthFragment;
+import com.tmendes.birthdaydroid.views.statistics.dayofweek.PieChartWeekFragment;
+import com.tmendes.birthdaydroid.views.statistics.zodiac.PieChartZodiacFragment;
+import com.tmendes.birthdaydroid.views.preferences.SettingsFragment;
+import com.tmendes.birthdaydroid.views.statistics.age.TextAgeFragment;
+import com.tmendes.birthdaydroid.views.statistics.month.TextMonthFragment;
+import com.tmendes.birthdaydroid.views.statistics.dayofweek.TextWeekFragment;
+import com.tmendes.birthdaydroid.views.statistics.zodiac.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
-import com.tmendes.birthdaydroid.helpers.PermissionHelper;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.permission.PermissionGranter;
+import com.tmendes.birthdaydroid.receivers.LocalDateNowChangeReceiver;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -75,35 +72,27 @@ import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // the Default time to notify the user about a birthday
-    public static final int DEFAULT_ALARM_TIME = 8;
-
-    // Permission Control
-    private PermissionHelper permissionHelper;
-    private static final int PERMISSION_CONTACT_READ = 100;
-
     private boolean doubleBackToExitPressedOnce = false;
-
-    private boolean statisticsAsText = false;
 
     private MenuItem zodiacDrawerMenuItem;
 
     private DrawerLayout drawerLayout;
 
     private SharedPreferences prefs;
+    private LocalDateNowChangeReceiver localDateNowChangeReceiver;
+    private ContactContentChangeObserver contactChangeContentObserver;
+    private PermissionGranter permissionGranter;
+    private SharedPreferences.OnSharedPreferenceChangeListener hideZodiacChangeListener;
+    private SharedPreferences.OnSharedPreferenceChangeListener reloadContactsChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         executeFirstRunInitializationIfNeeded(prefs, this);
 
-        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
-        this.statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
-                false);
-
-        setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES);
+        // Theme
+        final boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         if (useDarkTheme) {
             setTheme(R.style.AppThemeDark);
         } else {
@@ -113,14 +102,20 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        permissionHelper = new PermissionHelper(this);
+        final ContactsViewModel contactsViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
+        contactChangeContentObserver = new ContactContentChangeObserver(this);
 
-        showBreakingChangeDialogAndMigradeIfNeeded();
-        requestForPermissions();
+        // Permission Control
+        permissionGranter = new PermissionGranter(this, () -> {
+            contactsViewModel.reloadContacts();
+            getApplicationContext().getContentResolver().registerContentObserver(
+                    ContactsContract.Contacts.CONTENT_URI,
+                    true,
+                    contactChangeContentObserver);
+        });
+        permissionGranter.grandReadContactOrExit();
 
-        // Birthdays
-        BirthdayDataProvider bddDataProvider = BirthdayDataProvider.getInstance();
-        bddDataProvider.init(getApplicationContext(), permissionHelper);
+        showBreakingChangeDialogAndMigrateIfNeeded();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -138,39 +133,50 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        zodiacDrawerMenuItem = Objects.requireNonNull(navigationView).getMenu()
-                .findItem(R.id.nav_statistics_zodiac);
-
         drawerLayout.closeDrawer(GravityCompat.START);
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+        drawerLayout.addDrawerListener(new RemoveKeyboardDrawerListener(this));
 
-            @Override
-            public void onDrawerSlide(@NonNull View view, float v) {
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                Objects.requireNonNull(inputManager).hideSoftInputFromWindow(view.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+        // ZodiacDrawerMenuItem
+        zodiacDrawerMenuItem = navigationView.getMenu().findItem(R.id.nav_statistics_zodiac);
+        setZodiacStatisticMenuItemVisibility();
+        hideZodiacChangeListener = (sharedPreferences, key) -> {
+            if ("hide_zodiac".equals(key)) {
+                setZodiacStatisticMenuItemVisibility();
             }
+        };
+        prefs.registerOnSharedPreferenceChangeListener(hideZodiacChangeListener);
 
-            @Override
-            public void onDrawerOpened(@NonNull View view) {
+        if (savedInstanceState == null) {
+            showFragment(new ContactListFragment());
+        }
+
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        localDateNowChangeReceiver = new LocalDateNowChangeReceiver(this);
+        getApplicationContext().registerReceiver(localDateNowChangeReceiver, intentFilter);
+
+        reloadContactsChangeListener = (sharedPreferences, key) -> {
+            if ("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
+                contactsViewModel.reloadContacts();
             }
+        };
+        prefs.registerOnSharedPreferenceChangeListener(reloadContactsChangeListener);
+    }
 
-            @Override
-            public void onDrawerClosed(@NonNull View view) {
+    @Override
+    protected void onDestroy() {
+        prefs.unregisterOnSharedPreferenceChangeListener(hideZodiacChangeListener);
+        prefs.unregisterOnSharedPreferenceChangeListener(reloadContactsChangeListener);
+        getApplicationContext().unregisterReceiver(localDateNowChangeReceiver);
+        getApplicationContext().getContentResolver().unregisterContentObserver(contactChangeContentObserver);
+        super.onDestroy();
+    }
 
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-                boolean hideZoadiac = prefs.getBoolean("hide_zodiac", false);
-                zodiacDrawerMenuItem.setVisible(!hideZoadiac);
-                statisticsAsText = prefs.getBoolean("settings_statistics_as_text",
-                        false);
-            }
-        });
-
-        showFragments(new ContactListFragment());
+    private void setZodiacStatisticMenuItemVisibility() {
+        final boolean hide_zodiac = this.prefs.getBoolean("hide_zodiac", false);
+        zodiacDrawerMenuItem.setVisible(!hide_zodiac);
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
@@ -183,7 +189,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void showBreakingChangeDialogAndMigradeIfNeeded() {
+    private void showBreakingChangeDialogAndMigrateIfNeeded() {
         if (!prefs.contains("breaking_change_v46")) {
             long scanDailyInterval = prefs.getLong("scan_daily_interval", 0);
             if (scanDailyInterval != 0) {
@@ -224,13 +230,7 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(this, getResources().getString(R.string.exit_warning_msg),
                             Toast.LENGTH_SHORT).show();
                     this.doubleBackToExitPressedOnce = true;
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            doubleBackToExitPressedOnce = false;
-                        }
-                    }, 2000);
+                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
                 }
             } else {
                 getSupportFragmentManager().popBackStack(null,
@@ -248,41 +248,41 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 /* No break */
             case R.id.nav_birthday_list:
-                showFragments(new ContactListFragment());
+                showFragment(new ContactListFragment());
                 break;
             case R.id.nav_statistics_age:
-                if (this.statisticsAsText) {
-                    showFragments(new TextAgeFragment());
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
+                    showFragment(new TextAgeFragment());
                 } else {
-                    showFragments(new BarChartAgeFragment());
+                    showFragment(new BarChartAgeFragment());
                 }
                 break;
             case R.id.nav_statistics_zodiac:
-                if (this.statisticsAsText) {
-                    showFragments(new TextZodiacFragment());
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
+                    showFragment(new TextZodiacFragment());
                 } else {
-                    showFragments(new PieChartZodiacFragment());
+                    showFragment(new PieChartZodiacFragment());
                 }
                 break;
             case R.id.nav_statistics_week:
-                if (this.statisticsAsText) {
-                    showFragments(new TextWeekFragment());
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
+                    showFragment(new TextWeekFragment());
                 } else {
-                    showFragments(new PieChartWeekFragment());
+                    showFragment(new PieChartWeekFragment());
                 }
                 break;
             case R.id.nav_statistics_month:
-                if (this.statisticsAsText) {
-                    showFragments(new TextMonthFragment());
+                if (prefs.getBoolean("settings_statistics_as_text", false)) {
+                    showFragment(new TextMonthFragment());
                 } else {
-                    showFragments(new PieChartMonthFragment());
+                    showFragment(new PieChartMonthFragment());
                 }
                 break;
             case R.id.nav_settings:
-                showFragments(new SettingsFragment());
+                showFragment(new SettingsFragment());
                 break;
             case R.id.nav_about:
-                showFragments(new AboutUsFragment());
+                showFragment(new AboutUsFragment());
                 break;
         }
 
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void showFragments(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_layout, fragment);
         if (!(fragment instanceof ContactListFragment)) {
@@ -300,45 +300,14 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-    private void requestForPermissions() {
-        String permissionString;
-        permissionString = Manifest.permission.READ_CONTACTS;
-        if (ContextCompat.checkSelfPermission(this, permissionString)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    permissionString)) {
-                displayPermissionExplanation();
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        PERMISSION_CONTACT_READ);
-            }
-        } else {
-            permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
-                    true);
-            showFragments(new ContactListFragment());
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_CONTACT_READ) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
-                        true);
-                showFragments(new ContactListFragment());
-            } else {
-                permissionHelper.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION,
-                        false);
-            }
-        }
+        permissionGranter.onRequestPermissionsResultForReadContacts(requestCode, permissions, grantResults);
     }
 
     @SuppressLint("BatteryLife")
-    private void checkIsEnableBatteryOptimizations()
-    {
+    private void checkIsEnableBatteryOptimizations() {
         Intent intent = new Intent();
         String packageName = getPackageName();
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
@@ -349,31 +318,4 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
     }
-
-    private void displayPermissionExplanation() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(getResources().getString(R.string.alert_contacts_dialog_msg));
-        builder.setTitle(getResources().getString(R.string.alert_contats_dialog_title));
-
-        builder.setPositiveButton(getResources().getString(R.string.alert_permissions_allow), new Dialog.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        PERMISSION_CONTACT_READ);
-            }
-        });
-
-        builder.setNegativeButton(getResources().getString(R.string.alert_permissions_deny), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
 }

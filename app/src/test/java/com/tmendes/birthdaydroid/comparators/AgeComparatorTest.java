@@ -1,12 +1,12 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Comparator;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,8 +29,8 @@ public class AgeComparatorTest {
     public void testLess() {
         Comparator<Contact> comparatorAsc = new AgeComparator();
 
-        Mockito.when(contactA.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 2));
-        Mockito.when(contactB.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
+        Mockito.when(contactA.getBornOn()).thenReturn(createLocalDate(2020, 1, 2));
+        Mockito.when(contactB.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
 
         assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
     }
@@ -39,8 +39,8 @@ public class AgeComparatorTest {
     public void testEquals() {
         Comparator<Contact> comparatorAsc = new AgeComparator();
 
-        Mockito.when(contactA.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
-        Mockito.when(contactB.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
+        Mockito.when(contactA.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
+        Mockito.when(contactB.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
 
         assertThat(comparatorAsc.compare(contactA, contactB), is(0));
     }
@@ -49,8 +49,8 @@ public class AgeComparatorTest {
     public void testGreater() {
         Comparator<Contact> comparatorAsc = new AgeComparator();
 
-        Mockito.when(contactA.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 1));
-        Mockito.when(contactB.getBornOn()).thenReturn(createCalendarWithDate(2020, 1, 2));
+        Mockito.when(contactA.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
+        Mockito.when(contactB.getBornOn()).thenReturn(createLocalDate(2020, 1, 2));
 
         assertThat(comparatorAsc.compare(contactA, contactB), greaterThan(0));
     }
@@ -60,10 +60,7 @@ public class AgeComparatorTest {
      * @param month 1-12
      * @param day   1-31
      */
-    private Calendar createCalendarWithDate(int year, int month, int day) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, day, 0, 0, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
+    private LocalDate createLocalDate(int year, int month, int day) {
+        return LocalDate.of(year, month, day);
     }
 }

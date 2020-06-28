@@ -33,13 +33,13 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = Objects.requireNonNull(intent.getAction());
-        if (action.equals(Intent.ACTION_BOOT_COMPLETED)
-                || action.equals(Intent.ACTION_TIME_CHANGED)
-                || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
+        String action = intent.getAction();
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)
+                || Intent.ACTION_TIME_CHANGED.equals(action)
+                || Intent.ACTION_TIMEZONE_CHANGED.equals(action)) {
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            long toRingAt = prefs.getLong("scan_daily_interval", 0);
+            long toRingAt = prefs.getLong("scan_daily_interval", -1);
             alarm.cancelAlarm(context);
             alarm.setAlarm(context, toRingAt);
         }

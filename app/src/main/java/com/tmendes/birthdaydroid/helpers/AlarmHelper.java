@@ -17,7 +17,6 @@
 
 package com.tmendes.birthdaydroid.helpers;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -26,52 +25,44 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.receivers.BootReceiver;
 import com.tmendes.birthdaydroid.receivers.NotifierReceiver;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
 public class AlarmHelper {
 
-    private AlarmManager alarmManager;
-
     private final static String ACTION_BD_NOTIFICATION = "com.tmendes.birthdaydroid.NOTIFICATION";
 
+    public static final int DEFAULT_ALARM_TIME_HOUR = 8;
+
     public void setAlarm(Context context, long toGoesOffAt) {
-        Calendar defaultToRingAt = Calendar.getInstance();
-
-        if (toGoesOffAt == 0) {
-            defaultToRingAt.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
-            defaultToRingAt.set(Calendar.MINUTE, 0);
-            defaultToRingAt.set(Calendar.SECOND, 0);
+        final LocalTime localTime;
+        if (toGoesOffAt == -1) {
+            localTime = LocalTime.of(DEFAULT_ALARM_TIME_HOUR, 0);
         } else {
-            Calendar configuredTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            configuredTime.setTimeInMillis(toGoesOffAt);
-
-            defaultToRingAt.set(Calendar.HOUR_OF_DAY, configuredTime.get(Calendar.HOUR_OF_DAY));
-            defaultToRingAt.set(Calendar.MINUTE, configuredTime.get(Calendar.MINUTE));
-            defaultToRingAt.set(Calendar.SECOND, configuredTime.get(Calendar.SECOND));
-
-            Calendar now = Calendar.getInstance();
-            defaultToRingAt.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
-            if(defaultToRingAt.getTimeInMillis() < now.getTimeInMillis()){
-                defaultToRingAt.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH) + 1);
-            }
+            localTime = LocalTime.of(0, 0).plus(toGoesOffAt, ChronoUnit.MILLIS);
         }
 
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String formattedDate = df.format(defaultToRingAt.getTime());
-        Log.i("Alarm", "Setting alarm at " + formattedDate);
+        final LocalDateTime now = LocalDateTime.now();
+        LocalDateTime defaultToRingAt = now.with(localTime);
 
-        toGoesOffAt = defaultToRingAt.getTimeInMillis();
+        if(now.isAfter(defaultToRingAt)) {
+            defaultToRingAt = defaultToRingAt.plusDays(1);
+        }
 
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        Log.i(getClass().toString(), "Setting alarm at " + defaultToRingAt.format(dtf));
+
+        toGoesOffAt = defaultToRingAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent alarmIntent = new Intent(context, NotifierReceiver.class);
         alarmIntent.setAction(ACTION_BD_NOTIFICATION);
@@ -97,7 +88,7 @@ public class AlarmHelper {
     public void cancelAlarm(Context context) {
         Log.i("Alarm", "Cancel the alarm");
 
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent alarmIntent = new Intent(context, NotifierReceiver.class);
         alarmIntent.setAction(ACTION_BD_NOTIFICATION);

@@ -34,29 +34,18 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
 
 import java.io.IOException;
 
 public class NotificationHelper extends ContextWrapper {
-    private static NotificationHelper instance;
-
-    private NotificationManager notifManager;
-
     private static final String CHANNEL_ONE_ID = "com.wlnomads.uvindexnot.uvindexnotifications.CHONE";
     private static final String CHANNEL_ONE_NAME = "Channel One";
 
-    private NotificationHelper(Context ctx) {
+    public NotificationHelper(Context ctx) {
         super(ctx);
         createChannels();
-    }
-
-    public static NotificationHelper getInstance(Context ctx) {
-        if (instance == null) {
-            instance = new NotificationHelper(ctx);
-        }
-        return instance;
     }
 
     private void createChannels() {
@@ -98,15 +87,8 @@ public class NotificationHelper extends ContextWrapper {
         }
     }
 
-    private void notify(long id, Notification.Builder notification) {
-        getManager().notify((int) id, notification.build());
-    }
-
     private NotificationManager getManager() {
-        if (notifManager == null) {
-            notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        return notifManager;
+        return (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public void postNotification(Contact contact) {
@@ -127,40 +109,34 @@ public class NotificationHelper extends ContextWrapper {
             }
 
             if (notify) {
-                String eventTypeLabel = contact.getEventTypeLabel();
-                if(!contact.isCustomTypeLabel()) {
-                    eventTypeLabel = eventTypeLabel.toLowerCase();
-                    eventTypeLabel = Character.toString(eventTypeLabel.charAt(0)).toUpperCase()
-                            + eventTypeLabel.substring(1);
-                }
-
-                String title = contact.getName() + " (" + eventTypeLabel + ")";
+                String title = contact.getName() + " (" + contact.getEventTypeLabel() + ")";
                 StringBuilder body = new StringBuilder();
 
-                if (contact.shallWePartyToday()) {
+                if (contact.isBirthdayToday()) {
                         body.append(getBaseContext().getString(R.string.party_message));
                 } else {
-                    if(contact.getAge() > 0) {
+                    final String firstName = contact.getName().split(" ")[0];
+                    if(!contact.isMissingYearInfo()) {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthday(),
-                                contact.getContactFirstName(), contact.getAge(),
+                                firstName, contact.getAgeInYears(),
                                 contact.getDaysUntilNextBirthday()));
                     } else {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come_no_age,
                                 contact.getDaysUntilNextBirthday(),
-                                contact.getContactFirstName(),
+                                firstName,
                                 contact.getDaysUntilNextBirthday()));
                     }
                 }
 
                 /* Contact Picture */
                 Bitmap notifyPicture;
-                if (contact.getPhotoURI() != null) {
+                if (contact.getPhotoUri() != null) {
                     notifyPicture = MediaStore.Images.Media.getBitmap(
                             getBaseContext().getContentResolver(),
-                            Uri.parse(contact.getPhotoURI()));
+                            Uri.parse(contact.getPhotoUri()));
                 } else {
                     notifyPicture = BitmapFactory.decodeResource(getBaseContext().getResources(),
                             R.drawable.ic_account_circle_black_48dp);
@@ -177,7 +153,7 @@ public class NotificationHelper extends ContextWrapper {
                 /* Notify */
                 Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
                         openContactPI);
-                notify(System.currentTimeMillis(), nBuilder);
+                getManager().notify((int) System.currentTimeMillis(), nBuilder.build());
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.tmendes.birthdaydroid.zodiac;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.tmendes.birthdaydroid.R;
@@ -15,12 +16,12 @@ import static org.mockito.Mockito.when;
 
 public class ZodiacResourceHelperTest {
 
-    private static Resources resources;
+    private static Context context;
     private ZodiacResourceHelper zodiacResourceHelper;
 
     @BeforeClass
     public static void setUpClass() {
-        resources = mock(Resources.class);
+        Resources resources = mock(Resources.class);
 
         when(resources.getString(R.string.sign_capricorn)).thenReturn("zn1");
         when(resources.getString(R.string.sign_aquarius)).thenReturn("zn2");
@@ -57,11 +58,14 @@ public class ZodiacResourceHelperTest {
         when(resources.getString(R.string.sign_element_air_symbol)).thenReturn("zes2");
         when(resources.getString(R.string.sign_element_water_symbol)).thenReturn("zes3");
         when(resources.getString(R.string.sign_element_fire_symbol)).thenReturn("zes4");
+
+        context = mock(Context.class);
+        when(context.getResources()).thenReturn(resources);
     }
 
     @Before
     public void setUp() {
-        zodiacResourceHelper = new ZodiacResourceHelper(resources);
+        zodiacResourceHelper = new ZodiacResourceHelper(context);
     }
 
     @Test

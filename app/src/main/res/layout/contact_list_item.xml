@@ -50,7 +50,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="5dp">
+            android:background="?android:colorBackgroundFloating"
+            android:padding="5dp">
 
             <!--  ListRow Left side Contact Picture -->
             <LinearLayout

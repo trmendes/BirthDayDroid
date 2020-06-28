@@ -20,20 +20,21 @@ package com.tmendes.birthdaydroid.preferences;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
-import com.tmendes.birthdaydroid.MainActivity;
 import com.tmendes.birthdaydroid.R;
+import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 
 public class TimeDialogPreference extends DialogPreference {
-    private final Calendar calendar;
+    private LocalTime localTime;
     private TimePicker picker = null;
 
     public TimeDialogPreference(Context ctxt) {
@@ -50,10 +51,7 @@ public class TimeDialogPreference extends DialogPreference {
         setPositiveButtonText(ctxt.getResources().getString(R.string.settings_time_set));
         setNegativeButtonText(ctxt.getResources().getString(R.string.settings_time_cancel));
 
-        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.set(Calendar.HOUR_OF_DAY, MainActivity.DEFAULT_ALARM_TIME);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+        localTime = LocalTime.of(AlarmHelper.DEFAULT_ALARM_TIME_HOUR, 0);
     }
 
     @Override
@@ -66,8 +64,8 @@ public class TimeDialogPreference extends DialogPreference {
     @Override
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
-        picker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-        picker.setMinute(calendar.get(Calendar.MINUTE));
+        picker.setHour(localTime.getHour());
+        picker.setMinute(localTime.getMinute());
     }
 
     @Override
@@ -75,13 +73,16 @@ public class TimeDialogPreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            calendar.set(Calendar.HOUR_OF_DAY, picker.getHour());
-            calendar.set(Calendar.MINUTE, picker.getMinute());
+            localTime = localTime
+                    .withHour(picker.getHour())
+                    .withMinute(picker.getMinute());
 
             setSummary(getSummary());
 
-            if (callChangeListener(calendar.getTimeInMillis())) {
-                persistLong(calendar.getTimeInMillis());
+            int millis = localTime.get(ChronoField.MILLI_OF_DAY);
+
+            if (callChangeListener(millis)) {
+                persistLong(millis);
                 notifyChanged();
             }
         }
@@ -101,12 +102,12 @@ public class TimeDialogPreference extends DialogPreference {
             } catch (Exception e) {
                 persistedValue = System.currentTimeMillis();
             }
-            calendar.setTimeInMillis(persistedValue);
 
+            localTime = LocalTime.of(0,0).plus(persistedValue, ChronoUnit.MILLIS);
         } else if (defaultValue != null) {
-            calendar.setTimeInMillis(Long.parseLong((String) defaultValue));
+            localTime = LocalTime.of(0,0).plus(Long.parseLong((String) defaultValue), ChronoUnit.MILLIS);
         } else {
-            calendar.setTimeInMillis(System.currentTimeMillis());
+            localTime = LocalTime.of(0,0).plus(System.currentTimeMillis(), ChronoUnit.MILLIS);
         }
 
         setSummary(getSummary());
@@ -114,12 +115,10 @@ public class TimeDialogPreference extends DialogPreference {
 
     @Override
     public CharSequence getSummary() {
-        if (calendar == null) {
+        if (localTime == null) {
             return null;
         }
 
-        java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getContext());
-        timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return timeFormat.format(new Date(calendar.getTimeInMillis()));
+        return localTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
     }
 }

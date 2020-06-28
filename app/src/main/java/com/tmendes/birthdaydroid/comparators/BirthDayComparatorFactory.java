@@ -1,8 +1,10 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import com.tmendes.birthdaydroid.Contact;
+import android.content.Context;
 
-import java.util.Collections;
+import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
+
 import java.util.Comparator;
 
 public class BirthDayComparatorFactory {
@@ -14,6 +16,12 @@ public class BirthDayComparatorFactory {
     public static final int SORT_TYPE_NAME = 2;
     public static final int SORT_TYPE_ZODIAC = 3;
 
+    private final Context ctx;
+
+    public BirthDayComparatorFactory(Context ctx) {
+        this.ctx = ctx;
+    }
+
     public Comparator<Contact> createBirthdayComparator(int sortType, int sortOrder) {
         final Comparator<Contact> comparator;
         switch (sortType) {
@@ -24,7 +32,7 @@ public class BirthDayComparatorFactory {
                 comparator = new DaysUntilBirthdayComparator();
                 break;
             case SORT_TYPE_ZODIAC:
-                comparator = new ZodiacComparator();
+                comparator = new ZodiacComparator(new ZodiacResourceHelper(ctx));
                 break;
             case SORT_TYPE_NAME:
                 comparator = new NameComparator();
@@ -37,7 +45,7 @@ public class BirthDayComparatorFactory {
             case SORT_ORDER_ASC:
                 return comparator;
             case SORT_ORDER_DESC:
-                return Collections.reverseOrder(comparator);
+                return comparator.reversed();
             default:
                 throw new IllegalArgumentException(String.format("Unknown sortOrder: %d", sortOrder));
         }

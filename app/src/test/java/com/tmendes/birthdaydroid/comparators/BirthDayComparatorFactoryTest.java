@@ -1,11 +1,13 @@
 package com.tmendes.birthdaydroid.comparators;
 
-import com.tmendes.birthdaydroid.Contact;
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.tmendes.birthdaydroid.contact.Contact;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,6 +16,8 @@ import static com.tmendes.birthdaydroid.comparators.BirthDayComparatorFactory.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class BirthDayComparatorFactoryTest {
 
@@ -21,7 +25,9 @@ public class BirthDayComparatorFactoryTest {
 
     @Before
     public void setUp() {
-        factory = new BirthDayComparatorFactory();
+        Context context = mock(Context.class);
+        when(context.getResources()).thenReturn(mock(Resources.class));
+        factory = new BirthDayComparatorFactory(context);
     }
 
     @Test
@@ -86,21 +92,13 @@ public class BirthDayComparatorFactoryTest {
 
     @Test
     public void testUnknownSortType() {
-        Assert.assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
-            @Override
-            public void run() {
-                factory.createBirthdayComparator(-42, SORT_ORDER_DESC);
-            }
-        });
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> factory.createBirthdayComparator(-42, SORT_ORDER_DESC));
     }
 
     @Test
     public void testUnknownSortOrder() {
-        Assert.assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
-            @Override
-            public void run() {
-                factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, -42);
-            }
-        });
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> factory.createBirthdayComparator(SORT_TYPE_DAYS_UNTIL_BIRTHDAY, -42));
     }
 }

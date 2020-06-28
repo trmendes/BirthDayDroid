@@ -17,37 +17,65 @@
 
 package com.tmendes.birthdaydroid.receivers;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import androidx.core.content.ContextCompat;
-
-import com.tmendes.birthdaydroid.Contact;
+import com.tmendes.birthdaydroid.contact.Contact;
+import com.tmendes.birthdaydroid.contact.ContactFactory;
+import com.tmendes.birthdaydroid.contact.ContactService;
+import com.tmendes.birthdaydroid.contact.EventTypeLabelService;
+import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
+import com.tmendes.birthdaydroid.contact.db.DBContactService;
+import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.helpers.NotificationHelper;
-import com.tmendes.birthdaydroid.helpers.PermissionHelper;
-import com.tmendes.birthdaydroid.providers.BirthdayDataProvider;
+import com.tmendes.birthdaydroid.permission.PermissionChecker;
+import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NotifierReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
-                == PackageManager.PERMISSION_GRANTED) {
-            PermissionHelper permission = new PermissionHelper(context);
-            permission.updatePermissionPreferences(PermissionHelper.CONTACT_PERMISSION, true);
-            BirthdayDataProvider bddProvider = BirthdayDataProvider.getInstance();
-            bddProvider.init(context, permission);
-            bddProvider.refreshData(true);
+        if (new PermissionChecker(context).checkReadContactsPermission()) {
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
+            final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
+            final int daysInAdvance = getDaysInAdviceFromPreferences(prefs);
 
-            ArrayList<Contact> todayBirthdayList = bddProvider.getContactsToCelebrate();
-            for (Contact contact : todayBirthdayList) {
-                NotificationHelper.getInstance(context).postNotification(contact);
-            }
+            final DBContactService dbContactService = new DBContactService(context);
+            final AndroidContactService androidContactService = new AndroidContactService(context);
+            final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
+            final DateConverter dateConverter = new DateConverter();
+            final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
+            final ContactFactory contactFactory = new ContactFactory(
+                    zodiacCalculator,
+                    dateConverter,
+                    eventTypeLabelService
+            );
+            final ContactService contactService = new ContactService(
+                    dbContactService,
+                    androidContactService,
+                    contactFactory);
+            final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
+            dbContactService.close();
+
+            final NotificationHelper notificationHelper = new NotificationHelper(context);
+            allContacts.stream()
+                    .filter(c -> c.isBirthdayToday() || c.getDaysUntilNextBirthday() == daysInAdvance)
+                    .forEach(notificationHelper::postNotification);
         }
+    }
+
+    private int getDaysInAdviceFromPreferences(SharedPreferences prefs) {
+        boolean notificationInAdvance = prefs.getBoolean("scan_in_advance", false);
+        int daysInAdvance = 0;
+        if (notificationInAdvance) {
+            daysInAdvance = prefs.getInt("days_in_advance_interval", 0);
+        }
+        return daysInAdvance;
     }
 }

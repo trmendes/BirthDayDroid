@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,22 +15,24 @@ import static org.hamcrest.Matchers.is;
 @RunWith(Parameterized.class)
 public class ZodiacCalculatorTest {
 
-    private final Calendar date;
+    private final LocalDate date;
 
     @Zodiac
     private final int zodiac;
 
     public ZodiacCalculatorTest(int year, int month, int day, @Zodiac int zodiac) {
-        Calendar date = Calendar.getInstance();
-        date.set(year, month - 1, day, 0, 0, 0);
-        date.set(Calendar.MILLISECOND, 0);
-
-        this.date = date;
+        this.date = LocalDate.of(year, month, day);
         this.zodiac = zodiac;
     }
 
+    @Test
+    public void testDay() {
+        @Zodiac int zodiac = new ZodiacCalculator().calculateZodiac(this.date);
+        assertThat(zodiac, is(this.zodiac));
+    }
+
     @Parameterized.Parameters(name = "Date: {0,number,0000}-{1,number,00}-{2,number,00}")
-    public static Collection daysOfTheYear2020() {
+    public static Collection<Object[]> daysOfTheYear2020() {
         List<Object[]> parameters = new ArrayList<>();
 
         parameters.add(new Object[]{2020, 1, 1, Zodiac.CAPRICORN});
@@ -412,11 +414,5 @@ public class ZodiacCalculatorTest {
         parameters.add(new Object[]{2020, 12, 31, Zodiac.CAPRICORN});
 
         return parameters;
-    }
-
-    @Test
-    public void testDay() {
-        @Zodiac int zodiac = new ZodiacCalculator().calculateZodiac(this.date);
-        assertThat(zodiac, is(this.zodiac));
     }
 }
