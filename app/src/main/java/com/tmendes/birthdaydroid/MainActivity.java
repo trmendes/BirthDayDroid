@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity
 
         // Theme
         final boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
-        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
         if (useDarkTheme) {
-            setTheme(R.style.AppThemeDark);
+            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            setTheme(R.style.AppThemeLight);
+            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         super.onCreate(savedInstanceState);

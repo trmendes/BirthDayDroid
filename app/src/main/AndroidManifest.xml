@@ -16,7 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeLight"
+        android:theme="@style/BDDTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
         <receiver android:name=".receivers.NotifierReceiver" />
