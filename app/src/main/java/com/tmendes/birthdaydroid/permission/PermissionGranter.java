@@ -68,13 +68,18 @@ public class PermissionGranter extends PermissionChecker {
     public void onRequestPermissionsResultForReadContacts(int requestCode, @NonNull String[] permissions,
                                                           @NonNull int[] grantResults) {
         if (requestCode == READ_CONTACT_REQUEST_CODE) {
+            boolean grandPermission = false;
             for (int i = 0; i < permissions.length; i++) {
                 if (Manifest.permission.READ_CONTACTS.equals(permissions[i])
                         && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                     runGrantedListener();
+                    grandPermission = true;
+                    break;
                 }
             }
-            displayPermissionExplanation();
+            if(!grandPermission) {
+                displayPermissionExplanation();
+            }
         }
     }
 

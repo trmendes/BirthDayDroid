@@ -174,6 +174,11 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
         inflater.inflate(R.menu.menu_toolbar, menu);
         SearchManager searchManager = (SearchManager) requireContext().getSystemService(SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        CharSequence filterTerm = filterTermViewModel.getFilterTerm().getValue();
+        if(filterTerm != null && filterTerm.length() > 0) {
+            searchView.setIconified(false);
+            searchView.setQuery(filterTerm, false);
+        }
         searchView.setSearchableInfo(Objects.requireNonNull(searchManager)
                 .getSearchableInfo(requireActivity().getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
