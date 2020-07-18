@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class PieChartWeekFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
@@ -83,7 +84,7 @@ public class PieChartWeekFragment extends AbstractStatisticFragment implements O
     protected void updateContacts(List<Contact> contacts) {
         final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum, TreeMap::new));
 
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {

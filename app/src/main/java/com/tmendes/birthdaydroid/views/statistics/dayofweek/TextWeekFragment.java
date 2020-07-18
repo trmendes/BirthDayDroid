@@ -20,6 +20,7 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class TextWeekFragment extends AbstractStatisticFragment {
@@ -43,7 +44,7 @@ public class TextWeekFragment extends AbstractStatisticFragment {
     protected void updateContacts(List<Contact> contacts) {
         final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum, TreeMap::new));
 
         final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();

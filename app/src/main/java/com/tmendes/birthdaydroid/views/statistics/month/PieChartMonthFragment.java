@@ -26,12 +26,14 @@ import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
+import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class PieChartMonthFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
@@ -83,7 +85,7 @@ public class PieChartMonthFragment extends AbstractStatisticFragment implements 
     protected void updateContacts(List<Contact> contacts) {
         final Map<Month, Integer> monthMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
+                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum, TreeMap::new));
 
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
