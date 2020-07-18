@@ -50,15 +50,12 @@ public class TextZodiacFragment extends AbstractStatisticFragment {
     protected void updateContacts(List<Contact> contacts) {
         final Map<Integer, Integer> zodiacMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
-
-        TreeMap<Integer, Integer> sorted = new TreeMap<>();
-        sorted.putAll(zodiacMap);
+                .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum, TreeMap::new));
 
         final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Integer, Integer> pair: sorted.entrySet()) {
+        for (Map.Entry<Integer, Integer> pair: zodiacMap.entrySet()) {
             @Zodiac final int zodiac = pair.getKey();
             final int amount = pair.getValue();
 

@@ -91,12 +91,9 @@ public class BarChartAgeFragment extends AbstractStatisticFragment implements On
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
-                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum));
+                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum, TreeMap::new));
 
-        TreeMap<Integer, Integer> sorted = new TreeMap<>();
-        sorted.putAll(ageStat);
-
-        for (Map.Entry<Integer, Integer> pair : sorted.entrySet()) {
+        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
             int age = pair.getKey();
             int number = pair.getValue();
             barEntries.add(new BarEntry(age, number));

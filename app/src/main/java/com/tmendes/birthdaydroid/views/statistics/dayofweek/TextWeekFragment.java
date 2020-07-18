@@ -44,15 +44,12 @@ public class TextWeekFragment extends AbstractStatisticFragment {
     protected void updateContacts(List<Contact> contacts) {
         final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
-
-        TreeMap<DayOfWeek, Integer> sorted = new TreeMap<>();
-        sorted.putAll(dayOfWeekStats);
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum, TreeMap::new));
 
         final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<DayOfWeek, Integer> pair : sorted.entrySet()) {
+        for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
             final DayOfWeek dayOfWeek = pair.getKey();
             final int amount = pair.getValue();
 

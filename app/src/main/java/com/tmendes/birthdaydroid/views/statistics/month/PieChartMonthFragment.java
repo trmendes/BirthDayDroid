@@ -85,13 +85,10 @@ public class PieChartMonthFragment extends AbstractStatisticFragment implements 
     protected void updateContacts(List<Contact> contacts) {
         final Map<Month, Integer> monthMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
-
-        TreeMap<Month, Integer> sorted = new TreeMap<>();
-        sorted.putAll(monthMap);
+                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum, TreeMap::new));
 
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        for (Map.Entry<Month, Integer> pair : sorted.entrySet()) {
+        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
             final Month month = pair.getKey();
             final int quantity = pair.getValue();
             final PieEntry entry = new PieEntry(quantity, month);

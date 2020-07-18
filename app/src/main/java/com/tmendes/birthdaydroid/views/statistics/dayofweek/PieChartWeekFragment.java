@@ -84,13 +84,10 @@ public class PieChartWeekFragment extends AbstractStatisticFragment implements O
     protected void updateContacts(List<Contact> contacts) {
         final Map<DayOfWeek, Integer> dayOfWeekStats = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum));
-
-        TreeMap<DayOfWeek, Integer> sorted = new TreeMap<>();
-        sorted.putAll(dayOfWeekStats);
+                .collect(Collectors.toMap(c -> c.getBornOn().getDayOfWeek(), c -> 1, Integer::sum, TreeMap::new));
 
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        for (Map.Entry<DayOfWeek, Integer> pair : sorted.entrySet()) {
+        for (Map.Entry<DayOfWeek, Integer> pair : dayOfWeekStats.entrySet()) {
             DayOfWeek dayOfWeek = pair.getKey();
             final int quantity = pair.getValue();
             final PieEntry entry = new PieEntry(quantity, dayOfWeek);

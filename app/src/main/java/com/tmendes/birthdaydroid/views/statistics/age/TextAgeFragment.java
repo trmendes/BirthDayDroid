@@ -42,10 +42,7 @@ public class TextAgeFragment extends AbstractStatisticFragment {
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
                 .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
-                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum));
-
-        TreeMap<Integer, Integer> sorted = new TreeMap<>();
-        sorted.putAll(ageStat);
+                .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum, TreeMap::new));
 
         final Resources resources = requireContext().getResources();
         final TableRow header = newRow(resources.getString(R.string.array_order_age),
@@ -53,7 +50,7 @@ public class TextAgeFragment extends AbstractStatisticFragment {
 
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Integer, Integer> pair : sorted.entrySet()) {
+        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
             final int age = pair.getKey();
             final int amount = pair.getValue();
             TableRow row = newRow(String.valueOf(age), String.valueOf(amount));
