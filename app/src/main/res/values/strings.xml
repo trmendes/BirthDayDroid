@@ -157,5 +157,8 @@
 
     <string name="breaking_change_dialog_title">Important Update Notice</string>
     <string name="breaking_change_dialog_message_v46">The mechanism how times are saved has changed. Please check the notification time and correct it if needed.</string>
+
+    <string name="statistic_action_switch_to_text_view">Switch to Text View</string>
+    <string name="statistic_action_switch_to_diagram_view">Switch to Diagram View</string>
 </resources>
 

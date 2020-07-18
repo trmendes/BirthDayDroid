@@ -13,17 +13,16 @@ import androidx.annotation.NonNull;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextMonthFragment extends AbstractContactsFragment {
+public class TextMonthFragment extends AbstractStatisticFragment {
 
     private TableLayout tableLayout;
 
@@ -82,5 +81,15 @@ public class TextMonthFragment extends AbstractContactsFragment {
         row.addView(rightTv);
 
         return row;
+    }
+
+    @Override
+    protected int getStatisticViewType() {
+        return TEXT_VIEW;
+    }
+
+    @Override
+    protected int getCorrespondingTextOrDiagramNavId() {
+        return R.id.nav_statistics_month_diagram;
     }
 }

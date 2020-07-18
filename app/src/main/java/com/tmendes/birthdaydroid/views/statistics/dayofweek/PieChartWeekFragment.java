@@ -24,7 +24,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
@@ -32,10 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class PieChartWeekFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
+public class PieChartWeekFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
 
     private PieChart chart;
     private String label;
@@ -124,5 +123,15 @@ public class PieChartWeekFragment extends AbstractContactsFragment implements On
     @Override
     public void onNothingSelected() {
 
+    }
+
+    @Override
+    protected int getStatisticViewType() {
+        return DIAGRAM_VIEW;
+    }
+
+    @Override
+    protected int getCorrespondingTextOrDiagramNavId() {
+        return R.id.nav_statistics_week_text;
     }
 }

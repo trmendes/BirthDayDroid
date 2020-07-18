@@ -24,17 +24,16 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class PieChartZodiacFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
+public class PieChartZodiacFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
     private PieChart chart;
     private String label;
     private ZodiacResourceHelper zodiacResourceHelper;
@@ -122,5 +121,15 @@ public class PieChartZodiacFragment extends AbstractContactsFragment implements 
     @Override
     public void onNothingSelected() {
 
+    }
+
+    @Override
+    protected int getStatisticViewType() {
+        return DIAGRAM_VIEW;
+    }
+
+    @Override
+    protected int getCorrespondingTextOrDiagramNavId() {
+        return R.id.nav_statistics_zodiac_text;
     }
 }

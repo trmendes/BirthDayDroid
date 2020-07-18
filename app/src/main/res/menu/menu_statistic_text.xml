@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/switch_to_diagram"
+        android:icon="@drawable/ic_poll_white_24dp"
+        android:title="@string/statistic_action_switch_to_diagram_view"
+        app:showAsAction="always" />
+
+</menu>
