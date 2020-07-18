@@ -29,52 +29,43 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import com.tmendes.birthdaydroid.contact.android.ContactContentChangeObserver;
-import com.tmendes.birthdaydroid.views.about.AboutUsFragment;
-import com.tmendes.birthdaydroid.views.statistics.age.BarChartAgeFragment;
-import com.tmendes.birthdaydroid.views.contactlist.ContactListFragment;
-import com.tmendes.birthdaydroid.views.statistics.month.PieChartMonthFragment;
-import com.tmendes.birthdaydroid.views.statistics.dayofweek.PieChartWeekFragment;
-import com.tmendes.birthdaydroid.views.statistics.zodiac.PieChartZodiacFragment;
-import com.tmendes.birthdaydroid.views.preferences.SettingsFragment;
-import com.tmendes.birthdaydroid.views.statistics.age.TextAgeFragment;
-import com.tmendes.birthdaydroid.views.statistics.month.TextMonthFragment;
-import com.tmendes.birthdaydroid.views.statistics.dayofweek.TextWeekFragment;
-import com.tmendes.birthdaydroid.views.statistics.zodiac.TextZodiacFragment;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 import com.tmendes.birthdaydroid.permission.PermissionGranter;
 import com.tmendes.birthdaydroid.receivers.LocalDateNowChangeReceiver;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.TimeZone;
 
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private boolean doubleBackToExitPressedOnce = false;
 
-    private MenuItem zodiacDrawerMenuItem;
+    private MenuItem[] zodiacDrawerMenuItems;
 
     private DrawerLayout drawerLayout;
 
@@ -83,7 +74,10 @@ public class MainActivity extends AppCompatActivity
     private ContactContentChangeObserver contactChangeContentObserver;
     private PermissionGranter permissionGranter;
     private SharedPreferences.OnSharedPreferenceChangeListener hideZodiacChangeListener;
+    private SharedPreferences.OnSharedPreferenceChangeListener statisticMenuItemChangeListener;
     private SharedPreferences.OnSharedPreferenceChangeListener reloadContactsChangeListener;
+
+    private AppBarConfiguration appBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,34 +115,52 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,
-                drawerLayout,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
+        NavigationView navView = findViewById(R.id.nav_view);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        appBarConfiguration = new AppBarConfiguration.Builder(
+                new HashSet<>(Arrays.asList(
+                        R.id.nav_birthday_list,
+                        R.id.nav_statistics_age_text,
+                        R.id.nav_statistics_age_diagram,
+                        R.id.nav_statistics_month_text,
+                        R.id.nav_statistics_month_diagram,
+                        R.id.nav_statistics_week_text,
+                        R.id.nav_statistics_week_diagram,
+                        R.id.nav_statistics_zodiac_text,
+                        R.id.nav_statistics_zodiac_diagram,
+                        R.id.nav_settings,
+                        R.id.nav_about
+                ))).setOpenableLayout(drawerLayout)
+                .build();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
 
-        drawerLayout.closeDrawer(GravityCompat.START);
-        drawerLayout.addDrawerListener(new RemoveKeyboardDrawerListener(this));
 
         // ZodiacDrawerMenuItem
-        zodiacDrawerMenuItem = navigationView.getMenu().findItem(R.id.nav_statistics_zodiac);
-        setZodiacStatisticMenuItemVisibility();
+        zodiacDrawerMenuItems = new MenuItem[]{
+                navView.getMenu().findItem(R.id.nav_statistics_zodiac_text),
+                navView.getMenu().findItem(R.id.nav_statistics_zodiac_diagram)
+        };
+
+        setZodiacStatisticMenuItemVisibility(prefs);
         hideZodiacChangeListener = (sharedPreferences, key) -> {
             if ("hide_zodiac".equals(key)) {
-                setZodiacStatisticMenuItemVisibility();
+                setZodiacStatisticMenuItemVisibility(sharedPreferences);
             }
         };
         prefs.registerOnSharedPreferenceChangeListener(hideZodiacChangeListener);
 
-        if (savedInstanceState == null) {
-            showFragment(new ContactListFragment());
-        }
+        // StatisticMenuItems (text/diagram)
+        setDiagramStatisticMenuItems(prefs);
+        statisticMenuItemChangeListener = (sharedPreferences, key) -> {
+            if ("settings_statistics_as_text".equals(key)) {
+                setDiagramStatisticMenuItems(sharedPreferences);
+            }
+        };
+        prefs.registerOnSharedPreferenceChangeListener(statisticMenuItemChangeListener);
+
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
@@ -168,15 +180,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         prefs.unregisterOnSharedPreferenceChangeListener(hideZodiacChangeListener);
+        prefs.unregisterOnSharedPreferenceChangeListener(statisticMenuItemChangeListener);
         prefs.unregisterOnSharedPreferenceChangeListener(reloadContactsChangeListener);
         getApplicationContext().unregisterReceiver(localDateNowChangeReceiver);
         getApplicationContext().getContentResolver().unregisterContentObserver(contactChangeContentObserver);
         super.onDestroy();
     }
 
-    private void setZodiacStatisticMenuItemVisibility() {
-        final boolean hide_zodiac = this.prefs.getBoolean("hide_zodiac", false);
-        zodiacDrawerMenuItem.setVisible(!hide_zodiac);
+    private void setZodiacStatisticMenuItemVisibility(SharedPreferences prefs) {
+        final boolean hide_zodiac = prefs.getBoolean("hide_zodiac", false);
+        for (MenuItem zodiacDrawerMenuItem : zodiacDrawerMenuItems) {
+            zodiacDrawerMenuItem.setVisible(!hide_zodiac);
+        }
+    }
+
+    private void setDiagramStatisticMenuItems(SharedPreferences prefs) {
+        final boolean statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
+        NavigationView navView = findViewById(R.id.nav_view);
+        Menu menu = navView.getMenu();
+        menu.setGroupVisible(R.id.group_statistics_text, statisticsAsText);
+        menu.setGroupVisible(R.id.group_statistics_diagram, !statisticsAsText);
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
@@ -218,86 +241,32 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-            if (backStackEntryCount == 0) {
-                if (doubleBackToExitPressedOnce) {
-                    super.onBackPressed();
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.exit_warning_msg),
-                            Toast.LENGTH_SHORT).show();
-                    this.doubleBackToExitPressedOnce = true;
-                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-                }
-            } else {
-                getSupportFragmentManager().popBackStack(null,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            }
+    public boolean onSupportNavigateUp() {
+        if (drawerLayout.isOpen()) {
+            drawerLayout.closeDrawers();
+            return false;
         }
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case android.R.id.home:
-                finish();
-                /* No break */
-            case R.id.nav_birthday_list:
-                showFragment(new ContactListFragment());
-                break;
-            case R.id.nav_statistics_age:
-                if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragment(new TextAgeFragment());
-                } else {
-                    showFragment(new BarChartAgeFragment());
-                }
-                break;
-            case R.id.nav_statistics_zodiac:
-                if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragment(new TextZodiacFragment());
-                } else {
-                    showFragment(new PieChartZodiacFragment());
-                }
-                break;
-            case R.id.nav_statistics_week:
-                if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragment(new TextWeekFragment());
-                } else {
-                    showFragment(new PieChartWeekFragment());
-                }
-                break;
-            case R.id.nav_statistics_month:
-                if (prefs.getBoolean("settings_statistics_as_text", false)) {
-                    showFragment(new TextMonthFragment());
-                } else {
-                    showFragment(new PieChartMonthFragment());
-                }
-                break;
-            case R.id.nav_settings:
-                showFragment(new SettingsFragment());
-                break;
-            case R.id.nav_about:
-                showFragment(new AboutUsFragment());
-                break;
+    public void onBackPressed() {
+        if (drawerLayout.isOpen()) {
+            drawerLayout.closeDrawers();
+        } else if (isRootView() && !doubleBackToExitPressedOnce) {
+            Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
+            this.doubleBackToExitPressedOnce = true;
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        } else {
+            super.onBackPressed();
         }
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-
-        return true;
     }
 
-    private void showFragment(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_layout, fragment);
-        if (!(fragment instanceof ContactListFragment)) {
-            ft.addToBackStack(null);
-        }
-        ft.commit();
+    private boolean isRootView() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return navController.getPreviousBackStackEntry() == null;
     }
 
     @Override

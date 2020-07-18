@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_birthday_list">
+
+    <!-- Contact List   -->
+    <fragment
+        android:id="@+id/nav_birthday_list"
+        android:name="com.tmendes.birthdaydroid.views.contactlist.ContactListFragment"
+        tools:layout="@layout/fragment_contact_list"
+        />
+
+    <!-- Age Statistic -->
+    <fragment
+        android:id="@+id/nav_statistics_age_text"
+        android:name="com.tmendes.birthdaydroid.views.statistics.age.TextAgeFragment"
+        tools:layout="@layout/fragment_text_statistics"
+        />
+
+    <fragment
+        android:id="@+id/nav_statistics_age_diagram"
+        android:name="com.tmendes.birthdaydroid.views.statistics.age.BarChartAgeFragment"
+        tools:layout="@layout/fragment_barchart"
+        />
+
+    <!-- Month Statistic -->
+    <fragment
+        android:id="@+id/nav_statistics_month_text"
+        android:name="com.tmendes.birthdaydroid.views.statistics.month.TextMonthFragment"
+        tools:layout="@layout/fragment_text_statistics"
+        />
+
+    <fragment
+        android:id="@+id/nav_statistics_month_diagram"
+        android:name="com.tmendes.birthdaydroid.views.statistics.month.PieChartMonthFragment"
+        tools:layout="@layout/fragment_piechart"
+        />
+
+    <!-- WeekDay Statistic -->
+    <fragment
+        android:id="@+id/nav_statistics_week_text"
+        android:name="com.tmendes.birthdaydroid.views.statistics.dayofweek.TextWeekFragment"
+        tools:layout="@layout/fragment_text_statistics"
+        />
+
+    <fragment
+        android:id="@+id/nav_statistics_week_diagram"
+        android:name="com.tmendes.birthdaydroid.views.statistics.dayofweek.PieChartWeekFragment"
+        tools:layout="@layout/fragment_piechart"
+        />
+
+    <!-- Zodiac Statistic -->
+    <fragment
+        android:id="@+id/nav_statistics_zodiac_text"
+        android:name="com.tmendes.birthdaydroid.views.statistics.zodiac.TextZodiacFragment"
+        tools:layout="@layout/fragment_text_statistics"
+        />
+
+    <fragment
+        android:id="@+id/nav_statistics_zodiac_diagram"
+        android:name="com.tmendes.birthdaydroid.views.statistics.zodiac.PieChartZodiacFragment"
+        tools:layout="@layout/fragment_piechart"
+        />
+
+    <!-- Settings -->
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.tmendes.birthdaydroid.views.preferences.SettingsFragment"
+        tools:layout="@layout/fragment_text_statistics"
+        />
+
+    <!-- About -->
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.tmendes.birthdaydroid.views.about.AboutUsFragment"
+        tools:layout="@layout/fragment_text_statistics"
+        />
+
+</navigation>

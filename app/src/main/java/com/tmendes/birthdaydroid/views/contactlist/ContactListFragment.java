@@ -74,10 +74,6 @@ public class ContactListFragment extends AbstractContactsFragment implements Con
     private SharedPreferences.OnSharedPreferenceChangeListener showAddContactFabListener;
     private FilterTermViewModel filterTermViewModel;
 
-    public ContactListFragment() {
-        System.out.println("test");
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

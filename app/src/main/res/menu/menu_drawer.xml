@@ -11,22 +11,43 @@
     </group>
 
     <group
-        android:id="@+id/group_statistics"
+        android:id="@+id/group_statistics_text"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_statistics_age"
+            android:id="@+id/nav_statistics_age_text"
             android:icon="@drawable/ic_poll_white_24dp"
             android:title="@string/menu_statistics_age" />
         <item
-            android:id="@+id/nav_statistics_zodiac"
+            android:id="@+id/nav_statistics_zodiac_text"
             android:icon="@drawable/ic_poll_white_24dp"
             android:title="@string/menu_statistics_zodiac" />
         <item
-            android:id="@+id/nav_statistics_week"
+            android:id="@+id/nav_statistics_week_text"
             android:icon="@drawable/ic_poll_white_24dp"
             android:title="@string/menu_statistics_week" />
         <item
-            android:id="@+id/nav_statistics_month"
+            android:id="@+id/nav_statistics_month_text"
+            android:icon="@drawable/ic_poll_white_24dp"
+            android:title="@string/menu_statistics_month" />
+    </group>
+
+    <group
+        android:id="@+id/group_statistics_diagram"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_statistics_age_diagram"
+            android:icon="@drawable/ic_poll_white_24dp"
+            android:title="@string/menu_statistics_age" />
+        <item
+            android:id="@+id/nav_statistics_zodiac_diagram"
+            android:icon="@drawable/ic_poll_white_24dp"
+            android:title="@string/menu_statistics_zodiac" />
+        <item
+            android:id="@+id/nav_statistics_week_diagram"
+            android:icon="@drawable/ic_poll_white_24dp"
+            android:title="@string/menu_statistics_week" />
+        <item
+            android:id="@+id/nav_statistics_month_diagram"
             android:icon="@drawable/ic_poll_white_24dp"
             android:title="@string/menu_statistics_month" />
     </group>

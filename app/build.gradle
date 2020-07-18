@@ -95,6 +95,11 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
 
+    def nav_version = "2.3.0"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+
     // Testing
     def powermockVersion = '2.0.7';
     def hamcrestVersion = '2.2';
