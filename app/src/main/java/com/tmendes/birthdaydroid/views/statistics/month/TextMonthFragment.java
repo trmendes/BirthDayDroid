@@ -20,6 +20,7 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class TextMonthFragment extends AbstractStatisticFragment {
@@ -45,10 +46,13 @@ public class TextMonthFragment extends AbstractStatisticFragment {
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum));
 
+        TreeMap<Month, Integer> sorted = new TreeMap<>();
+        sorted.putAll(monthMap);
+
         final TableRow header = newRow("", requireContext().getResources().getString(R.string.amount));
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Month, Integer> pair : monthMap.entrySet()) {
+        for (Map.Entry<Month, Integer> pair : sorted.entrySet()) {
             final Month month = pair.getKey();
             final int amount = pair.getValue();
 

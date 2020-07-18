@@ -17,6 +17,7 @@ import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class TextAgeFragment extends AbstractStatisticFragment {
@@ -43,13 +44,16 @@ public class TextAgeFragment extends AbstractStatisticFragment {
                 .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
                 .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum));
 
+        TreeMap<Integer, Integer> sorted = new TreeMap<>();
+        sorted.putAll(ageStat);
+
         final Resources resources = requireContext().getResources();
         final TableRow header = newRow(resources.getString(R.string.array_order_age),
                 resources.getString(R.string.amount));
 
         tableLayout.removeAllViews();
         tableLayout.addView(header);
-        for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {
+        for (Map.Entry<Integer, Integer> pair : sorted.entrySet()) {
             final int age = pair.getKey();
             final int amount = pair.getValue();
             TableRow row = newRow(String.valueOf(age), String.valueOf(amount));

@@ -28,9 +28,11 @@ import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class PieChartZodiacFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
@@ -90,8 +92,11 @@ public class PieChartZodiacFragment extends AbstractStatisticFragment implements
                 .filter(c -> !c.isIgnore())
                 .collect(Collectors.toMap(Contact::getZodiac, c -> 1, Integer::sum));
 
+        TreeMap<Integer, Integer> sorted = new TreeMap<>();
+        sorted.putAll(zodiacMap);
+
         final ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> pair : zodiacMap.entrySet()) {
+        for (Map.Entry<Integer, Integer> pair : sorted.entrySet()) {
             @Zodiac int zodiac = pair.getKey();
             int number = pair.getValue();
             PieEntry entry = new PieEntry(number, zodiac);
