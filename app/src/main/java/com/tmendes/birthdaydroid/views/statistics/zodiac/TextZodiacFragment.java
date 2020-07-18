@@ -13,16 +13,15 @@ import androidx.annotation.Nullable;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextZodiacFragment extends AbstractContactsFragment {
+public class TextZodiacFragment extends AbstractStatisticFragment {
 
     private TableLayout tableLayout;
     private ZodiacResourceHelper zodiacResourceHelper;
@@ -83,4 +82,13 @@ public class TextZodiacFragment extends AbstractContactsFragment {
         return row;
     }
 
+    @Override
+    protected int getStatisticViewType() {
+        return TEXT_VIEW;
+    }
+
+    @Override
+    protected int getCorrespondingTextOrDiagramNavId() {
+        return R.id.nav_statistics_zodiac_diagram;
+    }
 }

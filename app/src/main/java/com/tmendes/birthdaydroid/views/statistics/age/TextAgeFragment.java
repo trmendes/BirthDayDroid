@@ -13,14 +13,13 @@ import androidx.annotation.NonNull;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextAgeFragment extends AbstractContactsFragment {
+public class TextAgeFragment extends AbstractStatisticFragment {
 
     private TableLayout tableLayout;
 
@@ -74,5 +73,15 @@ public class TextAgeFragment extends AbstractContactsFragment {
         row.addView(rightTv);
 
         return row;
+    }
+
+    @Override
+    protected int getStatisticViewType() {
+        return TEXT_VIEW;
+    }
+
+    @Override
+    protected int getCorrespondingTextOrDiagramNavId() {
+        return R.id.nav_statistics_age_diagram;
     }
 }

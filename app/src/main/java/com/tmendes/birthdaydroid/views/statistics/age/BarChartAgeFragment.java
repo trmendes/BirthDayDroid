@@ -24,14 +24,14 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
+import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BarChartAgeFragment extends AbstractContactsFragment implements OnChartValueSelectedListener {
+public class BarChartAgeFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
 
     private BarChart chart;
 
@@ -115,6 +115,16 @@ public class BarChartAgeFragment extends AbstractContactsFragment implements OnC
         chart.getXAxis().setAxisMaximum(max_age);
         chart.getXAxis().setAxisMinimum(min_age);
         chart.setData(barData);
+    }
+
+    @Override
+    protected int getStatisticViewType() {
+        return DIAGRAM_VIEW;
+    }
+
+    @Override
+    protected int getCorrespondingTextOrDiagramNavId() {
+        return R.id.nav_statistics_age_text;
     }
 
     @Override
