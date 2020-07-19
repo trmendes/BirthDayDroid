@@ -2,7 +2,6 @@ package com.tmendes.birthdaydroid.contact;
 
 import android.content.Context;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
 
 public class EventTypeLabelService {
     private final Context context;

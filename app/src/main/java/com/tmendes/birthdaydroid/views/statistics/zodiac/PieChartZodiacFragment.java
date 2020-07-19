@@ -28,7 +28,6 @@ import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
 
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
