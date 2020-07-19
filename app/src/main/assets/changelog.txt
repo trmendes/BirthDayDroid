@@ -1,3 +1,11 @@
+* V49
+- Welcome to Bastian Wilhelm (schlagi123) as a new Developer :D
+- Huge refactor to organize the code better
+- Test cases \o/
+- Faster way to swap in between Text and Graphical statistics
+- Theme improvements
+- Fix issues
+
 * V47
 - Fix custom labels: Show insufficient informations issue
 - New option to select account source: Change contact list issue
