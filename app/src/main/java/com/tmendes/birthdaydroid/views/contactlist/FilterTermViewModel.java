@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.Objects;
 
 public class FilterTermViewModel extends ViewModel {
-    private MutableLiveData<CharSequence> filterTerm = new MutableLiveData<>();
+    private final MutableLiveData<CharSequence> filterTerm = new MutableLiveData<>();
 
     public LiveData<CharSequence> getFilterTerm() {
         return filterTerm;

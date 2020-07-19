@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ContactsViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
+    private final MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public ContactsViewModel(@NonNull Application application) {
