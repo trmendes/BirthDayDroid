@@ -1,11 +1,29 @@
-image: alpine:latest
+image: jangrewe/gitlab-ci-android
 
-pages:
-  stage: deploy
+before_script:
+- export GRADLE_USER_HOME=$(pwd)/.gradle
+- chmod +x ./gradlew
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+  - .gradle/
+
+stages:
+- build
+- test
+
+lintDebug:
+  stage: build
   script:
-  - echo 'Nothing to do...'
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
+  - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+
+assembleDebug:
+  stage: build
+  script:
+  - ./gradlew assembleDebug
+
+testDebug:
+  stage: test
+  script:
+  - ./gradlew -Pci --console=plain :app:testDebug

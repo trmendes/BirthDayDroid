@@ -25,8 +25,6 @@ import android.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
 
-import java.util.Objects;
-
 public class BootReceiver extends BroadcastReceiver {
 
     private final AlarmHelper alarm = new AlarmHelper();

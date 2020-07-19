@@ -12,7 +12,7 @@ import com.tmendes.birthdaydroid.contact.ContactsViewModel;
 import java.time.LocalDate;
 
 public class LocalDateNowChangeReceiver extends BroadcastReceiver {
-    private FragmentActivity activity;
+    private final FragmentActivity activity;
     private LocalDate lastLocalDate;
 
     public LocalDateNowChangeReceiver(FragmentActivity activity) {
