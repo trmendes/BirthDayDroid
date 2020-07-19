@@ -102,9 +102,9 @@ public class CursorIteratorTest {
     }
 
     private static class CursorIteratorTestImplementation extends CursorIterator<Integer> {
-        private int elementCount;
+        private final int elementCount;
         private int i = 0;
-        private Cursor cursor;
+        private final Cursor cursor;
 
         private CursorIteratorTestImplementation(Cursor cursor, int elementCount) {
             super(cursor);

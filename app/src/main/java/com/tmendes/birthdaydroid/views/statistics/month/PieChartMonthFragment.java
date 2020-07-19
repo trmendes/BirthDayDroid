@@ -26,7 +26,6 @@ import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
 
-import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;

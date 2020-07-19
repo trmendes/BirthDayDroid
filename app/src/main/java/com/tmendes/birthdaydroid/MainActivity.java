@@ -31,7 +31,6 @@ import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;

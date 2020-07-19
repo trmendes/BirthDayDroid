@@ -210,6 +210,15 @@
                     tools:ignore="HardcodedText" />
 
                 <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start"
+                  android:padding="5dp"
+                  android:text="- Bastian Wilhelm (schlagi123) (Testing and patches)"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  tools:ignore="HardcodedText" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -223,15 +232,6 @@
                     android:layout_gravity="start"
                     android:padding="5dp"
                     android:text="- Moritz Bandemer (Testing, new ideas and patches)"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:padding="5dp"
-                    android:text="- Bastian Wilhelm (schlagi123) (Testing and patches)"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     tools:ignore="HardcodedText" />
 
@@ -285,15 +285,6 @@
                     android:layout_gravity="start"
                     android:padding="5dp"
                     android:text="- Sopor (Testing, Grammar and spelling fixes, new ideas)"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:padding="5dp"
-                    android:text="- Bastian Wilhelm (schlagi123) (Testing and patches)"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     tools:ignore="HardcodedText" />
 
