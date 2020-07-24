@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (isRootView() && !doubleBackToExitPressedOnce) {
             Toast.makeText(this, getResources().getString(R.string.exit_warning_msg), Toast.LENGTH_SHORT).show();
             this.doubleBackToExitPressedOnce = true;
-            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         } else {
             super.onBackPressed();
         }
