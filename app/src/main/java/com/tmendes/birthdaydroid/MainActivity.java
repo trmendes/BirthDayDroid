@@ -168,11 +168,7 @@ public class MainActivity extends AppCompatActivity {
         localDateNowChangeReceiver = new LocalDateNowChangeReceiver(this);
         getApplicationContext().registerReceiver(localDateNowChangeReceiver, intentFilter);
 
-        reloadContactsChangeListener = (sharedPreferences, key) -> {
-            if ("hide_ignored_contacts".equals(key) || "show_birthday_type_only".equals(key)) {
-                contactsViewModel.reloadContacts();
-            }
-        };
+        reloadContactsChangeListener = new ReloadContactsPreferenceChangeListener(contactsViewModel);
         prefs.registerOnSharedPreferenceChangeListener(reloadContactsChangeListener);
     }
 
