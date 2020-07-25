@@ -29,10 +29,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+
+import androidx.core.app.NotificationCompat;
 
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
@@ -61,30 +62,20 @@ public class NotificationHelper extends ContextWrapper {
         }
     }
 
-    private Notification.Builder getNotification(String title,
-                                                 String body,
-                                                 Bitmap notifyPicture,
-                                                 PendingIntent pI) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return new Notification.Builder(getApplicationContext(), CHANNEL_ONE_ID)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setColorized(true)
-                    .setShowWhen(true)
-                    .setContentIntent(pI)
-                    .setLargeIcon(notifyPicture)
-                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                    .setAutoCancel(true);
-        } else {
-            return new Notification.Builder(getApplicationContext())
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setContentIntent(pI)
-                    .setShowWhen(true)
-                    .setLargeIcon(notifyPicture)
-                    .setSmallIcon(R.drawable.ic_cake_white_24dp)
-                    .setAutoCancel(true);
-        }
+    private NotificationCompat.Builder getNotification(String title,
+                                                       String body,
+                                                       Bitmap notifyPicture,
+                                                       PendingIntent pI) {
+
+        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ONE_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setColorized(true) // Ignore on API level < 26
+                .setShowWhen(true)
+                .setContentIntent(pI)
+                .setLargeIcon(notifyPicture)
+                .setSmallIcon(R.drawable.ic_cake_white_24dp)
+                .setAutoCancel(true);
     }
 
     private NotificationManager getManager() {
@@ -113,10 +104,10 @@ public class NotificationHelper extends ContextWrapper {
                 StringBuilder body = new StringBuilder();
 
                 if (contact.isBirthdayToday()) {
-                        body.append(getBaseContext().getString(R.string.party_message));
+                    body.append(getBaseContext().getString(R.string.party_message));
                 } else {
                     final String firstName = contact.getName().split(" ")[0];
-                    if(!contact.isMissingYearInfo()) {
+                    if (!contact.isMissingYearInfo()) {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthday(),
@@ -151,7 +142,7 @@ public class NotificationHelper extends ContextWrapper {
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
                 /* Notify */
-                Notification.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
+                NotificationCompat.Builder nBuilder = getNotification(title, body.toString(), notifyPicture,
                         openContactPI);
                 getManager().notify((int) System.currentTimeMillis(), nBuilder.build());
             }
