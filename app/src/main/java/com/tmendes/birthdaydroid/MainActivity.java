@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        drawerLayout.addDrawerListener(new RemoveKeyboardDrawerListener(this));
 
         // ZodiacDrawerMenuItem
         zodiacDrawerMenuItems = new MenuItem[]{
