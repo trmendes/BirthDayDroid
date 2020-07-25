@@ -29,7 +29,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -64,16 +63,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean doubleBackToExitPressedOnce = false;
 
-    private MenuItem[] zodiacDrawerMenuItems;
-
     private DrawerLayout drawerLayout;
 
     private SharedPreferences prefs;
     private LocalDateNowChangeReceiver localDateNowChangeReceiver;
     private ContactContentChangeObserver contactChangeContentObserver;
     private PermissionGranter permissionGranter;
-    private SharedPreferences.OnSharedPreferenceChangeListener hideZodiacChangeListener;
-    private SharedPreferences.OnSharedPreferenceChangeListener statisticMenuItemChangeListener;
+    private SharedPreferences.OnSharedPreferenceChangeListener drawerMenuChangeListener;
     private SharedPreferences.OnSharedPreferenceChangeListener reloadContactsChangeListener;
 
     private AppBarConfiguration appBarConfiguration;
@@ -139,28 +135,13 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(new RemoveKeyboardDrawerListener(this));
 
         // ZodiacDrawerMenuItem
-        zodiacDrawerMenuItems = new MenuItem[]{
+        MenuItem[] zodiacDrawerMenuItems = new MenuItem[]{
                 navView.getMenu().findItem(R.id.nav_statistics_zodiac_text),
                 navView.getMenu().findItem(R.id.nav_statistics_zodiac_diagram)
         };
 
-        setZodiacStatisticMenuItemVisibility(prefs);
-        hideZodiacChangeListener = (sharedPreferences, key) -> {
-            if ("hide_zodiac".equals(key)) {
-                setZodiacStatisticMenuItemVisibility(sharedPreferences);
-            }
-        };
-        prefs.registerOnSharedPreferenceChangeListener(hideZodiacChangeListener);
-
-        // StatisticMenuItems (text/diagram)
-        setDiagramStatisticMenuItems(prefs);
-        statisticMenuItemChangeListener = (sharedPreferences, key) -> {
-            if ("settings_statistics_as_text".equals(key)) {
-                setDiagramStatisticMenuItems(sharedPreferences);
-            }
-        };
-        prefs.registerOnSharedPreferenceChangeListener(statisticMenuItemChangeListener);
-
+        drawerMenuChangeListener = new DrawerMenuPreferenceChangeListener(navView, zodiacDrawerMenuItems);
+        prefs.registerOnSharedPreferenceChangeListener(drawerMenuChangeListener);
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
@@ -175,27 +156,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        prefs.unregisterOnSharedPreferenceChangeListener(hideZodiacChangeListener);
-        prefs.unregisterOnSharedPreferenceChangeListener(statisticMenuItemChangeListener);
+        prefs.unregisterOnSharedPreferenceChangeListener(drawerMenuChangeListener);
         prefs.unregisterOnSharedPreferenceChangeListener(reloadContactsChangeListener);
         getApplicationContext().unregisterReceiver(localDateNowChangeReceiver);
         getApplicationContext().getContentResolver().unregisterContentObserver(contactChangeContentObserver);
         super.onDestroy();
-    }
-
-    private void setZodiacStatisticMenuItemVisibility(SharedPreferences prefs) {
-        final boolean hide_zodiac = prefs.getBoolean("hide_zodiac", false);
-        for (MenuItem zodiacDrawerMenuItem : zodiacDrawerMenuItems) {
-            zodiacDrawerMenuItem.setVisible(!hide_zodiac);
-        }
-    }
-
-    private void setDiagramStatisticMenuItems(SharedPreferences prefs) {
-        final boolean statisticsAsText = prefs.getBoolean("settings_statistics_as_text", false);
-        NavigationView navView = findViewById(R.id.nav_view);
-        Menu menu = navView.getMenu();
-        menu.setGroupVisible(R.id.group_statistics_text, statisticsAsText);
-        menu.setGroupVisible(R.id.group_statistics_diagram, !statisticsAsText);
     }
 
     private void executeFirstRunInitializationIfNeeded(SharedPreferences prefs, Context ctx) {
