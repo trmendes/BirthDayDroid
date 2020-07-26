@@ -214,7 +214,7 @@
                   android:layout_height="wrap_content"
                   android:layout_gravity="start"
                   android:padding="5dp"
-                  android:text="- Bastian Wilhelm (schlagi123) (Testing and patches)"
+                  android:text="- Bastian Wilhelm (schlagi123)"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   tools:ignore="HardcodedText" />
 
