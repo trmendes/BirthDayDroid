@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 public class BarChartAgeFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
 
-    private BarChart chart;
+    private HorizontalBarChart chart;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,16 +59,18 @@ public class BarChartAgeFragment extends AbstractStatisticFragment implements On
         chart.setDrawGridBackground(false);
         chart.setBackgroundColor(Color.TRANSPARENT);
         chart.getLegend().setEnabled(false);
-        chart.getDescription().setText(getResources().getString(R.string.menu_statistics_age));
+        chart.getDescription().setEnabled(false);
         chart.setDrawBorders(false);
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
+
+        chart.getAxisLeft().setDrawLabels(false); //TOP
+        chart.getAxisRight().setDrawLabels(true); //BOTTOM
 
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setAxisMinimum(0f);
