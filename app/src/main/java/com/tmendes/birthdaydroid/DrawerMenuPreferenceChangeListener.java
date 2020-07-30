@@ -1,9 +1,10 @@
 package com.tmendes.birthdaydroid;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.navigation.NavigationView;
 

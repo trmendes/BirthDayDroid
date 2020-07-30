@@ -3,13 +3,13 @@ package com.tmendes.birthdaydroid.contact;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
 import com.tmendes.birthdaydroid.contact.db.DBContactService;

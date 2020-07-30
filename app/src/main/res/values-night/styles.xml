@@ -3,9 +3,9 @@
 <resources>
     <style name="BDDTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimary">@color/primaryLightColor</item>
         <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondary">@color/secondaryLightColor</item>
         <item name="colorOnSecondary">@android:color/white</item>
 
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
@@ -13,6 +13,7 @@
     </style>
 
     <style name="BDDTheme.AppBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
     </style>
 
     <style name="BDDTheme.NavigationView" parent="Widget.MaterialComponents.NavigationView" >

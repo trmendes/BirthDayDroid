@@ -23,144 +23,156 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.preference.CheckBoxPreference;
-import android.preference.MultiSelectListPreference;
-import android.preference.PreferenceFragment;
 import android.provider.Settings;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.MultiSelectListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.helpers.AccountHelper;
 import com.tmendes.birthdaydroid.helpers.AlarmHelper;
+import com.tmendes.birthdaydroid.views.preferences.numberpicker.NumberPickerFragment;
+import com.tmendes.birthdaydroid.views.preferences.numberpicker.NumberPickerPreference;
+import com.tmendes.birthdaydroid.views.preferences.timepicker.TimePickerFragment;
+import com.tmendes.birthdaydroid.views.preferences.timepicker.TimePickerPreference;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 import static android.content.Context.POWER_SERVICE;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private static final String DIALOG_FRAGMENT_TAG = "androidx.preference.PreferenceFragment.DIALOG";
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_settings,
-                container, false);
-
-        requireActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.setting_frame, new PrefFragment())
-                .commit();
-
-        return v;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
-    public static class PrefFragment extends PreferenceFragment implements
-            SharedPreferences.OnSharedPreferenceChangeListener {
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.preferences, rootKey);
+        setPowerServiceStatus();
+        initIgnoredAccountPreference();
+    }
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences);
-            setPowerServiceStatus();
-            setHasOptionsMenu(false);
-            initIgnoredAccountPreference();
+    private void initIgnoredAccountPreference() {
+        MultiSelectListPreference selectedAccounts = (MultiSelectListPreference) findPreference("selected_accounts");
+
+        Account[] accounts = new AccountHelper().getAllAccounts(requireContext());
+
+        Arrays.sort(accounts, (o1, o2) -> o1.name.compareToIgnoreCase(o2.name));
+        String[] entries = new String[accounts.length];
+        String[] entryValues = new String[accounts.length];
+
+        for (int i = 0; i < accounts.length; i++) {
+            String accountName = accounts[i].name;
+            entries[i] = accountName;
+            entryValues[i] = accountName;
         }
 
-        private void initIgnoredAccountPreference() {
-            MultiSelectListPreference selectedAccounts =
-                    (MultiSelectListPreference) findPreference("selected_accounts");
+        selectedAccounts.setEntries(entries);
+        selectedAccounts.setEntryValues(entryValues);
+    }
 
-            Account[] accounts = new AccountHelper().getAllAccounts(getContext());
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
 
-            Arrays.sort(accounts, (o1, o2) -> o1.name.compareToIgnoreCase(o2.name));
-            String[] entries = new String[accounts.length];
-            String[] entryValues = new String[accounts.length];
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        setPowerServiceStatus();
 
-            for (int i = 0; i < accounts.length; i++) {
-                String accountName = accounts[i].name;
-                entries[i] = accountName;
-                entryValues[i] = accountName;
+        CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference("battery_status");
+        mCheckBoxPref.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent();
+            String packageName = requireActivity().getPackageName();
+            PowerManager pm = (PowerManager) requireActivity().getSystemService(POWER_SERVICE);
+
+            if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+            } else {
+                intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
             }
+            startActivity(intent);
+            return true;
+        });
 
-            selectedAccounts.setEntries(entries);
-            selectedAccounts.setEntryValues(entryValues);
-        }
+    }
 
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            super.onCreateOptionsMenu(menu, inflater);
-            menu.clear();
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        setPowerServiceStatus();
+    }
 
-        @Override
-        public void onResume() {
-            super.onResume();
-            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-            setPowerServiceStatus();
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (key.equals("scan_daily") || key.equals("scan_daily_interval")) {
+            boolean dailyNotification = prefs.getBoolean("scan_daily", true);
 
-            CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
-                    findPreference("battery_status");
-            mCheckBoxPref.setOnPreferenceClickListener(preference -> {
-                Intent intent = new Intent();
-                String packageName = getActivity().getPackageName();
-                PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
+            AlarmHelper alarm = new AlarmHelper();
 
-                if (!Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName)) {
-                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                    intent.setData(Uri.parse("package:" + packageName));
-                } else {
-                    intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                }
-                startActivity(intent);
-                return true;
-            });
-
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            getPreferenceScreen().getSharedPreferences()
-                    .unregisterOnSharedPreferenceChangeListener(this);
-            setPowerServiceStatus();
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            if (key.equals("scan_daily") || key.equals("scan_daily_interval")) {
-                boolean dailyNotification = prefs.getBoolean("scan_daily", true);
-
-                AlarmHelper alarm = new AlarmHelper();
-
-                if (dailyNotification) {
-                    long toGoesOffAt = prefs.getLong("scan_daily_interval", -1);
-                    alarm.setAlarm(getContext(), toGoesOffAt);
-                } else {
-                    alarm.cancelAlarm(getContext());
-                }
-            } else if (key.equals("dark_theme")) {
-                getActivity().finish();
-                final Intent intent = getActivity().getIntent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().startActivity(intent);
+            if (dailyNotification) {
+                long toGoesOffAt = prefs.getLong("scan_daily_interval", -1);
+                alarm.setAlarm(requireContext(), toGoesOffAt);
+            } else {
+                alarm.cancelAlarm(requireContext());
             }
+        } else if (key.equals("dark_theme")) {
+            requireActivity().finish();
+            final Intent intent = requireActivity().getIntent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            requireActivity().startActivity(intent);
+        }
+    }
+
+    void setPowerServiceStatus() {
+        CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference("battery_status");
+        mCheckBoxPref.setChecked(checkPowerServiceStatus());
+    }
+
+    boolean checkPowerServiceStatus() {
+        String packageName = requireActivity().getPackageName();
+        PowerManager pm = (PowerManager) requireActivity().getSystemService(POWER_SERVICE);
+        return Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName);
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (getParentFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) != null) {
+            return;
         }
 
-        void setPowerServiceStatus() {
-            CheckBoxPreference mCheckBoxPref = (CheckBoxPreference)
-                    findPreference("battery_status");
-            mCheckBoxPref.setChecked(checkPowerServiceStatus());
+        final DialogFragment f;
+
+        if (preference instanceof NumberPickerPreference) {
+            f = NumberPickerFragment.newInstance(preference.getKey());
+        } else if (preference instanceof TimePickerPreference) {
+            f = TimePickerFragment.newInstance(preference.getKey());
+        } else {
+            f = null;
         }
 
-        boolean checkPowerServiceStatus() {
-            String packageName = getActivity().getPackageName();
-            PowerManager pm = (PowerManager) getActivity().getSystemService(POWER_SERVICE);
-            return Objects.requireNonNull(pm).isIgnoringBatteryOptimizations(packageName);
+        if (f != null) {
+            f.setTargetFragment(this, 0);
+            f.show(getParentFragmentManager(), DIALOG_FRAGMENT_TAG);
+        } else {
+            super.onDisplayPreferenceDialog(preference);
         }
     }
 }

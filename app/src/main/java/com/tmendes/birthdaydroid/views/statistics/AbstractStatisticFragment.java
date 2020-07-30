@@ -1,19 +1,14 @@
 package com.tmendes.birthdaydroid.views.statistics;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
-import androidx.navigation.NavHostController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
+import androidx.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
@@ -42,8 +37,7 @@ public abstract class AbstractStatisticFragment extends AbstractContactsFragment
             prefs.edit()
                     .putBoolean("settings_statistics_as_text", !prefs.getBoolean("settings_statistics_as_text", false))
                     .apply();
-            NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.nav_birthday_list, false).build();
-            Navigation.findNavController(this.requireView()).navigate(getCorrespondingTextOrDiagramNavId(), null, navOptions);
+            NavHostFragment.findNavController(this).navigate(getCorrespondingTextOrDiagramNavId());
             return true;
         } else {
             return super.onOptionsItemSelected(item);

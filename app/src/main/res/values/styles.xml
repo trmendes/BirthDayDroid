@@ -9,6 +9,7 @@
         <item name="colorOnSecondary">@android:color/white</item>
 
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+        <item name="navigationViewStyle">@style/BDDTheme.NavigationView</item>
     </style>
 
     <style name="BDDTheme.AppBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

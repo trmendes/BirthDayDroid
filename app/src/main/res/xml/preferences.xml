@@ -1,5 +1,6 @@
 <PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:keep="@xml/preferences">
     <PreferenceCategory android:title="@string/settings_scan_preferences">
         <CheckBoxPreference
@@ -8,19 +9,10 @@
             android:summary="@string/settings_scan_not_sum"
             android:title="@string/settings_scan_not_title" />
 
-        <com.tmendes.birthdaydroid.preferences.TimeDialogPreference
+        <com.tmendes.birthdaydroid.views.preferences.timepicker.TimePickerPreference
             android:key="scan_daily_interval"
             android:dependency="scan_daily"
             android:title="@string/settings_scan_title" />
-
-        <RingtonePreference
-            android:defaultValue="content://settings/system/notification_sound"
-            android:dependency="scan_daily"
-            android:key="custom_notification_sound"
-            android:ringtoneType="notification"
-            android:showDefault="true"
-            android:summary="@string/settings_not_sound_sum"
-            android:title="@string/settings_not_sound_title" />
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -29,11 +21,14 @@
             android:summary="@string/settings_scan_not_adv_sum"
             android:title="@string/settings_scan_not_adv_title" />
 
-        <com.tmendes.birthdaydroid.preferences.NumberPickerDialogPreference
+        <com.tmendes.birthdaydroid.views.preferences.numberpicker.NumberPickerPreference
             android:dependency="scan_in_advance"
             android:key="days_in_advance_interval"
             android:title="@string/settings_scan_adv_title"
-            android:summary="@string/settings_scan_adv_sum" />
+            android:summary="@string/settings_scan_adv_sum"
+            app:minValue="1"
+            app:maxValue="364"
+            app:defaultValue="1"/>
 
         <CheckBoxPreference
             android:dependency="scan_in_advance"
