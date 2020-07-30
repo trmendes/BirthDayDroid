@@ -76,6 +76,7 @@ public class BarChartZodiacFragment extends AbstractZodiacFragment implements On
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
         xAxis.setLabelRotationAngle(80f);
+        xAxis.setDrawGridLines(false);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
