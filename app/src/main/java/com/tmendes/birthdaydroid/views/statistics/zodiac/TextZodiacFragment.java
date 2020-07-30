@@ -59,7 +59,8 @@ public class TextZodiacFragment extends AbstractStatisticFragment {
             @Zodiac final int zodiac = pair.getKey();
             final int amount = pair.getValue();
 
-            final TableRow row = newRow(zodiacResourceHelper.getZodiacName(zodiac), String.valueOf(amount));
+            final String zodiacLabel = zodiacResourceHelper.getZodiacSymbol(zodiac) + " " + zodiacResourceHelper.getZodiacName(zodiac);
+            final TableRow row = newRow(zodiacLabel, String.valueOf(amount));
 
             tableLayout.addView(row);
         }
