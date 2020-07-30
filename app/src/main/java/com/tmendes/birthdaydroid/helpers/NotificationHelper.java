@@ -29,11 +29,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.R;
@@ -89,8 +89,7 @@ public class NotificationHelper extends ContextWrapper {
             if (contact.isIgnore()) {
                 notify = false;
             } else {
-                SharedPreferences prefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 boolean favoritesOnly = prefs.getBoolean("notify_favorites_only", false);
                 if (!favoritesOnly) {
                     notify = true;
