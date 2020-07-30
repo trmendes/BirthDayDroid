@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class TextZodiacFragment extends AbstractStatisticFragment {
+public class TextZodiacFragment extends AbstractZodiacFragment {
 
     private TableLayout tableLayout;
     private ZodiacResourceHelper zodiacResourceHelper;

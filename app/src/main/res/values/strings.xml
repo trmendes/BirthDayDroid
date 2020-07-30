@@ -160,5 +160,9 @@
 
     <string name="statistic_action_switch_to_text_view">Switch to Text View</string>
     <string name="statistic_action_switch_to_diagram_view">Switch to Diagram View</string>
+
+    <string name="statistic_action_zodiac_info">Information About Zodiacs</string>
+    <string name="zodiac_info_title">Information About Zodiacs</string>
+    <string name="zodiac_info_message">There are 12 zodiacs that are defined by 30° sectors of the ecliptic. All 12 sectors are a calendar, but it is not fully matching with our gregorian calendar. Therefore the border dates of the zodiacs can variate from year to year. Please keep this in mind, if you think there is a wrong calculated zodiac in this app.</string>
 </resources>
 

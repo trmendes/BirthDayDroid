@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class BarChartZodiacFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
+public class BarChartZodiacFragment extends AbstractZodiacFragment implements OnChartValueSelectedListener {
     private BarChart chart;
     private String label;
     private ZodiacResourceHelper zodiacResourceHelper;
