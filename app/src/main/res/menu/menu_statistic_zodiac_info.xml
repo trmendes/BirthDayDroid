@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/zodiac_info"
-        android:icon="@android:drawable/ic_dialog_info"
+        android:icon="@drawable/ic_info_white_48"
         android:title="@string/statistic_action_zodiac_info"
         app:showAsAction="ifRoom" />
 
