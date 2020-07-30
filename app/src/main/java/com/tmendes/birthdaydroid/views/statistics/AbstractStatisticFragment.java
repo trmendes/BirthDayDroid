@@ -1,7 +1,6 @@
 package com.tmendes.birthdaydroid.views.statistics;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,6 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.views.AbstractContactsFragment;
