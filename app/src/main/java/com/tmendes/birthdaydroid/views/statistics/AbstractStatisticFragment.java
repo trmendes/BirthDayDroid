@@ -18,13 +18,13 @@ import java.lang.annotation.RetentionPolicy;
 
 public abstract class AbstractStatisticFragment extends AbstractContactsFragment {
     public static final int TEXT_VIEW = 0;
-    public static final int DIAGRAM_VIEW = 1;
+    public static final int CHART_VIEW = 1;
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         if (getStatisticViewType() == TEXT_VIEW) {
             inflater.inflate(R.menu.menu_statistic_text, menu);
-        } else if (getStatisticViewType() == DIAGRAM_VIEW) {
+        } else if (getStatisticViewType() == CHART_VIEW) {
             inflater.inflate(R.menu.menu_statistic_diagram, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
@@ -49,7 +49,7 @@ public abstract class AbstractStatisticFragment extends AbstractContactsFragment
 
     protected abstract int getCorrespondingTextOrDiagramNavId();
 
-    @IntDef({TEXT_VIEW, DIAGRAM_VIEW})
+    @IntDef({TEXT_VIEW, CHART_VIEW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface StatisticViewType {
     }
