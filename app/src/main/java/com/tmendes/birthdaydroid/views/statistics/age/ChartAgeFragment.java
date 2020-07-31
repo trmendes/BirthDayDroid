@@ -25,6 +25,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tmendes.birthdaydroid.R;
 import com.tmendes.birthdaydroid.contact.Contact;
 import com.tmendes.birthdaydroid.views.statistics.AbstractStatisticFragment;
+import com.tmendes.birthdaydroid.views.statistics.ChartHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,54 +33,38 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class BarChartAgeFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
+public class ChartAgeFragment extends AbstractStatisticFragment implements OnChartValueSelectedListener {
 
     private HorizontalBarChart chart;
+    private ChartHelper chartHelper;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_barchart, container, false);
+        final View v = inflater.inflate(R.layout.fragment_barchart, container, false);
         setHasOptionsMenu(true);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        final boolean useDarkTheme = prefs.getBoolean("dark_theme", false);
 
         chart = v.findViewById(R.id.barChart);
-        TextView title = v.findViewById(R.id.tvBarChartTitle);
-
+        final TextView title = v.findViewById(R.id.tvBarChartTitle);
         title.setText(getResources().getString(R.string.menu_statistics_age));
 
-        chart.setHighlightPerTapEnabled(true);
-
+        chartHelper = new ChartHelper();
+        chartHelper.setUpBarChartBaseSettings(chart, useDarkTheme);
         chart.setOnChartValueSelectedListener(this);
 
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(false);
-        chart.setPinchZoom(false);
-        chart.setDrawGridBackground(false);
-        chart.setBackgroundColor(Color.TRANSPARENT);
-        chart.getLegend().setEnabled(false);
-        chart.getDescription().setEnabled(false);
-        chart.setDrawBorders(false);
-
-        XAxis xAxis = chart.getXAxis();
+        XAxis xAxis = chart.getXAxis(); // LEFT and RIGHT
+        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
 
-        YAxis leftAxis = chart.getAxisLeft();
-        YAxis rightAxis = chart.getAxisRight();
+        YAxis rightAxis = chart.getAxisRight(); //TOP
+        rightAxis.setDrawLabels(true);
+        rightAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
 
-        chart.getAxisLeft().setDrawLabels(false); //TOP
-        chart.getAxisRight().setDrawLabels(true); //BOTTOM
-
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setAxisMinimum(0f);
-
-        if (useDarkTheme) {
-            leftAxis.setTextColor(Color.WHITE);
-            rightAxis.setTextColor(Color.WHITE);
-            xAxis.setTextColor(Color.WHITE);
-        }
+        YAxis leftAxis = chart.getAxisLeft(); //BOTTOM
+        leftAxis.setEnabled(false);
 
         return v;
     }
@@ -88,7 +73,6 @@ public class BarChartAgeFragment extends AbstractStatisticFragment implements On
     protected void updateContacts(List<Contact> contacts) {
         final ArrayList<BarEntry> barEntries = new ArrayList<>();
         float max_age = 0;
-        float min_age = Integer.MAX_VALUE;
 
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
@@ -102,28 +86,24 @@ public class BarChartAgeFragment extends AbstractStatisticFragment implements On
             if ((age > max_age)) {
                 max_age = age;
             }
-            if (age < min_age) {
-                min_age = age;
-            }
         }
 
         final BarDataSet barDataSet = new BarDataSet(barEntries, requireContext().getResources().getString(R.string.array_order_age));
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColors(chartHelper.getColorTemplate());
+        barDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
         barDataSet.setDrawValues(false);
-        barDataSet.setHighlightEnabled(true);
-        barDataSet.setBarBorderWidth(0f);
 
         final BarData barData = new BarData(barDataSet);
         barData.setBarWidth(0.9f);
 
-        chart.getXAxis().setAxisMaximum(max_age);
-        chart.getXAxis().setAxisMinimum(min_age);
+        chart.getXAxis().setAxisMaximum(max_age + 0.5f);
+        chart.getXAxis().setAxisMinimum(-0.5f);
         chart.setData(barData);
     }
 
     @Override
     protected int getStatisticViewType() {
-        return DIAGRAM_VIEW;
+        return CHART_VIEW;
     }
 
     @Override
@@ -133,7 +113,7 @@ public class BarChartAgeFragment extends AbstractStatisticFragment implements On
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        String msg = Integer.toString(((int) e.getY()));
+        String msg = (int) e.getX() + ": " + (int) e.getY();
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
