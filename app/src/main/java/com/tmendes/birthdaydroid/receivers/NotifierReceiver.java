@@ -45,6 +45,7 @@ public class NotifierReceiver extends BroadcastReceiver {
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
             final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
+            final boolean showPreciseNotification = prefs.getBoolean("precise_notification", false);
             final int daysInAdvance = getDaysInAdviceFromPreferences(prefs);
 
             final DBContactService dbContactService = new DBContactService(context);
@@ -66,7 +67,9 @@ public class NotifierReceiver extends BroadcastReceiver {
 
             final NotificationHelper notificationHelper = new NotificationHelper(context);
             allContacts.stream()
-                    .filter(c -> c.isBirthdayToday() || c.getDaysUntilNextBirthday() == daysInAdvance)
+                    .filter(c -> c.isBirthdayToday()
+                            || (showPreciseNotification && c.getDaysUntilNextBirthday() == daysInAdvance)
+                            || (!showPreciseNotification && c.getDaysUntilNextBirthday() <= daysInAdvance))
                     .forEach(notificationHelper::postNotification);
         }
     }
