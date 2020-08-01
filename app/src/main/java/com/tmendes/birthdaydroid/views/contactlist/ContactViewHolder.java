@@ -198,7 +198,7 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
         if (contact.isBirthdayToday() || showCurrentAge) {
             ageText = String.valueOf(contact.getAgeInYears());
         } else {
-            ageText = "↑" + (contact.getAgeInYears() + 1);
+            ageText = "↑" + (contact.getAgeInYears() + (contact.isBornInFuture() ? 0 : 1));
         }
         this.ageBadge.setText(ageText);
     }
