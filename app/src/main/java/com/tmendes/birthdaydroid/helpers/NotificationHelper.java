@@ -110,7 +110,7 @@ public class NotificationHelper extends ContextWrapper {
                         body.append(getBaseContext().getResources().getQuantityString(
                                 R.plurals.message_notification_message_bt_to_come,
                                 contact.getDaysUntilNextBirthday(),
-                                firstName, contact.getAgeInYears(),
+                                firstName, contact.getAgeInYears() + (contact.isBornInFuture() ? 0 : 1),
                                 contact.getDaysUntilNextBirthday()));
                     } else {
                         body.append(getBaseContext().getResources().getQuantityString(
