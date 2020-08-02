@@ -18,10 +18,6 @@
     <string name="sign_element_water">Vann</string>
 
     <string name="search">Søk etter alder, navn, stjernetegn, etc</string>
-    <plurals name="contact">
-        <item quantity="one">%1$d kontakt</item>
-        <item quantity="other">%1$d kontaker</item>
-    </plurals>
     <plurals name="years_old">
         <item quantity="one">%1$d år gammel</item>
         <item quantity="other">%1$d år gammel</item>
@@ -48,6 +44,11 @@
         <item quantity="other">%1$s blir %2$d om %3$d dager</item>
     </plurals>
 
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">%1$s har bursdag i morgen</item>
+        <item quantity="other">%1$s har bursdag om %2$d dager</item>
+    </plurals>
+
     <string name="menu_birthday_list">Fødselsdagsliste</string>
     <string name="menu_settings">Innstillinger</string>
     <string name="menu_statistics_age">Alders statistikk</string>
@@ -55,8 +56,6 @@
     <string name="menu_statistics_week">Uke fødsels statistikk</string>
     <string name="menu_statistics_month">Måneds fødsels statistikk</string>
     <string name="menu_about">Om</string>
-    <string name="settings_not_sound_title">Notifikasjons lyd</string>
-    <string name="settings_not_sound_sum">Sett fødselsdags notifikasjons lyden</string>
     <string name="settings_scan_preferences">Fødselsdags notifikasjons innstillinger</string>
     <string name="settings_scan_not_sum">Vis fødselsdags notifikasjoner daglig</string>
     <string name="settings_scan_not_title">Daglige notifikasjoner</string>
@@ -77,8 +76,6 @@
     <string name="settings_list_input_title">Sorter etter</string>
     <string name="settings_list_order_sum">Stigende eller synkende</string>
     <string name="settings_list_order_title">Sorterings rekkefølge</string>
-    <string name="settings_time_set">Sett</string>
-    <string name="settings_time_cancel">Avbryt</string>
     <string name="settings_layout_preferences">Utseende</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_battery_status">Tillat at appen kjører i bakgrunnen</string>
@@ -87,8 +84,6 @@
     <string name="settings_hide_add_contact_fab">Skjul knappen for å legge til ny bursdag</string>
     <string name="settings_notify_favorites_only">Varsle bare favoritter</string>
     <string name="settings_hide_contacts">Skjul ignorerte kontakter</string>
-    <string name="navigation_drawer_open">Åpne navigasjons område</string>
-    <string name="navigation_drawer_close">Lukk navigasjons område</string>
     <string name="alert_contats_dialog_title">Trenger tillatelse til lese kontaktlisten</string>
     <string name="alert_contacts_dialog_msg">Vi må ha tilgang til din kontaktliste for å hente fødselsdager</string>
     <string name="alert_permissions_allow">OK</string>
@@ -125,5 +120,12 @@
 
     <string name="breaking_change_dialog_title">Viktig oppdateringsvarsel</string>
     <string name="breaking_change_dialog_message_v46">Mekanismen for hvordan tidene blir lagret har endret seg. Vennligst sjekk varslingstiden og korriger den om nødvendig.</string>
+
+    <string name="statistic_action_switch_to_text_view">Bytt til tekstvisning</string>
+    <string name="statistic_action_switch_to_diagram_view">Bytt til diagramvisning</string>
+
+    <string name="statistic_action_zodiac_info">Informasjon om Zodiacs</string>
+    <string name="zodiac_info_title">Informasjon om Zodiacs</string>
+    <string name="zodiac_info_message">Det er 12 stjernetegn som er definert av 30 ° sektorer av ekliptikken. Alle de 12 sektorene er en kalender, men den samsvarer ikke helt med vår gregoriske kalender. Derfor kan stjernedatoer for dyrekredene variere fra år til år. Husk dette, hvis du tror det er en feil beregnet dyrekretsen i denne appen.</string>
 </resources>
 

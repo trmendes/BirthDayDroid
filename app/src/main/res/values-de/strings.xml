@@ -18,11 +18,7 @@
     <string name="sign_element_water">Wasser</string>
 
     <string name="search">Suche nach Alter, Name, Sternzeichen, etc.</string>
-    <plurals name="contact">
-        <item quantity="one">%1$d Kontakt</item>
-        <item quantity="other">%1$d Kontakte</item>
-    </plurals>
-    <plurals name="years_old">
+  <plurals name="years_old">
         <item quantity="one">%1$d Jahr alt</item>
         <item quantity="other">%1$d Jahre alt</item>
     </plurals>
@@ -48,16 +44,19 @@
         <item quantity="other">%1$s wird in %3$d Tagen %2$d</item>
     </plurals>
 
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">%1$s\'s Geburtstag ist morgen</item>
+        <item quantity="other">%1$s\'s Geburtstag ist in %2$d Tagen</item>
+    </plurals>
+
     <string name="menu_birthday_list">Geburtstagsliste</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_statistics_age">Statistik zum Alter</string>
     <string name="menu_statistics_zodiac">Statistik zum Tierkreis</string>
-    <string name="menu_statistics_week">Statistik zur Geburtswoche</string>
+    <string name="menu_statistics_week">Statistik zum Geb.-Wochentag</string>
     <string name="menu_statistics_month">Statistik zum Geburtsmonat</string>
     <string name="menu_about">Über</string>
-    <string name="settings_not_sound_title">Benachrichtigungston</string>
-    <string name="settings_not_sound_sum">Den Benachrichtigungston festlegen</string>
-    <string name="settings_scan_preferences">Einstellungen zur Geburtstagsbenachrichtigung</string>
+  <string name="settings_scan_preferences">Einstellungen zur Geburtstagsbenachrichtigung</string>
     <string name="settings_scan_not_sum">Geburtstagsbenachrichtigungen täglich anzeigen</string>
     <string name="settings_scan_not_title">Tägliche Benachrichtigungen</string>
     <string name="settings_scan_title">Zeit für tägliche Benachrichtigungen</string>
@@ -77,9 +76,7 @@
     <string name="settings_list_input_title">Sortieren nach</string>
     <string name="settings_list_order_sum">Aufsteigend oder absteigend</string>
     <string name="settings_list_order_title">Sortierung</string>
-    <string name="settings_time_set">Festlegen</string>
-    <string name="settings_time_cancel">Abbrechen</string>
-    <string name="settings_layout_preferences">Erscheinungsbild</string>
+  <string name="settings_layout_preferences">Erscheinungsbild</string>
     <string name="settings_theme_title">Thema</string>
     <string name="settings_battery_status">Ausführung im Hintergrund erlauben</string>
     <string name="settings_theme">Dunkel</string>
@@ -87,9 +84,7 @@
     <string name="settings_hide_add_contact_fab">Geb.-hinzufügen-Button verstecken</string>
     <string name="settings_notify_favorites_only">Nur bevorzugte Kontakte melden</string>
     <string name="settings_hide_contacts">Ignorierte Kontakte verstecken</string>
-    <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
-    <string name="navigation_drawer_close">Navigationsleiste schließen</string>
-    <string name="alert_contats_dialog_title">Erlaubnis zum Auslesen der Kontakte wird benötigt</string>
+  <string name="alert_contats_dialog_title">Erlaubnis zum Auslesen der Kontakte wird benötigt</string>
     <string name="alert_contacts_dialog_msg">Wir benötigen Zugriff auf deine Kontakte, um deren Geburtstage einzulesen</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Verweigern</string>
@@ -125,5 +120,12 @@
 
     <string name="breaking_change_dialog_title">Wichtige Updatebemerkung</string>
     <string name="breaking_change_dialog_message_v46">Der Mechanismus zum Speichern von Zeiten wurde geändert. Bitte prüfe die Benachrichtigungszeit und korrigier diese, wenn es notwendig ist.</string>
+
+    <string name="statistic_action_switch_to_text_view">Zur Textansicht wechseln</string>
+    <string name="statistic_action_switch_to_diagram_view">Zur Diagrammansicht wechseln</string>
+
+    <string name="statistic_action_zodiac_info">Informationen zu Tierkreiszeichen</string>
+    <string name="zodiac_info_title">Informationen zu Tierkreiszeichen</string>
+    <string name="zodiac_info_message">Es gibt 12 Tierkreiszeichen, welche als 30° Sektoren des Ekliptik definiert sind. Alle 12 Sektoren sind ein Kalender, welcher jedoch nicht voll auf unseren gregorianischen Kalender passt. Deswegen können die Grenzdaten von Jahr zu Jahr variieren. Dies sollte man im Hinterkopf behalten, wenn man bemerkt, dass ein Tierkreiszeichen in dieser App falsch berechnet wird.</string>
 </resources>
 

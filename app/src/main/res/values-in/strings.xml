@@ -24,8 +24,6 @@
     <string name="menu_birthday_list">Daftar Ulang Tahun</string>
     <string name="menu_settings">Pengaturan</string>
     <string name="menu_about">Tentang</string>
-    <string name="settings_not_sound_title">Suara Notifikasi</string>
-    <string name="settings_not_sound_sum">Tetapkan suara notifikasi ulang tahun</string>
     <string name="settings_scan_preferences">Pengaturan Notifikasi Ulang Tahun</string>
     <string name="settings_scan_not_sum">Tampilkan notifikasi ulang tahun setiap hari</string>
     <string name="settings_scan_not_title">Notifikasi Harian</string>
@@ -40,13 +38,9 @@
     <string name="settings_list_input_title">Urutkan berdasarkan</string>
     <string name="settings_list_order_sum">Meningkat atau Menurun</string>
     <string name="settings_list_order_title">Urutkan urutan</string>
-    <string name="settings_time_set">Set</string>
-    <string name="settings_time_cancel">Batal</string>
     <string name="settings_layout_preferences">Tampilan</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Gelap</string>
-    <string name="navigation_drawer_open">Buka kotak navigasi</string>
-    <string name="navigation_drawer_close">Tutup kotak navigasi</string>
     <string name="alert_contacts_dialog_msg">Kami butuh akses ke dalam daftar kontak Anda untuk memperoleh ulang tahun mereka</string>
     <string name="alert_permissions_allow">OKE</string>
     <string name="alert_permissions_deny">Tolak</string>
