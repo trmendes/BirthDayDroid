@@ -6,7 +6,6 @@ import android.os.Build;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.time.DateTimeException;
-import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
