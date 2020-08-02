@@ -18,13 +18,7 @@
     <string name="sign_element_water">Знак воды</string>
 
     <string name="search">Поиск по возрасту, имени, знаку и т.д.</string>
-    <plurals name="contact">
-        <item quantity="one">%1$d контакт</item>
-        <item quantity="few">%1$d контактов</item>
-        <item quantity="many">%1$d контактов</item>
-        <item quantity="other">%1$d контактов</item>
-    </plurals>
-    <plurals name="years_old">
+  <plurals name="years_old">
         <item quantity="one">%1$d год</item>
         <item quantity="few">%1$d лет</item>
         <item quantity="many">%1$d лет</item>
@@ -60,6 +54,13 @@
         <item quantity="other">%1$s исполняется %2$d через %3$d дней</item>
     </plurals>
 
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">Завтра у %1$s день рождения</item>
+        <item quantity="few">%1$s сегодня исполняется %2$d лет</item>
+        <item quantity="many">%1$s сегодня исполняется %2$d лет</item>
+        <item quantity="other">%1$s сегодня исполняется %2$d лет</item>
+    </plurals>
+
     <string name="menu_birthday_list">Список дней рождения</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_statistics_age">Статистика по возрастам</string>
@@ -67,9 +68,7 @@
     <string name="menu_statistics_week">Статистика по неделям рождения</string>
     <string name="menu_statistics_month">Статистика по месяцам рождения</string>
     <string name="menu_about">О программе</string>
-    <string name="settings_not_sound_title">Звук уведомления</string>
-    <string name="settings_not_sound_sum">Установить звук уведомления о дне рождения</string>
-    <string name="settings_scan_preferences">Настройки уведомлений о днях рождения</string>
+  <string name="settings_scan_preferences">Настройки уведомлений о днях рождения</string>
     <string name="settings_scan_not_sum">Ежедневно показывать уведомления о днях рождения</string>
     <string name="settings_scan_not_title">Ежедневные уведомления</string>
     <string name="settings_scan_title">Время показа уведомлений</string>
@@ -89,9 +88,7 @@
     <string name="settings_list_input_title">Сортировка</string>
     <string name="settings_list_order_sum">По возрастанию или по убыванию</string>
     <string name="settings_list_order_title">Порядок сортировки</string>
-    <string name="settings_time_set">Задать</string>
-    <string name="settings_time_cancel">Отмена</string>
-    <string name="settings_layout_preferences">Вид</string>
+  <string name="settings_layout_preferences">Вид</string>
     <string name="settings_theme_title">Тема</string>
     <string name="settings_battery_status">Разрешить работу в фоновом режиме</string>
     <string name="settings_theme">Тёмная</string>
@@ -99,9 +96,7 @@
     <string name="settings_hide_add_contact_fab">Скрыть кнопку добавления дня рождения</string>
     <string name="settings_notify_favorites_only">Уведомлять только избранные</string>
     <string name="settings_hide_contacts">Скрыть игнорируемые контакты</string>
-    <string name="navigation_drawer_open">Открыть панель уведомлений</string>
-    <string name="navigation_drawer_close">Закрыть панель уведомлений</string>
-    <string name="alert_contats_dialog_title">Требуется разрешение на доступ к контактам</string>
+  <string name="alert_contats_dialog_title">Требуется разрешение на доступ к контактам</string>
     <string name="alert_contacts_dialog_msg">Нужно разрешение на доступ к контактам, чтобы видеть их дни рождения</string>
     <string name="alert_permissions_allow">ОК</string>
     <string name="alert_permissions_deny">Отклонить</string>
@@ -137,5 +132,12 @@
 
     <string name="breaking_change_dialog_title">Важное уведомление об обновлении</string>
     <string name="breaking_change_dialog_message_v46">Механизм сохранения времени изменился. Пожалуйста, проверьте время уведомления и исправьте его, если необходимо.</string>
+
+    <string name="statistic_action_switch_to_text_view">Переключиться на просмотр текста</string>
+    <string name="statistic_action_switch_to_diagram_view">Переключиться на просмотр схемы</string>
+
+    <string name="statistic_action_zodiac_info">Информация о Зодиаке</string>
+    <string name="zodiac_info_title">Информация о Зодиаке</string>
+    <string name="zodiac_info_message">Есть 12 зодиаков, которые определены 30-градусными секторами эклиптики. Все 12 секторов - это календарь, но он не полностью соответствует нашему григорианскому календарю. Поэтому даты границы зодиака могут меняться от года к году. Пожалуйста, имейте это в виду, если вы думаете, что в этом приложении неправильно рассчитан знак зодиака.</string>
 </resources>
 

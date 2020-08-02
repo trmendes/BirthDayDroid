@@ -18,11 +18,7 @@
     <string name="sign_element_water">Água</string>
 
     <string name="search">Procurar por idade, nome, signo, etc</string>
-    <plurals name="contact">
-        <item quantity="one">%1$d contacto</item>
-        <item quantity="other">%1$d contactos</item>
-    </plurals>
-    <plurals name="years_old">
+  <plurals name="years_old">
         <item quantity="one">%1$d ano</item>
         <item quantity="other">%1$d anos</item>
     </plurals>
@@ -48,6 +44,11 @@
         <item quantity="other">%1$s faz %2$d anos daqui a %3$d dias</item>
     </plurals>
 
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">o aniversário da(o) %1$s é amanhã</item>
+        <item quantity="other">aniversário da(o) %1$s é em %2$d dias</item>
+    </plurals>
+
     <string name="menu_birthday_list">Lista de aniversários</string>
     <string name="menu_settings">Definições</string>
     <string name="menu_statistics_age">Estatísticas por idade</string>
@@ -55,9 +56,7 @@
     <string name="menu_statistics_week">Estatísticas por dia da semana</string>
     <string name="menu_statistics_month">Estatísticas por mês</string>
     <string name="menu_about">Acerca</string>
-    <string name="settings_not_sound_title">Som da notificação</string>
-    <string name="settings_not_sound_sum">Define o som da notificação</string>
-    <string name="settings_scan_preferences">Definições avançadas de notificação</string>
+  <string name="settings_scan_preferences">Definições avançadas de notificação</string>
     <string name="settings_scan_not_sum">Mostrar notificações diariamente</string>
     <string name="settings_scan_not_title">Notificações diárias</string>
     <string name="settings_scan_title">Hora para as notificações diárias</string>
@@ -77,9 +76,7 @@
     <string name="settings_list_input_title">Ordenar por</string>
     <string name="settings_list_order_sum">Ascendente ou descendente</string>
     <string name="settings_list_order_title">Ordenação</string>
-    <string name="settings_time_set">Definir</string>
-    <string name="settings_time_cancel">Cancelar</string>
-    <string name="settings_layout_preferences">Disposição</string>
+  <string name="settings_layout_preferences">Disposição</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_battery_status">Permitir execução em segundo plano</string>
     <string name="settings_theme">Escuro</string>
@@ -87,9 +84,7 @@
     <string name="settings_hide_add_contact_fab">Ocultar botão para adicionar aniversários</string>
     <string name="settings_notify_favorites_only">Notificar apenas dos favoritos</string>
     <string name="settings_hide_contacts">Ocultar contactos ignorados</string>
-    <string name="navigation_drawer_open">Abrir menu de navegação</string>
-    <string name="navigation_drawer_close">Fechar menu de navegação</string>
-    <string name="alert_contats_dialog_title">Requer permissão para ler os contactos</string>
+  <string name="alert_contats_dialog_title">Requer permissão para ler os contactos</string>
     <string name="alert_contacts_dialog_msg">Necessitamos de aceder aos contactos para procurar as suas datas de nascimento</string>
     <string name="alert_permissions_allow">Aceitar</string>
     <string name="alert_permissions_deny">Recusar</string>
@@ -125,5 +120,12 @@
 
     <string name="breaking_change_dialog_title">Aviso importante</string>
     <string name="breaking_change_dialog_message_v46">O mecanismo para gravação de hora foi alterado. Verifique a hora das suas notificações e, se necessário, corrija.</string>
+
+    <string name="statistic_action_switch_to_text_view">Mude para a versão em texto</string>
+    <string name="statistic_action_switch_to_diagram_view">Mude para a versão gráfica</string>
+
+    <string name="statistic_action_zodiac_info">Informações sobre Zodíacos</string>
+    <string name="zodiac_info_title">Informações sobre Zodíacos</string>
+    <string name="zodiac_info_message">Existem 12 zodíacos definidos por setores de 30 ° da eclíptica. Todos os 12 setores são um calendário, mas não é totalmente compatível com o nosso calendário gregoriano. Portanto, as datas de fronteira dos zodíacos podem variar de ano para ano. Por favor, tenha isso em mente, se você acha que há um zodíaco calculado errado neste aplicativo.</string>
 </resources>
 

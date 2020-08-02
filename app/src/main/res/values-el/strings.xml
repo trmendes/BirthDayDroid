@@ -25,8 +25,6 @@
     <string name="menu_birthday_list">Λϊστα γενεθλίων</string>
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_about">Σχετικά</string>
-    <string name="settings_not_sound_title">Ήχος ειδοποίησης</string>
-    <string name="settings_not_sound_sum">Ορισμός ήχου ειδοποίησης γενεθλίων</string>
     <string name="settings_scan_preferences">Ρυθμίσεις ειδοποίησης γενεθλίων</string>
     <string name="settings_scan_not_sum">Εμφάνιση ειδοποιήσεων γενεθλίων καθημερινά</string>
     <string name="settings_scan_not_title">Καθημερινές ειδοποιήσεις</string>
@@ -42,13 +40,9 @@
     <string name="settings_list_input_title">Ταξινόμηση ανά</string>
     <string name="settings_list_order_sum">Αύξουσα ή φθίνουσα</string>
     <string name="settings_list_order_title">Σειρά ταξινόμησης</string>
-    <string name="settings_time_set">Ορισμός</string>
-    <string name="settings_time_cancel">Άκυρο</string>
     <string name="settings_layout_preferences">Διάταξη</string>
     <string name="settings_theme_title">Θέμα</string>
     <string name="settings_theme">Σκούρο</string>
-    <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
-    <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
     <string name="alert_contacts_dialog_msg">Χρειαζόμαστε πρόσβαση στην λίστα των επαφών σου, προκειμένου να φέρουμε τα γενέθλια τους</string>
     <string name="alert_permissions_allow">ΟΚ</string>
     <string name="alert_permissions_deny">Άρνηση</string>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_desc">Twój przypominacz o urodzinach</string>
     <string name="sign_aquarius">Wodnik</string>
     <string name="sign_capricorn">Koziorożec</string>
@@ -27,13 +27,10 @@
     <string name="menu_birthday_list">Lista urodzin</string>
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_about">O aplikacji</string>
-    <string name="settings_not_sound_title">Dźwięk powiadomienia</string>
-    <string name="settings_scan_preferences">Ustawienia powiadomień o urodzinach</string>
+  <string name="settings_scan_preferences">Ustawienia powiadomień o urodzinach</string>
     <string name="settings_list_input_title">Sortuj według</string>
     <string name="settings_list_order_sum">Rosnąco lub malejąco</string>
-    <string name="settings_time_set">Ustaw</string>
-    <string name="settings_time_cancel">Anuluj</string>
-    <string name="settings_theme_title">Motyw</string>
+  <string name="settings_theme_title">Motyw</string>
     <string name="settings_theme">Ciemny</string>
     <string name="alert_contacts_dialog_msg">Wymagany jest dostęp do twojej listy kontaktów, aby pobrać ich urodziny</string>
     <string name="alert_permissions_allow">OK</string>

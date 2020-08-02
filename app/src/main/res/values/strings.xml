@@ -36,14 +36,8 @@
     <string name="sign_element_water_symbol" translatable="false">💧</string>
 
     <string name="search">Search for age, name, sign, etc</string>
-    <string name="zodiac" translatable="false">%1$s|%2$s</string>
-    <string name="birthday_string" translatable="false">%1$s/%2$d</string>
 
-    <plurals name="contact">
-        <item quantity="one">%1$d contact</item>
-        <item quantity="other">%1$d contacts</item>
-    </plurals>
-    <plurals name="years_old">
+  <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
         <item quantity="other">%1$d years old</item>
     </plurals>
@@ -81,9 +75,7 @@
     <string name="menu_statistics_week">Weekday birth Statistics</string>
     <string name="menu_statistics_month">Month birth Statistics</string>
     <string name="menu_about">About</string>
-    <string name="settings_not_sound_title">Notification Sound</string>
-    <string name="settings_not_sound_sum">Set the birthday notifications\' sound</string>
-    <string name="settings_scan_preferences">Birthday Notification Settings</string>
+  <string name="settings_scan_preferences">Birthday Notification Settings</string>
     <string name="settings_scan_not_sum">Show birthday notifications daily</string>
     <string name="settings_scan_not_title">Daily Notifications</string>
     <string name="settings_scan_title">Time for Daily Notifications</string>
@@ -103,9 +95,7 @@
     <string name="settings_list_input_title">Sort By</string>
     <string name="settings_list_order_sum">Ascending or Descending</string>
     <string name="settings_list_order_title">Sort Order</string>
-    <string name="settings_time_set">Set</string>
-    <string name="settings_time_cancel">Cancel</string>
-    <string name="settings_layout_preferences">Layout</string>
+  <string name="settings_layout_preferences">Layout</string>
     <string name="settings_theme_title">Theme</string>
     <string name="settings_battery_status">Allow to run in the background</string>
     <string name="settings_theme">Dark</string>
@@ -113,9 +103,7 @@
     <string name="settings_hide_add_contact_fab">Hide button to add new birthday</string>
     <string name="settings_notify_favorites_only">Notify favorites only</string>
     <string name="settings_hide_contacts">Hide ignored contacts</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="alert_contats_dialog_title">Permission to Read Contacts needed</string>
+  <string name="alert_contats_dialog_title">Permission to Read Contacts needed</string>
     <string name="alert_contacts_dialog_msg">We need access to your contact list in order to fetch their birthdays</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Deny</string>
@@ -132,8 +120,7 @@
     <string name="emoji_heart" translatable="false">❤</string>
     <string name="emoji_block" translatable="false">⛔</string>
     <string name="emoji_today_party" translatable="false">🎉</string>
-    <string name="emoji_tomorrow_party" translatable="false">🤩</string>
-    <string name="undo">Undo</string>
+  <string name="undo">Undo</string>
     <string name="amount"># of contacts</string>
 
     <string name="about_info" tools:keep="@string/about_info">BirthDayDroid is an open-source project created to help you to remember your friends birthday.</string>

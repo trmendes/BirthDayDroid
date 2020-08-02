@@ -18,11 +18,7 @@
     <string name="sign_element_water">Eau</string>
 
     <string name="search">Rechercher l\'âge, le nom, le signe, etc</string>
-    <plurals name="contact">
-        <item quantity="one">%1$d contact</item>
-        <item quantity="other">%1$d contacts</item>
-    </plurals>
-    <plurals name="years_old">
+  <plurals name="years_old">
         <item quantity="one">%1$d an</item>
         <item quantity="other">%1$d ans</item>
     </plurals>
@@ -48,6 +44,11 @@
         <item quantity="other">%1$s aura %2$d ans dans %3$d jours</item>
     </plurals>
 
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">L\'anniversaire de %1$s est demain</item>
+        <item quantity="other">L\'anniversaire de %1$s est dans %2$d jours</item>
+    </plurals>
+
     <string name="menu_birthday_list">Liste des anniversaires</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_statistics_age">Stats : âge</string>
@@ -55,9 +56,7 @@
     <string name="menu_statistics_week">Stats : semaine de naissance</string>
     <string name="menu_statistics_month">Stats : mois de naissance</string>
     <string name="menu_about">À propos</string>
-    <string name="settings_not_sound_title">Son de notification</string>
-    <string name="settings_not_sound_sum">Paramétrer le son de notification</string>
-    <string name="settings_scan_preferences">Paramètres des notifications</string>
+  <string name="settings_scan_preferences">Paramètres des notifications</string>
     <string name="settings_scan_not_sum">Afficher les notifications des anniversaires quotidiennement</string>
     <string name="settings_scan_not_title">Notifications quotidiennes</string>
     <string name="settings_scan_title">Heure pour les notifications quotidiennes</string>
@@ -77,9 +76,7 @@
     <string name="settings_list_input_title">Trier par</string>
     <string name="settings_list_order_sum">Croissant ou décroissant</string>
     <string name="settings_list_order_title">Ordre du tri</string>
-    <string name="settings_time_set">Paramétrer</string>
-    <string name="settings_time_cancel">Annuler</string>
-    <string name="settings_layout_preferences">Apparence</string>
+  <string name="settings_layout_preferences">Apparence</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_battery_status">Autoriser le fonctionnement en tâche de fond</string>
     <string name="settings_theme">Sombre</string>
@@ -87,9 +84,7 @@
     <string name="settings_hide_add_contact_fab">Masquer le bouton pour ajouter un nouvel anniversaire</string>
     <string name="settings_notify_favorites_only">Avertir uniquement les favoris</string>
     <string name="settings_hide_contacts">Masquer les contacts ignorés</string>
-    <string name="navigation_drawer_open">Ouvrir le panneau de navigation</string>
-    <string name="navigation_drawer_close">Fermer le panneau de navigation</string>
-    <string name="alert_contats_dialog_title">Permission de lire les contacts nécessaire</string>
+  <string name="alert_contats_dialog_title">Permission de lire les contacts nécessaire</string>
     <string name="alert_contacts_dialog_msg">Nous devons accéder à vos contacts afin de pouvoir trouver leur date d\'anniversaire</string>
     <string name="alert_permissions_allow">Valider</string>
     <string name="alert_permissions_deny">Refuser</string>
@@ -125,5 +120,12 @@
 
     <string name="breaking_change_dialog_title">Avis de mise à jour important</string>
     <string name="breaking_change_dialog_message_v46">Le mécanisme de sauvegarde des temps a changé. Veuillez vérifier l\'heure de notification et la corriger si nécessaire.</string>
+
+    <string name="statistic_action_switch_to_text_view">Passer à la vue texte</string>
+    <string name="statistic_action_switch_to_diagram_view">Passer à la vue Diagramme</string>
+
+    <string name="statistic_action_zodiac_info">Informations sur les zodiacs</string>
+    <string name="zodiac_info_title">Informations sur les zodiacs</string>
+    <string name="zodiac_info_message">Il y a 12 zodiacs qui sont définis par des secteurs de 30 ° de l\'écliptique. Les 12 secteurs sont un calendrier, mais il ne correspond pas entièrement à notre calendrier grégorien. Par conséquent, les dates limites des zodiacs peuvent varier d\'une année à l\'autre. Veuillez garder cela à l\'esprit, si vous pensez qu\'il y a un mauvais zodiaque calculé dans cette application.</string>
 </resources>
 

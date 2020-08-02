@@ -1,3 +1,13 @@
+* V50
+-  Fix issue: Zodiac preference results in multiple zodiac MenuItems
+-  Fix issue: Keyboard not cloasing by opening the drawer menu
+-  Fix issue: Change account preferences not reload contacts list
+-  Fix issue: Switch statistic view and go back afterwards
+-  Horizontal barchat for age statistics and vertical barcharts for other statistics
+-  Migrate PreferenceFragment to AndroidX
+-  Remove/Migrate all deprecations
+-  Explain zodiac icons
+
 * V49
 - Welcome to Bastian Wilhelm (schlagi123) as a new Developer :D
 - Huge refactor to organize the code better

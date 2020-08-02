@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/group_main"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_birthday_list"
             android:icon="@drawable/ic_cake_white_24dp"
@@ -52,9 +50,7 @@
             android:title="@string/menu_statistics_month" />
     </group>
 
-    <group
-        android:id="@+id/group_other"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_white_24dp"
