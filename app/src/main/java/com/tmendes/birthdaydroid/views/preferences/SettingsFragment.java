@@ -65,7 +65,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     }
 
     private void initIgnoredAccountPreference() {
-        MultiSelectListPreference selectedAccounts = (MultiSelectListPreference) findPreference("selected_accounts");
+        MultiSelectListPreference selectedAccounts = findPreference("selected_accounts");
 
         Account[] accounts = new AccountHelper().getAllAccounts(requireContext());
 
@@ -95,7 +95,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         setPowerServiceStatus();
 
-        CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference("battery_status");
+        CheckBoxPreference mCheckBoxPref = findPreference("battery_status");
         mCheckBoxPref.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent();
             String packageName = requireActivity().getPackageName();
@@ -142,7 +142,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     }
 
     void setPowerServiceStatus() {
-        CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference("battery_status");
+        CheckBoxPreference mCheckBoxPref = findPreference("battery_status");
         mCheckBoxPref.setChecked(checkPowerServiceStatus());
     }
 

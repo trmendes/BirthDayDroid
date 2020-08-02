@@ -1,17 +1,8 @@
 package com.tmendes.birthdaydroid.views.statistics.zodiac;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Build;
-
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 import com.tmendes.birthdaydroid.zodiac.ZodiacResourceHelper;
-
-import java.time.DateTimeException;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 public class ZodiacLabelFormatter extends ValueFormatter {
 

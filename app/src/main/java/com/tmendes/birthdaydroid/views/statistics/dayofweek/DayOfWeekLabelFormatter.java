@@ -5,7 +5,6 @@ import android.os.Build;
 
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
-import java.sql.SQLOutput;
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
