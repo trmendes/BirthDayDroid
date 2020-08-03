@@ -11,8 +11,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
-import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
-import com.tmendes.birthdaydroid.contact.db.DBContactService;
 import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.permission.PermissionChecker;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
@@ -54,22 +52,16 @@ public class ContactsViewModel extends AndroidViewModel {
     public Future<?> reloadTimeDependentDataInContacts() {
         return this.executor.submit(() -> {
             final Context context = getApplication().getApplicationContext();
-            final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
-            final DateConverter dateConverter = new DateConverter();
-            final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
-            final ContactFactory contactFactory = new ContactFactory(
-                    zodiacCalculator,
-                    dateConverter,
-                    eventTypeLabelService
-            );
-
+            final ContactCreator contactCreator = new ContactCreatorFactory().createContactCreator(context);
             final LocalDate now = LocalDate.now();
-            final List<Contact> newContacts = contacts.getValue()
-                    .stream()
-                    .map(c -> contactFactory.calculateTimeDependentData(c, now))
-                    .collect(Collectors.toList());
-
-            contacts.postValue(newContacts);
+            final List<Contact> contacts = this.contacts.getValue();
+            if (contacts != null) {
+                this.contacts.postValue(
+                        contacts.stream()
+                                .map(c -> contactCreator.calculateTimeDependentData(c, now))
+                                .collect(Collectors.toList())
+                );
+            }
         });
     }
 
@@ -79,22 +71,9 @@ public class ContactsViewModel extends AndroidViewModel {
         final boolean hideIgnoredContacts = prefs.getBoolean("hide_ignored_contacts", false);
         final boolean showBirthdayTypeOnly = prefs.getBoolean("show_birthday_type_only", false);
 
-        final DBContactService dbContactService = new DBContactService(context);
-        final AndroidContactService androidContactService = new AndroidContactService(context);
-        final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
-        final DateConverter dateConverter = new DateConverter();
-        final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
-        final ContactFactory contactFactory = new ContactFactory(
-                zodiacCalculator,
-                dateConverter,
-                eventTypeLabelService
-        );
-        final ContactService contactService = new ContactService(
-                dbContactService,
-                androidContactService,
-                contactFactory);
+        ContactService contactService = new ContactServiceFactory().createContactService(context);
         final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
-        dbContactService.close();
+        contactService.close();
         return allContacts;
     }
 

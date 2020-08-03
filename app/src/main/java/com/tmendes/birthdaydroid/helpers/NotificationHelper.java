@@ -52,8 +52,10 @@ public class NotificationHelper extends ContextWrapper {
     private void createChannels() {
         NotificationChannel notificationChannel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
-                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel = getManager().getNotificationChannel(CHANNEL_ONE_ID);
+            if(notificationChannel == null) {
+                notificationChannel = new NotificationChannel(CHANNEL_ONE_ID, CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+            }
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setShowBadge(true);

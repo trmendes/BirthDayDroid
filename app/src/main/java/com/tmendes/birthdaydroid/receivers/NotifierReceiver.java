@@ -25,15 +25,10 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.tmendes.birthdaydroid.contact.Contact;
-import com.tmendes.birthdaydroid.contact.ContactFactory;
 import com.tmendes.birthdaydroid.contact.ContactService;
-import com.tmendes.birthdaydroid.contact.EventTypeLabelService;
-import com.tmendes.birthdaydroid.contact.android.AndroidContactService;
-import com.tmendes.birthdaydroid.contact.db.DBContactService;
-import com.tmendes.birthdaydroid.date.DateConverter;
+import com.tmendes.birthdaydroid.contact.ContactServiceFactory;
 import com.tmendes.birthdaydroid.helpers.NotificationHelper;
 import com.tmendes.birthdaydroid.permission.PermissionChecker;
-import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.util.List;
 
@@ -48,22 +43,9 @@ public class NotifierReceiver extends BroadcastReceiver {
             final boolean showPreciseNotification = prefs.getBoolean("precise_notification", false);
             final int daysInAdvance = getDaysInAdviceFromPreferences(prefs);
 
-            final DBContactService dbContactService = new DBContactService(context);
-            final AndroidContactService androidContactService = new AndroidContactService(context);
-            final ZodiacCalculator zodiacCalculator = new ZodiacCalculator();
-            final DateConverter dateConverter = new DateConverter();
-            final EventTypeLabelService eventTypeLabelService = new EventTypeLabelService(context);
-            final ContactFactory contactFactory = new ContactFactory(
-                    zodiacCalculator,
-                    dateConverter,
-                    eventTypeLabelService
-            );
-            final ContactService contactService = new ContactService(
-                    dbContactService,
-                    androidContactService,
-                    contactFactory);
+            final ContactService contactService = new ContactServiceFactory().createContactService(context);
             final List<Contact> allContacts = contactService.getAllContacts(hideIgnoredContacts, showBirthdayTypeOnly);
-            dbContactService.close();
+            contactService.close();
 
             final NotificationHelper notificationHelper = new NotificationHelper(context);
             allContacts.stream()
