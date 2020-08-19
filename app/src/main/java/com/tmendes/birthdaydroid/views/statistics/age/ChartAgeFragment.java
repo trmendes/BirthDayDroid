@@ -57,11 +57,12 @@ public class ChartAgeFragment extends AbstractStatisticFragment implements OnCha
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
 
-        YAxis rightAxis = chart.getAxisRight(); //TOP
+        YAxis rightAxis = chart.getAxisRight(); //BOTTOM
         rightAxis.setDrawLabels(true);
         rightAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        rightAxis.setGranularity(1.0f);
 
-        YAxis leftAxis = chart.getAxisLeft(); //BOTTOM
+        YAxis leftAxis = chart.getAxisLeft(); //TOP
         leftAxis.setEnabled(false);
 
         return v;
