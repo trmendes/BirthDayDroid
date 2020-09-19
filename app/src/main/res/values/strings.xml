@@ -81,6 +81,7 @@
     <string name="settings_scan_title">Time for Daily Notifications</string>
     <string name="settings_scan_not_adv_sum">Show birthdays notifications in advance</string>
     <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
+    <string name="settings_list_comapct_view">Compact View</string>
     <string name="settings_list_hide_zodiac">Hide Zodiac</string>
     <string name="settings_show_current_age">Show Current Age</string>
     <string name="settings_statistics_as_text">Show Statistics as text</string>

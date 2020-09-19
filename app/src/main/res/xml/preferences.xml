@@ -67,11 +67,18 @@
             android:title="@string/settings_list_order_title" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="compact_view"
+            android:disableDependentsState="true"
+            android:title="@string/settings_list_comapct_view" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="show_current_age"
+            android:dependency="compact_view"
             android:title="@string/settings_show_current_age" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="hide_zodiac"
+            android:dependency="compact_view"
             android:title="@string/settings_list_hide_zodiac" />
         <CheckBoxPreference
             android:defaultValue="false"
