@@ -78,7 +78,6 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="hide_zodiac"
-            android:dependency="compact_view"
             android:title="@string/settings_list_hide_zodiac" />
         <CheckBoxPreference
             android:defaultValue="false"
