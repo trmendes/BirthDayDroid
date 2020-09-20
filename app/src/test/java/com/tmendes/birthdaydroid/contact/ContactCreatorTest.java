@@ -23,19 +23,19 @@ import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-public class ContactFactoryTest {
+public class ContactCreatorTest {
 
     private ZodiacCalculator zodiacCalculator;
     private DateConverter dateConverter;
     private EventTypeLabelService eventTypeLabelService;
-    private ContactFactory contactFactory;
+    private ContactCreator contactCreator;
 
     @Before
     public void setUp() {
         zodiacCalculator = mock(ZodiacCalculator.class);
         dateConverter = mock(DateConverter.class);
         eventTypeLabelService = mock(EventTypeLabelService.class);
-        contactFactory = new ContactFactory(zodiacCalculator, dateConverter, eventTypeLabelService);
+        contactCreator = new ContactCreator(zodiacCalculator, dateConverter, eventTypeLabelService);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ContactFactoryTest {
         );
         Assert.assertThrows(
                 ContactFactoryException.class,
-                () -> contactFactory.createContact(null, dbContact)
+                () -> contactCreator.createContact(null, dbContact)
         );
     }
 
@@ -70,7 +70,7 @@ public class ContactFactoryTest {
 
         Assert.assertThrows(
                 ContactFactoryException.class,
-                () -> contactFactory.createContact(androidContact, dbContact)
+                () -> contactCreator.createContact(androidContact, dbContact)
         );
     }
 
@@ -93,7 +93,7 @@ public class ContactFactoryTest {
 
         Assert.assertThrows(
                 ContactFactoryException.class,
-                () -> contactFactory.createContact(androidContact, dbContact)
+                () -> contactCreator.createContact(androidContact, dbContact)
         );
     }
 
@@ -116,7 +116,7 @@ public class ContactFactoryTest {
 
         Assert.assertThrows(
                 ContactFactoryException.class,
-                () -> contactFactory.createContact(androidContact, dbContact)
+                () -> contactCreator.createContact(androidContact, dbContact)
         );
     }
 
@@ -144,7 +144,7 @@ public class ContactFactoryTest {
 
         Assert.assertThrows(
                 ContactFactoryException.class,
-                () -> contactFactory.createContact(androidContact, dbContact)
+                () -> contactCreator.createContact(androidContact, dbContact)
         );
     }
 
@@ -171,7 +171,7 @@ public class ContactFactoryTest {
                 Zodiac.CAPRICORN
         );
 
-        final Contact contact = contactFactory.createContact(androidContact, dbContact);
+        final Contact contact = contactCreator.createContact(androidContact, dbContact);
 
         assertThat(contact.getDbId(), is(1L));
         assertThat(contact.getKey(), is("key"));
@@ -211,7 +211,7 @@ public class ContactFactoryTest {
                 Zodiac.CAPRICORN
         );
 
-        final Contact contact = contactFactory.createContact(androidContact, null);
+        final Contact contact = contactCreator.createContact(androidContact, null);
 
         assertThat(contact.getDbId(), is(-1L));
         assertThat(contact.getKey(), is("key"));
@@ -240,7 +240,7 @@ public class ContactFactoryTest {
         contact.setBornOn(now.minusYears(1));
         contact.setMissingYearInfo(false);
 
-        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
 
         assertThat(resultContact.isBirthdayToday(), is(true));
         assertThat(resultContact.isBornInFuture(), is(false));
@@ -258,7 +258,7 @@ public class ContactFactoryTest {
         contact.setBornOn(now.plusDays(3));
         contact.setMissingYearInfo(false);
 
-        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
 
         assertThat(resultContact.isBirthdayToday(), is(false));
         assertThat(resultContact.isBornInFuture(), is(true));
@@ -276,7 +276,7 @@ public class ContactFactoryTest {
         contact.setBornOn(now.minusYears(1).minusDays(1));
         contact.setMissingYearInfo(false);
 
-        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
 
         assertThat(resultContact.isBirthdayToday(), is(false));
         assertThat(resultContact.isBornInFuture(), is(false));
@@ -294,7 +294,7 @@ public class ContactFactoryTest {
         contact.setBornOn(now.plusDays(1));
         contact.setMissingYearInfo(true);
 
-        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
 
         assertThat(resultContact.isBirthdayToday(), is(false));
         assertThat(resultContact.isBornInFuture(), is(false));
@@ -312,7 +312,7 @@ public class ContactFactoryTest {
         contact.setBornOn(now.minusDays(1));
         contact.setMissingYearInfo(true);
 
-        final Contact resultContact = contactFactory.calculateTimeDependentData(contact, now);
+        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
 
         assertThat(resultContact.isBirthdayToday(), is(false));
         assertThat(resultContact.isBornInFuture(), is(false));

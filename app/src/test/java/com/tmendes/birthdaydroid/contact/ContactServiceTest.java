@@ -27,15 +27,15 @@ public class ContactServiceTest {
     private ContactService contactService;
     private DBContactService dbContactService;
     private AndroidContactService androidContactService;
-    private ContactFactory contactFactory;
+    private ContactCreator contactCreator;
 
     @Before
     public void setUp() {
         dbContactService = mock(DBContactService.class);
         androidContactService = mock(AndroidContactService.class);
-        contactFactory = mock(ContactFactory.class);
+        contactCreator = mock(ContactCreator.class);
 
-        contactService = new ContactService(dbContactService, androidContactService, contactFactory);
+        contactService = new ContactService(dbContactService, androidContactService, contactCreator);
     }
 
     @Test
@@ -54,16 +54,16 @@ public class ContactServiceTest {
 
         final Contact contact1 = mock(Contact.class);
         final Contact contact2 = mock(Contact.class);
-        doReturn(contact1).when(contactFactory).createContact(androidContact1, null);
-        doReturn(contact2).when(contactFactory).createContact(androidContact2, dbContact1);
+        doReturn(contact1).when(contactCreator).createContact(androidContact1, null);
+        doReturn(contact2).when(contactCreator).createContact(androidContact2, dbContact1);
 
         final List<Contact> allContacts = contactService.getAllContacts(false, false);
 
         assertThat(allContacts.size(), is(2));
         assertThat(allContacts.contains(contact1), is(true));
         assertThat(allContacts.contains(contact2), is(true));
-        verify(contactFactory, times(1)).createContact(androidContact1, null);
-        verify(contactFactory, times(1)).createContact(androidContact2, dbContact1);
+        verify(contactCreator, times(1)).createContact(androidContact1, null);
+        verify(contactCreator, times(1)).createContact(androidContact2, dbContact1);
 
         assertThat(dbContactMap.size(), is(1));
         assertThat(dbContactMap.get("c3"), is(dbContact2));
@@ -86,15 +86,15 @@ public class ContactServiceTest {
 
         final Contact contact1 = mock(Contact.class);
         final Contact contact2 = mock(Contact.class);
-        doReturn(contact1).when(contactFactory).createContact(androidContact1, dbContact1);
-        doReturn(contact2).when(contactFactory).createContact(androidContact2, dbContact2);
+        doReturn(contact1).when(contactCreator).createContact(androidContact1, dbContact1);
+        doReturn(contact2).when(contactCreator).createContact(androidContact2, dbContact2);
 
         final List<Contact> allContacts = contactService.getAllContacts(true, false);
 
         assertThat(allContacts.size(), is(1));
         assertThat(allContacts.contains(contact2), is(true));
-        verify(contactFactory, times(0)).createContact(androidContact1, dbContact1);
-        verify(contactFactory, times(1)).createContact(androidContact2, dbContact2);
+        verify(contactCreator, times(0)).createContact(androidContact1, dbContact1);
+        verify(contactCreator, times(1)).createContact(androidContact2, dbContact2);
 
         assertThat(dbContactMap.size(), is(0));
         verify(dbContactService, times(1)).cleanDb(dbContactMap);
@@ -116,15 +116,15 @@ public class ContactServiceTest {
 
         final Contact contact1 = mock(Contact.class);
         final Contact contact2 = mock(Contact.class);
-        doReturn(contact1).when(contactFactory).createContact(androidContact1, dbContact1);
-        doReturn(contact2).when(contactFactory).createContact(androidContact2, dbContact2);
+        doReturn(contact1).when(contactCreator).createContact(androidContact1, dbContact1);
+        doReturn(contact2).when(contactCreator).createContact(androidContact2, dbContact2);
 
         final List<Contact> allContacts = contactService.getAllContacts(false, true);
 
         assertThat(allContacts.size(), is(1));
         assertThat(allContacts.contains(contact1), is(true));
-        verify(contactFactory, times(1)).createContact(androidContact1, dbContact1);
-        verify(contactFactory, times(0)).createContact(androidContact2, dbContact2);
+        verify(contactCreator, times(1)).createContact(androidContact1, dbContact1);
+        verify(contactCreator, times(0)).createContact(androidContact2, dbContact2);
 
         assertThat(dbContactMap.size(), is(0));
         verify(dbContactService, times(1)).cleanDb(dbContactMap);
@@ -146,14 +146,14 @@ public class ContactServiceTest {
 
         final Contact contact1 = mock(Contact.class);
         final Contact contact2 = mock(Contact.class);
-        doReturn(contact1).when(contactFactory).createContact(androidContact1, dbContact1);
-        doReturn(contact2).when(contactFactory).createContact(androidContact2, dbContact2);
+        doReturn(contact1).when(contactCreator).createContact(androidContact1, dbContact1);
+        doReturn(contact2).when(contactCreator).createContact(androidContact2, dbContact2);
 
         final List<Contact> allContacts = contactService.getAllContacts(true, true);
 
         assertThat(allContacts.size(), is(0));
-        verify(contactFactory, times(0)).createContact(androidContact1, dbContact1);
-        verify(contactFactory, times(0)).createContact(androidContact2, dbContact2);
+        verify(contactCreator, times(0)).createContact(androidContact1, dbContact1);
+        verify(contactCreator, times(0)).createContact(androidContact2, dbContact2);
 
         assertThat(dbContactMap.size(), is(0));
         verify(dbContactService, times(1)).cleanDb(dbContactMap);

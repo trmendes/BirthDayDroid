@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ContactService {
+public class ContactService implements AutoCloseable{
     private final DBContactService dbContactService;
     private final AndroidContactService androidContactService;
-    private final ContactFactory contactFactory;
+    private final ContactCreator contactCreator;
 
-    public ContactService(DBContactService dbContactService, AndroidContactService androidContactService, ContactFactory contactFactory) {
+    public ContactService(DBContactService dbContactService, AndroidContactService androidContactService, ContactCreator contactCreator) {
         this.dbContactService = dbContactService;
         this.androidContactService = androidContactService;
-        this.contactFactory = contactFactory;
+        this.contactCreator = contactCreator;
     }
 
     public List<Contact> getAllContacts(boolean hideIgnoredContacts, boolean showBirthdayTypeOnly) {
@@ -41,7 +41,7 @@ public class ContactService {
                 }
 
                 try {
-                    Contact contact = contactFactory.createContact(androidContact, dbContact);
+                    Contact contact = contactCreator.createContact(androidContact, dbContact);
                     contacts.add(contact);
                 } catch (ContactFactoryException e) {
                     Log.i(getClass().toString(), "Unable to build contact", e);
@@ -54,5 +54,12 @@ public class ContactService {
         dbContactService.cleanDb(dbContacts);
 
         return contacts;
+    }
+
+    @Override
+    public void close() {
+        if(dbContactService != null) {
+            dbContactService.close();
+        }
     }
 }

@@ -8,12 +8,12 @@ import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class ContactFactory {
+public class ContactCreator {
     private final ZodiacCalculator zodiacCalculator;
     private final DateConverter dateConverter;
     private final EventTypeLabelService eventTypeLabelService;
 
-    public ContactFactory(ZodiacCalculator zodiacCalculator, DateConverter dateConverter, EventTypeLabelService eventTypeLabelService) {
+    public ContactCreator(ZodiacCalculator zodiacCalculator, DateConverter dateConverter, EventTypeLabelService eventTypeLabelService) {
         this.zodiacCalculator = zodiacCalculator;
         this.dateConverter = dateConverter;
         this.eventTypeLabelService = eventTypeLabelService;
