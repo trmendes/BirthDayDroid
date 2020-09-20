@@ -24,7 +24,7 @@ public class ContactViewHolderTouchHelper extends ItemTouchHelper.SimpleCallback
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            getDefaultUIUtil().onSelected(((ContactViewHolder) viewHolder).getItemLayout());
+            getDefaultUIUtil().onSelected(((AbstractContactViewHolder) viewHolder).getItemLayout());
         }
     }
 
@@ -32,30 +32,30 @@ public class ContactViewHolderTouchHelper extends ItemTouchHelper.SimpleCallback
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        getDefaultUIUtil().onDrawOver(c, recyclerView, ((ContactViewHolder) viewHolder).getItemLayout(), dX, dY,
+        getDefaultUIUtil().onDrawOver(c, recyclerView, ((AbstractContactViewHolder) viewHolder).getItemLayout(), dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        getDefaultUIUtil().clearView(((ContactViewHolder) viewHolder).getItemLayout());
+        getDefaultUIUtil().clearView(((AbstractContactViewHolder) viewHolder).getItemLayout());
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                             @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final ContactViewHolder contactViewHolder = (ContactViewHolder) viewHolder;
+        final AbstractContactViewHolder abstractContactViewHolder = (AbstractContactViewHolder) viewHolder;
 
         if (dX > 0) {
-            contactViewHolder.setSwipeFavoriteLayout();
+            abstractContactViewHolder.setSwipeFavoriteLayout();
         } else if (dX < 0) {
-            contactViewHolder.setSwipeIgnoreLayout();
+            abstractContactViewHolder.setSwipeIgnoreLayout();
         } else {
-            contactViewHolder.setItemLayout();
+            abstractContactViewHolder.setItemLayout();
         }
 
-        getDefaultUIUtil().onDraw(c, recyclerView, contactViewHolder.getItemLayout(), dX, dY, actionState,
+        getDefaultUIUtil().onDraw(c, recyclerView, abstractContactViewHolder.getItemLayout(), dX, dY, actionState,
                 isCurrentlyActive);
     }
 

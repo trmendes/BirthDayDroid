@@ -57,6 +57,7 @@
     </plurals>
 
     <string name="party_message">There is a party going on today :D</string>
+    <string name="party_message_compact">It is today :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s turning %2$d tomorrow</item>
@@ -81,6 +82,7 @@
     <string name="settings_scan_title">Time for Daily Notifications</string>
     <string name="settings_scan_not_adv_sum">Show birthdays notifications in advance</string>
     <string name="settings_scan_not_adv_title">Birthday Notifications in Advance</string>
+    <string name="settings_list_comapct_view">Compact View</string>
     <string name="settings_list_hide_zodiac">Hide Zodiac</string>
     <string name="settings_show_current_age">Show Current Age</string>
     <string name="settings_statistics_as_text">Show Statistics as text</string>
@@ -151,5 +153,7 @@
     <string name="statistic_action_zodiac_info">Information About Zodiacs</string>
     <string name="zodiac_info_title">Information About Zodiacs</string>
     <string name="zodiac_info_message">There are 12 zodiacs that are defined by 30° sectors of the ecliptic. All 12 sectors are a calendar, but it is not fully matching with our gregorian calendar. Therefore the border dates of the zodiacs can variate from year to year. Please keep this in mind, if you think there is a wrong calculated zodiac in this app.</string>
+
+    <string name="contact_compact_view_delimiter" translatable="false">,&#160;</string>
 </resources>
 
