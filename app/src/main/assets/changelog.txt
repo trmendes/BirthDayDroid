@@ -1,3 +1,8 @@
+* V51
+- Add/Update languages
+- Update libs
+- Update gradle version to 7.03
+
 * V50
 -  Fix issue: Zodiac preference results in multiple zodiac MenuItems
 -  Fix issue: Keyboard not cloasing by opening the drawer menu
