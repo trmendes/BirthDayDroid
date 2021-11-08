@@ -18,7 +18,8 @@
     <string name="sign_element_water">Vatten</string>
 
     <string name="search">Sök efter ålder, namn, stjärntecken, etc</string>
-    <plurals name="years_old">
+
+  <plurals name="years_old">
         <item quantity="one">%1$d år gammal</item>
         <item quantity="other">%1$d år gammal</item>
     </plurals>
@@ -38,6 +39,7 @@
     </plurals>
 
     <string name="party_message">I dag festas det minsann :D</string>
+    <string name="party_message_compact">Det är idag :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s fyller %2$d i morgon</item>
@@ -56,12 +58,13 @@
     <string name="menu_statistics_week">Veckofödelsestatistik</string>
     <string name="menu_statistics_month">Månadsfödelsestatistik</string>
     <string name="menu_about">Om</string>
-    <string name="settings_scan_preferences">Inställningar för födelsedagsaviseringar</string>
+  <string name="settings_scan_preferences">Inställningar för födelsedagsaviseringar</string>
     <string name="settings_scan_not_sum">Visa födelsedagsaviseringar dagligen</string>
     <string name="settings_scan_not_title">Dagliga aviseringar</string>
     <string name="settings_scan_title">Tid för dagliga aviseringar</string>
     <string name="settings_scan_not_adv_sum">Visa födelsedagsaviseringar i förväg</string>
     <string name="settings_scan_not_adv_title">Födelsedagsaviseringar i förväg</string>
+    <string name="settings_list_comapct_view">Kompakt vy</string>
     <string name="settings_list_hide_zodiac">Dölj stjärntecken</string>
     <string name="settings_show_current_age">Visa aktuell ålder</string>
     <string name="settings_statistics_as_text">Visa statistiken som text</string>
@@ -76,7 +79,7 @@
     <string name="settings_list_input_title">Sortera efter</string>
     <string name="settings_list_order_sum">Stigande eller fallande</string>
     <string name="settings_list_order_title">Sorteringsordning</string>
-    <string name="settings_layout_preferences">Layout</string>
+  <string name="settings_layout_preferences">Layout</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_battery_status">Kör i bakgrunden</string>
     <string name="settings_theme">Mörk</string>
@@ -84,7 +87,7 @@
     <string name="settings_hide_add_contact_fab">Dölj knappen nya födelsedagar</string>
     <string name="settings_notify_favorites_only">Avisera endast favoriter</string>
     <string name="settings_hide_contacts">Dölj ignorerade kontakter</string>
-    <string name="alert_contats_dialog_title">Behörighet behövs för att läsa kontakterna</string>
+  <string name="alert_contats_dialog_title">Behörighet behövs för att läsa kontakterna</string>
     <string name="alert_contacts_dialog_msg">Vi måste kunna komma åt dina kontakter för att kunna hämta deras födelsedagar</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Förneka</string>
@@ -127,5 +130,6 @@
     <string name="statistic_action_zodiac_info">Information om Zodiacs</string>
     <string name="zodiac_info_title">Information om Zodiacs</string>
     <string name="zodiac_info_message">Det finns 12 zodiakar som definieras av 30 ° sektorer av ekliptiken. Alla 12 sektorer är en kalender, men den matchar inte helt med vår gregorianska kalender. Därför kan zodiakernas gränsdatum variera från år till år. Tänk på detta om du tror att det finns en felberäknad zodiak i den här appen.</string>
-</resources>
+
+    </resources>
 

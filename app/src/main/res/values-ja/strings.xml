@@ -18,13 +18,14 @@
     <string name="sign_element_water">水</string>
 
     <string name="search">連絡先を検索</string>
-    <plurals name="days_old">
+
+  <plurals name="days_old">
         <item quantity="other">%1$d 日</item>
     </plurals>
     <string name="menu_birthday_list">生年月日リスト</string>
     <string name="menu_settings">設定</string>
     <string name="menu_about">BirthDayDroid のこと</string>
-    <string name="settings_scan_preferences">誕生日通知の設定</string>
+  <string name="settings_scan_preferences">誕生日通知の設定</string>
     <string name="settings_scan_not_sum">1日ごとに誕生日の通知を表示します</string>
     <string name="settings_scan_not_title">毎日の通知</string>
     <string name="settings_scan_title">毎日の通知の時刻設定</string>
@@ -38,7 +39,7 @@
     <string name="settings_list_input_title">並び順</string>
     <string name="settings_list_order_sum">昇順または降順</string>
     <string name="settings_list_order_title">並び替え</string>
-    <string name="settings_layout_preferences">レイアウト</string>
+  <string name="settings_layout_preferences">レイアウト</string>
     <string name="settings_theme_title">テーマ</string>
     <string name="settings_theme">ダーク</string>
     <string name="alert_contacts_dialog_msg">この権限がないとアプリは動作しません。誕生日のデータを取得するために、あなたの連絡先リストにアクセスする必要があります。</string>

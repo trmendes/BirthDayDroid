@@ -17,7 +17,8 @@
     <string name="sign_element_air">Aria</string>
     <string name="sign_element_water">Acqua</string>
 
-    <string name="search">Trova età, nome, segno…</string>
+    <string name="search">Trova età, nome, segno...</string>
+
   <plurals name="years_old">
         <item quantity="one">%1$d anno di età</item>
         <item quantity="other">%1$d anni</item>
@@ -38,6 +39,7 @@
     </plurals>
 
     <string name="party_message">Oggi si festeggia :D</string>
+    <string name="party_message_compact">È oggi :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$sdiventerà %2$d domani</item>
@@ -62,6 +64,7 @@
     <string name="settings_scan_title">Orario delle notifiche giornaliere</string>
     <string name="settings_scan_not_adv_sum">Notifica i compleanni in anticipo</string>
     <string name="settings_scan_not_adv_title">Notifiche anticipate dei compleanni</string>
+    <string name="settings_list_comapct_view">Vista compatta</string>
     <string name="settings_list_hide_zodiac">Nascondi il segno zodiacale</string>
     <string name="settings_show_current_age">Mostra età corrente</string>
     <string name="settings_statistics_as_text">Mostra statistiche come testo</string>
@@ -127,5 +130,6 @@
     <string name="statistic_action_zodiac_info">Informazioni su Zodiacs</string>
     <string name="zodiac_info_title">Informazioni su Zodiacs</string>
     <string name="zodiac_info_message">Ci sono 12 zodiaci che sono definiti da 30 ° settori dell\'eclittica. Tutti e 12 i settori sono un calendario, ma non corrisponde perfettamente al nostro calendario gregoriano. Pertanto le date di confine degli zodiaci possono variare di anno in anno. Tieni presente questo, se pensi che ci sia uno zodiaco calcolato sbagliato in questa app.</string>
-</resources>
+
+    </resources>
 

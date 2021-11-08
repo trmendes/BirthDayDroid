@@ -18,6 +18,7 @@
     <string name="sign_element_water">Eau</string>
 
     <string name="search">Rechercher l\'âge, le nom, le signe, etc</string>
+
   <plurals name="years_old">
         <item quantity="one">%1$d an</item>
         <item quantity="other">%1$d ans</item>
@@ -38,6 +39,7 @@
     </plurals>
 
     <string name="party_message">C\'est la fête! :D</string>
+    <string name="party_message_compact">C\'est aujourd\'hui :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s aura %2$d ans demain</item>
@@ -62,6 +64,7 @@
     <string name="settings_scan_title">Heure pour les notifications quotidiennes</string>
     <string name="settings_scan_not_adv_sum">Afficher les notifications d\'anniversaire en avance</string>
     <string name="settings_scan_not_adv_title">Notifications des anniversaires en avance</string>
+    <string name="settings_list_comapct_view">Vue compacte</string>
     <string name="settings_list_hide_zodiac">Cacher le signe du zodiaque</string>
     <string name="settings_show_current_age">Afficher l\'âge actuel</string>
     <string name="settings_statistics_as_text">Afficher les stats en tant que texte</string>
@@ -127,5 +130,6 @@
     <string name="statistic_action_zodiac_info">Informations sur les zodiacs</string>
     <string name="zodiac_info_title">Informations sur les zodiacs</string>
     <string name="zodiac_info_message">Il y a 12 zodiacs qui sont définis par des secteurs de 30 ° de l\'écliptique. Les 12 secteurs sont un calendrier, mais il ne correspond pas entièrement à notre calendrier grégorien. Par conséquent, les dates limites des zodiacs peuvent varier d\'une année à l\'autre. Veuillez garder cela à l\'esprit, si vous pensez qu\'il y a un mauvais zodiaque calculé dans cette application.</string>
-</resources>
+
+    </resources>
 

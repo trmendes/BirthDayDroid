@@ -18,6 +18,7 @@
     <string name="sign_element_water">Wasser</string>
 
     <string name="search">Suche nach Alter, Name, Sternzeichen, etc.</string>
+
   <plurals name="years_old">
         <item quantity="one">%1$d Jahr alt</item>
         <item quantity="other">%1$d Jahre alt</item>
@@ -38,6 +39,7 @@
     </plurals>
 
     <string name="party_message">Heute wird eine Party gefeiert :D</string>
+    <string name="party_message_compact">Es ist Heute :)</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s wird morgen %2$d</item>
@@ -62,6 +64,7 @@
     <string name="settings_scan_title">Zeit für tägliche Benachrichtigungen</string>
     <string name="settings_scan_not_adv_sum">Geburtstagsbenachrichtigungen im Voraus anzeigen</string>
     <string name="settings_scan_not_adv_title">Geburtstagsbenachrichtigungen im Voraus</string>
+    <string name="settings_list_comapct_view">Kompakte Ansicht</string>
     <string name="settings_list_hide_zodiac">Sternzeichen verstecken</string>
     <string name="settings_show_current_age">Aktuelles Alter anzeigen</string>
     <string name="settings_statistics_as_text">Statistiken als Text anzeigen</string>
@@ -127,5 +130,6 @@
     <string name="statistic_action_zodiac_info">Informationen zu Tierkreiszeichen</string>
     <string name="zodiac_info_title">Informationen zu Tierkreiszeichen</string>
     <string name="zodiac_info_message">Es gibt 12 Tierkreiszeichen, welche als 30° Sektoren des Ekliptik definiert sind. Alle 12 Sektoren sind ein Kalender, welcher jedoch nicht voll auf unseren gregorianischen Kalender passt. Deswegen können die Grenzdaten von Jahr zu Jahr variieren. Dies sollte man im Hinterkopf behalten, wenn man bemerkt, dass ein Tierkreiszeichen in dieser App falsch berechnet wird.</string>
-</resources>
+
+    </resources>
 

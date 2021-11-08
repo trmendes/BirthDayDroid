@@ -18,6 +18,7 @@
     <string name="sign_element_water">Знак воды</string>
 
     <string name="search">Поиск по возрасту, имени, знаку и т.д.</string>
+
   <plurals name="years_old">
         <item quantity="one">%1$d год</item>
         <item quantity="few">%1$d лет</item>
@@ -46,6 +47,7 @@
     </plurals>
 
     <string name="party_message">Вечеринка сегодня! :D</string>
+    <string name="party_message_compact">Это сегодня :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s исполняется %2$d завтра</item>
@@ -74,6 +76,7 @@
     <string name="settings_scan_title">Время показа уведомлений</string>
     <string name="settings_scan_not_adv_sum">Заранее показывать уведомления о днях рождения</string>
     <string name="settings_scan_not_adv_title">Уведомления о днях рождения заранее</string>
+    <string name="settings_list_comapct_view">Компактный вид</string>
     <string name="settings_list_hide_zodiac">Скрыть Знак Зодиака</string>
     <string name="settings_show_current_age">Показывать Текущий Возраст</string>
     <string name="settings_statistics_as_text">Показывать Статистику как текст</string>
@@ -139,5 +142,6 @@
     <string name="statistic_action_zodiac_info">Информация о Зодиаке</string>
     <string name="zodiac_info_title">Информация о Зодиаке</string>
     <string name="zodiac_info_message">Есть 12 зодиаков, которые определены 30-градусными секторами эклиптики. Все 12 секторов - это календарь, но он не полностью соответствует нашему григорианскому календарю. Поэтому даты границы зодиака могут меняться от года к году. Пожалуйста, имейте это в виду, если вы думаете, что в этом приложении неправильно рассчитан знак зодиака.</string>
-</resources>
+
+    </resources>
 

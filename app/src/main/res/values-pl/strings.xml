@@ -18,21 +18,89 @@
     <string name="sign_element_water">Woda</string>
 
     <string name="search">Szukaj wieku, imienia, znaku itd.</string>
+
+  <plurals name="years_old">
+        <item quantity="one">%1$d rok</item>
+        <item quantity="few">%1$d lat(a)</item>
+        <item quantity="many">%1$d lat(a)</item>
+        <item quantity="other">%1$d lat(a)</item>
+    </plurals>
+
     <plurals name="days_old">
         <item quantity="one">%1$d dzień</item>
         <item quantity="few">%1$d dni</item>
         <item quantity="many">%1$d dni</item>
         <item quantity="other">%1$d dni</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Urodziny były wczoraj!</item>
+        <item quantity="few">%1$d dni temu</item>
+        <item quantity="many">%1$d dni temu</item>
+        <item quantity="other">%1$d dni temu</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Już jutro!</item>
+        <item quantity="few">Pozostało %1$d dni</item>
+        <item quantity="many">Pozostało %1$d dni</item>
+        <item quantity="other">Pozostało %1$d dni</item>
+    </plurals>
+
+    <string name="party_message">Mamy dzisiaj imprezę :D</string>
+    <string name="party_message_compact">To już dziś :D</string>
+
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="one">%1$s jutro ma %2$d. urodziny</item>
+        <item quantity="few">%1$s ma %2$d. urodziny za %3$d dni</item>
+        <item quantity="many">%1$s ma %2$d. urodziny za %3$d dni</item>
+        <item quantity="other">%1$s ma %2$d. urodziny za %3$d dni</item>
+    </plurals>
+
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">%1$s ma jutro urodziny</item>
+        <item quantity="few">%1$s ma urodziny za %2$d dni</item>
+        <item quantity="many">%1$s ma urodziny za %2$d dni</item>
+        <item quantity="other">%1$s ma urodziny za %2$d dni</item>
+    </plurals>
+
     <string name="menu_birthday_list">Lista urodzin</string>
     <string name="menu_settings">Ustawienia</string>
+    <string name="menu_statistics_age">Statystyki wieku</string>
+    <string name="menu_statistics_zodiac">Statystyki zodiaków</string>
+    <string name="menu_statistics_week">Statystyki dni tygodnia</string>
+    <string name="menu_statistics_month">Statystyki miesięcy</string>
     <string name="menu_about">O aplikacji</string>
   <string name="settings_scan_preferences">Ustawienia powiadomień o urodzinach</string>
+    <string name="settings_scan_not_sum">Pokazuj powiadomienia urodzin codziennie</string>
+    <string name="settings_scan_not_title">Codzienne powiadomienia</string>
+    <string name="settings_scan_title">Czas codziennych powiadomień</string>
+    <string name="settings_scan_not_adv_sum">Pokazuj powiadomienia urodzin z wyprzedzeniem</string>
+    <string name="settings_scan_not_adv_title">Wcześniejsze powiadomienia</string>
+    <string name="settings_list_comapct_view">Widok kompaktowy</string>
+    <string name="settings_list_hide_zodiac">Ukryj znaki zodiaków</string>
+    <string name="settings_show_current_age">Pokazuj obecny wiek</string>
+    <string name="settings_statistics_as_text">Pokazuj statystyki jako tekst</string>
+    <string name="settings_scan_adv_sum">Ile dni wcześniej mamy sprawdzać Twoje kontakty, byś mógł przygotować niespodziankę znajomemu wcześniej</string>
+    <string name="settings_scan_adv_title">Dni wcześniej</string>
+    <string name="settings_scan_precise_title">Ścisłe powiadomienia</string>
+    <string name="settings_scan_precise">Tylko jedno wcześniejsze powiadomienie</string>
+    <string name="settings_list_preferences">Ustawienia listy urodzin</string>
+    <string name="settings_accounts_preferences">Ustawienia kont</string>
+    <string name="settings_application_preferences">Ustawienia zachowania aplikacji</string>
+    <string name="settings_list_input_sum">Dni do urodzin/wiek/imię/znak zodiaku</string>
     <string name="settings_list_input_title">Sortuj według</string>
     <string name="settings_list_order_sum">Rosnąco lub malejąco</string>
-  <string name="settings_theme_title">Motyw</string>
+    <string name="settings_list_order_title">Kolejność sortowania</string>
+  <string name="settings_layout_preferences">Wygląd</string>
+    <string name="settings_theme_title">Motyw</string>
+    <string name="settings_battery_status">Zezwalaj na pracę w tle</string>
     <string name="settings_theme">Ciemny</string>
-    <string name="alert_contacts_dialog_msg">Wymagany jest dostęp do twojej listy kontaktów, aby pobrać ich urodziny</string>
+    <string name="settings_show_birthday_type_only">Pokazuj tylko wydarzenia urodzin</string>
+    <string name="settings_hide_add_contact_fab">Ukryj przycisk do dodawania urodzin</string>
+    <string name="settings_notify_favorites_only">Powiadamiaj tylko o ulubionych</string>
+    <string name="settings_hide_contacts">Ukryj zignorowane kontakty</string>
+  <string name="alert_contats_dialog_title">Wymagane uprawnienie do odczytywania kontaktów</string>
+    <string name="alert_contacts_dialog_msg">Wymagany jest dostęp do Twojej listy kontaktów, aby pobrać urodziny</string>
     <string name="alert_permissions_allow">OK</string>
     <string name="alert_permissions_deny">Odrzuć</string>
 
@@ -44,5 +112,36 @@
     <string name="array_order_desc">Malejąco</string>
     <string name="exit_warning_msg">Wciśnij wstecz jeszcze raz, aby wyjść</string>
     <string name="about_us_bt_changelog">Lista zmian</string>
+    <string name="undo">Cofnij</string>
+    <string name="amount"># kontaktów</string>
+
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid to projekt open-source stworzony, by pomóc Ci pamiętać o urodzinach znajomych.</string>
+    <string name="about_help_title">Możesz nam pomóc :D</string>
+    <string name="about_help_developer">Programista/projektant?</string>
+    <string name="about_help_issues">Prośby o nowe funkcje / zgłoszenie błędów?</string>
+    <string name="about_help_languages">Obsługa nowego języka?</string>
+    <string name="about_help_coffee">Kup nam kawę :)</string>
+    <string name="about_people_devel_code_title">Kod</string>
+    <string name="about_people_devel_title">Programiści</string>
+    <string name="about_people_devel_contributors_title">Współpracownicy</string>
+    <string name="about_people_devel_translators_title">Tłumaczenie</string>
+    <string name="about_people_devel_translators_text">Polska wersja: Paweł Konefał</string>
+    <string name="about_special_thanks">Specjalne podziękowania</string>
+    <string name="about_libs">Biblioteki (dzięki wielkie)</string>
+    <string name="about_icons">Ikony (specjalne podziękowania)</string>
+    <string name="accounts_enabled_title">Wybierz konta</string>
+    <string name="accounts_enabled_sum">Użyj określonych kont</string>
+    <string name="accounts_title">Konta</string>
+
+    <string name="breaking_change_dialog_title">Ważna informacja o aktualizacji</string>
+    <string name="breaking_change_dialog_message_v46">Zmienił się mechanizm zapisywania czasu. Proszę sprawdzić czas powiadomień i poprawić, jeśli trzeba.</string>
+
+    <string name="statistic_action_switch_to_text_view">Przełącz na widok tekstowy</string>
+    <string name="statistic_action_switch_to_diagram_view">Przełącz na widok wykresowy</string>
+
+    <string name="statistic_action_zodiac_info">Informacje nt. zodiaków</string>
+    <string name="zodiac_info_title">Informacje nt. zodiaków</string>
+    <string name="zodiac_info_message">Jest 12 zodiaków, podzielonych ekliptycznie po 30°. Wszystkie 12 części są kalendarzem, ale nie odpowiada on naszemu kalendarzowi gregoriańskiemu. Dlatego daty graniczne zodiaków mogą się różnić rokrocznie. Proszę o tym pamiętać, jeśli myślisz, że aplikacja podaje zły znak zodiaku.</string>
+
     </resources>
 

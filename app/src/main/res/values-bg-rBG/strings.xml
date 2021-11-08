@@ -1,0 +1,135 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_desc">Напомняне за рождени дни</string>
+    <string name="sign_aquarius">Водолей</string>
+    <string name="sign_capricorn">Козирог</string>
+    <string name="sign_pisces">Риби</string>
+    <string name="sign_aries">Овен</string>
+    <string name="sign_taurus">Телец</string>
+    <string name="sign_gemini">Близнаци</string>
+    <string name="sign_cancer">Рак</string>
+    <string name="sign_leo">Лъв</string>
+    <string name="sign_virgo">Дева</string>
+    <string name="sign_libra">Везни</string>
+    <string name="sign_scorpio">Скорпион</string>
+    <string name="sign_sagittarius">Стрелец</string>
+    <string name="sign_element_fire">Огън</string>
+    <string name="sign_element_earth">Земя</string>
+    <string name="sign_element_air">Въздух</string>
+    <string name="sign_element_water">Вода</string>
+
+    <string name="search">Търсене по възраст, име, зодия, т.н.</string>
+
+  <plurals name="years_old">
+        <item quantity="one">На %1$d година</item>
+        <item quantity="other">На %1$d години</item>
+    </plurals>
+
+    <plurals name="days_old">
+        <item quantity="one">На %1$d ден</item>
+        <item quantity="other">На %1$d дни</item>
+    </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Вчера!</item>
+        <item quantity="other">Преди %1$d дни</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Утре!</item>
+        <item quantity="other">Остават %1$d дни</item>
+    </plurals>
+
+    <string name="party_message">Днес има парти :D</string>
+    <string name="party_message_compact">Днес е :D</string>
+
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="one">%1$s става на %2$d утре</item>
+        <item quantity="other">%1$s става на %2$d след %3$d дни</item>
+    </plurals>
+
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">%1$s има рожден ден утре</item>
+        <item quantity="other">%1$s има рожден ден след %2$d дни</item>
+    </plurals>
+
+    <string name="menu_birthday_list">Списък с рождени дни</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_statistics_age">Статистика за възраст</string>
+    <string name="menu_statistics_zodiac">Статистика за зодии</string>
+    <string name="menu_statistics_week">Статистика за ден на раждане</string>
+    <string name="menu_statistics_month">Статистика за месец на раждане</string>
+    <string name="menu_about">Относно</string>
+  <string name="settings_scan_preferences">Настройки на известия за рожден ден</string>
+    <string name="settings_scan_not_sum">Показвай известия за рожден ден всеки ден</string>
+    <string name="settings_scan_not_title">Ежедневни известия</string>
+    <string name="settings_scan_title">Време на ежедневни известия</string>
+    <string name="settings_scan_not_adv_sum">Показвай известия за рожден ден предварително</string>
+    <string name="settings_scan_not_adv_title">Предварителни известия за рожден ден</string>
+    <string name="settings_list_comapct_view">Компактен изглед</string>
+    <string name="settings_list_hide_zodiac">Скрий зодии</string>
+    <string name="settings_show_current_age">Показвай текуща възраст</string>
+    <string name="settings_statistics_as_text">Показвай статистики като текст</string>
+    <string name="settings_scan_adv_sum">Преди колко дни да проверим контактите ви за рождените им дни, за да имате време да им подготвите изненада</string>
+    <string name="settings_scan_adv_title">Предварителни дни</string>
+    <string name="settings_scan_precise_title">Прецизни известия</string>
+    <string name="settings_scan_precise">Само едно предварително известие</string>
+    <string name="settings_list_preferences">Настройки за списък на рождени дни</string>
+    <string name="settings_accounts_preferences">Настройки за акаунти</string>
+    <string name="settings_application_preferences">Настройки за поведение на приложението</string>
+    <string name="settings_list_input_sum">Дни до рожден ден/Възраст/Име/Зодия</string>
+    <string name="settings_list_input_title">Сортиране по</string>
+    <string name="settings_list_order_sum">Възходящ или низходящ</string>
+    <string name="settings_list_order_title">Ред на сортиране</string>
+  <string name="settings_layout_preferences">Оформление</string>
+    <string name="settings_theme_title">Тема</string>
+    <string name="settings_battery_status">Остави да работи във фонов режим</string>
+    <string name="settings_theme">Тъмна</string>
+    <string name="settings_show_birthday_type_only">Показвай само тип събитие рожден ден</string>
+    <string name="settings_hide_add_contact_fab">Скрий бутон за добавяне на нов рожден ден</string>
+    <string name="settings_notify_favorites_only">Известия само за любими</string>
+    <string name="settings_hide_contacts">Скрий игнорирани контакти</string>
+  <string name="alert_contats_dialog_title">Необходимо е разрешение за четене на контакти</string>
+    <string name="alert_contacts_dialog_msg">Нуждаем се от достъп до списъка ви с контакти, за да намерим рождените им дни</string>
+    <string name="alert_permissions_allow">ОК</string>
+    <string name="alert_permissions_deny">Отказ</string>
+
+    <string name="array_order_next">Дни до следващ рожден ден</string>
+    <string name="array_order_age">Възраст</string>
+    <string name="array_order_name">Име</string>
+    <string name="array_order_sign">Зодия</string>
+    <string name="array_order_asc">Възходящ</string>
+    <string name="array_order_desc">Низходящ</string>
+    <string name="exit_warning_msg">Натиснете назад за изход</string>
+    <string name="about_us_bt_changelog">Списък с промени</string>
+    <string name="undo">Отмяна</string>
+    <string name="amount">№ контакти</string>
+
+    <string name="about_info" tools:keep="@string/about_info">BirthDayDroid е проект с отворен код, създаден за да ви помогне да си спомните рождените дни на приятелите си.</string>
+    <string name="about_help_title">Можете да ни помогнете</string>
+    <string name="about_help_developer">Разработчик/дизайнер?</string>
+    <string name="about_help_issues">Заявки за функции и/или отчети за грешки?</string>
+    <string name="about_help_languages">Поддръжка на друг език?</string>
+    <string name="about_help_coffee">Купете ни кафе :)</string>
+    <string name="about_people_devel_code_title">Код</string>
+    <string name="about_people_devel_title">Разработчици</string>
+    <string name="about_people_devel_contributors_title">Сътрудници</string>
+    <string name="about_people_devel_translators_title">Превод</string>
+    <string name="about_people_devel_translators_text">Мили хора в Transifex</string>
+    <string name="about_special_thanks">Специални благодарности</string>
+    <string name="about_libs">Библиотеки (много благодарим)</string>
+    <string name="about_icons">Икони (специални благодарности)</string>
+    <string name="accounts_enabled_title">Конкретни акаунти</string>
+    <string name="accounts_enabled_sum">Активирай използването на конкретни акаунти</string>
+    <string name="accounts_title">Акаунти</string>
+
+    <string name="breaking_change_dialog_title">Важно известие за актуализация</string>
+    <string name="breaking_change_dialog_message_v46">Механизмът за запис на време бе променен. Моля, проверете времето за получаване на известия и го коригирайте, ако е необходимо.</string>
+
+    <string name="statistic_action_switch_to_text_view">Превключване към изглед тип текст</string>
+    <string name="statistic_action_switch_to_diagram_view">Превключване към изглед тип диаграма</string>
+
+    <string name="statistic_action_zodiac_info">Информация относно зодии</string>
+    <string name="zodiac_info_title">Информация относно зодии</string>
+    <string name="zodiac_info_message">Съществуват 12 зодии, които са разпределени в 30 градусови сектори на еклиптиката. 12-те сектора са календарни, но не съвпадат изцяло с григорианския календар. Следователно датите, от които започват зодиите, зависят от годината. Имайте това предвид, ако приложението изчисли някоя зодия грешно.</string>
+
+    </resources>
+

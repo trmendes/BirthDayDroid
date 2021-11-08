@@ -18,13 +18,14 @@
     <string name="sign_element_water">Air</string>
 
     <string name="search">Cari umur, nama, alamat, dll</string>
-    <plurals name="days_old">
+
+  <plurals name="days_old">
         <item quantity="other">berumur %1$d hari</item>
     </plurals>
     <string name="menu_birthday_list">Daftar Ulang Tahun</string>
     <string name="menu_settings">Pengaturan</string>
     <string name="menu_about">Tentang</string>
-    <string name="settings_scan_preferences">Pengaturan Notifikasi Ulang Tahun</string>
+  <string name="settings_scan_preferences">Pengaturan Notifikasi Ulang Tahun</string>
     <string name="settings_scan_not_sum">Tampilkan notifikasi ulang tahun setiap hari</string>
     <string name="settings_scan_not_title">Notifikasi Harian</string>
     <string name="settings_scan_title">Waktunya untuk Notifikasi Harian</string>
@@ -38,7 +39,7 @@
     <string name="settings_list_input_title">Urutkan berdasarkan</string>
     <string name="settings_list_order_sum">Meningkat atau Menurun</string>
     <string name="settings_list_order_title">Urutkan urutan</string>
-    <string name="settings_layout_preferences">Tampilan</string>
+  <string name="settings_layout_preferences">Tampilan</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme">Gelap</string>
     <string name="alert_contacts_dialog_msg">Kami butuh akses ke dalam daftar kontak Anda untuk memperoleh ulang tahun mereka</string>

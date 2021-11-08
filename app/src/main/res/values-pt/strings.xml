@@ -18,6 +18,7 @@
     <string name="sign_element_water">Água</string>
 
     <string name="search">Procurar por idade, nome, signo, etc</string>
+
   <plurals name="years_old">
         <item quantity="one">%1$d ano</item>
         <item quantity="other">%1$d anos</item>
@@ -38,6 +39,7 @@
     </plurals>
 
     <string name="party_message">Há uma festa a acontecer hoje :D</string>
+    <string name="party_message_compact">É hoje :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s faz %2$d anos amanhã</item>
@@ -62,6 +64,7 @@
     <string name="settings_scan_title">Hora para as notificações diárias</string>
     <string name="settings_scan_not_adv_sum">Mostrar notificações de aniversários com antecedência</string>
     <string name="settings_scan_not_adv_title">Notificações de aniversários com antecedência</string>
+    <string name="settings_list_comapct_view">Visualização compacta</string>
     <string name="settings_list_hide_zodiac">Ocultar signo</string>
     <string name="settings_show_current_age">Mostrar idade atual</string>
     <string name="settings_statistics_as_text">Mostrar estatísticas como texto</string>
@@ -127,5 +130,6 @@
     <string name="statistic_action_zodiac_info">Informações sobre Zodíacos</string>
     <string name="zodiac_info_title">Informações sobre Zodíacos</string>
     <string name="zodiac_info_message">Existem 12 zodíacos definidos por setores de 30 ° da eclíptica. Todos os 12 setores são um calendário, mas não é totalmente compatível com o nosso calendário gregoriano. Portanto, as datas de fronteira dos zodíacos podem variar de ano para ano. Por favor, tenha isso em mente, se você acha que há um zodíaco calculado errado neste aplicativo.</string>
-</resources>
+
+    </resources>
 

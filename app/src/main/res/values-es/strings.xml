@@ -18,6 +18,7 @@
     <string name="sign_element_water">Agua</string>
 
     <string name="search">Búsqueda por edad, nombre, signo, etc</string>
+
   <plurals name="years_old">
         <item quantity="one">%1$d year old</item>
         <item quantity="other">%1$d años</item>
@@ -29,15 +30,16 @@
     </plurals>
     <plurals name="days_ago">
         <item quantity="one">Fue ayer!</item>
-        <item quantity="other">Hace %1$d días </item>
+        <item quantity="other">Hace %1$d dias </item>
     </plurals>
 
     <plurals name="days_to_go">
         <item quantity="one">Es mañana!</item>
-        <item quantity="other">Quedan %1$d días</item>
+        <item quantity="other">Quedan %1$d dias</item>
     </plurals>
 
     <string name="party_message">Hoy hay una fiesta :D</string>
+    <string name="party_message_compact">Es hoy :D</string>
 
     <plurals name="message_notification_message_bt_to_come">
         <item quantity="one">%1$s cumpliendo %2$d mañana</item>
@@ -53,7 +55,7 @@
     <string name="menu_settings">Opciones</string>
     <string name="menu_statistics_age">Estadísticas de edad</string>
     <string name="menu_statistics_zodiac">Estadísticas de signo zodiacal</string>
-    <string name="menu_statistics_week">Estadísticas del día de nacimiento</string>
+    <string name="menu_statistics_week">Estadísticas del día de nacimientoEs hoy: D</string>
     <string name="menu_statistics_month">Estadísticas del mes de nacimiento</string>
     <string name="menu_about">Acerca de</string>
   <string name="settings_scan_preferences">Opciones de notificaciones de cumpleaños</string>
@@ -62,6 +64,7 @@
     <string name="settings_scan_title">Hora de las notificaciones diarias</string>
     <string name="settings_scan_not_adv_sum">Mostrar notificaciones de cumpleaños con anticipación</string>
     <string name="settings_scan_not_adv_title">Notificar cumpleaños con anticipación</string>
+    <string name="settings_list_comapct_view">Vista compacta</string>
     <string name="settings_list_hide_zodiac">Ocultar información zodiacal</string>
     <string name="settings_show_current_age">Mostrar Edad Actual</string>
     <string name="settings_statistics_as_text">Mostrar estadísticas como texto</string>
@@ -127,5 +130,6 @@
     <string name="statistic_action_zodiac_info">Información sobre los zodiacos</string>
     <string name="zodiac_info_title">Información sobre los zodiacos</string>
     <string name="zodiac_info_message">Hay 12 zodiacos que están definidos por 30 ° sectores de la eclíptica. Los 12 sectores son un calendario, pero no coincide totalmente con nuestro calendario gregoriano. Por lo tanto, las fechas límite de los zodiacos pueden variar de año en año. Tenga esto en cuenta, si cree que hay un zodiaco calculado incorrectamente en esta aplicación.</string>
-</resources>
+
+    </resources>
 

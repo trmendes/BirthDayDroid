@@ -18,31 +18,76 @@
     <string name="sign_element_water">Νερό</string>
 
     <string name="search">Αναζήτηση για ηλικία, όνομα, ζωόδιο, κλπ.</string>
+
+  <plurals name="years_old">
+        <item quantity="one">%1$d έτους</item>
+        <item quantity="other">%1$d ετών</item>
+    </plurals>
+
     <plurals name="days_old">
         <item quantity="one">%1$d ημέρας</item>
         <item quantity="other">%1$d ημερών</item>
     </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">Ήταν χθες!</item>
+        <item quantity="other">%1$d ημέρες πριν</item>
+    </plurals>
+
+    <plurals name="days_to_go">
+        <item quantity="one">Είναι αύριο!</item>
+        <item quantity="other">%1$d ημέρες απομένουν</item>
+    </plurals>
+
+    <string name="party_message">Υπάρχει ένα πάρτι σήμερα  :D</string>
+    <string name="party_message_compact">Είναι σήμερα :D</string>
+
+    <plurals name="message_notification_message_bt_to_come">
+        <item quantity="one">%1$sκλείνει τα %2$d αύριο</item>
+        <item quantity="other">%1$s κλείνει τα %2$d σε %3$d μέρες</item>
+    </plurals>
+
+    <plurals name="message_notification_message_bt_to_come_no_age">
+        <item quantity="one">%1$s έχει γενέθλια αύριο</item>
+        <item quantity="other">%1$s έχει γενέθλια σε %2$d μέρες</item>
+    </plurals>
+
     <string name="menu_birthday_list">Λϊστα γενεθλίων</string>
     <string name="menu_settings">Ρυθμίσεις</string>
+    <string name="menu_statistics_age">Στατιστικά ηλικίας</string>
+    <string name="menu_statistics_zodiac">Στατιστικά ζωδίων</string>
+    <string name="menu_statistics_week">Στατιστικά ημέρας γέννησης</string>
+    <string name="menu_statistics_month">Στατιστικά μήνα γέννησης</string>
     <string name="menu_about">Σχετικά</string>
-    <string name="settings_scan_preferences">Ρυθμίσεις ειδοποίησης γενεθλίων</string>
+  <string name="settings_scan_preferences">Ρυθμίσεις ειδοποίησης γενεθλίων</string>
     <string name="settings_scan_not_sum">Εμφάνιση ειδοποιήσεων γενεθλίων καθημερινά</string>
     <string name="settings_scan_not_title">Καθημερινές ειδοποιήσεις</string>
     <string name="settings_scan_title">Ώρα για τις καθημερινές ειδοποιήσεις</string>
     <string name="settings_scan_not_adv_sum">Εμφάνιση ειδοποιήσεων γενεθλίων από πριν</string>
     <string name="settings_scan_not_adv_title">Ειδοποιήσεις γενεθλίων από πριν</string>
+    <string name="settings_list_comapct_view">Συμπτυγμένη προβολή</string>
     <string name="settings_list_hide_zodiac">Απόκρυψη ζωδίου</string>
+    <string name="settings_show_current_age">Εμφάνιση τρέχουσας ηλικίας</string>
+    <string name="settings_statistics_as_text">Εμφάνιση στατιστικών ως κείμενο</string>
     <string name="settings_scan_adv_sum">Πόσες μέρες νωρίτερα πρέπει να ελέγχουμε τις επαφές σας για γενέθλια, έτσι ώστε να έχετε χρόνο να ετοιμάσετε στον φίλο σας μία έκπληξη</string>
     <string name="settings_scan_adv_title">Ημέρες νωρίτερα</string>
     <string name="settings_scan_precise_title">Ακριβείς ειδοποιήσεις</string>
     <string name="settings_scan_precise">Μόνο μία ειδοποίηση νωρίτερα</string>
     <string name="settings_list_preferences">Ρυθμίσεις λίστας γενεθλίων</string>
+    <string name="settings_accounts_preferences">Ρυθμίσεις λογαριασμού</string>
+    <string name="settings_application_preferences">Ρυθμίσεις συμπεριφοράς εφαρμογής</string>
+    <string name="settings_list_input_sum">Ημέρες έως Γενέθλια/Ηλικία/Όνομα/Ζώδιο</string>
     <string name="settings_list_input_title">Ταξινόμηση ανά</string>
     <string name="settings_list_order_sum">Αύξουσα ή φθίνουσα</string>
     <string name="settings_list_order_title">Σειρά ταξινόμησης</string>
-    <string name="settings_layout_preferences">Διάταξη</string>
+  <string name="settings_layout_preferences">Διάταξη</string>
     <string name="settings_theme_title">Θέμα</string>
+    <string name="settings_battery_status">Άδεια εκτέλεσης στο υπόβαθρο</string>
     <string name="settings_theme">Σκούρο</string>
+    <string name="settings_show_birthday_type_only">Εμφάνιση μόνο του τύπου γεγονότος Γενέθλια</string>
+    <string name="settings_hide_add_contact_fab">Απόκρυψη κουμπιού για προσθήκη νέου γενεθλίου</string>
+    <string name="settings_notify_favorites_only">Ειδοποίηση μόνο αγαπημένων</string>
+    <string name="settings_hide_contacts">Απόκρυψη αγνοημένων επαφών</string>
+  <string name="alert_contats_dialog_title">Χρειάζεται άδεια  Ανάγνωσης Επαφών</string>
     <string name="alert_contacts_dialog_msg">Χρειαζόμαστε πρόσβαση στην λίστα των επαφών σου, προκειμένου να φέρουμε τα γενέθλια τους</string>
     <string name="alert_permissions_allow">ΟΚ</string>
     <string name="alert_permissions_deny">Άρνηση</string>
@@ -55,7 +100,36 @@
     <string name="array_order_desc">Φθίνουσα</string>
     <string name="exit_warning_msg">Πατήστε πάλι για έξοδο</string>
     <string name="about_us_bt_changelog">Καταγραφή αλλαγών</string>
+    <string name="undo">Αναίρεση</string>
+    <string name="amount"># επαφών</string>
+
     <string name="about_info" tools:keep="@string/about_info">Το BirthDayDroid είναι ένα έργο ανοιχτού λογισμικού που δημιουργήθηκε για να σας βοηθήσει να θυμάστε τα γενέθλια των φίλων σας.</string>
+    <string name="about_help_title">Μπορείς να μας βοηθήσεις  :D</string>
+    <string name="about_help_developer">Προγραμματιστής/Σχεδιαστής;</string>
+    <string name="about_help_issues">Αιτήματα νέων δυνατοτήτων και/ή αναφορές σφαλμάτων;</string>
+    <string name="about_help_languages">Υποστήριξη νέας γλώσσας;</string>
+    <string name="about_help_coffee">Κέρασε μας ένα καφέ  :)</string>
+    <string name="about_people_devel_code_title">Κώδικας</string>
+    <string name="about_people_devel_title">Προγραμματιστές</string>
+    <string name="about_people_devel_contributors_title">Συνεισφέροντες</string>
     <string name="about_people_devel_translators_title">Μετάφραση</string>
+    <string name="about_people_devel_translators_text">Μια δέσμη από καλούς ανθρώπους στο Transifex</string>
+    <string name="about_special_thanks">Ιδιαίτερα ευχαριστώ</string>
+    <string name="about_libs">Βιβλιοθήκες (Σας ευχαριστώ πάρα πολύ)</string>
+    <string name="about_icons">Εικονίδια (Ιδιαίτερα ευχαριστώ)</string>
+    <string name="accounts_enabled_title">Επιλογή λογαριασμών</string>
+    <string name="accounts_enabled_sum">Ενεργοποίηση χρήσης ειδικών λογαριασμών</string>
+    <string name="accounts_title">Λογαριασμοί</string>
+
+    <string name="breaking_change_dialog_title">Σημαντική σημείωση ενημέρωσης</string>
+    <string name="breaking_change_dialog_message_v46">Ο μηχανισμός του πως αποθηκεύεται ο χρόνος έχει αλλάξει. Παρακαλώ ελέγξτε τον χρόνο ειδοποίησης και διορθώστε αν χρειάζεται.</string>
+
+    <string name="statistic_action_switch_to_text_view">Εναλλαγή σε Προβολή κειμένου</string>
+    <string name="statistic_action_switch_to_diagram_view">Εναλλαγή σε Προβολή διαγράμματος</string>
+
+    <string name="statistic_action_zodiac_info">Πληροφορίες σχετικά με τα ζώδια</string>
+    <string name="zodiac_info_title">Πληροφορίες σχετικά με τα ζώδια</string>
+    <string name="zodiac_info_message">Υπάρχουν 12 ζώδια που ορίζονται από τομείς των  30° της εκλειπτικής. Όλοι οι 12 τομείς είναι ένα ημερολόγιο, αλλά δεν ταιριάζει πλήρως στο γρηγοριανό ημερολόγιο που χρησιμοποιούμε. Άρα οι οριακές ημερομηνίες των ζωδίων μπορούν να μεταβάλλονται από έτος σε έτος. Παρακαλώ να το έχετε στο μυαλό σας, αν νομίζετε ότι υπάρχει λανθασμένος υπολογισμός ζωδίου σε αυτή την εφαρμογή.</string>
+
     </resources>
 
