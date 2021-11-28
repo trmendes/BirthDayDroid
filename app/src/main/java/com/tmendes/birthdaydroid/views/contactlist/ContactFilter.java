@@ -31,7 +31,7 @@ public class ContactFilter implements SortAndFilterRecyclerViewAdapter.Filter<Co
 
         String birthdayWeekName = "";
 
-        if (contact.isCelebrtionThisYear() || contact.isCelebrationRecent()) {
+        if (contact.isCelebrationThisYear() || contact.isCelebrationRecent()) {
             birthdayWeekName = dateLocaleHelper.getDayOfWeek(contact.getCurrentYearEvent().getDayOfWeek(), context).toLowerCase();
         } else {
             birthdayWeekName = dateLocaleHelper.getDayOfWeek(contact.getNextYearEvent().getDayOfWeek(), context).toLowerCase();

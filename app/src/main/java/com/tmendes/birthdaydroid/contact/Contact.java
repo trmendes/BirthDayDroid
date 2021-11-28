@@ -25,7 +25,7 @@ public class Contact {
     private LocalDate currentYearEvent;
     private LocalDate nextYearEvent;
 
-    private boolean isCelebrtionThisYear;
+    private boolean isCelebrationThisYear;
     private boolean isCelebrationToday;
     private boolean isEventInTheFuture;
     private boolean isEventMissingYear;
@@ -119,11 +119,11 @@ public class Contact {
             this.ageInDays = Math.max(0, (int) ChronoUnit.DAYS.between(eventOriginalDate, now));
         }
 
-        this.isCelebrtionThisYear = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) >= 0);
+        this.isCelebrationThisYear = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) >= 0);
         this.isCelebrationToday = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) == 0);
         this.isEventInTheFuture = eventOriginalDate.isAfter(now) && this.isEventMissingYear;
 
-        if (this.isCelebrtionThisYear) {
+        if (this.isCelebrationThisYear) {
             this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.currentYearEvent);
             this.daysSinceLastEvent = (int) ChronoUnit.DAYS.between(this.currentYearEvent.minusYears(1), now);
         } else {
@@ -171,7 +171,7 @@ public class Contact {
         return isEventInTheFuture;
     }
 
-    public boolean isCelebrtionThisYear() { return isCelebrtionThisYear; }
+    public boolean isCelebrationThisYear() { return isCelebrationThisYear; }
 
     public boolean isCelebrationToday() {
         return isCelebrationToday;

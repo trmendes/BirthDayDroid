@@ -117,7 +117,7 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
 
     private void setupEventDateMessage() {
         final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
-        if (getContact().isCelebrtionThisYear() || getContact().isCelebrationRecent()) {
+        if (getContact().isCelebrationThisYear() || getContact().isCelebrationRecent()) {
             this.eventTextView.setText(dateFormatter.format(getContact().getCurrentYearEvent()));
         } else {
             this.eventTextView.setText(dateFormatter.format(getContact().getNextYearEvent()));
