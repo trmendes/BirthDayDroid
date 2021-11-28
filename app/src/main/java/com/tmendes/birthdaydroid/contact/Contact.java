@@ -125,7 +125,11 @@ public class Contact {
 
         if (this.isCelebrationThisYear) {
             this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.currentYearEvent);
-            this.daysSinceLastEvent = (int) ChronoUnit.DAYS.between(this.currentYearEvent.minusYears(1), now);
+            if (!isEventInTheFuture) {
+                this.daysSinceLastEvent = (int) ChronoUnit.DAYS.between(this.currentYearEvent.minusYears(1), now);
+            } else {
+                this.daysSinceLastEvent = 0;
+            }
         } else {
             this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.nextYearEvent);
             this.daysSinceLastEvent = (int) ChronoUnit.DAYS.between(this.nextYearEvent.minusYears(1), now);
