@@ -53,7 +53,8 @@ public class ContactCreator {
 
         final LocalDate bornOn = convertingResult.getDate();
 
-        contact.setEventData(bornOn, convertingResult.getMissingYearInfo());
+        LocalDate now = LocalDate.now();
+        contact.setEventData(bornOn, now, convertingResult.getMissingYearInfo());
         contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
 
         return contact;

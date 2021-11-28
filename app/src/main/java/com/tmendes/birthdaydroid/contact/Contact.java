@@ -104,26 +104,24 @@ public class Contact {
         return eventOriginalDate;
     }
 
-    public void setEventData(LocalDate originalDate, boolean isYearMissing) {
-        LocalDate now = LocalDate.now();
-
-        this.eventOriginalDate = originalDate;
+    public void setEventData(LocalDate eventOriginalDate, LocalDate now, boolean isYearMissing) {
+        this.eventOriginalDate = eventOriginalDate;
         this.isEventMissingYear = isYearMissing;
 
-        this.currentYearEvent = originalDate.withYear(now.getYear());
+        this.currentYearEvent = eventOriginalDate.withYear(now.getYear());
         this.nextYearEvent = currentYearEvent.plusYears(1);
 
         if (this.isEventMissingYear) {
             this.ageInDays = 0;
             this.ageInYears = 0;
         } else {
-            this.ageInYears = Math.max(0, (int) ChronoUnit.YEARS.between(originalDate, now));
-            this.ageInDays = Math.max(0, (int) ChronoUnit.DAYS.between(originalDate, now));
+            this.ageInYears = Math.max(0, (int) ChronoUnit.YEARS.between(eventOriginalDate, now));
+            this.ageInDays = Math.max(0, (int) ChronoUnit.DAYS.between(eventOriginalDate, now));
         }
 
         this.isCelebrtionThisYear = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) >= 0);
         this.isCelebrationToday = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) == 0);
-        this.isEventInTheFuture = originalDate.isAfter(now) && this.isEventMissingYear;
+        this.isEventInTheFuture = eventOriginalDate.isAfter(now) && this.isEventMissingYear;
 
         if (this.isCelebrtionThisYear) {
             this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.currentYearEvent);
@@ -188,6 +186,7 @@ public class Contact {
     }
 
     public void updateEventData() {
-        this.setEventData(this.eventOriginalDate, this.isEventMissingYear);
+        LocalDate now = LocalDate.now();
+        this.setEventData(this.eventOriginalDate, now, this.isEventMissingYear);
     }
 }
