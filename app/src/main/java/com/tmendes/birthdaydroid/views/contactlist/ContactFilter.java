@@ -11,7 +11,6 @@ public class ContactFilter implements SortAndFilterRecyclerViewAdapter.Filter<Co
     private final Context context;
     private final DateLocaleHelper dateLocaleHelper;
     private final ZodiacResourceHelper zodiacResourceHelper;
-    private static final int MAX_DAYS_AGO = 31;
 
     public ContactFilter(Context context, DateLocaleHelper dateLocaleHelper, ZodiacResourceHelper zodiacResourceHelper) {
         this.context = context;
