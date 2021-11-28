@@ -180,17 +180,17 @@ public class ContactCreatorTest {
         assertThat(contact.getEventTypeLabel(), is("Birthday"));
         assertThat(contact.isFavorite(), is(false));
         assertThat(contact.isIgnore(), is(false));
-        assertThat(contact.getBornOn(), is(bornOn));
-        assertThat(contact.isMissingYearInfo(), is(false));
+        assertThat(contact.getEventOriginalDate(), is(bornOn));
+        assertThat(contact.isEventMissingYear(), is(false));
         assertThat(contact.getZodiac(), is(Zodiac.CAPRICORN));
 
         // calculated date dependent information. is tested in other tests explicitly and exacter.
-        assertThat(contact.isBornInFuture(), is(false));
-        assertThat(contact.getNextBirthday(), notNullValue());
+        assertThat(contact.isFromFuture(), is(false));
+        assertThat(contact.getNextYearEvent(), notNullValue());
         assertThat(contact.getAgeInYears(), greaterThanOrEqualTo(0));
         assertThat(contact.getAgeInDays(), greaterThanOrEqualTo(0));
-        assertThat(contact.getDaysUntilNextBirthday(), greaterThanOrEqualTo(0));
-        assertThat(contact.getDaysSinceLastBirthday(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysUntilNextEvent(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysSinceLastEvent(), greaterThanOrEqualTo(0));
     }
 
     @Test
@@ -220,107 +220,102 @@ public class ContactCreatorTest {
         assertThat(contact.getEventTypeLabel(), is("Birthday"));
         assertThat(contact.isFavorite(), is(false));
         assertThat(contact.isIgnore(), is(false));
-        assertThat(contact.getBornOn(), is(bornOn));
-        assertThat(contact.isMissingYearInfo(), is(false));
+        assertThat(contact.getEventOriginalDate(), is(bornOn));
+        assertThat(contact.isEventMissingYear(), is(false));
         assertThat(contact.getZodiac(), is(Zodiac.CAPRICORN));
 
         // calculated date dependent information. is tested in other tests explicitly and exacter.
-        assertThat(contact.isBornInFuture(), is(false));
-        assertThat(contact.getNextBirthday(), notNullValue());
+        assertThat(contact.isFromFuture(), is(false));
+        assertThat(contact.getNextYearEvent(), notNullValue());
         assertThat(contact.getAgeInYears(), greaterThanOrEqualTo(0));
         assertThat(contact.getAgeInDays(), greaterThanOrEqualTo(0));
-        assertThat(contact.getDaysUntilNextBirthday(), greaterThanOrEqualTo(0));
-        assertThat(contact.getDaysSinceLastBirthday(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysUntilNextEvent(), greaterThanOrEqualTo(0));
+        assertThat(contact.getDaysSinceLastEvent(), greaterThanOrEqualTo(0));
     }
 
     @Test
     public void testCalculatedBirthdayInformationBirthday() {
         final LocalDate now = LocalDate.of(2020, 6, 7);
+        final LocalDate eventOriginalDate = now.minusYears(1);
         final Contact contact = new Contact();
-        contact.setBornOn(now.minusYears(1));
-        contact.setMissingYearInfo(false);
+        contact.setEventData(eventOriginalDate, now, false);
 
-        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
-
-        assertThat(resultContact.isBirthdayToday(), is(true));
-        assertThat(resultContact.isBornInFuture(), is(false));
-        assertThat(resultContact.getAgeInYears(), is(1));
-        assertThat(resultContact.getAgeInDays(), is(366)); // leapyear 29. February
-        assertThat(resultContact.getNextBirthday(), is(now));
-        assertThat(resultContact.getDaysUntilNextBirthday(), is(0));
-        assertThat(resultContact.getDaysSinceLastBirthday(), is(366)); // leapyear 29. February
+        assertThat(contact.isCelebrationToday(), is(true));
+        assertThat(contact.isFromFuture(), is(false));
+        assertThat(contact.getAgeInYears(), is(1));
+        assertThat(contact.getAgeInDays(), is(366)); // leapyear 29. February
+        assertThat(contact.getCurrentYearEvent(), is(now));
+        assertThat(contact.getNextYearEvent(), is(now.plusYears(1)));
+        assertThat(contact.getDaysUntilNextEvent(), is(0));
+        assertThat(contact.getDaysSinceLastEvent(), is(366)); // leapyear 29. February
     }
 
     @Test
     public void testCalculatedBirthdayInformationBornInFuture() {
         final LocalDate now = LocalDate.of(2020, 6, 7);
+        final LocalDate eventOriginalDate = now.plusDays(3);
         final Contact contact = new Contact();
-        contact.setBornOn(now.plusDays(3));
-        contact.setMissingYearInfo(false);
+        contact.setEventData(eventOriginalDate, now,false);
 
-        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
-
-        assertThat(resultContact.isBirthdayToday(), is(false));
-        assertThat(resultContact.isBornInFuture(), is(true));
-        assertThat(resultContact.getAgeInYears(), is(0));
-        assertThat(resultContact.getAgeInDays(), is(0));
-        assertThat(resultContact.getNextBirthday(), is(now.plusDays(3)));
-        assertThat(resultContact.getDaysUntilNextBirthday(), is(3));
-        assertThat(resultContact.getDaysSinceLastBirthday(), is(0));
+        assertThat(contact.isCelebrationToday(), is(false));
+        assertThat(contact.isFromFuture(), is(true));
+        assertThat(contact.getAgeInYears(), is(0));
+        assertThat(contact.getAgeInDays(), is(0));
+        assertThat(contact.getCurrentYearEvent(), is(eventOriginalDate));
+        assertThat(contact.getNextYearEvent(), is(eventOriginalDate.plusYears(1)));
+        assertThat(contact.getDaysUntilNextEvent(), is(3));
+        assertThat(contact.getDaysSinceLastEvent(), is(0));
     }
 
     @Test
     public void testCalculatedBirthdayInformationNoBirthday() {
         final LocalDate now = LocalDate.of(2020, 6, 7);
+        final LocalDate eventOriginalDate = now.minusYears(1).minusDays(1);
         final Contact contact = new Contact();
-        contact.setBornOn(now.minusYears(1).minusDays(1));
-        contact.setMissingYearInfo(false);
+        contact.setEventData(eventOriginalDate, now,false);
 
-        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
-
-        assertThat(resultContact.isBirthdayToday(), is(false));
-        assertThat(resultContact.isBornInFuture(), is(false));
-        assertThat(resultContact.getAgeInYears(), is(1));
-        assertThat(resultContact.getAgeInDays(), is(367)); // leapyear 29. February
-        assertThat(resultContact.getNextBirthday(), is(now.minusDays(1).plusYears(1)));
-        assertThat(resultContact.getDaysUntilNextBirthday(), is(364));
-        assertThat(resultContact.getDaysSinceLastBirthday(), is(1));
+        assertThat(contact.isCelebrationToday(), is(false));
+        assertThat(contact.isFromFuture(), is(false));
+        assertThat(contact.getAgeInYears(), is(1));
+        assertThat(contact.getAgeInDays(), is(367)); // leapyear 29. February
+        assertThat(contact.getCurrentYearEvent(), is(now.minusDays(1)));
+        assertThat(contact.getNextYearEvent(), is(now.minusDays(1).plusYears(1)));
+        assertThat(contact.getDaysUntilNextEvent(), is(364));
+        assertThat(contact.getDaysSinceLastEvent(), is(1));
     }
 
     @Test
     public void testCalculatedBirthdayInformationMissingYearInfoAfterNow() {
         final LocalDate now = LocalDate.of(2020, 6, 7);
+        final LocalDate eventOriginalDate = now.plusDays(1);
         final Contact contact = new Contact();
-        contact.setBornOn(now.plusDays(1));
-        contact.setMissingYearInfo(true);
+        contact.setEventData(eventOriginalDate, now,true);
 
-        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
-
-        assertThat(resultContact.isBirthdayToday(), is(false));
-        assertThat(resultContact.isBornInFuture(), is(false));
-        assertThat(resultContact.getAgeInYears(), is(0));
-        assertThat(resultContact.getAgeInDays(), is(0));
-        assertThat(resultContact.getNextBirthday(), is(now.plusDays(1)));
-        assertThat(resultContact.getDaysUntilNextBirthday(), is(1));
-        assertThat(resultContact.getDaysSinceLastBirthday(), is(365)); // leapyear 29. February
+        assertThat(contact.isCelebrationToday(), is(false));
+        assertThat(contact.isFromFuture(), is(false));
+        assertThat(contact.getAgeInYears(), is(0));
+        assertThat(contact.getAgeInDays(), is(0));
+        assertThat(contact.getCurrentYearEvent(), is(eventOriginalDate));
+        assertThat(contact.getNextYearEvent(), is(eventOriginalDate.plusYears(1)));
+        assertThat(contact.getDaysUntilNextEvent(), is(1));
+        assertThat(contact.getDaysSinceLastEvent(), is(365)); // leapyear 29. February
     }
 
     @Test
     public void testCalculatedBirthdayInformationMissingYearInfoBeforeNow() {
         final LocalDate now = LocalDate.of(2020, 6, 7);
+        final LocalDate eventOriginalDate = now.minusDays(1);
         final Contact contact = new Contact();
-        contact.setBornOn(now.minusDays(1));
-        contact.setMissingYearInfo(true);
+        contact.setEventData(eventOriginalDate, now,true);
 
-        final Contact resultContact = contactCreator.calculateTimeDependentData(contact, now);
-
-        assertThat(resultContact.isBirthdayToday(), is(false));
-        assertThat(resultContact.isBornInFuture(), is(false));
-        assertThat(resultContact.getAgeInYears(), is(0));
-        assertThat(resultContact.getAgeInDays(), is(0));
-        assertThat(resultContact.getNextBirthday(), is(now.minusDays(1).plusYears(1)));
-        assertThat(resultContact.getDaysUntilNextBirthday(), is(364));
-        assertThat(resultContact.getDaysSinceLastBirthday(), is(1));
+        assertThat(contact.isCelebrationToday(), is(false));
+        assertThat(contact.isFromFuture(), is(false));
+        assertThat(contact.getAgeInYears(), is(0));
+        assertThat(contact.getAgeInDays(), is(0));
+        assertThat(contact.getCurrentYearEvent(), is(eventOriginalDate));
+        assertThat(contact.getNextYearEvent(), is(eventOriginalDate.plusYears(1)));
+        assertThat(contact.getDaysUntilNextEvent(), is(364));
+        assertThat(contact.getDaysSinceLastEvent(), is(1));
     }
 
     private void instrumentDependencies(DateConverter.DateConverterResult dateConverterResult,

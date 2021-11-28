@@ -3,8 +3,11 @@ package com.tmendes.birthdaydroid.contact;
 import com.tmendes.birthdaydroid.zodiac.Zodiac;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Contact {
+    private static final int CELEBRATION_DAYS_THRESHOLD = 7;
+
     private long dbId;
     private String key;
 
@@ -18,16 +21,20 @@ public class Contact {
     private boolean favorite;
     private boolean ignore;
 
-    private LocalDate bornOn;
-    private boolean missingYearInfo;
+    private LocalDate eventOriginalDate;
+    private LocalDate currentYearEvent;
+    private LocalDate nextYearEvent;
 
-    private LocalDate nextBirthday;
+    private boolean isCelebrationThisYear;
+    private boolean isCelebrationToday;
+    private boolean isEventInTheFuture;
+    private boolean isEventMissingYear;
+
     private int ageInYears;
     private int ageInDays;
-    private int daysUntilNextBirthday;
-    private int daysSinceLastBirthday;
-    private boolean bornInFuture;
-    private boolean birthdayToday;
+
+    private int daysUntilNextEvent;
+    private int daysSinceLastEvent;
 
     public long getDbId() {
         return dbId;
@@ -81,48 +88,57 @@ public class Contact {
         return ageInYears;
     }
 
-    public void setAgeInYears(int ageInYears) {
-        this.ageInYears = ageInYears;
-    }
-
     public int getAgeInDays() {
         return ageInDays;
     }
 
-    public void setAgeInDays(int ageInDays) {
-        this.ageInDays = ageInDays;
+    public int getDaysUntilNextEvent() {
+        return daysUntilNextEvent;
     }
 
-    public int getDaysUntilNextBirthday() {
-        return daysUntilNextBirthday;
+    public int getDaysSinceLastEvent() {
+        return daysSinceLastEvent;
     }
 
-    public void setDaysUntilNextBirthday(int daysUntilNextBirthday) {
-        this.daysUntilNextBirthday = daysUntilNextBirthday;
+    public LocalDate getEventOriginalDate() {
+        return eventOriginalDate;
     }
 
-    public int getDaysSinceLastBirthday() {
-        return daysSinceLastBirthday;
+    public void setEventData(LocalDate eventOriginalDate, LocalDate now, boolean isYearMissing) {
+        this.eventOriginalDate = eventOriginalDate;
+        this.isEventMissingYear = isYearMissing;
+
+        this.currentYearEvent = eventOriginalDate.withYear(now.getYear());
+        this.nextYearEvent = currentYearEvent.plusYears(1);
+
+        if (this.isEventMissingYear) {
+            this.ageInDays = 0;
+            this.ageInYears = 0;
+        } else {
+            this.ageInYears = Math.max(0, (int) ChronoUnit.YEARS.between(eventOriginalDate, now));
+            this.ageInDays = Math.max(0, (int) ChronoUnit.DAYS.between(eventOriginalDate, now));
+        }
+
+        this.isCelebrationThisYear = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) >= 0);
+        this.isCelebrationToday = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) == 0);
+        this.isEventInTheFuture = eventOriginalDate.isAfter(now) && !this.isEventMissingYear;
+
+        if (this.isCelebrationThisYear) {
+            this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.currentYearEvent);
+            if (!isEventInTheFuture) {
+                this.daysSinceLastEvent = (int) ChronoUnit.DAYS.between(this.currentYearEvent.minusYears(1), now);
+            } else {
+                this.daysSinceLastEvent = 0;
+            }
+        } else {
+            this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.nextYearEvent);
+            this.daysSinceLastEvent = (int) ChronoUnit.DAYS.between(this.nextYearEvent.minusYears(1), now);
+        }
     }
 
-    public void setDaysSinceLastBirthday(int daysSinceLastBirthday) {
-        this.daysSinceLastBirthday = daysSinceLastBirthday;
-    }
-
-    public LocalDate getBornOn() {
-        return bornOn;
-    }
-
-    public void setBornOn(LocalDate bornOn) {
-        this.bornOn = bornOn;
-    }
-
-    public LocalDate getNextBirthday() {
-        return nextBirthday;
-    }
-
-    public void setNextBirthday(LocalDate nextBirthday) {
-        this.nextBirthday = nextBirthday;
+    public LocalDate getCurrentYearEvent() { return currentYearEvent; }
+    public LocalDate getNextYearEvent() {
+        return nextYearEvent;
     }
 
     public boolean isFavorite() {
@@ -155,27 +171,26 @@ public class Contact {
         setIgnore(!isIgnore());
     }
 
-    public boolean isBornInFuture() {
-        return bornInFuture;
+    public boolean isFromFuture() {
+        return isEventInTheFuture;
     }
 
-    public void setBornInFuture(boolean bornInFuture) {
-        this.bornInFuture = bornInFuture;
+    public boolean isCelebrationThisYear() { return isCelebrationThisYear; }
+
+    public boolean isCelebrationToday() {
+        return isCelebrationToday;
     }
 
-    public boolean isMissingYearInfo() {
-        return missingYearInfo;
+    public boolean isEventMissingYear() {
+        return isEventMissingYear;
     }
 
-    public void setMissingYearInfo(boolean missingYearInfo) {
-        this.missingYearInfo = missingYearInfo;
+    public boolean isCelebrationRecent() {
+        return this.getDaysSinceLastEvent() <= CELEBRATION_DAYS_THRESHOLD && !this.isFromFuture();
     }
 
-    public void setBirthdayToday(boolean birthdayToday) {
-        this.birthdayToday = birthdayToday;
-    }
-
-    public boolean isBirthdayToday() {
-        return birthdayToday;
+    public void updateEventData() {
+        LocalDate now = LocalDate.now();
+        this.setEventData(this.eventOriginalDate, now, this.isEventMissingYear);
     }
 }

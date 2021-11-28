@@ -18,18 +18,24 @@ public class ContactFilter implements SortAndFilterRecyclerViewAdapter.Filter<Co
         this.zodiacResourceHelper = zodiacResourceHelper;
     }
 
-
     @Override
     public boolean filter(Contact contact, CharSequence filterTerm) {
         final String filterString = filterTerm.toString();
 
         final String name = contact.getName().toLowerCase();
-        final String monthName = dateLocaleHelper.getMonthString(contact.getBornOn().getMonth(), context).toLowerCase();
-        final String birthdayWeekName = dateLocaleHelper.getDayOfWeek(contact.getNextBirthday().getDayOfWeek(), context).toLowerCase();
+        final String monthName = dateLocaleHelper.getMonthString(contact.getEventOriginalDate().getMonth(), context).toLowerCase();
         final String zodiacName = zodiacResourceHelper.getZodiacName(contact.getZodiac()).toLowerCase();
         final String zodiacElement = zodiacResourceHelper.getZodiacElementName(contact.getZodiac()).toLowerCase();
         final String age = Integer.toString(contact.getAgeInYears());
         final String daysOld = Integer.toString(contact.getAgeInDays());
+
+        String birthdayWeekName = "";
+
+        if (contact.isCelebrationThisYear() || contact.isCelebrationRecent()) {
+            birthdayWeekName = dateLocaleHelper.getDayOfWeek(contact.getCurrentYearEvent().getDayOfWeek(), context).toLowerCase();
+        } else {
+            birthdayWeekName = dateLocaleHelper.getDayOfWeek(contact.getNextYearEvent().getDayOfWeek(), context).toLowerCase();
+        }
 
         return name.contains(filterString) ||
                 age.startsWith(filterString) ||
@@ -39,4 +45,5 @@ public class ContactFilter implements SortAndFilterRecyclerViewAdapter.Filter<Co
                 zodiacName.contains(filterString) ||
                 zodiacElement.contains(filterString);
     }
+
 }

@@ -28,8 +28,8 @@ public class DaysUntilBirthdayComparatorTest {
     public void testLess() {
         Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
 
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(2);
+        Mockito.when(contactA.getDaysUntilNextEvent()).thenReturn(1);
+        Mockito.when(contactB.getDaysUntilNextEvent()).thenReturn(2);
 
         assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
     }
@@ -38,8 +38,8 @@ public class DaysUntilBirthdayComparatorTest {
     public void testEquals() {
         Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
 
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(1);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
+        Mockito.when(contactA.getDaysUntilNextEvent()).thenReturn(1);
+        Mockito.when(contactB.getDaysUntilNextEvent()).thenReturn(1);
 
         assertThat(comparatorAsc.compare(contactA, contactB), is(0));
     }
@@ -48,8 +48,8 @@ public class DaysUntilBirthdayComparatorTest {
     public void testGreater() {
         Comparator<Contact> comparatorAsc = new DaysUntilBirthdayComparator();
 
-        Mockito.when(contactA.getDaysUntilNextBirthday()).thenReturn(2);
-        Mockito.when(contactB.getDaysUntilNextBirthday()).thenReturn(1);
+        Mockito.when(contactA.getDaysUntilNextEvent()).thenReturn(2);
+        Mockito.when(contactB.getDaysUntilNextEvent()).thenReturn(1);
 
         assertThat(comparatorAsc.compare(contactA, contactB), greaterThan(0));
     }

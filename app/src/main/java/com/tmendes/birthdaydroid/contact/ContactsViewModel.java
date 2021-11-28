@@ -11,11 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
-import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.permission.PermissionChecker;
-import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -53,12 +50,11 @@ public class ContactsViewModel extends AndroidViewModel {
         return this.executor.submit(() -> {
             final Context context = getApplication().getApplicationContext();
             final ContactCreator contactCreator = new ContactCreatorFactory().createContactCreator(context);
-            final LocalDate now = LocalDate.now();
             final List<Contact> contacts = this.contacts.getValue();
             if (contacts != null) {
                 this.contacts.postValue(
                         contacts.stream()
-                                .map(c -> contactCreator.calculateTimeDependentData(c, now))
+                                .map(c -> {c.updateEventData(); return c;})
                                 .collect(Collectors.toList())
                 );
             }

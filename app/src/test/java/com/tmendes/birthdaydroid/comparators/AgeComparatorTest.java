@@ -29,8 +29,8 @@ public class AgeComparatorTest {
     public void testLess() {
         Comparator<Contact> comparatorAsc = new AgeComparator();
 
-        Mockito.when(contactA.getBornOn()).thenReturn(createLocalDate(2020, 1, 2));
-        Mockito.when(contactB.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
+        Mockito.when(contactA.getEventOriginalDate()).thenReturn(createLocalDate(2020, 1, 2));
+        Mockito.when(contactB.getEventOriginalDate()).thenReturn(createLocalDate(2020, 1, 1));
 
         assertThat(comparatorAsc.compare(contactA, contactB), lessThan(0));
     }
@@ -39,8 +39,8 @@ public class AgeComparatorTest {
     public void testEquals() {
         Comparator<Contact> comparatorAsc = new AgeComparator();
 
-        Mockito.when(contactA.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
-        Mockito.when(contactB.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
+        Mockito.when(contactA.getEventOriginalDate()).thenReturn(createLocalDate(2020, 1, 1));
+        Mockito.when(contactB.getEventOriginalDate()).thenReturn(createLocalDate(2020, 1, 1));
 
         assertThat(comparatorAsc.compare(contactA, contactB), is(0));
     }
@@ -49,8 +49,8 @@ public class AgeComparatorTest {
     public void testGreater() {
         Comparator<Contact> comparatorAsc = new AgeComparator();
 
-        Mockito.when(contactA.getBornOn()).thenReturn(createLocalDate(2020, 1, 1));
-        Mockito.when(contactB.getBornOn()).thenReturn(createLocalDate(2020, 1, 2));
+        Mockito.when(contactA.getEventOriginalDate()).thenReturn(createLocalDate(2020, 1, 1));
+        Mockito.when(contactB.getEventOriginalDate()).thenReturn(createLocalDate(2020, 1, 2));
 
         assertThat(comparatorAsc.compare(contactA, contactB), greaterThan(0));
     }

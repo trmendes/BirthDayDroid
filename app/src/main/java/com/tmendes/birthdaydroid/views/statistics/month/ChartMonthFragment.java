@@ -80,7 +80,7 @@ public class ChartMonthFragment extends AbstractStatisticFragment implements OnC
     protected void updateContacts(List<Contact> contacts) {
         final Map<Month, Integer> monthMap = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .collect(Collectors.toMap(c -> c.getBornOn().getMonth(), c -> 1, Integer::sum, TreeMap::new));
+                .collect(Collectors.toMap(c -> c.getEventOriginalDate().getMonth(), c -> 1, Integer::sum, TreeMap::new));
 
         final ArrayList<BarEntry> barEntries = new ArrayList<>();
 
