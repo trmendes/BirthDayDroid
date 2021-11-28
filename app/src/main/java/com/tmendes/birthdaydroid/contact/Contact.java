@@ -121,7 +121,7 @@ public class Contact {
 
         this.isCelebrationThisYear = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) >= 0);
         this.isCelebrationToday = ((int) ChronoUnit.DAYS.between(now, this.currentYearEvent) == 0);
-        this.isEventInTheFuture = eventOriginalDate.isAfter(now) && this.isEventMissingYear;
+        this.isEventInTheFuture = eventOriginalDate.isAfter(now) && !this.isEventMissingYear;
 
         if (this.isCelebrationThisYear) {
             this.daysUntilNextEvent = (int) ChronoUnit.DAYS.between(now, this.currentYearEvent);
