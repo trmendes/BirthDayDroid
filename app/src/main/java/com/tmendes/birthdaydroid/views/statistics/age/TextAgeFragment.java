@@ -41,7 +41,7 @@ public class TextAgeFragment extends AbstractStatisticFragment {
     protected void updateContacts(List<Contact> contacts) {
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
+                .filter(c -> !c.isEventMissingYear()) // Remove unknown year from statistic
                 .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum, TreeMap::new));
 
         final Resources resources = requireContext().getResources();

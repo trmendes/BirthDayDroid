@@ -20,7 +20,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ContactNormalViewHolder extends AbstractContactViewHolder {
-    private static final int MAX_DAYS_AGO = 7;
 
     private final ZodiacResourceHelper zodiacResourceHelper;
 
@@ -28,9 +27,9 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
     private final TextView eventTypeTextView;
     private final TextView ageTextView;
     private final TextView ageBadge;
-    private final TextView missingDaysTextView;
-    private final TextView dateTextView;
-    private final TextView contactStatusTextView;
+    private final TextView celebrationMessageTextView;
+    private final TextView eventTextView;
+    private final TextView contactBadgesTextView;
     private final ImageView picture;
 
     public ContactNormalViewHolder(View view, ZodiacResourceHelper zodiacResourceHelper) {
@@ -38,11 +37,11 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
         this.zodiacResourceHelper = zodiacResourceHelper;
 
         contactNameTextView = view.findViewById(R.id.contactNameTextView);
-        contactStatusTextView = view.findViewById(R.id.contactStatusTextView);
+        contactBadgesTextView = view.findViewById(R.id.contactStatusTextView);
 
-        dateTextView = view.findViewById(R.id.dateTextView);
+        eventTextView = view.findViewById(R.id.dateTextView);
         eventTypeTextView = view.findViewById(R.id.eventTypeTextView);
-        missingDaysTextView = view.findViewById(R.id.missingDaysTextView);
+        celebrationMessageTextView = view.findViewById(R.id.missingDaysTextView);
         ageTextView = view.findViewById(R.id.ageTextView);
 
         picture = view.findViewById(R.id.ivContactPicture);
@@ -53,9 +52,9 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
         super.setupNewContact(contact);
 
         setupName();
-        setupDate();
+        setupEventDateMessage();
         setupEventType();
-        setupMissingDays();
+        setupCelebrationMessage();
         setupAgeTextView();
 
         setupPicture();
@@ -66,7 +65,7 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
 
     private void setupStatus() {
         final StringBuilder status = new StringBuilder();
-        if (getContact().isBirthdayToday()) {
+        if (getContact().isCelebrationToday()) {
             status.append(" ").append(getContext().getResources().getString(R.string.emoji_today_party));
         }
 
@@ -85,11 +84,11 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
             status.append(" ").append(getContext().getResources().getString(R.string.emoji_heart));
         }
 
-        this.contactStatusTextView.setText(status);
+        this.contactBadgesTextView.setText(status);
     }
 
     private void setupAgeTextView() {
-        if (getContact().isMissingYearInfo()) {
+        if (getContact().isEventMissingYear()) {
             this.ageTextView.setVisibility(View.INVISIBLE);
             return;
         } else {
@@ -98,7 +97,7 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
 
         final int ageInYears = getContact().getAgeInYears();
         final String ageText;
-        if (getContact().isBirthdayToday()) {
+        if (getContact().isCelebrationToday()) {
             ageText = getContext().getResources().getQuantityString(
                     R.plurals.years_old, ageInYears, ageInYears);
         } else if (ageInYears == 0) {
@@ -116,27 +115,31 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
         this.eventTypeTextView.setText(getContact().getEventTypeLabel());
     }
 
-    private void setupDate() {
+    private void setupEventDateMessage() {
         final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
-        this.dateTextView.setText(dateFormatter.format(getContact().getNextBirthday()));
+        if (getContact().isCelebrtionThisYear() || getContact().isCelebrationRecent()) {
+            this.eventTextView.setText(dateFormatter.format(getContact().getCurrentYearEvent()));
+        } else {
+            this.eventTextView.setText(dateFormatter.format(getContact().getNextYearEvent()));
+        }
     }
 
-    private void setupMissingDays() {
-        final String partyMsg;
-        if (getContact().isBirthdayToday()) {
-            partyMsg = getContext().getResources().getString(R.string.party_message);
-        } else if (getContact().getDaysSinceLastBirthday() <= MAX_DAYS_AGO && !getContact().isBornInFuture()) {
-            partyMsg = getContext().getResources().getQuantityString(R.plurals.days_ago,
-                    getContact().getDaysSinceLastBirthday(),
-                    getContact().getDaysSinceLastBirthday());
+    private void setupCelebrationMessage() {
+        final String celebrationMsg;
+        if (getContact().isCelebrationToday()) {
+            celebrationMsg = getContext().getResources().getString(R.string.party_message);
+        } else if (getContact().isCelebrationRecent()) {
+            celebrationMsg = getContext().getResources().getQuantityString(R.plurals.days_ago,
+                    getContact().getDaysSinceLastEvent(),
+                    getContact().getDaysSinceLastEvent());
         } else {
-            partyMsg = getContext().getResources().getQuantityString(
+            celebrationMsg = getContext().getResources().getQuantityString(
                     R.plurals.days_to_go,
-                    getContact().getDaysUntilNextBirthday(),
-                    getContact().getDaysUntilNextBirthday()
+                    getContact().getDaysUntilNextEvent(),
+                    getContact().getDaysUntilNextEvent()
             );
         }
-        this.missingDaysTextView.setText(partyMsg);
+        this.celebrationMessageTextView.setText(celebrationMsg);
     }
 
     private void setupName() {
@@ -144,7 +147,7 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
     }
 
     private void setupAgeBadge() {
-        if (getContact().isMissingYearInfo()) {
+        if (getContact().isEventMissingYear()) {
             this.ageBadge.setVisibility(View.INVISIBLE);
             return;
         } else {
@@ -153,10 +156,10 @@ public class ContactNormalViewHolder extends AbstractContactViewHolder {
 
         final String ageText;
         final boolean showCurrentAge = getPrefs().getBoolean("show_current_age", false);
-        if (getContact().isBirthdayToday() || showCurrentAge) {
+        if (getContact().isCelebrationToday() || showCurrentAge) {
             ageText = String.valueOf(getContact().getAgeInYears());
         } else {
-            ageText = "↑" + (getContact().getAgeInYears() + (getContact().isBornInFuture() ? 0 : 1));
+            ageText = "↑" + (getContact().getAgeInYears() + (getContact().isFromFuture() ? 0 : 1));
         }
         this.ageBadge.setText(ageText);
     }

@@ -7,6 +7,6 @@ import java.util.Comparator;
 public class AgeComparator implements Comparator<Contact> {
     @Override
     public int compare(Contact contactA, Contact contactB) {
-        return contactB.getBornOn().compareTo(contactA.getBornOn());
+        return contactB.getEventOriginalDate().compareTo(contactA.getEventOriginalDate());
     }
 }

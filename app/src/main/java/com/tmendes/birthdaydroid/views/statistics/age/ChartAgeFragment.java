@@ -75,7 +75,7 @@ public class ChartAgeFragment extends AbstractStatisticFragment implements OnCha
 
         final Map<Integer, Integer> ageStat = contacts.stream()
                 .filter(c -> !c.isIgnore())
-                .filter(c -> !c.isMissingYearInfo()) // Remove unknown year from statistic
+                .filter(c -> !c.isEventMissingYear()) // Remove unknown year from statistic
                 .collect(Collectors.toMap(Contact::getAgeInYears, c -> 1, Integer::sum, TreeMap::new));
 
         for (Map.Entry<Integer, Integer> pair : ageStat.entrySet()) {

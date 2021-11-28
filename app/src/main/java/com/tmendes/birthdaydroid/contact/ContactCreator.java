@@ -6,7 +6,6 @@ import com.tmendes.birthdaydroid.date.DateConverter;
 import com.tmendes.birthdaydroid.zodiac.ZodiacCalculator;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class ContactCreator {
     private final ZodiacCalculator zodiacCalculator;
@@ -36,6 +35,10 @@ public class ContactCreator {
             throw new ContactFactoryException("Can not build contact with null startDate");
         }
 
+        final DateConverter.DateConverterResult convertingResult = dateConverter.convert(androidContact.getStartDate());
+        if (!convertingResult.isSuccess()) {
+            throw new ContactFactoryException(String.format("Can not build contact with unparsable date: %s", androidContact.getStartDate()));
+        }
 
         final Contact contact = new Contact();
 
@@ -48,48 +51,10 @@ public class ContactCreator {
         contact.setPhotoUri(androidContact.getPhotoThumbnailUri());
         contact.setEventTypeLabel(eventTypeLabelService.getEventTypeLabel(androidContact.getEventType(), androidContact.getEventLabel()));
 
-        final DateConverter.DateConverterResult convertingResult = dateConverter.convert(androidContact.getStartDate());
-        if (!convertingResult.isSuccess()) {
-            throw new ContactFactoryException(String.format("Can not build contact with unparsable date: %s", androidContact.getStartDate()));
-        }
-
         final LocalDate bornOn = convertingResult.getDate();
-        final Boolean missingYearInfo = convertingResult.getMissingYearInfo();
 
-        contact.setBornOn(bornOn);
-        contact.setMissingYearInfo(missingYearInfo);
-
+        contact.setEventData(bornOn, convertingResult.getMissingYearInfo());
         contact.setZodiac(zodiacCalculator.calculateZodiac(bornOn));
-
-        return calculateTimeDependentData(contact, LocalDate.now());
-    }
-
-    public Contact calculateTimeDependentData(Contact contact, LocalDate now) {
-        final LocalDate bornOn = contact.getBornOn();
-
-        if(contact.isMissingYearInfo()){
-            contact.setAgeInYears(0);
-            contact.setAgeInDays(0);
-        } else {
-            contact.setAgeInYears(Math.max(0, (int) ChronoUnit.YEARS.between(bornOn, now)));
-            contact.setAgeInDays(Math.max(0, (int) ChronoUnit.DAYS.between(bornOn, now)));
-        }
-
-        LocalDate nextBirthday = bornOn.withYear(now.getYear());
-        if (nextBirthday.isBefore(now)) {
-            nextBirthday = nextBirthday.plusYears(1);
-        }
-        contact.setNextBirthday(nextBirthday);
-        contact.setBirthdayToday(nextBirthday.equals(now));
-
-        contact.setDaysUntilNextBirthday((int) ChronoUnit.DAYS.between(now, nextBirthday));
-        contact.setDaysSinceLastBirthday((int) ChronoUnit.DAYS.between(nextBirthday.minusYears(1), now));
-
-        contact.setBornInFuture(bornOn.isAfter(now) && !contact.isMissingYearInfo());
-        if(contact.isBornInFuture()) {
-            contact.setDaysSinceLastBirthday(0);
-            contact.setBirthdayToday(false);
-        }
 
         return contact;
     }

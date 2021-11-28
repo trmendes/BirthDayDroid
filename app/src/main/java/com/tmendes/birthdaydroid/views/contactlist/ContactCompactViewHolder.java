@@ -11,15 +11,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ContactCompactViewHolder extends AbstractContactViewHolder {
-    private static final int MAX_DAYS_AGO = 7;
 
     private final ZodiacResourceHelper zodiacResourceHelper;
 
     private final TextView name;
     private final TextView eventTypeTextView;
-    private final TextView missingDaysTextView;
-    private final TextView dateTextView;
-    private final TextView contactStatusTextView;
+    private final TextView celebrationTextView;
+    private final TextView eventTextView;
+    private final TextView badgesTextView;
 
     public ContactCompactViewHolder(View view, ZodiacResourceHelper zodiacResourceHelper) {
         super(view);
@@ -28,28 +27,28 @@ public class ContactCompactViewHolder extends AbstractContactViewHolder {
 
         name = view.findViewById(R.id.contactNameTextView);
 
-        dateTextView = view.findViewById(R.id.dateTextView);
+        eventTextView = view.findViewById(R.id.dateTextView);
         eventTypeTextView = view.findViewById(R.id.eventTypeTextView);
-        missingDaysTextView = view.findViewById(R.id.missingDaysTextView);
-        contactStatusTextView = view.findViewById(R.id.contactStatusTextView);
+        celebrationTextView = view.findViewById(R.id.missingDaysTextView);
+        badgesTextView = view.findViewById(R.id.contactStatusTextView);
     }
 
     public void setupNewContact(Contact contact) {
         super.setupNewContact(contact);
 
         setupName();
-        setupDate();
+        setupEventDateMessage();
         setupEventType();
-        setupMissingDays();
-        setupStatus();
+        setupCelebrationMessage();
+        setupContactBadges();
     }
 
     private void setupEventType() {
         String eventTypeLabel = getContact().getEventTypeLabel();
 
-        if(!getContact().isMissingYearInfo()) {
+        if(!getContact().isEventMissingYear()) {
             int ageOnBirthDay = getContact().getAgeInYears();
-            if (!getContact().isBornInFuture() && !getContact().isBirthdayToday()) {
+            if (!getContact().isFromFuture() && !getContact().isCelebrationToday()) {
                 ageOnBirthDay += 1;
             }
             eventTypeLabel += " (" + ageOnBirthDay + ")";
@@ -58,36 +57,40 @@ public class ContactCompactViewHolder extends AbstractContactViewHolder {
         this.eventTypeTextView.setText(eventTypeLabel);
     }
 
-    private void setupDate() {
+    private void setupEventDateMessage() {
         final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM/dd - E", Locale.getDefault());
-        this.dateTextView.setText(dateFormatter.format(getContact().getNextBirthday()));
+        if (getContact().isCelebrtionThisYear() || getContact().isCelebrationRecent()) {
+            this.eventTextView.setText(dateFormatter.format(getContact().getCurrentYearEvent()));
+        } else {
+            this.eventTextView.setText(dateFormatter.format(getContact().getNextYearEvent()));
+        }
     }
 
-    private void setupMissingDays() {
-        final String partyMsg;
-        if (getContact().isBirthdayToday()) {
-            partyMsg = getContext().getResources().getString(R.string.party_message_compact);
-        } else if (getContact().getDaysSinceLastBirthday() <= MAX_DAYS_AGO && !getContact().isBornInFuture()) {
-            partyMsg = getContext().getResources().getQuantityString(R.plurals.days_ago,
-                    getContact().getDaysSinceLastBirthday(),
-                    getContact().getDaysSinceLastBirthday());
+    private void setupCelebrationMessage() {
+        final String celebrationMsg;
+        if (getContact().isCelebrationToday()) {
+            celebrationMsg = getContext().getResources().getString(R.string.party_message_compact);
+        } else if (getContact().isCelebrationRecent()) {
+            celebrationMsg = getContext().getResources().getQuantityString(R.plurals.days_ago,
+                    getContact().getDaysSinceLastEvent(),
+                    getContact().getDaysSinceLastEvent());
         } else {
-            partyMsg = getContext().getResources().getQuantityString(
+            celebrationMsg = getContext().getResources().getQuantityString(
                     R.plurals.days_to_go,
-                    getContact().getDaysUntilNextBirthday(),
-                    getContact().getDaysUntilNextBirthday()
+                    getContact().getDaysUntilNextEvent(),
+                    getContact().getDaysUntilNextEvent()
             );
         }
-        this.missingDaysTextView.setText(partyMsg);
+        this.celebrationTextView.setText(celebrationMsg);
     }
 
     private void setupName() {
         this.name.setText(getContact().getName());
     }
 
-    private void setupStatus() {
+    private void setupContactBadges() {
         final StringBuilder status = new StringBuilder();
-        if (getContact().isBirthdayToday()) {
+        if (getContact().isCelebrationToday()) {
             status.append(" ").append(getContext().getResources().getString(R.string.emoji_today_party));
         }
 
@@ -106,6 +109,6 @@ public class ContactCompactViewHolder extends AbstractContactViewHolder {
             status.append(" ").append(getContext().getResources().getString(R.string.emoji_heart));
         }
 
-        this.contactStatusTextView.setText(status);
+        this.badgesTextView.setText(status);
     }
 }

@@ -1,3 +1,6 @@
+* V52
+- Fix week day issue with past events
+
 * V51
 - Add/Update languages
 - Update libs

@@ -49,9 +49,9 @@ public class NotifierReceiver extends BroadcastReceiver {
 
             final NotificationHelper notificationHelper = new NotificationHelper(context);
             allContacts.stream()
-                    .filter(c -> c.isBirthdayToday()
-                            || (showPreciseNotification && c.getDaysUntilNextBirthday() == daysInAdvance)
-                            || (!showPreciseNotification && c.getDaysUntilNextBirthday() <= daysInAdvance))
+                    .filter(c -> c.isCelebrationToday()
+                            || (showPreciseNotification && c.getDaysUntilNextEvent() == daysInAdvance)
+                            || (!showPreciseNotification && c.getDaysUntilNextEvent() <= daysInAdvance))
                     .forEach(notificationHelper::postNotification);
         }
     }
