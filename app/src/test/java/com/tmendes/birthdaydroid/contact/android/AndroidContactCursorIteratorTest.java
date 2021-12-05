@@ -1,13 +1,16 @@
 package com.tmendes.birthdaydroid.contact.android;
 
 import android.database.Cursor;
+import android.database.StaleDataException;
 import android.provider.ContactsContract;
 
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 public class AndroidContactCursorIteratorTest {
@@ -36,5 +39,16 @@ public class AndroidContactCursorIteratorTest {
         assertThat(androidContact.getPhotoThumbnailUri(), is("photoThumbnailUri"));
         assertThat(androidContact.getEventType(), is(1));
         assertThat(androidContact.getEventLabel(), is("eventLabel"));
+    }
+
+    @Test
+    public void testConvertEmptyCursor() {
+        final Cursor cursor = mock(Cursor.class);
+
+        doReturn(false).when(cursor).moveToFirst();
+        doThrow(StaleDataException.class).when(cursor).getColumnIndex(any());
+
+        final AndroidContactCursorIterator iterator = new AndroidContactCursorIterator(cursor);
+        assertThat(iterator.hasNext(), is(false));
     }
 }
