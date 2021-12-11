@@ -4,6 +4,7 @@ import com.tmendes.birthdaydroid.zodiac.Zodiac;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class Contact {
     private static final int CELEBRATION_DAYS_THRESHOLD = 7;
@@ -189,8 +190,68 @@ public class Contact {
         return this.getDaysSinceLastEvent() <= CELEBRATION_DAYS_THRESHOLD && !this.isFromFuture();
     }
 
-    public void updateEventData() {
+    public Contact withUpdatedEventData() {
         LocalDate now = LocalDate.now();
-        this.setEventData(this.eventOriginalDate, now, this.isEventMissingYear);
+        final Contact contact = new Contact();
+        contact.setDbId(this.dbId);
+        contact.setKey(this.key);
+        contact.setEventTypeLabel(this.eventTypeLabel);
+        contact.setFavorite(this.favorite);
+        contact.setIgnore(this.ignore);
+        contact.setName(this.name);
+        contact.setPhotoUri(this.photoUri);
+        contact.setZodiac(this.zodiac);
+        contact.setEventData(this.eventOriginalDate, now, isEventMissingYear);
+        return contact;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return dbId == contact.dbId
+                && zodiac == contact.zodiac
+                && favorite == contact.favorite
+                && ignore == contact.ignore
+                && isCelebrationThisYear == contact.isCelebrationThisYear
+                && isCelebrationToday == contact.isCelebrationToday
+                && isEventInTheFuture == contact.isEventInTheFuture
+                && isEventMissingYear == contact.isEventMissingYear
+                && ageInYears == contact.ageInYears
+                && ageInDays == contact.ageInDays
+                && daysUntilNextEvent == contact.daysUntilNextEvent
+                && daysSinceLastEvent == contact.daysSinceLastEvent
+                && Objects.equals(key, contact.key)
+                && Objects.equals(name, contact.name)
+                && Objects.equals(photoUri, contact.photoUri)
+                && Objects.equals(eventTypeLabel, contact.eventTypeLabel)
+                && Objects.equals(eventOriginalDate, contact.eventOriginalDate)
+                && Objects.equals(currentYearEvent, contact.currentYearEvent)
+                && Objects.equals(nextYearEvent, contact.nextYearEvent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dbId,
+                key,
+                name,
+                photoUri,
+                eventTypeLabel,
+                zodiac,
+                favorite,
+                ignore,
+                eventOriginalDate,
+                currentYearEvent,
+                nextYearEvent,
+                isCelebrationThisYear,
+                isCelebrationToday,
+                isEventInTheFuture,
+                isEventMissingYear,
+                ageInYears,
+                ageInDays,
+                daysUntilNextEvent,
+                daysSinceLastEvent
+        );
     }
 }
