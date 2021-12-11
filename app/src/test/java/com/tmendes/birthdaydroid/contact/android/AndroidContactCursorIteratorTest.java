@@ -17,6 +17,7 @@ public class AndroidContactCursorIteratorTest {
     @Test
     public void testConvertCursor() {
         final Cursor cursor = mock(Cursor.class);
+        doReturn(true).when(cursor).moveToFirst();
 
         doReturn(0).when(cursor).getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
         doReturn("lookupKey").when(cursor).getString(0);
