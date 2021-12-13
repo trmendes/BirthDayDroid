@@ -6,32 +6,34 @@ import android.provider.ContactsContract;
 import com.tmendes.birthdaydroid.cursor.CursorIterator;
 
 public class AndroidContactCursorIterator extends CursorIterator<AndroidContact> {
-    private final int keyColumn;
-    private final int dateColumn;
-    private final int nameColumn;
-    private final int photoColumn;
-    private final int typeColumn;
-    private final int typeLabelColumn;
+    private int keyColumnIndex = -1;
+    private int dateColumnIndex = -1;
+    private int nameColumnIndex = -1;
+    private int photoColumnIndex = -1;
+    private int typeColumnIndex = -1;
+    private int typeLabelColumnIndex = -1;
 
     public AndroidContactCursorIterator(Cursor cursor) {
         super(cursor);
-        keyColumn = cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
-        dateColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
-        nameColumn = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        photoColumn = cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
-        typeColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE);
-        typeLabelColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.LABEL);
+        if (hasNext()) {
+            keyColumnIndex = cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
+            dateColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
+            nameColumnIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            photoColumnIndex = cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI);
+            typeColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE);
+            typeLabelColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.LABEL);
+        }
     }
 
     @Override
     public AndroidContact convertCursor(Cursor cursor) {
         return new AndroidContact(
-            cursor.getString(keyColumn),
-            cursor.getString(dateColumn),
-            cursor.getInt(typeColumn),
-            cursor.getString(typeLabelColumn),
-            cursor.getString(photoColumn),
-            cursor.getString(nameColumn)
+            cursor.getString(keyColumnIndex),
+            cursor.getString(dateColumnIndex),
+            cursor.getInt(typeColumnIndex),
+            cursor.getString(typeLabelColumnIndex),
+            cursor.getString(photoColumnIndex),
+            cursor.getString(nameColumnIndex)
         );
     }
 }

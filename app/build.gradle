@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.0'
+    buildToolsVersion '30.0.2'
     defaultConfig {
         applicationId "com.tmendes.birthdaydroid"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 52
-        versionName '20211128_V52'
+        versionCode 53
+        versionName '20211213_V53'
     }
     buildTypes {
         release {
@@ -38,7 +38,7 @@ android {
         // turn on the given issue id's
         enable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
         // check *only* the given issue id's
-        check 'NewApi', 'InlinedApi'
+        checkOnly 'NewApi', 'InlinedApi'
         // if true, don't include source code lines in the error output
         noLines true
         // if true, show all locations for an error, do not truncate lists, etc.
@@ -88,10 +88,9 @@ allprojects {
 dependencies {
     // Normal Deps
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
 
@@ -104,13 +103,12 @@ dependencies {
 
 
     // Testing
-    def powermockVersion = '2.0.7'
+    def powermockVersion = '2.0.9'
     def hamcrestVersion = '2.2'
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "org.hamcrest:hamcrest-core:$hamcrestVersion"
     testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
-    testImplementation 'org.mockito:mockito-core:3.3.3'
     testImplementation "org.powermock:powermock-api-mockito2:$powermockVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powermockVersion"
 

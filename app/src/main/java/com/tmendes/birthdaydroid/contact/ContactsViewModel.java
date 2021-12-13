@@ -48,15 +48,12 @@ public class ContactsViewModel extends AndroidViewModel {
 
     public Future<?> reloadTimeDependentDataInContacts() {
         return this.executor.submit(() -> {
-            final Context context = getApplication().getApplicationContext();
-            final ContactCreator contactCreator = new ContactCreatorFactory().createContactCreator(context);
             final List<Contact> contacts = this.contacts.getValue();
             if (contacts != null) {
-                this.contacts.postValue(
-                        contacts.stream()
-                                .map(c -> {c.updateEventData(); return c;})
-                                .collect(Collectors.toList())
-                );
+                final List<Contact> newContacts = contacts.stream()
+                        .map(Contact::withUpdatedEventData)
+                        .collect(Collectors.toList());
+                this.contacts.postValue(newContacts);
             }
         });
     }
