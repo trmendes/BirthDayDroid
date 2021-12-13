@@ -1,3 +1,8 @@
+* V53
+- Fix issue with empty contact list
+- Fix issue by reloading/recalculation time dependent contact information
+- Update libs
+
 * V52
 - Fix week day issue with past events
 
